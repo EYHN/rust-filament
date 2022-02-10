@@ -94,12 +94,12 @@ pub struct std_input_iterator_tag {
 #[test]
 fn bindgen_test_layout_std_input_iterator_tag() {
     assert_eq!(
-        ::std::mem::size_of::<std_input_iterator_tag>(),
+        ::core::mem::size_of::<std_input_iterator_tag>(),
         1usize,
         concat!("Size of: ", stringify!(std_input_iterator_tag))
     );
     assert_eq!(
-        ::std::mem::align_of::<std_input_iterator_tag>(),
+        ::core::mem::align_of::<std_input_iterator_tag>(),
         1usize,
         concat!("Alignment of ", stringify!(std_input_iterator_tag))
     );
@@ -112,12 +112,12 @@ pub struct std_forward_iterator_tag {
 #[test]
 fn bindgen_test_layout_std_forward_iterator_tag() {
     assert_eq!(
-        ::std::mem::size_of::<std_forward_iterator_tag>(),
+        ::core::mem::size_of::<std_forward_iterator_tag>(),
         1usize,
         concat!("Size of: ", stringify!(std_forward_iterator_tag))
     );
     assert_eq!(
-        ::std::mem::align_of::<std_forward_iterator_tag>(),
+        ::core::mem::align_of::<std_forward_iterator_tag>(),
         1usize,
         concat!("Alignment of ", stringify!(std_forward_iterator_tag))
     );
@@ -198,17 +198,17 @@ pub struct filament_Box {
 #[test]
 fn bindgen_test_layout_filament_Box() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Box>(),
+        ::core::mem::size_of::<filament_Box>(),
         24usize,
         concat!("Size of: ", stringify!(filament_Box))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Box>(),
+        ::core::mem::align_of::<filament_Box>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_Box))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_Box>())).center as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_Box>())).center as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -218,7 +218,7 @@ fn bindgen_test_layout_filament_Box() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_Box>())).halfExtent as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_Box>())).halfExtent as *const _ as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -230,9 +230,9 @@ fn bindgen_test_layout_filament_Box() {
 }
 impl Default for filament_Box {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -249,12 +249,12 @@ pub struct filament_FilamentAPI {
 #[test]
 fn bindgen_test_layout_filament_FilamentAPI() {
     assert_eq!(
-        ::std::mem::size_of::<filament_FilamentAPI>(),
+        ::core::mem::size_of::<filament_FilamentAPI>(),
         1usize,
         concat!("Size of: ", stringify!(filament_FilamentAPI))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_FilamentAPI>(),
+        ::core::mem::align_of::<filament_FilamentAPI>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_FilamentAPI))
     );
@@ -267,13 +267,13 @@ fn bindgen_test_layout_filament_FilamentAPI() {
 #[derive(Debug)]
 pub struct filament_BuilderBase<T> {
     pub mImpl: *mut T,
-    pub _phantom_0: ::std::marker::PhantomData<::std::cell::UnsafeCell<T>>,
+    pub _phantom_0: ::core::marker::PhantomData<::core::cell::UnsafeCell<T>>,
 }
 impl<T> Default for filament_BuilderBase<T> {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -324,20 +324,20 @@ impl<T> Default for filament_BuilderBase<T> {
 #[derive(Debug)]
 pub struct filament_backend_PresentCallable {
     pub mPresentFn: filament_backend_PresentCallable_PresentFn,
-    pub mUser: *mut ::std::os::raw::c_void,
+    pub mUser: *mut ::core::ffi::c_void,
 }
-pub type filament_backend_PresentCallable_PresentFn = ::std::option::Option<
-    unsafe extern "C" fn(presentFrame: bool, user: *mut ::std::os::raw::c_void),
+pub type filament_backend_PresentCallable_PresentFn = ::core::option::Option<
+    unsafe extern "C" fn(presentFrame: bool, user: *mut ::core::ffi::c_void),
 >;
 #[test]
 fn bindgen_test_layout_filament_backend_PresentCallable() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_PresentCallable>(),
+        ::core::mem::size_of::<filament_backend_PresentCallable>(),
         16usize,
         concat!("Size of: ", stringify!(filament_backend_PresentCallable))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_PresentCallable>(),
+        ::core::mem::align_of::<filament_backend_PresentCallable>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -346,7 +346,7 @@ fn bindgen_test_layout_filament_backend_PresentCallable() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_PresentCallable>())).mPresentFn as *const _
+            &(*(::core::ptr::null::<filament_backend_PresentCallable>())).mPresentFn as *const _
                 as usize
         },
         0usize,
@@ -359,7 +359,7 @@ fn bindgen_test_layout_filament_backend_PresentCallable() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_PresentCallable>())).mUser as *const _ as usize
+            &(*(::core::ptr::null::<filament_backend_PresentCallable>())).mUser as *const _ as usize
         },
         8usize,
         concat!(
@@ -375,14 +375,14 @@ extern "C" {
     pub fn filament_backend_PresentCallable_PresentCallable(
         this: *mut filament_backend_PresentCallable,
         fn_: filament_backend_PresentCallable_PresentFn,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     );
 }
 impl Default for filament_backend_PresentCallable {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -391,9 +391,9 @@ impl filament_backend_PresentCallable {
     #[inline]
     pub unsafe fn new(
         fn_: filament_backend_PresentCallable_PresentFn,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     ) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_backend_PresentCallable_PresentCallable(__bindgen_tmp.as_mut_ptr(), fn_, user);
         __bindgen_tmp.assume_init()
     }
@@ -427,17 +427,17 @@ pub struct filament_backend_Viewport {
 #[test]
 fn bindgen_test_layout_filament_backend_Viewport() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Viewport>(),
+        ::core::mem::size_of::<filament_backend_Viewport>(),
         16usize,
         concat!("Size of: ", stringify!(filament_backend_Viewport))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Viewport>(),
+        ::core::mem::align_of::<filament_backend_Viewport>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_backend_Viewport))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_backend_Viewport>())).left as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_backend_Viewport>())).left as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -448,7 +448,7 @@ fn bindgen_test_layout_filament_backend_Viewport() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_Viewport>())).bottom as *const _ as usize
+            &(*(::core::ptr::null::<filament_backend_Viewport>())).bottom as *const _ as usize
         },
         4usize,
         concat!(
@@ -459,7 +459,9 @@ fn bindgen_test_layout_filament_backend_Viewport() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_backend_Viewport>())).width as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_backend_Viewport>())).width as *const _ as usize
+        },
         8usize,
         concat!(
             "Offset of field: ",
@@ -470,7 +472,7 @@ fn bindgen_test_layout_filament_backend_Viewport() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_Viewport>())).height as *const _ as usize
+            &(*(::core::ptr::null::<filament_backend_Viewport>())).height as *const _ as usize
         },
         12usize,
         concat!(
@@ -1003,7 +1005,7 @@ pub struct filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>(),
         48usize,
         concat!(
             "Size of: ",
@@ -1011,7 +1013,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -1020,7 +1022,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).px
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).px
                 as *const _ as usize
         },
         0usize,
@@ -1033,7 +1035,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).nx
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).nx
                 as *const _ as usize
         },
         8usize,
@@ -1046,7 +1048,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).py
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).py
                 as *const _ as usize
         },
         16usize,
@@ -1059,7 +1061,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).ny
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).ny
                 as *const _ as usize
         },
         24usize,
@@ -1072,7 +1074,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).pz
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).pz
                 as *const _ as usize
         },
         32usize,
@@ -1085,7 +1087,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).nz
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1>())).nz
                 as *const _ as usize
         },
         40usize,
@@ -1100,7 +1102,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1__bindgen_ty_1(
 #[test]
 fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_FaceOffsets__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_FaceOffsets__bindgen_ty_1>(),
         48usize,
         concat!(
             "Size of: ",
@@ -1108,7 +1110,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_FaceOffsets__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_backend_FaceOffsets__bindgen_ty_1>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -1117,7 +1119,7 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1>())).offsets
+            &(*(::core::ptr::null::<filament_backend_FaceOffsets__bindgen_ty_1>())).offsets
                 as *const _ as usize
         },
         0usize,
@@ -1131,9 +1133,9 @@ fn bindgen_test_layout_filament_backend_FaceOffsets__bindgen_ty_1() {
 }
 impl Default for filament_backend_FaceOffsets__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1141,21 +1143,21 @@ impl Default for filament_backend_FaceOffsets__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_FaceOffsets() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_FaceOffsets>(),
+        ::core::mem::size_of::<filament_backend_FaceOffsets>(),
         48usize,
         concat!("Size of: ", stringify!(filament_backend_FaceOffsets))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_FaceOffsets>(),
+        ::core::mem::align_of::<filament_backend_FaceOffsets>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_backend_FaceOffsets))
     );
 }
 impl Default for filament_backend_FaceOffsets {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1236,7 +1238,7 @@ pub struct filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1>(),
         4usize,
         concat!(
             "Size of: ",
@@ -1244,7 +1246,7 @@ fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -1254,9 +1256,9 @@ fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_
 }
 impl Default for filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1264,122 +1266,122 @@ impl Default for filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
 impl filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
     #[inline]
     pub fn filterMag(&self) -> filament_backend_SamplerMagFilter {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 1u8) as u8) }
     }
     #[inline]
     pub fn set_filterMag(&mut self, val: filament_backend_SamplerMagFilter) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn filterMin(&self) -> filament_backend_SamplerMinFilter {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(1usize, 3u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(1usize, 3u8) as u8) }
     }
     #[inline]
     pub fn set_filterMin(&mut self, val: filament_backend_SamplerMinFilter) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(1usize, 3u8, val as u64)
         }
     }
     #[inline]
     pub fn wrapS(&self) -> filament_backend_SamplerWrapMode {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(4usize, 2u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(4usize, 2u8) as u8) }
     }
     #[inline]
     pub fn set_wrapS(&mut self, val: filament_backend_SamplerWrapMode) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(4usize, 2u8, val as u64)
         }
     }
     #[inline]
     pub fn wrapT(&self) -> filament_backend_SamplerWrapMode {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(6usize, 2u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(6usize, 2u8) as u8) }
     }
     #[inline]
     pub fn set_wrapT(&mut self, val: filament_backend_SamplerWrapMode) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(6usize, 2u8, val as u64)
         }
     }
     #[inline]
     pub fn wrapR(&self) -> filament_backend_SamplerWrapMode {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(8usize, 2u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(8usize, 2u8) as u8) }
     }
     #[inline]
     pub fn set_wrapR(&mut self, val: filament_backend_SamplerWrapMode) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(8usize, 2u8, val as u64)
         }
     }
     #[inline]
     pub fn anisotropyLog2(&self) -> u8 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(10usize, 3u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(10usize, 3u8) as u8) }
     }
     #[inline]
     pub fn set_anisotropyLog2(&mut self, val: u8) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(10usize, 3u8, val as u64)
         }
     }
     #[inline]
     pub fn compareMode(&self) -> filament_backend_SamplerCompareMode {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(13usize, 1u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(13usize, 1u8) as u8) }
     }
     #[inline]
     pub fn set_compareMode(&mut self, val: filament_backend_SamplerCompareMode) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(13usize, 1u8, val as u64)
         }
     }
     #[inline]
     pub fn padding0(&self) -> u8 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(14usize, 2u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(14usize, 2u8) as u8) }
     }
     #[inline]
     pub fn set_padding0(&mut self, val: u8) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(14usize, 2u8, val as u64)
         }
     }
     #[inline]
     pub fn compareFunc(&self) -> filament_backend_SamplerCompareFunc {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(16usize, 3u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(16usize, 3u8) as u8) }
     }
     #[inline]
     pub fn set_compareFunc(&mut self, val: filament_backend_SamplerCompareFunc) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(16usize, 3u8, val as u64)
         }
     }
     #[inline]
     pub fn padding1(&self) -> u8 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(19usize, 5u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(19usize, 5u8) as u8) }
     }
     #[inline]
     pub fn set_padding1(&mut self, val: u8) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(19usize, 5u8, val as u64)
         }
     }
     #[inline]
     pub fn padding2(&self) -> u8 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(24usize, 8u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(24usize, 8u8) as u8) }
     }
     #[inline]
     pub fn set_padding2(&mut self, val: u8) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(24usize, 8u8, val as u64)
         }
     }
@@ -1399,47 +1401,47 @@ impl filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
     ) -> __BindgenBitfieldUnit<[u8; 4usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 4usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 1u8, {
-            let filterMag: u8 = unsafe { ::std::mem::transmute(filterMag) };
+            let filterMag: u8 = unsafe { ::core::mem::transmute(filterMag) };
             filterMag as u64
         });
         __bindgen_bitfield_unit.set(1usize, 3u8, {
-            let filterMin: u8 = unsafe { ::std::mem::transmute(filterMin) };
+            let filterMin: u8 = unsafe { ::core::mem::transmute(filterMin) };
             filterMin as u64
         });
         __bindgen_bitfield_unit.set(4usize, 2u8, {
-            let wrapS: u8 = unsafe { ::std::mem::transmute(wrapS) };
+            let wrapS: u8 = unsafe { ::core::mem::transmute(wrapS) };
             wrapS as u64
         });
         __bindgen_bitfield_unit.set(6usize, 2u8, {
-            let wrapT: u8 = unsafe { ::std::mem::transmute(wrapT) };
+            let wrapT: u8 = unsafe { ::core::mem::transmute(wrapT) };
             wrapT as u64
         });
         __bindgen_bitfield_unit.set(8usize, 2u8, {
-            let wrapR: u8 = unsafe { ::std::mem::transmute(wrapR) };
+            let wrapR: u8 = unsafe { ::core::mem::transmute(wrapR) };
             wrapR as u64
         });
         __bindgen_bitfield_unit.set(10usize, 3u8, {
-            let anisotropyLog2: u8 = unsafe { ::std::mem::transmute(anisotropyLog2) };
+            let anisotropyLog2: u8 = unsafe { ::core::mem::transmute(anisotropyLog2) };
             anisotropyLog2 as u64
         });
         __bindgen_bitfield_unit.set(13usize, 1u8, {
-            let compareMode: u8 = unsafe { ::std::mem::transmute(compareMode) };
+            let compareMode: u8 = unsafe { ::core::mem::transmute(compareMode) };
             compareMode as u64
         });
         __bindgen_bitfield_unit.set(14usize, 2u8, {
-            let padding0: u8 = unsafe { ::std::mem::transmute(padding0) };
+            let padding0: u8 = unsafe { ::core::mem::transmute(padding0) };
             padding0 as u64
         });
         __bindgen_bitfield_unit.set(16usize, 3u8, {
-            let compareFunc: u8 = unsafe { ::std::mem::transmute(compareFunc) };
+            let compareFunc: u8 = unsafe { ::core::mem::transmute(compareFunc) };
             compareFunc as u64
         });
         __bindgen_bitfield_unit.set(19usize, 5u8, {
-            let padding1: u8 = unsafe { ::std::mem::transmute(padding1) };
+            let padding1: u8 = unsafe { ::core::mem::transmute(padding1) };
             padding1 as u64
         });
         __bindgen_bitfield_unit.set(24usize, 8u8, {
-            let padding2: u8 = unsafe { ::std::mem::transmute(padding2) };
+            let padding2: u8 = unsafe { ::core::mem::transmute(padding2) };
             padding2 as u64
         });
         __bindgen_bitfield_unit
@@ -1448,7 +1450,7 @@ impl filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_SamplerParams__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_SamplerParams__bindgen_ty_1>(),
         4usize,
         concat!(
             "Size of: ",
@@ -1456,7 +1458,7 @@ fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_SamplerParams__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_backend_SamplerParams__bindgen_ty_1>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -1465,7 +1467,7 @@ fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_SamplerParams__bindgen_ty_1>())).u as *const _
+            &(*(::core::ptr::null::<filament_backend_SamplerParams__bindgen_ty_1>())).u as *const _
                 as usize
         },
         0usize,
@@ -1479,9 +1481,9 @@ fn bindgen_test_layout_filament_backend_SamplerParams__bindgen_ty_1() {
 }
 impl Default for filament_backend_SamplerParams__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1489,21 +1491,21 @@ impl Default for filament_backend_SamplerParams__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_SamplerParams() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_SamplerParams>(),
+        ::core::mem::size_of::<filament_backend_SamplerParams>(),
         4usize,
         concat!("Size of: ", stringify!(filament_backend_SamplerParams))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_SamplerParams>(),
+        ::core::mem::align_of::<filament_backend_SamplerParams>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_backend_SamplerParams))
     );
 }
 impl Default for filament_backend_SamplerParams {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1517,17 +1519,17 @@ pub const filament_backend_StreamType_ACQUIRED: filament_backend_StreamType = 2;
 #[doc = "! Stream for external textures"]
 pub type filament_backend_StreamType = ::std::os::raw::c_int;
 #[doc = "! Releases an ACQUIRED external texture, guaranteed to be called on the application thread."]
-pub type filament_backend_StreamCallback = ::std::option::Option<
-    unsafe extern "C" fn(image: *mut ::std::os::raw::c_void, user: *mut ::std::os::raw::c_void),
+pub type filament_backend_StreamCallback = ::core::option::Option<
+    unsafe extern "C" fn(image: *mut ::core::ffi::c_void, user: *mut ::core::ffi::c_void),
 >;
-pub type filament_backend_FrameScheduledCallback = ::std::option::Option<
+pub type filament_backend_FrameScheduledCallback = ::core::option::Option<
     unsafe extern "C" fn(
         callable: filament_backend_PresentCallable,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     ),
 >;
 pub type filament_backend_FrameCompletedCallback =
-    ::std::option::Option<unsafe extern "C" fn(user: *mut ::std::os::raw::c_void)>;
+    ::core::option::Option<unsafe extern "C" fn(user: *mut ::core::ffi::c_void)>;
 #[doc = " A CPU memory-buffer descriptor, typically used to transfer data from the CPU to the GPU."]
 #[doc = ""]
 #[doc = " A BufferDescriptor owns the memory buffer it references, therefore BufferDescriptor cannot"]
@@ -1538,11 +1540,11 @@ pub type filament_backend_FrameCompletedCallback =
 #[derive(Debug)]
 pub struct filament_backend_BufferDescriptor {
     #[doc = "! CPU mempry-buffer virtual address"]
-    pub buffer: *mut ::std::os::raw::c_void,
+    pub buffer: *mut ::core::ffi::c_void,
     #[doc = "! CPU memory-buffer size in bytes"]
     pub size: size_t,
     pub mCallback: filament_backend_BufferDescriptor_Callback,
-    pub mUser: *mut ::std::os::raw::c_void,
+    pub mUser: *mut ::core::ffi::c_void,
     pub mHandler: *mut filament_backend_CallbackHandler,
 }
 #[doc = " Callback used to destroy the buffer data."]
@@ -1552,22 +1554,22 @@ pub struct filament_backend_BufferDescriptor {
 #[doc = " Limitations:"]
 #[doc = "      Must be lightweight."]
 #[doc = "      Must not call filament APIs."]
-pub type filament_backend_BufferDescriptor_Callback = ::std::option::Option<
+pub type filament_backend_BufferDescriptor_Callback = ::core::option::Option<
     unsafe extern "C" fn(
-        buffer: *mut ::std::os::raw::c_void,
+        buffer: *mut ::core::ffi::c_void,
         size: size_t,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     ),
 >;
 #[test]
 fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_BufferDescriptor>(),
+        ::core::mem::size_of::<filament_backend_BufferDescriptor>(),
         40usize,
         concat!("Size of: ", stringify!(filament_backend_BufferDescriptor))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_BufferDescriptor>(),
+        ::core::mem::align_of::<filament_backend_BufferDescriptor>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -1576,7 +1578,7 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_BufferDescriptor>())).buffer as *const _
+            &(*(::core::ptr::null::<filament_backend_BufferDescriptor>())).buffer as *const _
                 as usize
         },
         0usize,
@@ -1589,7 +1591,7 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_BufferDescriptor>())).size as *const _ as usize
+            &(*(::core::ptr::null::<filament_backend_BufferDescriptor>())).size as *const _ as usize
         },
         8usize,
         concat!(
@@ -1601,7 +1603,7 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_BufferDescriptor>())).mCallback as *const _
+            &(*(::core::ptr::null::<filament_backend_BufferDescriptor>())).mCallback as *const _
                 as usize
         },
         16usize,
@@ -1614,7 +1616,8 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_BufferDescriptor>())).mUser as *const _ as usize
+            &(*(::core::ptr::null::<filament_backend_BufferDescriptor>())).mUser as *const _
+                as usize
         },
         24usize,
         concat!(
@@ -1626,7 +1629,7 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_BufferDescriptor>())).mHandler as *const _
+            &(*(::core::ptr::null::<filament_backend_BufferDescriptor>())).mHandler as *const _
                 as usize
         },
         32usize,
@@ -1640,9 +1643,9 @@ fn bindgen_test_layout_filament_backend_BufferDescriptor() {
 }
 impl Default for filament_backend_BufferDescriptor {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1653,7 +1656,7 @@ pub struct filament_backend_Driver {
     _unused: [u8; 0],
 }
 #[repr(C)]
-pub struct filament_backend_Platform__bindgen_vtable(::std::os::raw::c_void);
+pub struct filament_backend_Platform__bindgen_vtable(::core::ffi::c_void);
 #[repr(C)]
 #[derive(Debug)]
 pub struct filament_backend_Platform {
@@ -1667,12 +1670,12 @@ pub struct filament_backend_Platform_SwapChain {
 #[test]
 fn bindgen_test_layout_filament_backend_Platform_SwapChain() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Platform_SwapChain>(),
+        ::core::mem::size_of::<filament_backend_Platform_SwapChain>(),
         1usize,
         concat!("Size of: ", stringify!(filament_backend_Platform_SwapChain))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Platform_SwapChain>(),
+        ::core::mem::align_of::<filament_backend_Platform_SwapChain>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -1688,12 +1691,12 @@ pub struct filament_backend_Platform_Fence {
 #[test]
 fn bindgen_test_layout_filament_backend_Platform_Fence() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Platform_Fence>(),
+        ::core::mem::size_of::<filament_backend_Platform_Fence>(),
         1usize,
         concat!("Size of: ", stringify!(filament_backend_Platform_Fence))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Platform_Fence>(),
+        ::core::mem::align_of::<filament_backend_Platform_Fence>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_backend_Platform_Fence))
     );
@@ -1706,12 +1709,12 @@ pub struct filament_backend_Platform_Stream {
 #[test]
 fn bindgen_test_layout_filament_backend_Platform_Stream() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Platform_Stream>(),
+        ::core::mem::size_of::<filament_backend_Platform_Stream>(),
         1usize,
         concat!("Size of: ", stringify!(filament_backend_Platform_Stream))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Platform_Stream>(),
+        ::core::mem::align_of::<filament_backend_Platform_Stream>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -1727,7 +1730,7 @@ pub struct filament_backend_Platform_ExternalTexture {
 #[test]
 fn bindgen_test_layout_filament_backend_Platform_ExternalTexture() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Platform_ExternalTexture>(),
+        ::core::mem::size_of::<filament_backend_Platform_ExternalTexture>(),
         8usize,
         concat!(
             "Size of: ",
@@ -1735,7 +1738,7 @@ fn bindgen_test_layout_filament_backend_Platform_ExternalTexture() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Platform_ExternalTexture>(),
+        ::core::mem::align_of::<filament_backend_Platform_ExternalTexture>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -1744,7 +1747,7 @@ fn bindgen_test_layout_filament_backend_Platform_ExternalTexture() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_Platform_ExternalTexture>())).image as *const _
+            &(*(::core::ptr::null::<filament_backend_Platform_ExternalTexture>())).image as *const _
                 as usize
         },
         0usize,
@@ -1759,21 +1762,21 @@ fn bindgen_test_layout_filament_backend_Platform_ExternalTexture() {
 #[test]
 fn bindgen_test_layout_filament_backend_Platform() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_Platform>(),
+        ::core::mem::size_of::<filament_backend_Platform>(),
         8usize,
         concat!("Size of: ", stringify!(filament_backend_Platform))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_Platform>(),
+        ::core::mem::align_of::<filament_backend_Platform>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_backend_Platform))
     );
 }
 impl Default for filament_backend_Platform {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1822,7 +1825,8 @@ pub struct filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1>(
+        ),
         8usize,
         concat!(
             "Size of: ",
@@ -1830,7 +1834,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1>(
+        ::core::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1>(
         ),
         4usize,
         concat!(
@@ -1840,7 +1844,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<
+            &(*(::core::ptr::null::<
                 filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1,
             >()))
             .stride as *const _ as usize
@@ -1855,7 +1859,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<
+            &(*(::core::ptr::null::<
                 filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1,
             >()))
             .format as *const _ as usize
@@ -1871,9 +1875,9 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
 }
 impl Default for filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1889,7 +1893,8 @@ pub struct filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2 {
 #[test]
 fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2>(),
+        ::core::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2>(
+        ),
         8usize,
         concat!(
             "Size of: ",
@@ -1897,7 +1902,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2>(
+        ::core::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2>(
         ),
         4usize,
         concat!(
@@ -1907,7 +1912,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<
+            &(*(::core::ptr::null::<
                 filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2,
             >()))
             .imageSize as *const _ as usize
@@ -1922,7 +1927,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<
+            &(*(::core::ptr::null::<
                 filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2,
             >()))
             .compressedFormat as *const _ as usize
@@ -1938,9 +1943,9 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1__bin
 }
 impl Default for filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_2 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1948,7 +1953,7 @@ impl Default for filament_backend_PixelBufferDescriptor__bindgen_ty_1__bindgen_t
 #[test]
 fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1>(),
         8usize,
         concat!(
             "Size of: ",
@@ -1956,7 +1961,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_backend_PixelBufferDescriptor__bindgen_ty_1>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -1966,9 +1971,9 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor__bindgen_ty_1() {
 }
 impl Default for filament_backend_PixelBufferDescriptor__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -1976,7 +1981,7 @@ impl Default for filament_backend_PixelBufferDescriptor__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_backend_PixelBufferDescriptor() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_PixelBufferDescriptor>(),
+        ::core::mem::size_of::<filament_backend_PixelBufferDescriptor>(),
         64usize,
         concat!(
             "Size of: ",
@@ -1984,7 +1989,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_PixelBufferDescriptor>(),
+        ::core::mem::align_of::<filament_backend_PixelBufferDescriptor>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -1993,7 +1998,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_PixelBufferDescriptor>())).left as *const _
+            &(*(::core::ptr::null::<filament_backend_PixelBufferDescriptor>())).left as *const _
                 as usize
         },
         40usize,
@@ -2006,7 +2011,7 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_backend_PixelBufferDescriptor>())).top as *const _
+            &(*(::core::ptr::null::<filament_backend_PixelBufferDescriptor>())).top as *const _
                 as usize
         },
         44usize,
@@ -2020,9 +2025,9 @@ fn bindgen_test_layout_filament_backend_PixelBufferDescriptor() {
 }
 impl Default for filament_backend_PixelBufferDescriptor {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -2030,23 +2035,23 @@ impl Default for filament_backend_PixelBufferDescriptor {
 impl filament_backend_PixelBufferDescriptor {
     #[inline]
     pub fn type_(&self) -> filament_backend_PixelBufferDescriptor_PixelDataType {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(0usize, 4u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(0usize, 4u8) as u8) }
     }
     #[inline]
     pub fn set_type(&mut self, val: filament_backend_PixelBufferDescriptor_PixelDataType) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(0usize, 4u8, val as u64)
         }
     }
     #[inline]
     pub fn alignment(&self) -> u8 {
-        unsafe { ::std::mem::transmute(self._bitfield_1.get(4usize, 4u8) as u8) }
+        unsafe { ::core::mem::transmute(self._bitfield_1.get(4usize, 4u8) as u8) }
     }
     #[inline]
     pub fn set_alignment(&mut self, val: u8) {
         unsafe {
-            let val: u8 = ::std::mem::transmute(val);
+            let val: u8 = ::core::mem::transmute(val);
             self._bitfield_1.set(4usize, 4u8, val as u64)
         }
     }
@@ -2057,18 +2062,18 @@ impl filament_backend_PixelBufferDescriptor {
     ) -> __BindgenBitfieldUnit<[u8; 1usize]> {
         let mut __bindgen_bitfield_unit: __BindgenBitfieldUnit<[u8; 1usize]> = Default::default();
         __bindgen_bitfield_unit.set(0usize, 4u8, {
-            let type_: u8 = unsafe { ::std::mem::transmute(type_) };
+            let type_: u8 = unsafe { ::core::mem::transmute(type_) };
             type_ as u64
         });
         __bindgen_bitfield_unit.set(4usize, 4u8, {
-            let alignment: u8 = unsafe { ::std::mem::transmute(alignment) };
+            let alignment: u8 = unsafe { ::core::mem::transmute(alignment) };
             alignment as u64
         });
         __bindgen_bitfield_unit
     }
 }
 #[repr(C)]
-pub struct filament_backend_CallbackHandler__bindgen_vtable(::std::os::raw::c_void);
+pub struct filament_backend_CallbackHandler__bindgen_vtable(::core::ffi::c_void);
 #[doc = " A generic interface to dispatch callbacks."]
 #[doc = ""]
 #[doc = " All APIs that take a callback as argument also take a"]
@@ -2105,16 +2110,16 @@ pub struct filament_backend_CallbackHandler {
     pub vtable_: *const filament_backend_CallbackHandler__bindgen_vtable,
 }
 pub type filament_backend_CallbackHandler_Callback =
-    ::std::option::Option<unsafe extern "C" fn(user: *mut ::std::os::raw::c_void)>;
+    ::core::option::Option<unsafe extern "C" fn(user: *mut ::core::ffi::c_void)>;
 #[test]
 fn bindgen_test_layout_filament_backend_CallbackHandler() {
     assert_eq!(
-        ::std::mem::size_of::<filament_backend_CallbackHandler>(),
+        ::core::mem::size_of::<filament_backend_CallbackHandler>(),
         8usize,
         concat!("Size of: ", stringify!(filament_backend_CallbackHandler))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_backend_CallbackHandler>(),
+        ::core::mem::align_of::<filament_backend_CallbackHandler>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -2124,9 +2129,9 @@ fn bindgen_test_layout_filament_backend_CallbackHandler() {
 }
 impl Default for filament_backend_CallbackHandler {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -2174,12 +2179,12 @@ pub struct filament_BufferObject_Builder {
 #[test]
 fn bindgen_test_layout_filament_BufferObject_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_BufferObject_Builder>(),
+        ::core::mem::size_of::<filament_BufferObject_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_BufferObject_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BufferObject_Builder>(),
+        ::core::mem::align_of::<filament_BufferObject_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_BufferObject_Builder))
     );
@@ -2250,9 +2255,9 @@ extern "C" {
 }
 impl Default for filament_BufferObject_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -2275,19 +2280,19 @@ impl filament_BufferObject_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_BufferObject_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_BufferObject_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_BufferObject_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_BufferObject_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_BufferObject_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -2299,12 +2304,12 @@ impl filament_BufferObject_Builder {
 #[test]
 fn bindgen_test_layout_filament_BufferObject() {
     assert_eq!(
-        ::std::mem::size_of::<filament_BufferObject>(),
+        ::core::mem::size_of::<filament_BufferObject>(),
         1usize,
         concat!("Size of: ", stringify!(filament_BufferObject))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BufferObject>(),
+        ::core::mem::align_of::<filament_BufferObject>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_BufferObject))
     );
@@ -2452,12 +2457,12 @@ pub type filament_Camera_Fov = ::std::os::raw::c_int;
 #[test]
 fn bindgen_test_layout_filament_Camera() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Camera>(),
+        ::core::mem::size_of::<filament_Camera>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Camera))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Camera>(),
+        ::core::mem::align_of::<filament_Camera>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Camera))
     );
@@ -3111,7 +3116,7 @@ impl filament_Camera {
     }
 }
 #[repr(C)]
-pub struct filament_ToneMapper__bindgen_vtable(::std::os::raw::c_void);
+pub struct filament_ToneMapper__bindgen_vtable(::core::ffi::c_void);
 #[doc = " Interface for tone mapping operators. A tone mapping operator, or tone mapper,"]
 #[doc = " is responsible for compressing the dynamic range of the rendered scene to a"]
 #[doc = " dynamic range suitable for display."]
@@ -3142,12 +3147,12 @@ pub struct filament_ToneMapper {
 #[test]
 fn bindgen_test_layout_filament_ToneMapper() {
     assert_eq!(
-        ::std::mem::size_of::<filament_ToneMapper>(),
+        ::core::mem::size_of::<filament_ToneMapper>(),
         8usize,
         concat!("Size of: ", stringify!(filament_ToneMapper))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_ToneMapper>(),
+        ::core::mem::align_of::<filament_ToneMapper>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_ToneMapper))
     );
@@ -3158,9 +3163,9 @@ extern "C" {
 }
 impl Default for filament_ToneMapper {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -3168,7 +3173,7 @@ impl Default for filament_ToneMapper {
 impl filament_ToneMapper {
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_ToneMapper_ToneMapper(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
@@ -3287,12 +3292,12 @@ pub struct filament_ColorGrading_Builder {
 #[test]
 fn bindgen_test_layout_filament_ColorGrading_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_ColorGrading_Builder>(),
+        ::core::mem::size_of::<filament_ColorGrading_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_ColorGrading_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_ColorGrading_Builder>(),
+        ::core::mem::align_of::<filament_ColorGrading_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_ColorGrading_Builder))
     );
@@ -3699,9 +3704,9 @@ extern "C" {
 }
 impl Default for filament_ColorGrading_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -3829,19 +3834,19 @@ impl filament_ColorGrading_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_ColorGrading_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_ColorGrading_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_ColorGrading_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_ColorGrading_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_ColorGrading_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -3853,12 +3858,12 @@ impl filament_ColorGrading_Builder {
 #[test]
 fn bindgen_test_layout_filament_ColorGrading() {
     assert_eq!(
-        ::std::mem::size_of::<filament_ColorGrading>(),
+        ::core::mem::size_of::<filament_ColorGrading>(),
         1usize,
         concat!("Size of: ", stringify!(filament_ColorGrading))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_ColorGrading>(),
+        ::core::mem::align_of::<filament_ColorGrading>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_ColorGrading))
     );
@@ -3921,18 +3926,18 @@ pub struct filament_DebugRegistry_Property {
 #[test]
 fn bindgen_test_layout_filament_DebugRegistry_Property() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DebugRegistry_Property>(),
+        ::core::mem::size_of::<filament_DebugRegistry_Property>(),
         16usize,
         concat!("Size of: ", stringify!(filament_DebugRegistry_Property))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DebugRegistry_Property>(),
+        ::core::mem::align_of::<filament_DebugRegistry_Property>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_DebugRegistry_Property))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_Property>())).name as *const _ as usize
+            &(*(::core::ptr::null::<filament_DebugRegistry_Property>())).name as *const _ as usize
         },
         0usize,
         concat!(
@@ -3944,7 +3949,7 @@ fn bindgen_test_layout_filament_DebugRegistry_Property() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_Property>())).type_ as *const _ as usize
+            &(*(::core::ptr::null::<filament_DebugRegistry_Property>())).type_ as *const _ as usize
         },
         8usize,
         concat!(
@@ -3957,9 +3962,9 @@ fn bindgen_test_layout_filament_DebugRegistry_Property() {
 }
 impl Default for filament_DebugRegistry_Property {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -3968,18 +3973,18 @@ impl Default for filament_DebugRegistry_Property {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct filament_DebugRegistry_DataSource {
-    pub data: *const ::std::os::raw::c_void,
+    pub data: *const ::core::ffi::c_void,
     pub count: size_t,
 }
 #[test]
 fn bindgen_test_layout_filament_DebugRegistry_DataSource() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DebugRegistry_DataSource>(),
+        ::core::mem::size_of::<filament_DebugRegistry_DataSource>(),
         16usize,
         concat!("Size of: ", stringify!(filament_DebugRegistry_DataSource))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DebugRegistry_DataSource>(),
+        ::core::mem::align_of::<filament_DebugRegistry_DataSource>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -3988,7 +3993,7 @@ fn bindgen_test_layout_filament_DebugRegistry_DataSource() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_DataSource>())).data as *const _ as usize
+            &(*(::core::ptr::null::<filament_DebugRegistry_DataSource>())).data as *const _ as usize
         },
         0usize,
         concat!(
@@ -4000,7 +4005,8 @@ fn bindgen_test_layout_filament_DebugRegistry_DataSource() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_DataSource>())).count as *const _ as usize
+            &(*(::core::ptr::null::<filament_DebugRegistry_DataSource>())).count as *const _
+                as usize
         },
         8usize,
         concat!(
@@ -4013,9 +4019,9 @@ fn bindgen_test_layout_filament_DebugRegistry_DataSource() {
 }
 impl Default for filament_DebugRegistry_DataSource {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -4036,12 +4042,12 @@ pub type filament_DebugRegistry_FrameHistory_duration_ms = f32;
 #[test]
 fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DebugRegistry_FrameHistory>(),
+        ::core::mem::size_of::<filament_DebugRegistry_FrameHistory>(),
         32usize,
         concat!("Size of: ", stringify!(filament_DebugRegistry_FrameHistory))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DebugRegistry_FrameHistory>(),
+        ::core::mem::align_of::<filament_DebugRegistry_FrameHistory>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -4050,7 +4056,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).target as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).target as *const _
                 as usize
         },
         0usize,
@@ -4063,7 +4069,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).targetWithHeadroom
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).targetWithHeadroom
                 as *const _ as usize
         },
         4usize,
@@ -4076,7 +4082,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).frameTime as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).frameTime as *const _
                 as usize
         },
         8usize,
@@ -4089,7 +4095,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).frameTimeDenoised
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).frameTimeDenoised
                 as *const _ as usize
         },
         12usize,
@@ -4102,7 +4108,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).scale as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).scale as *const _
                 as usize
         },
         16usize,
@@ -4115,7 +4121,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_e as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_e as *const _
                 as usize
         },
         20usize,
@@ -4128,7 +4134,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_i as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_i as *const _
                 as usize
         },
         24usize,
@@ -4141,7 +4147,7 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_d as *const _
+            &(*(::core::ptr::null::<filament_DebugRegistry_FrameHistory>())).pid_d as *const _
                 as usize
         },
         28usize,
@@ -4156,12 +4162,12 @@ fn bindgen_test_layout_filament_DebugRegistry_FrameHistory() {
 #[test]
 fn bindgen_test_layout_filament_DebugRegistry() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DebugRegistry>(),
+        ::core::mem::size_of::<filament_DebugRegistry>(),
         1usize,
         concat!("Size of: ", stringify!(filament_DebugRegistry))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DebugRegistry>(),
+        ::core::mem::align_of::<filament_DebugRegistry>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_DebugRegistry))
     );
@@ -4185,7 +4191,7 @@ extern "C" {
     pub fn filament_DebugRegistry_getPropertyAddress(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_void;
+    ) -> *mut ::core::ffi::c_void;
 }
 extern "C" {
     #[doc = " Set the value of a property"]
@@ -4309,7 +4315,7 @@ impl filament_DebugRegistry {
     pub unsafe fn getPropertyAddress(
         &mut self,
         name: *const ::std::os::raw::c_char,
-    ) -> *mut ::std::os::raw::c_void {
+    ) -> *mut ::core::ffi::c_void {
         filament_DebugRegistry_getPropertyAddress(self, name)
     }
     #[inline]
@@ -4507,18 +4513,18 @@ pub use self::filament_backend_Backend as filament_Engine_Backend;
 #[doc = " @param user   User provided parameter given in createAsync()."]
 #[doc = ""]
 #[doc = " @param token  An opaque token used to call Engine::getEngine()."]
-pub type filament_Engine_CreateCallback = ::std::option::Option<
-    unsafe extern "C" fn(user: *mut ::std::os::raw::c_void, token: *mut ::std::os::raw::c_void),
+pub type filament_Engine_CreateCallback = ::core::option::Option<
+    unsafe extern "C" fn(user: *mut ::core::ffi::c_void, token: *mut ::core::ffi::c_void),
 >;
 #[test]
 fn bindgen_test_layout_filament_Engine() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Engine>(),
+        ::core::mem::size_of::<filament_Engine>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Engine))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Engine>(),
+        ::core::mem::align_of::<filament_Engine>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Engine))
     );
@@ -4562,7 +4568,7 @@ extern "C" {
     pub fn filament_Engine_create(
         backend: filament_Engine_Backend,
         platform: *mut filament_Engine_Platform,
-        sharedGLContext: *mut ::std::os::raw::c_void,
+        sharedGLContext: *mut ::core::ffi::c_void,
     ) -> *mut filament_Engine;
 }
 extern "C" {
@@ -4595,10 +4601,10 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament6Engine11createAsyncEPFvPvS1_ES1_NS_7backend7BackendEPNS4_8PlatformES1_"]
     pub fn filament_Engine_createAsync(
         callback: filament_Engine_CreateCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
         backend: filament_Engine_Backend,
         platform: *mut filament_Engine_Platform,
-        sharedGLContext: *mut ::std::os::raw::c_void,
+        sharedGLContext: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
@@ -4613,7 +4619,7 @@ extern "C" {
     #[doc = " allocate the command buffer. If exceptions are disabled, this condition if fatal and"]
     #[doc = " this function will abort."]
     #[link_name = "\u{1}_ZN8filament6Engine9getEngineEPv"]
-    pub fn filament_Engine_getEngine(token: *mut ::std::os::raw::c_void) -> *mut filament_Engine;
+    pub fn filament_Engine_getEngine(token: *mut ::core::ffi::c_void) -> *mut filament_Engine;
 }
 extern "C" {
     #[doc = " Destroy the Engine instance and all associated resources."]
@@ -4719,7 +4725,7 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament6Engine15createSwapChainEPvm"]
     pub fn filament_Engine_createSwapChain(
         this: *mut filament_Engine,
-        nativeWindow: *mut ::std::os::raw::c_void,
+        nativeWindow: *mut ::core::ffi::c_void,
         flags: u64,
     ) -> *mut filament_SwapChain;
 }
@@ -5015,7 +5021,7 @@ extern "C" {
         this: *mut filament_Engine,
         size: size_t,
         alignment: size_t,
-    ) -> *mut ::std::os::raw::c_void;
+    ) -> *mut ::core::ffi::c_void;
 }
 extern "C" {
     #[doc = " Invokes one iteration of the render loop, used only on single-threaded platforms."]
@@ -5042,22 +5048,22 @@ impl filament_Engine {
     pub unsafe fn create(
         backend: filament_Engine_Backend,
         platform: *mut filament_Engine_Platform,
-        sharedGLContext: *mut ::std::os::raw::c_void,
+        sharedGLContext: *mut ::core::ffi::c_void,
     ) -> *mut filament_Engine {
         filament_Engine_create(backend, platform, sharedGLContext)
     }
     #[inline]
     pub unsafe fn createAsync(
         callback: filament_Engine_CreateCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
         backend: filament_Engine_Backend,
         platform: *mut filament_Engine_Platform,
-        sharedGLContext: *mut ::std::os::raw::c_void,
+        sharedGLContext: *mut ::core::ffi::c_void,
     ) {
         filament_Engine_createAsync(callback, user, backend, platform, sharedGLContext)
     }
     #[inline]
-    pub unsafe fn getEngine(token: *mut ::std::os::raw::c_void) -> *mut filament_Engine {
+    pub unsafe fn getEngine(token: *mut ::core::ffi::c_void) -> *mut filament_Engine {
         filament_Engine_getEngine(token)
     }
     #[inline]
@@ -5091,7 +5097,7 @@ impl filament_Engine {
     #[inline]
     pub unsafe fn createSwapChain(
         &mut self,
-        nativeWindow: *mut ::std::os::raw::c_void,
+        nativeWindow: *mut ::core::ffi::c_void,
         flags: u64,
     ) -> *mut filament_SwapChain {
         filament_Engine_createSwapChain(self, nativeWindow, flags)
@@ -5238,7 +5244,7 @@ impl filament_Engine {
         &mut self,
         size: size_t,
         alignment: size_t,
-    ) -> *mut ::std::os::raw::c_void {
+    ) -> *mut ::core::ffi::c_void {
         filament_Engine_streamAlloc(self, size, alignment)
     }
     #[inline]
@@ -5285,12 +5291,12 @@ extern "C" {
 #[test]
 fn bindgen_test_layout_filament_Fence() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Fence>(),
+        ::core::mem::size_of::<filament_Fence>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Fence))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Fence>(),
+        ::core::mem::align_of::<filament_Fence>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Fence))
     );
@@ -5361,17 +5367,17 @@ pub type filament_Frustum_Plane = u8;
 #[test]
 fn bindgen_test_layout_filament_Frustum() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Frustum>(),
+        ::core::mem::size_of::<filament_Frustum>(),
         96usize,
         concat!("Size of: ", stringify!(filament_Frustum))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Frustum>(),
+        ::core::mem::align_of::<filament_Frustum>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_Frustum))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_Frustum>())).mPlanes as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_Frustum>())).mPlanes as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -5478,9 +5484,9 @@ extern "C" {
 }
 impl Default for filament_Frustum {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -5512,13 +5518,13 @@ impl filament_Frustum {
     }
     #[inline]
     pub unsafe fn new(pv: *const filament_math_mat4f) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Frustum_Frustum(__bindgen_tmp.as_mut_ptr(), pv);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(corners: *const filament_math_float3) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Frustum_Frustum1(__bindgen_tmp.as_mut_ptr(), corners);
         __bindgen_tmp.assume_init()
     }
@@ -5561,12 +5567,12 @@ pub struct filament_IndexBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_IndexBuffer_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_IndexBuffer_Builder>(),
+        ::core::mem::size_of::<filament_IndexBuffer_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_IndexBuffer_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_IndexBuffer_Builder>(),
+        ::core::mem::align_of::<filament_IndexBuffer_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_IndexBuffer_Builder))
     );
@@ -5635,9 +5641,9 @@ extern "C" {
 }
 impl Default for filament_IndexBuffer_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -5660,19 +5666,19 @@ impl filament_IndexBuffer_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndexBuffer_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_IndexBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndexBuffer_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_IndexBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndexBuffer_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -5684,12 +5690,12 @@ impl filament_IndexBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_IndexBuffer() {
     assert_eq!(
-        ::std::mem::size_of::<filament_IndexBuffer>(),
+        ::core::mem::size_of::<filament_IndexBuffer>(),
         1usize,
         concat!("Size of: ", stringify!(filament_IndexBuffer))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_IndexBuffer>(),
+        ::core::mem::align_of::<filament_IndexBuffer>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_IndexBuffer))
     );
@@ -5805,12 +5811,12 @@ pub struct filament_IndirectLight_Builder {
 #[test]
 fn bindgen_test_layout_filament_IndirectLight_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_IndirectLight_Builder>(),
+        ::core::mem::size_of::<filament_IndirectLight_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_IndirectLight_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_IndirectLight_Builder>(),
+        ::core::mem::align_of::<filament_IndirectLight_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_IndirectLight_Builder))
     );
@@ -6008,9 +6014,9 @@ extern "C" {
 }
 impl Default for filament_IndirectLight_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -6063,19 +6069,19 @@ impl filament_IndirectLight_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndirectLight_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_IndirectLight_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndirectLight_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_IndirectLight_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_IndirectLight_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -6087,12 +6093,12 @@ impl filament_IndirectLight_Builder {
 #[test]
 fn bindgen_test_layout_filament_IndirectLight() {
     assert_eq!(
-        ::std::mem::size_of::<filament_IndirectLight>(),
+        ::core::mem::size_of::<filament_IndirectLight>(),
         1usize,
         concat!("Size of: ", stringify!(filament_IndirectLight))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_IndirectLight>(),
+        ::core::mem::align_of::<filament_IndirectLight>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_IndirectLight))
     );
@@ -6492,7 +6498,7 @@ pub struct filament_LightManager_ShadowOptions_Vsm {
 #[test]
 fn bindgen_test_layout_filament_LightManager_ShadowOptions_Vsm() {
     assert_eq!(
-        ::std::mem::size_of::<filament_LightManager_ShadowOptions_Vsm>(),
+        ::core::mem::size_of::<filament_LightManager_ShadowOptions_Vsm>(),
         8usize,
         concat!(
             "Size of: ",
@@ -6500,7 +6506,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions_Vsm() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_LightManager_ShadowOptions_Vsm>(),
+        ::core::mem::align_of::<filament_LightManager_ShadowOptions_Vsm>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -6509,7 +6515,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions_Vsm() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions_Vsm>())).msaaSamples
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions_Vsm>())).msaaSamples
                 as *const _ as usize
         },
         0usize,
@@ -6522,7 +6528,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions_Vsm() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions_Vsm>())).blurWidth
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions_Vsm>())).blurWidth
                 as *const _ as usize
         },
         4usize,
@@ -6537,12 +6543,12 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions_Vsm() {
 #[test]
 fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_LightManager_ShadowOptions>(),
+        ::core::mem::size_of::<filament_LightManager_ShadowOptions>(),
         72usize,
         concat!("Size of: ", stringify!(filament_LightManager_ShadowOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_LightManager_ShadowOptions>(),
+        ::core::mem::align_of::<filament_LightManager_ShadowOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -6551,7 +6557,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).mapSize as *const _
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).mapSize as *const _
                 as usize
         },
         0usize,
@@ -6564,7 +6570,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).shadowCascades
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).shadowCascades
                 as *const _ as usize
         },
         4usize,
@@ -6577,7 +6583,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).cascadeSplitPositions
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).cascadeSplitPositions
                 as *const _ as usize
         },
         8usize,
@@ -6590,8 +6596,8 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).constantBias as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).constantBias
+                as *const _ as usize
         },
         20usize,
         concat!(
@@ -6603,7 +6609,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).normalBias as *const _
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).normalBias as *const _
                 as usize
         },
         24usize,
@@ -6616,7 +6622,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).shadowFar as *const _
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).shadowFar as *const _
                 as usize
         },
         28usize,
@@ -6629,7 +6635,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).shadowNearHint
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).shadowNearHint
                 as *const _ as usize
         },
         32usize,
@@ -6642,7 +6648,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).shadowFarHint
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).shadowFarHint
                 as *const _ as usize
         },
         36usize,
@@ -6655,7 +6661,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).stable as *const _
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).stable as *const _
                 as usize
         },
         40usize,
@@ -6668,7 +6674,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).polygonOffsetConstant
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).polygonOffsetConstant
                 as *const _ as usize
         },
         44usize,
@@ -6681,7 +6687,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).polygonOffsetSlope
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).polygonOffsetSlope
                 as *const _ as usize
         },
         48usize,
@@ -6694,7 +6700,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>()))
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>()))
                 .screenSpaceContactShadows as *const _ as usize
         },
         52usize,
@@ -6707,7 +6713,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).stepCount as *const _
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).stepCount as *const _
                 as usize
         },
         53usize,
@@ -6720,7 +6726,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).maxShadowDistance
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).maxShadowDistance
                 as *const _ as usize
         },
         56usize,
@@ -6733,7 +6739,8 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).vsm as *const _ as usize
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).vsm as *const _
+                as usize
         },
         60usize,
         concat!(
@@ -6745,7 +6752,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_LightManager_ShadowOptions>())).shadowBulbRadius
+            &(*(::core::ptr::null::<filament_LightManager_ShadowOptions>())).shadowBulbRadius
                 as *const _ as usize
         },
         68usize,
@@ -6765,7 +6772,7 @@ pub struct filament_LightManager_ShadowCascades {
 #[test]
 fn bindgen_test_layout_filament_LightManager_ShadowCascades() {
     assert_eq!(
-        ::std::mem::size_of::<filament_LightManager_ShadowCascades>(),
+        ::core::mem::size_of::<filament_LightManager_ShadowCascades>(),
         1usize,
         concat!(
             "Size of: ",
@@ -6773,7 +6780,7 @@ fn bindgen_test_layout_filament_LightManager_ShadowCascades() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_LightManager_ShadowCascades>(),
+        ::core::mem::align_of::<filament_LightManager_ShadowCascades>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -6874,12 +6881,12 @@ pub type filament_LightManager_Builder_Result = ::std::os::raw::c_int;
 #[test]
 fn bindgen_test_layout_filament_LightManager_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_LightManager_Builder>(),
+        ::core::mem::size_of::<filament_LightManager_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_LightManager_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_LightManager_Builder>(),
+        ::core::mem::align_of::<filament_LightManager_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_LightManager_Builder))
     );
@@ -7198,9 +7205,9 @@ extern "C" {
 }
 impl Default for filament_LightManager_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -7309,19 +7316,19 @@ impl filament_LightManager_Builder {
     }
     #[inline]
     pub unsafe fn new(type_: filament_LightManager_Type) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_LightManager_Builder_Builder(__bindgen_tmp.as_mut_ptr(), type_);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_LightManager_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_LightManager_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_LightManager_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_LightManager_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -7341,12 +7348,12 @@ pub const filament_LightManager_EFFICIENCY_LED: f32 = 0.11710000038146973;
 #[test]
 fn bindgen_test_layout_filament_LightManager() {
     assert_eq!(
-        ::std::mem::size_of::<filament_LightManager>(),
+        ::core::mem::size_of::<filament_LightManager>(),
         1usize,
         concat!("Size of: ", stringify!(filament_LightManager))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_LightManager>(),
+        ::core::mem::align_of::<filament_LightManager>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_LightManager))
     );
@@ -8039,12 +8046,12 @@ pub type filament_MaterialInstance_is_supported_parameter_t = u8;
 #[test]
 fn bindgen_test_layout_filament_MaterialInstance() {
     assert_eq!(
-        ::std::mem::size_of::<filament_MaterialInstance>(),
+        ::core::mem::size_of::<filament_MaterialInstance>(),
         1usize,
         concat!("Size of: ", stringify!(filament_MaterialInstance))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_MaterialInstance>(),
+        ::core::mem::align_of::<filament_MaterialInstance>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_MaterialInstance))
     );
@@ -8407,7 +8414,7 @@ pub union filament_Material_ParameterInfo__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Material_ParameterInfo__bindgen_ty_1>(),
+        ::core::mem::size_of::<filament_Material_ParameterInfo__bindgen_ty_1>(),
         1usize,
         concat!(
             "Size of: ",
@@ -8415,7 +8422,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Material_ParameterInfo__bindgen_ty_1>(),
+        ::core::mem::align_of::<filament_Material_ParameterInfo__bindgen_ty_1>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -8424,7 +8431,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).type_
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).type_
                 as *const _ as usize
         },
         0usize,
@@ -8437,7 +8444,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).samplerType
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).samplerType
                 as *const _ as usize
         },
         0usize,
@@ -8450,7 +8457,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).subpassType
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo__bindgen_ty_1>())).subpassType
                 as *const _ as usize
         },
         0usize,
@@ -8464,9 +8471,9 @@ fn bindgen_test_layout_filament_Material_ParameterInfo__bindgen_ty_1() {
 }
 impl Default for filament_Material_ParameterInfo__bindgen_ty_1 {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -8474,18 +8481,18 @@ impl Default for filament_Material_ParameterInfo__bindgen_ty_1 {
 #[test]
 fn bindgen_test_layout_filament_Material_ParameterInfo() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Material_ParameterInfo>(),
+        ::core::mem::size_of::<filament_Material_ParameterInfo>(),
         24usize,
         concat!("Size of: ", stringify!(filament_Material_ParameterInfo))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Material_ParameterInfo>(),
+        ::core::mem::align_of::<filament_Material_ParameterInfo>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Material_ParameterInfo))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo>())).name as *const _ as usize
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo>())).name as *const _ as usize
         },
         0usize,
         concat!(
@@ -8497,7 +8504,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo>())).isSampler as *const _
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo>())).isSampler as *const _
                 as usize
         },
         8usize,
@@ -8510,7 +8517,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo>())).isSubpass as *const _
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo>())).isSubpass as *const _
                 as usize
         },
         9usize,
@@ -8523,7 +8530,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo>())).count as *const _ as usize
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo>())).count as *const _ as usize
         },
         12usize,
         concat!(
@@ -8535,7 +8542,7 @@ fn bindgen_test_layout_filament_Material_ParameterInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Material_ParameterInfo>())).precision as *const _
+            &(*(::core::ptr::null::<filament_Material_ParameterInfo>())).precision as *const _
                 as usize
         },
         16usize,
@@ -8549,9 +8556,9 @@ fn bindgen_test_layout_filament_Material_ParameterInfo() {
 }
 impl Default for filament_Material_ParameterInfo {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -8564,12 +8571,12 @@ pub struct filament_Material_Builder {
 #[test]
 fn bindgen_test_layout_filament_Material_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Material_Builder>(),
+        ::core::mem::size_of::<filament_Material_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_Material_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Material_Builder>(),
+        ::core::mem::align_of::<filament_Material_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Material_Builder))
     );
@@ -8583,7 +8590,7 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament8Material7Builder7packageEPKvm"]
     pub fn filament_Material_Builder_package(
         this: *mut filament_Material_Builder,
-        payload: *const ::std::os::raw::c_void,
+        payload: *const ::core::ffi::c_void,
         size: size_t,
     ) -> *mut filament_Material_Builder;
 }
@@ -8628,9 +8635,9 @@ extern "C" {
 }
 impl Default for filament_Material_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -8639,7 +8646,7 @@ impl filament_Material_Builder {
     #[inline]
     pub unsafe fn package(
         &mut self,
-        payload: *const ::std::os::raw::c_void,
+        payload: *const ::core::ffi::c_void,
         size: size_t,
     ) -> *mut filament_Material_Builder {
         filament_Material_Builder_package(self, payload, size)
@@ -8650,19 +8657,19 @@ impl filament_Material_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Material_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_Material_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Material_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_Material_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Material_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -8674,12 +8681,12 @@ impl filament_Material_Builder {
 #[test]
 fn bindgen_test_layout_filament_Material() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Material>(),
+        ::core::mem::size_of::<filament_Material>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Material))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Material>(),
+        ::core::mem::align_of::<filament_Material>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Material))
     );
@@ -9027,12 +9034,12 @@ pub struct filament_MorphTargetBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_MorphTargetBuffer_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_MorphTargetBuffer_Builder>(),
+        ::core::mem::size_of::<filament_MorphTargetBuffer_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_MorphTargetBuffer_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_MorphTargetBuffer_Builder>(),
+        ::core::mem::align_of::<filament_MorphTargetBuffer_Builder>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -9105,9 +9112,9 @@ extern "C" {
 }
 impl Default for filament_MorphTargetBuffer_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -9133,19 +9140,19 @@ impl filament_MorphTargetBuffer_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_MorphTargetBuffer_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_MorphTargetBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_MorphTargetBuffer_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_MorphTargetBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_MorphTargetBuffer_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -9157,12 +9164,12 @@ impl filament_MorphTargetBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_MorphTargetBuffer() {
     assert_eq!(
-        ::std::mem::size_of::<filament_MorphTargetBuffer>(),
+        ::core::mem::size_of::<filament_MorphTargetBuffer>(),
         1usize,
         concat!("Size of: ", stringify!(filament_MorphTargetBuffer))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_MorphTargetBuffer>(),
+        ::core::mem::align_of::<filament_MorphTargetBuffer>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_MorphTargetBuffer))
     );
@@ -9360,12 +9367,12 @@ pub struct filament_DynamicResolutionOptions {
 #[test]
 fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DynamicResolutionOptions>(),
+        ::core::mem::size_of::<filament_DynamicResolutionOptions>(),
         24usize,
         concat!("Size of: ", stringify!(filament_DynamicResolutionOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DynamicResolutionOptions>(),
+        ::core::mem::align_of::<filament_DynamicResolutionOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -9374,7 +9381,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).minScale as *const _
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).minScale as *const _
                 as usize
         },
         0usize,
@@ -9387,7 +9394,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).maxScale as *const _
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).maxScale as *const _
                 as usize
         },
         8usize,
@@ -9400,7 +9407,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).sharpness as *const _
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).sharpness as *const _
                 as usize
         },
         16usize,
@@ -9413,7 +9420,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).enabled as *const _
                 as usize
         },
         20usize,
@@ -9426,7 +9433,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).homogeneousScaling
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).homogeneousScaling
                 as *const _ as usize
         },
         21usize,
@@ -9439,7 +9446,7 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DynamicResolutionOptions>())).quality as *const _
+            &(*(::core::ptr::null::<filament_DynamicResolutionOptions>())).quality as *const _
                 as usize
         },
         22usize,
@@ -9453,9 +9460,9 @@ fn bindgen_test_layout_filament_DynamicResolutionOptions() {
 }
 impl Default for filament_DynamicResolutionOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -9540,17 +9547,17 @@ pub type filament_BloomOptions_BlendMode = u8;
 #[test]
 fn bindgen_test_layout_filament_BloomOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_BloomOptions>(),
+        ::core::mem::size_of::<filament_BloomOptions>(),
         64usize,
         concat!("Size of: ", stringify!(filament_BloomOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BloomOptions>(),
+        ::core::mem::align_of::<filament_BloomOptions>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_BloomOptions))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).dirt as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_BloomOptions>())).dirt as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9561,7 +9568,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).dirtStrength as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).dirtStrength as *const _ as usize
         },
         8usize,
         concat!(
@@ -9572,7 +9579,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).strength as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_BloomOptions>())).strength as *const _ as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -9583,7 +9590,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).resolution as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).resolution as *const _ as usize
         },
         16usize,
         concat!(
@@ -9595,7 +9602,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).anamorphism as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).anamorphism as *const _ as usize
         },
         20usize,
         concat!(
@@ -9606,7 +9613,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).levels as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_BloomOptions>())).levels as *const _ as usize },
         24usize,
         concat!(
             "Offset of field: ",
@@ -9616,7 +9623,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).blendMode as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_BloomOptions>())).blendMode as *const _ as usize
+        },
         25usize,
         concat!(
             "Offset of field: ",
@@ -9626,7 +9635,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).threshold as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_BloomOptions>())).threshold as *const _ as usize
+        },
         26usize,
         concat!(
             "Offset of field: ",
@@ -9636,7 +9647,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).enabled as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_BloomOptions>())).enabled as *const _ as usize },
         27usize,
         concat!(
             "Offset of field: ",
@@ -9646,7 +9657,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).highlight as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_BloomOptions>())).highlight as *const _ as usize
+        },
         28usize,
         concat!(
             "Offset of field: ",
@@ -9656,7 +9669,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).lensFlare as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_BloomOptions>())).lensFlare as *const _ as usize
+        },
         32usize,
         concat!(
             "Offset of field: ",
@@ -9666,7 +9681,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_BloomOptions>())).starburst as *const _ as usize },
+        unsafe {
+            &(*(::core::ptr::null::<filament_BloomOptions>())).starburst as *const _ as usize
+        },
         33usize,
         concat!(
             "Offset of field: ",
@@ -9677,7 +9694,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).chromaticAberration as *const _
+            &(*(::core::ptr::null::<filament_BloomOptions>())).chromaticAberration as *const _
                 as usize
         },
         36usize,
@@ -9690,7 +9707,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).ghostCount as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).ghostCount as *const _ as usize
         },
         40usize,
         concat!(
@@ -9702,7 +9719,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).ghostSpacing as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).ghostSpacing as *const _ as usize
         },
         44usize,
         concat!(
@@ -9714,7 +9731,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).ghostThreshold as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).ghostThreshold as *const _ as usize
         },
         48usize,
         concat!(
@@ -9726,7 +9743,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).haloThickness as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).haloThickness as *const _ as usize
         },
         52usize,
         concat!(
@@ -9738,7 +9755,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).haloRadius as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).haloRadius as *const _ as usize
         },
         56usize,
         concat!(
@@ -9750,7 +9767,7 @@ fn bindgen_test_layout_filament_BloomOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_BloomOptions>())).haloThreshold as *const _ as usize
+            &(*(::core::ptr::null::<filament_BloomOptions>())).haloThreshold as *const _ as usize
         },
         60usize,
         concat!(
@@ -9763,9 +9780,9 @@ fn bindgen_test_layout_filament_BloomOptions() {
 }
 impl Default for filament_BloomOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -9797,17 +9814,17 @@ pub struct filament_FogOptions {
 #[test]
 fn bindgen_test_layout_filament_FogOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_FogOptions>(),
+        ::core::mem::size_of::<filament_FogOptions>(),
         44usize,
         concat!("Size of: ", stringify!(filament_FogOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_FogOptions>(),
+        ::core::mem::align_of::<filament_FogOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_FogOptions))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_FogOptions>())).distance as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_FogOptions>())).distance as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -9818,7 +9835,7 @@ fn bindgen_test_layout_filament_FogOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_FogOptions>())).maximumOpacity as *const _ as usize
+            &(*(::core::ptr::null::<filament_FogOptions>())).maximumOpacity as *const _ as usize
         },
         4usize,
         concat!(
@@ -9829,7 +9846,7 @@ fn bindgen_test_layout_filament_FogOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_FogOptions>())).height as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_FogOptions>())).height as *const _ as usize },
         8usize,
         concat!(
             "Offset of field: ",
@@ -9840,7 +9857,7 @@ fn bindgen_test_layout_filament_FogOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_FogOptions>())).heightFalloff as *const _ as usize
+            &(*(::core::ptr::null::<filament_FogOptions>())).heightFalloff as *const _ as usize
         },
         12usize,
         concat!(
@@ -9851,7 +9868,7 @@ fn bindgen_test_layout_filament_FogOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_FogOptions>())).color as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_FogOptions>())).color as *const _ as usize },
         16usize,
         concat!(
             "Offset of field: ",
@@ -9861,7 +9878,7 @@ fn bindgen_test_layout_filament_FogOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_FogOptions>())).density as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_FogOptions>())).density as *const _ as usize },
         28usize,
         concat!(
             "Offset of field: ",
@@ -9872,7 +9889,7 @@ fn bindgen_test_layout_filament_FogOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_FogOptions>())).inScatteringStart as *const _ as usize
+            &(*(::core::ptr::null::<filament_FogOptions>())).inScatteringStart as *const _ as usize
         },
         32usize,
         concat!(
@@ -9884,7 +9901,7 @@ fn bindgen_test_layout_filament_FogOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_FogOptions>())).inScatteringSize as *const _ as usize
+            &(*(::core::ptr::null::<filament_FogOptions>())).inScatteringSize as *const _ as usize
         },
         36usize,
         concat!(
@@ -9896,7 +9913,7 @@ fn bindgen_test_layout_filament_FogOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_FogOptions>())).fogColorFromIbl as *const _ as usize
+            &(*(::core::ptr::null::<filament_FogOptions>())).fogColorFromIbl as *const _ as usize
         },
         40usize,
         concat!(
@@ -9907,7 +9924,7 @@ fn bindgen_test_layout_filament_FogOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_FogOptions>())).enabled as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_FogOptions>())).enabled as *const _ as usize },
         41usize,
         concat!(
             "Offset of field: ",
@@ -9919,9 +9936,9 @@ fn bindgen_test_layout_filament_FogOptions() {
 }
 impl Default for filament_FogOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -9965,18 +9982,18 @@ pub type filament_DepthOfFieldOptions_Filter = u8;
 #[test]
 fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_DepthOfFieldOptions>(),
+        ::core::mem::size_of::<filament_DepthOfFieldOptions>(),
         20usize,
         concat!("Size of: ", stringify!(filament_DepthOfFieldOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_DepthOfFieldOptions>(),
+        ::core::mem::align_of::<filament_DepthOfFieldOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_DepthOfFieldOptions))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).cocScale as *const _ as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).cocScale as *const _ as usize
         },
         0usize,
         concat!(
@@ -9988,8 +10005,8 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).maxApertureDiameter as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).maxApertureDiameter
+                as *const _ as usize
         },
         4usize,
         concat!(
@@ -10001,7 +10018,7 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).enabled as *const _ as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).enabled as *const _ as usize
         },
         8usize,
         concat!(
@@ -10013,7 +10030,7 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).filter as *const _ as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).filter as *const _ as usize
         },
         9usize,
         concat!(
@@ -10025,7 +10042,7 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).nativeResolution as *const _
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).nativeResolution as *const _
                 as usize
         },
         10usize,
@@ -10038,8 +10055,8 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).foregroundRingCount as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).foregroundRingCount
+                as *const _ as usize
         },
         11usize,
         concat!(
@@ -10051,8 +10068,8 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).backgroundRingCount as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).backgroundRingCount
+                as *const _ as usize
         },
         12usize,
         concat!(
@@ -10064,8 +10081,8 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).fastGatherRingCount as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).fastGatherRingCount
+                as *const _ as usize
         },
         13usize,
         concat!(
@@ -10077,7 +10094,7 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).maxForegroundCOC as *const _
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).maxForegroundCOC as *const _
                 as usize
         },
         14usize,
@@ -10090,7 +10107,7 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_DepthOfFieldOptions>())).maxBackgroundCOC as *const _
+            &(*(::core::ptr::null::<filament_DepthOfFieldOptions>())).maxBackgroundCOC as *const _
                 as usize
         },
         16usize,
@@ -10104,9 +10121,9 @@ fn bindgen_test_layout_filament_DepthOfFieldOptions() {
 }
 impl Default for filament_DepthOfFieldOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -10128,18 +10145,18 @@ pub struct filament_VignetteOptions {
 #[test]
 fn bindgen_test_layout_filament_VignetteOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_VignetteOptions>(),
+        ::core::mem::size_of::<filament_VignetteOptions>(),
         32usize,
         concat!("Size of: ", stringify!(filament_VignetteOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_VignetteOptions>(),
+        ::core::mem::align_of::<filament_VignetteOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_VignetteOptions))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VignetteOptions>())).midPoint as *const _ as usize
+            &(*(::core::ptr::null::<filament_VignetteOptions>())).midPoint as *const _ as usize
         },
         0usize,
         concat!(
@@ -10151,7 +10168,7 @@ fn bindgen_test_layout_filament_VignetteOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VignetteOptions>())).roundness as *const _ as usize
+            &(*(::core::ptr::null::<filament_VignetteOptions>())).roundness as *const _ as usize
         },
         4usize,
         concat!(
@@ -10163,7 +10180,7 @@ fn bindgen_test_layout_filament_VignetteOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VignetteOptions>())).feather as *const _ as usize
+            &(*(::core::ptr::null::<filament_VignetteOptions>())).feather as *const _ as usize
         },
         8usize,
         concat!(
@@ -10174,7 +10191,7 @@ fn bindgen_test_layout_filament_VignetteOptions() {
         )
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<filament_VignetteOptions>())).color as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<filament_VignetteOptions>())).color as *const _ as usize },
         12usize,
         concat!(
             "Offset of field: ",
@@ -10185,7 +10202,7 @@ fn bindgen_test_layout_filament_VignetteOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VignetteOptions>())).enabled as *const _ as usize
+            &(*(::core::ptr::null::<filament_VignetteOptions>())).enabled as *const _ as usize
         },
         28usize,
         concat!(
@@ -10198,9 +10215,9 @@ fn bindgen_test_layout_filament_VignetteOptions() {
 }
 impl Default for filament_VignetteOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -10223,18 +10240,18 @@ pub struct filament_RenderQuality {
 #[test]
 fn bindgen_test_layout_filament_RenderQuality() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderQuality>(),
+        ::core::mem::size_of::<filament_RenderQuality>(),
         1usize,
         concat!("Size of: ", stringify!(filament_RenderQuality))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderQuality>(),
+        ::core::mem::align_of::<filament_RenderQuality>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_RenderQuality))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderQuality>())).hdrColorBuffer as *const _ as usize
+            &(*(::core::ptr::null::<filament_RenderQuality>())).hdrColorBuffer as *const _ as usize
         },
         0usize,
         concat!(
@@ -10247,9 +10264,9 @@ fn bindgen_test_layout_filament_RenderQuality() {
 }
 impl Default for filament_RenderQuality {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -10312,7 +10329,7 @@ pub struct filament_AmbientOcclusionOptions_Ssct {
 #[test]
 fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     assert_eq!(
-        ::std::mem::size_of::<filament_AmbientOcclusionOptions_Ssct>(),
+        ::core::mem::size_of::<filament_AmbientOcclusionOptions_Ssct>(),
         40usize,
         concat!(
             "Size of: ",
@@ -10320,7 +10337,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_AmbientOcclusionOptions_Ssct>(),
+        ::core::mem::align_of::<filament_AmbientOcclusionOptions_Ssct>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -10329,7 +10346,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).lightConeRad
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).lightConeRad
                 as *const _ as usize
         },
         0usize,
@@ -10342,7 +10359,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).shadowDistance
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).shadowDistance
                 as *const _ as usize
         },
         4usize,
@@ -10355,7 +10372,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).contactDistanceMax
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).contactDistanceMax
                 as *const _ as usize
         },
         8usize,
@@ -10368,7 +10385,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).intensity as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).intensity as *const _
                 as usize
         },
         12usize,
@@ -10381,7 +10398,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).lightDirection
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).lightDirection
                 as *const _ as usize
         },
         16usize,
@@ -10394,7 +10411,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).depthBias as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).depthBias as *const _
                 as usize
         },
         28usize,
@@ -10407,7 +10424,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).depthSlopeBias
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).depthSlopeBias
                 as *const _ as usize
         },
         32usize,
@@ -10420,7 +10437,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).sampleCount
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).sampleCount
                 as *const _ as usize
         },
         36usize,
@@ -10433,7 +10450,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).rayCount as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).rayCount as *const _
                 as usize
         },
         37usize,
@@ -10446,7 +10463,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions_Ssct>())).enabled as *const _
                 as usize
         },
         38usize,
@@ -10460,9 +10477,9 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions_Ssct() {
 }
 impl Default for filament_AmbientOcclusionOptions_Ssct {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -10470,12 +10487,12 @@ impl Default for filament_AmbientOcclusionOptions_Ssct {
 #[test]
 fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_AmbientOcclusionOptions>(),
+        ::core::mem::size_of::<filament_AmbientOcclusionOptions>(),
         76usize,
         concat!("Size of: ", stringify!(filament_AmbientOcclusionOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_AmbientOcclusionOptions>(),
+        ::core::mem::align_of::<filament_AmbientOcclusionOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -10484,7 +10501,8 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).radius as *const _ as usize
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).radius as *const _
+                as usize
         },
         0usize,
         concat!(
@@ -10496,7 +10514,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).power as *const _ as usize
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).power as *const _ as usize
         },
         4usize,
         concat!(
@@ -10508,7 +10526,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).bias as *const _ as usize
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).bias as *const _ as usize
         },
         8usize,
         concat!(
@@ -10520,7 +10538,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).resolution as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).resolution as *const _
                 as usize
         },
         12usize,
@@ -10533,7 +10551,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).intensity as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).intensity as *const _
                 as usize
         },
         16usize,
@@ -10546,7 +10564,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).bilateralThreshold
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).bilateralThreshold
                 as *const _ as usize
         },
         20usize,
@@ -10559,7 +10577,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).quality as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).quality as *const _
                 as usize
         },
         24usize,
@@ -10572,7 +10590,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).lowPassFilter as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).lowPassFilter as *const _
                 as usize
         },
         25usize,
@@ -10585,7 +10603,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).upsampling as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).upsampling as *const _
                 as usize
         },
         26usize,
@@ -10598,7 +10616,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).enabled as *const _
                 as usize
         },
         27usize,
@@ -10611,7 +10629,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).bentNormals as *const _
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).bentNormals as *const _
                 as usize
         },
         28usize,
@@ -10624,7 +10642,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).minHorizonAngleRad
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).minHorizonAngleRad
                 as *const _ as usize
         },
         32usize,
@@ -10637,7 +10655,7 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_AmbientOcclusionOptions>())).ssct as *const _ as usize
+            &(*(::core::ptr::null::<filament_AmbientOcclusionOptions>())).ssct as *const _ as usize
         },
         36usize,
         concat!(
@@ -10650,9 +10668,9 @@ fn bindgen_test_layout_filament_AmbientOcclusionOptions() {
 }
 impl Default for filament_AmbientOcclusionOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -10676,7 +10694,7 @@ pub struct filament_MultiSampleAntiAliasingOptions {
 #[test]
 fn bindgen_test_layout_filament_MultiSampleAntiAliasingOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_MultiSampleAntiAliasingOptions>(),
+        ::core::mem::size_of::<filament_MultiSampleAntiAliasingOptions>(),
         3usize,
         concat!(
             "Size of: ",
@@ -10684,7 +10702,7 @@ fn bindgen_test_layout_filament_MultiSampleAntiAliasingOptions() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_MultiSampleAntiAliasingOptions>(),
+        ::core::mem::align_of::<filament_MultiSampleAntiAliasingOptions>(),
         1usize,
         concat!(
             "Alignment of ",
@@ -10693,7 +10711,7 @@ fn bindgen_test_layout_filament_MultiSampleAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).enabled as *const _
                 as usize
         },
         0usize,
@@ -10706,7 +10724,7 @@ fn bindgen_test_layout_filament_MultiSampleAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).sampleCount
+            &(*(::core::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).sampleCount
                 as *const _ as usize
         },
         1usize,
@@ -10719,7 +10737,7 @@ fn bindgen_test_layout_filament_MultiSampleAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).customResolve
+            &(*(::core::ptr::null::<filament_MultiSampleAntiAliasingOptions>())).customResolve
                 as *const _ as usize
         },
         2usize,
@@ -10746,7 +10764,7 @@ pub struct filament_TemporalAntiAliasingOptions {
 #[test]
 fn bindgen_test_layout_filament_TemporalAntiAliasingOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_TemporalAntiAliasingOptions>(),
+        ::core::mem::size_of::<filament_TemporalAntiAliasingOptions>(),
         12usize,
         concat!(
             "Size of: ",
@@ -10754,7 +10772,7 @@ fn bindgen_test_layout_filament_TemporalAntiAliasingOptions() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_TemporalAntiAliasingOptions>(),
+        ::core::mem::align_of::<filament_TemporalAntiAliasingOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -10763,8 +10781,8 @@ fn bindgen_test_layout_filament_TemporalAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TemporalAntiAliasingOptions>())).filterWidth as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_TemporalAntiAliasingOptions>())).filterWidth
+                as *const _ as usize
         },
         0usize,
         concat!(
@@ -10776,7 +10794,7 @@ fn bindgen_test_layout_filament_TemporalAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TemporalAntiAliasingOptions>())).feedback as *const _
+            &(*(::core::ptr::null::<filament_TemporalAntiAliasingOptions>())).feedback as *const _
                 as usize
         },
         4usize,
@@ -10789,7 +10807,7 @@ fn bindgen_test_layout_filament_TemporalAntiAliasingOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TemporalAntiAliasingOptions>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_TemporalAntiAliasingOptions>())).enabled as *const _
                 as usize
         },
         8usize,
@@ -10819,7 +10837,7 @@ pub struct filament_ScreenSpaceReflectionsOptions {
 #[test]
 fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_ScreenSpaceReflectionsOptions>(),
+        ::core::mem::size_of::<filament_ScreenSpaceReflectionsOptions>(),
         20usize,
         concat!(
             "Size of: ",
@@ -10827,7 +10845,7 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_ScreenSpaceReflectionsOptions>(),
+        ::core::mem::align_of::<filament_ScreenSpaceReflectionsOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -10836,8 +10854,8 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).thickness as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).thickness
+                as *const _ as usize
         },
         0usize,
         concat!(
@@ -10849,7 +10867,7 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).bias as *const _
+            &(*(::core::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).bias as *const _
                 as usize
         },
         4usize,
@@ -10862,7 +10880,7 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).maxDistance
+            &(*(::core::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).maxDistance
                 as *const _ as usize
         },
         8usize,
@@ -10875,7 +10893,7 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).stride as *const _
+            &(*(::core::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).stride as *const _
                 as usize
         },
         12usize,
@@ -10888,7 +10906,7 @@ fn bindgen_test_layout_filament_ScreenSpaceReflectionsOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).enabled as *const _
+            &(*(::core::ptr::null::<filament_ScreenSpaceReflectionsOptions>())).enabled as *const _
                 as usize
         },
         16usize,
@@ -10945,18 +10963,18 @@ pub struct filament_VsmShadowOptions {
 #[test]
 fn bindgen_test_layout_filament_VsmShadowOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_VsmShadowOptions>(),
+        ::core::mem::size_of::<filament_VsmShadowOptions>(),
         12usize,
         concat!("Size of: ", stringify!(filament_VsmShadowOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_VsmShadowOptions>(),
+        ::core::mem::align_of::<filament_VsmShadowOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_VsmShadowOptions))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VsmShadowOptions>())).anisotropy as *const _ as usize
+            &(*(::core::ptr::null::<filament_VsmShadowOptions>())).anisotropy as *const _ as usize
         },
         0usize,
         concat!(
@@ -10968,7 +10986,7 @@ fn bindgen_test_layout_filament_VsmShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VsmShadowOptions>())).mipmapping as *const _ as usize
+            &(*(::core::ptr::null::<filament_VsmShadowOptions>())).mipmapping as *const _ as usize
         },
         1usize,
         concat!(
@@ -10980,7 +10998,7 @@ fn bindgen_test_layout_filament_VsmShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VsmShadowOptions>())).minVarianceScale as *const _
+            &(*(::core::ptr::null::<filament_VsmShadowOptions>())).minVarianceScale as *const _
                 as usize
         },
         4usize,
@@ -10993,7 +11011,7 @@ fn bindgen_test_layout_filament_VsmShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_VsmShadowOptions>())).lightBleedReduction as *const _
+            &(*(::core::ptr::null::<filament_VsmShadowOptions>())).lightBleedReduction as *const _
                 as usize
         },
         8usize,
@@ -11023,18 +11041,18 @@ pub struct filament_SoftShadowOptions {
 #[test]
 fn bindgen_test_layout_filament_SoftShadowOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_SoftShadowOptions>(),
+        ::core::mem::size_of::<filament_SoftShadowOptions>(),
         8usize,
         concat!("Size of: ", stringify!(filament_SoftShadowOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_SoftShadowOptions>(),
+        ::core::mem::align_of::<filament_SoftShadowOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_SoftShadowOptions))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_SoftShadowOptions>())).penumbraScale as *const _
+            &(*(::core::ptr::null::<filament_SoftShadowOptions>())).penumbraScale as *const _
                 as usize
         },
         0usize,
@@ -11047,7 +11065,7 @@ fn bindgen_test_layout_filament_SoftShadowOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_SoftShadowOptions>())).penumbraRatioScale as *const _
+            &(*(::core::ptr::null::<filament_SoftShadowOptions>())).penumbraRatioScale as *const _
                 as usize
         },
         4usize,
@@ -11113,18 +11131,18 @@ pub struct filament_RenderableManager_Bone {
 #[test]
 fn bindgen_test_layout_filament_RenderableManager_Bone() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderableManager_Bone>(),
+        ::core::mem::size_of::<filament_RenderableManager_Bone>(),
         32usize,
         concat!("Size of: ", stringify!(filament_RenderableManager_Bone))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderableManager_Bone>(),
+        ::core::mem::align_of::<filament_RenderableManager_Bone>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_RenderableManager_Bone))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Bone>())).unitQuaternion as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Bone>())).unitQuaternion as *const _
                 as usize
         },
         0usize,
@@ -11137,7 +11155,7 @@ fn bindgen_test_layout_filament_RenderableManager_Bone() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Bone>())).translation as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Bone>())).translation as *const _
                 as usize
         },
         16usize,
@@ -11150,7 +11168,7 @@ fn bindgen_test_layout_filament_RenderableManager_Bone() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Bone>())).reserved as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Bone>())).reserved as *const _
                 as usize
         },
         28usize,
@@ -11164,9 +11182,9 @@ fn bindgen_test_layout_filament_RenderableManager_Bone() {
 }
 impl Default for filament_RenderableManager_Bone {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -11198,7 +11216,7 @@ pub struct filament_RenderableManager_Builder_Entry {
 #[test]
 fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderableManager_Builder_Entry>(),
+        ::core::mem::size_of::<filament_RenderableManager_Builder_Entry>(),
         64usize,
         concat!(
             "Size of: ",
@@ -11206,7 +11224,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderableManager_Builder_Entry>(),
+        ::core::mem::align_of::<filament_RenderableManager_Builder_Entry>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -11215,7 +11233,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).vertices
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).vertices
                 as *const _ as usize
         },
         0usize,
@@ -11228,8 +11246,8 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).indices as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).indices
+                as *const _ as usize
         },
         8usize,
         concat!(
@@ -11241,7 +11259,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).offset as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).offset as *const _
                 as usize
         },
         16usize,
@@ -11254,7 +11272,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).minIndex
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).minIndex
                 as *const _ as usize
         },
         24usize,
@@ -11267,7 +11285,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).maxIndex
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).maxIndex
                 as *const _ as usize
         },
         32usize,
@@ -11280,7 +11298,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).count as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).count as *const _
                 as usize
         },
         40usize,
@@ -11293,7 +11311,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).materialInstance
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).materialInstance
                 as *const _ as usize
         },
         48usize,
@@ -11306,7 +11324,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).type_ as *const _
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).type_ as *const _
                 as usize
         },
         56usize,
@@ -11319,7 +11337,7 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_RenderableManager_Builder_Entry>())).blendOrder
+            &(*(::core::ptr::null::<filament_RenderableManager_Builder_Entry>())).blendOrder
                 as *const _ as usize
         },
         58usize,
@@ -11333,9 +11351,9 @@ fn bindgen_test_layout_filament_RenderableManager_Builder_Entry() {
 }
 impl Default for filament_RenderableManager_Builder_Entry {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -11343,12 +11361,12 @@ impl Default for filament_RenderableManager_Builder_Entry {
 #[test]
 fn bindgen_test_layout_filament_RenderableManager_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderableManager_Builder>(),
+        ::core::mem::size_of::<filament_RenderableManager_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_RenderableManager_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderableManager_Builder>(),
+        ::core::mem::align_of::<filament_RenderableManager_Builder>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -11689,9 +11707,9 @@ extern "C" {
 }
 impl Default for filament_RenderableManager_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -11858,13 +11876,13 @@ impl filament_RenderableManager_Builder {
     }
     #[inline]
     pub unsafe fn new(count: size_t) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_RenderableManager_Builder_Builder(__bindgen_tmp.as_mut_ptr(), count);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *mut filament_RenderableManager_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_RenderableManager_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -11889,12 +11907,12 @@ pub type filament_RenderableManager_is_supported_index_type_type = u8;
 #[test]
 fn bindgen_test_layout_filament_RenderableManager() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderableManager>(),
+        ::core::mem::size_of::<filament_RenderableManager>(),
         1usize,
         concat!("Size of: ", stringify!(filament_RenderableManager))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderableManager>(),
+        ::core::mem::align_of::<filament_RenderableManager>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_RenderableManager))
     );
@@ -12563,18 +12581,18 @@ pub struct filament_Renderer_DisplayInfo {
 #[test]
 fn bindgen_test_layout_filament_Renderer_DisplayInfo() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Renderer_DisplayInfo>(),
+        ::core::mem::size_of::<filament_Renderer_DisplayInfo>(),
         24usize,
         concat!("Size of: ", stringify!(filament_Renderer_DisplayInfo))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Renderer_DisplayInfo>(),
+        ::core::mem::align_of::<filament_Renderer_DisplayInfo>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Renderer_DisplayInfo))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_DisplayInfo>())).refreshRate as *const _
+            &(*(::core::ptr::null::<filament_Renderer_DisplayInfo>())).refreshRate as *const _
                 as usize
         },
         0usize,
@@ -12587,7 +12605,7 @@ fn bindgen_test_layout_filament_Renderer_DisplayInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_DisplayInfo>())).presentationDeadlineNanos
+            &(*(::core::ptr::null::<filament_Renderer_DisplayInfo>())).presentationDeadlineNanos
                 as *const _ as usize
         },
         8usize,
@@ -12600,7 +12618,7 @@ fn bindgen_test_layout_filament_Renderer_DisplayInfo() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_DisplayInfo>())).vsyncOffsetNanos as *const _
+            &(*(::core::ptr::null::<filament_Renderer_DisplayInfo>())).vsyncOffsetNanos as *const _
                 as usize
         },
         16usize,
@@ -12647,12 +12665,12 @@ pub struct filament_Renderer_FrameRateOptions {
 #[test]
 fn bindgen_test_layout_filament_Renderer_FrameRateOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Renderer_FrameRateOptions>(),
+        ::core::mem::size_of::<filament_Renderer_FrameRateOptions>(),
         12usize,
         concat!("Size of: ", stringify!(filament_Renderer_FrameRateOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Renderer_FrameRateOptions>(),
+        ::core::mem::align_of::<filament_Renderer_FrameRateOptions>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -12661,8 +12679,8 @@ fn bindgen_test_layout_filament_Renderer_FrameRateOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_FrameRateOptions>())).headRoomRatio as *const _
-                as usize
+            &(*(::core::ptr::null::<filament_Renderer_FrameRateOptions>())).headRoomRatio
+                as *const _ as usize
         },
         0usize,
         concat!(
@@ -12674,7 +12692,7 @@ fn bindgen_test_layout_filament_Renderer_FrameRateOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_FrameRateOptions>())).scaleRate as *const _
+            &(*(::core::ptr::null::<filament_Renderer_FrameRateOptions>())).scaleRate as *const _
                 as usize
         },
         4usize,
@@ -12687,7 +12705,7 @@ fn bindgen_test_layout_filament_Renderer_FrameRateOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_FrameRateOptions>())).history as *const _
+            &(*(::core::ptr::null::<filament_Renderer_FrameRateOptions>())).history as *const _
                 as usize
         },
         8usize,
@@ -12700,7 +12718,7 @@ fn bindgen_test_layout_filament_Renderer_FrameRateOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_FrameRateOptions>())).interval as *const _
+            &(*(::core::ptr::null::<filament_Renderer_FrameRateOptions>())).interval as *const _
                 as usize
         },
         9usize,
@@ -12728,18 +12746,18 @@ pub struct filament_Renderer_ClearOptions {
 #[test]
 fn bindgen_test_layout_filament_Renderer_ClearOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Renderer_ClearOptions>(),
+        ::core::mem::size_of::<filament_Renderer_ClearOptions>(),
         20usize,
         concat!("Size of: ", stringify!(filament_Renderer_ClearOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Renderer_ClearOptions>(),
+        ::core::mem::align_of::<filament_Renderer_ClearOptions>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_Renderer_ClearOptions))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_ClearOptions>())).clearColor as *const _
+            &(*(::core::ptr::null::<filament_Renderer_ClearOptions>())).clearColor as *const _
                 as usize
         },
         0usize,
@@ -12752,7 +12770,7 @@ fn bindgen_test_layout_filament_Renderer_ClearOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_ClearOptions>())).clear as *const _ as usize
+            &(*(::core::ptr::null::<filament_Renderer_ClearOptions>())).clear as *const _ as usize
         },
         16usize,
         concat!(
@@ -12764,7 +12782,7 @@ fn bindgen_test_layout_filament_Renderer_ClearOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Renderer_ClearOptions>())).discard as *const _ as usize
+            &(*(::core::ptr::null::<filament_Renderer_ClearOptions>())).discard as *const _ as usize
         },
         17usize,
         concat!(
@@ -12777,9 +12795,9 @@ fn bindgen_test_layout_filament_Renderer_ClearOptions() {
 }
 impl Default for filament_Renderer_ClearOptions {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -12811,12 +12829,12 @@ pub const filament_Renderer_CLEAR: filament_Renderer_CopyFrameFlag = 4;
 #[test]
 fn bindgen_test_layout_filament_Renderer() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Renderer>(),
+        ::core::mem::size_of::<filament_Renderer>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Renderer))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Renderer>(),
+        ::core::mem::align_of::<filament_Renderer>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Renderer))
     );
@@ -13344,12 +13362,12 @@ pub struct filament_RenderTarget_Builder {
 #[test]
 fn bindgen_test_layout_filament_RenderTarget_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderTarget_Builder>(),
+        ::core::mem::size_of::<filament_RenderTarget_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_RenderTarget_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderTarget_Builder>(),
+        ::core::mem::align_of::<filament_RenderTarget_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_RenderTarget_Builder))
     );
@@ -13453,9 +13471,9 @@ extern "C" {
 }
 impl Default for filament_RenderTarget_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -13499,19 +13517,19 @@ impl filament_RenderTarget_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_RenderTarget_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_RenderTarget_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_RenderTarget_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_RenderTarget_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_RenderTarget_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -13527,12 +13545,12 @@ pub const filament_RenderTarget_MAX_SUPPORTED_COLOR_ATTACHMENTS_COUNT: u8 = 8;
 #[test]
 fn bindgen_test_layout_filament_RenderTarget() {
     assert_eq!(
-        ::std::mem::size_of::<filament_RenderTarget>(),
+        ::core::mem::size_of::<filament_RenderTarget>(),
         1usize,
         concat!("Size of: ", stringify!(filament_RenderTarget))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_RenderTarget>(),
+        ::core::mem::align_of::<filament_RenderTarget>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_RenderTarget))
     );
@@ -13652,12 +13670,12 @@ pub struct filament_Scene {
 #[test]
 fn bindgen_test_layout_filament_Scene() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Scene>(),
+        ::core::mem::size_of::<filament_Scene>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Scene))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Scene>(),
+        ::core::mem::align_of::<filament_Scene>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Scene))
     );
@@ -13765,6 +13783,15 @@ extern "C" {
     #[link_name = "\u{1}_ZNK8filament5Scene9hasEntityEN5utils6EntityE"]
     pub fn filament_Scene_hasEntity(this: *const filament_Scene, entity: utils_Entity) -> bool;
 }
+extern "C" {
+    #[doc = " Invokes user functor on each entity in the scene."]
+    #[doc = ""]
+    #[doc = " It is not allowed to add or remove an entity from the scene within the functor."]
+    #[doc = ""]
+    #[doc = " @param functor User provided functor called for each entity in the scene"]
+    #[link_name = "\u{1}_ZNK8filament5Scene7forEachEON5utils9InvocableIFvNS1_6EntityEEEE"]
+    pub fn filament_Scene_forEach(this: *const filament_Scene, functor: *mut utils_Invocable);
+}
 impl filament_Scene {
     #[inline]
     pub unsafe fn setSkybox(&mut self, skybox: *mut filament_Skybox) {
@@ -13810,6 +13837,10 @@ impl filament_Scene {
     pub unsafe fn hasEntity(&self, entity: utils_Entity) -> bool {
         filament_Scene_hasEntity(self, entity)
     }
+    #[inline]
+    pub unsafe fn forEach(&self, functor: *mut utils_Invocable) {
+        filament_Scene_forEach(self, functor)
+    }
 }
 #[doc = " SkinningBuffer is used to hold skinning data (bones). It is a simple wraper around"]
 #[doc = " a structured UBO."]
@@ -13831,12 +13862,12 @@ pub struct filament_SkinningBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_SkinningBuffer_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_SkinningBuffer_Builder>(),
+        ::core::mem::size_of::<filament_SkinningBuffer_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_SkinningBuffer_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_SkinningBuffer_Builder>(),
+        ::core::mem::align_of::<filament_SkinningBuffer_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_SkinningBuffer_Builder))
     );
@@ -13912,9 +13943,9 @@ extern "C" {
 }
 impl Default for filament_SkinningBuffer_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -13934,19 +13965,19 @@ impl filament_SkinningBuffer_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_SkinningBuffer_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_SkinningBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_SkinningBuffer_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_SkinningBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_SkinningBuffer_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -13958,12 +13989,12 @@ impl filament_SkinningBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_SkinningBuffer() {
     assert_eq!(
-        ::std::mem::size_of::<filament_SkinningBuffer>(),
+        ::core::mem::size_of::<filament_SkinningBuffer>(),
         1usize,
         concat!("Size of: ", stringify!(filament_SkinningBuffer))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_SkinningBuffer>(),
+        ::core::mem::align_of::<filament_SkinningBuffer>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_SkinningBuffer))
     );
@@ -14074,12 +14105,12 @@ pub struct filament_Skybox_Builder {
 #[test]
 fn bindgen_test_layout_filament_Skybox_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Skybox_Builder>(),
+        ::core::mem::size_of::<filament_Skybox_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_Skybox_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Skybox_Builder>(),
+        ::core::mem::align_of::<filament_Skybox_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Skybox_Builder))
     );
@@ -14187,9 +14218,9 @@ extern "C" {
 }
 impl Default for filament_Skybox_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -14220,19 +14251,19 @@ impl filament_Skybox_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Skybox_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_Skybox_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Skybox_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_Skybox_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Skybox_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -14244,12 +14275,12 @@ impl filament_Skybox_Builder {
 #[test]
 fn bindgen_test_layout_filament_Skybox() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Skybox>(),
+        ::core::mem::size_of::<filament_Skybox>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Skybox))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Skybox>(),
+        ::core::mem::align_of::<filament_Skybox>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Skybox))
     );
@@ -14388,12 +14419,12 @@ pub struct filament_Stream_Builder {
 #[test]
 fn bindgen_test_layout_filament_Stream_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Stream_Builder>(),
+        ::core::mem::size_of::<filament_Stream_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_Stream_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Stream_Builder>(),
+        ::core::mem::align_of::<filament_Stream_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Stream_Builder))
     );
@@ -14410,7 +14441,7 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament6Stream7Builder6streamEPv"]
     pub fn filament_Stream_Builder_stream(
         this: *mut filament_Stream_Builder,
-        stream: *mut ::std::os::raw::c_void,
+        stream: *mut ::core::ffi::c_void,
     ) -> *mut filament_Stream_Builder;
 }
 extern "C" {
@@ -14492,9 +14523,9 @@ extern "C" {
 }
 impl Default for filament_Stream_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -14503,7 +14534,7 @@ impl filament_Stream_Builder {
     #[inline]
     pub unsafe fn stream(
         &mut self,
-        stream: *mut ::std::os::raw::c_void,
+        stream: *mut ::core::ffi::c_void,
     ) -> *mut filament_Stream_Builder {
         filament_Stream_Builder_stream(self, stream)
     }
@@ -14525,19 +14556,19 @@ impl filament_Stream_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Stream_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_Stream_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Stream_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_Stream_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Stream_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -14549,12 +14580,12 @@ impl filament_Stream_Builder {
 #[test]
 fn bindgen_test_layout_filament_Stream() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Stream>(),
+        ::core::mem::size_of::<filament_Stream>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Stream))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Stream>(),
+        ::core::mem::align_of::<filament_Stream>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Stream))
     );
@@ -14589,9 +14620,9 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament6Stream16setAcquiredImageEPvPFvS1_S1_ES1_"]
     pub fn filament_Stream_setAcquiredImage(
         this: *mut filament_Stream,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         callback: filament_Stream_Callback,
-        userdata: *mut ::std::os::raw::c_void,
+        userdata: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
@@ -14606,10 +14637,10 @@ extern "C" {
     #[link_name = "\u{1}_ZN8filament6Stream16setAcquiredImageEPvPNS_7backend15CallbackHandlerEPFvS1_S1_ES1_"]
     pub fn filament_Stream_setAcquiredImage1(
         this: *mut filament_Stream,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         handler: *mut filament_backend_CallbackHandler,
         callback: filament_Stream_Callback,
-        userdata: *mut ::std::os::raw::c_void,
+        userdata: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
@@ -14702,19 +14733,19 @@ impl filament_Stream {
     #[inline]
     pub unsafe fn setAcquiredImage(
         &mut self,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         callback: filament_Stream_Callback,
-        userdata: *mut ::std::os::raw::c_void,
+        userdata: *mut ::core::ffi::c_void,
     ) {
         filament_Stream_setAcquiredImage(self, image, callback, userdata)
     }
     #[inline]
     pub unsafe fn setAcquiredImage1(
         &mut self,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         handler: *mut filament_backend_CallbackHandler,
         callback: filament_Stream_Callback,
-        userdata: *mut ::std::os::raw::c_void,
+        userdata: *mut ::core::ffi::c_void,
     ) {
         filament_Stream_setAcquiredImage1(self, image, handler, callback, userdata)
     }
@@ -14884,12 +14915,12 @@ pub const filament_SwapChain_CONFIG_APPLE_CVPIXELBUFFER: u64 = 8;
 #[test]
 fn bindgen_test_layout_filament_SwapChain() {
     assert_eq!(
-        ::std::mem::size_of::<filament_SwapChain>(),
+        ::core::mem::size_of::<filament_SwapChain>(),
         1usize,
         concat!("Size of: ", stringify!(filament_SwapChain))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_SwapChain>(),
+        ::core::mem::align_of::<filament_SwapChain>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_SwapChain))
     );
@@ -14898,7 +14929,7 @@ extern "C" {
     #[link_name = "\u{1}_ZNK8filament9SwapChain15getNativeWindowEv"]
     pub fn filament_SwapChain_getNativeWindow(
         this: *const filament_SwapChain,
-    ) -> *mut ::std::os::raw::c_void;
+    ) -> *mut ::core::ffi::c_void;
 }
 extern "C" {
     #[doc = " FrameScheduledCallback is a callback function that notifies an application when Filament has"]
@@ -14928,7 +14959,7 @@ extern "C" {
     pub fn filament_SwapChain_setFrameScheduledCallback(
         this: *mut filament_SwapChain,
         callback: filament_SwapChain_FrameScheduledCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
@@ -14949,19 +14980,19 @@ extern "C" {
     pub fn filament_SwapChain_setFrameCompletedCallback(
         this: *mut filament_SwapChain,
         callback: filament_SwapChain_FrameCompletedCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     );
 }
 impl filament_SwapChain {
     #[inline]
-    pub unsafe fn getNativeWindow(&self) -> *mut ::std::os::raw::c_void {
+    pub unsafe fn getNativeWindow(&self) -> *mut ::core::ffi::c_void {
         filament_SwapChain_getNativeWindow(self)
     }
     #[inline]
     pub unsafe fn setFrameScheduledCallback(
         &mut self,
         callback: filament_SwapChain_FrameScheduledCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     ) {
         filament_SwapChain_setFrameScheduledCallback(self, callback, user)
     }
@@ -14969,7 +15000,7 @@ impl filament_SwapChain {
     pub unsafe fn setFrameCompletedCallback(
         &mut self,
         callback: filament_SwapChain_FrameCompletedCallback,
-        user: *mut ::std::os::raw::c_void,
+        user: *mut ::core::ffi::c_void,
     ) {
         filament_SwapChain_setFrameCompletedCallback(self, callback, user)
     }
@@ -15121,12 +15152,12 @@ pub struct filament_Texture_PrefilterOptions {
 #[test]
 fn bindgen_test_layout_filament_Texture_PrefilterOptions() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Texture_PrefilterOptions>(),
+        ::core::mem::size_of::<filament_Texture_PrefilterOptions>(),
         32usize,
         concat!("Size of: ", stringify!(filament_Texture_PrefilterOptions))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Texture_PrefilterOptions>(),
+        ::core::mem::align_of::<filament_Texture_PrefilterOptions>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -15135,7 +15166,7 @@ fn bindgen_test_layout_filament_Texture_PrefilterOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Texture_PrefilterOptions>())).sampleCount as *const _
+            &(*(::core::ptr::null::<filament_Texture_PrefilterOptions>())).sampleCount as *const _
                 as usize
         },
         0usize,
@@ -15148,7 +15179,7 @@ fn bindgen_test_layout_filament_Texture_PrefilterOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Texture_PrefilterOptions>())).mirror as *const _
+            &(*(::core::ptr::null::<filament_Texture_PrefilterOptions>())).mirror as *const _
                 as usize
         },
         2usize,
@@ -15161,7 +15192,7 @@ fn bindgen_test_layout_filament_Texture_PrefilterOptions() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_Texture_PrefilterOptions>())).reserved as *const _
+            &(*(::core::ptr::null::<filament_Texture_PrefilterOptions>())).reserved as *const _
                 as usize
         },
         8usize,
@@ -15182,12 +15213,12 @@ pub struct filament_Texture_Builder {
 #[test]
 fn bindgen_test_layout_filament_Texture_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Texture_Builder>(),
+        ::core::mem::size_of::<filament_Texture_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_Texture_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Texture_Builder>(),
+        ::core::mem::align_of::<filament_Texture_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_Texture_Builder))
     );
@@ -15371,9 +15402,9 @@ extern "C" {
 }
 impl Default for filament_Texture_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -15433,19 +15464,19 @@ impl filament_Texture_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Texture_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_Texture_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Texture_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_Texture_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_Texture_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -15458,12 +15489,12 @@ pub const filament_Texture_BASE_LEVEL: size_t = 0;
 #[test]
 fn bindgen_test_layout_filament_Texture() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Texture>(),
+        ::core::mem::size_of::<filament_Texture>(),
         1usize,
         concat!("Size of: ", stringify!(filament_Texture))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Texture>(),
+        ::core::mem::align_of::<filament_Texture>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_Texture))
     );
@@ -15689,7 +15720,7 @@ extern "C" {
     pub fn filament_Texture_setExternalImage(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
     );
 }
 extern "C" {
@@ -15724,7 +15755,7 @@ extern "C" {
     pub fn filament_Texture_setExternalImage1(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         plane: size_t,
     );
 }
@@ -15906,7 +15937,7 @@ impl filament_Texture {
     pub unsafe fn setExternalImage(
         &mut self,
         engine: *mut filament_Engine,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
     ) {
         filament_Texture_setExternalImage(self, engine, image)
     }
@@ -15914,7 +15945,7 @@ impl filament_Texture {
     pub unsafe fn setExternalImage1(
         &mut self,
         engine: *mut filament_Engine,
-        image: *mut ::std::os::raw::c_void,
+        image: *mut ::core::ffi::c_void,
         plane: size_t,
     ) {
         filament_Texture_setExternalImage1(self, engine, image, plane)
@@ -15961,18 +15992,18 @@ pub use self::filament_backend_SamplerWrapMode as filament_TextureSampler_WrapMo
 #[test]
 fn bindgen_test_layout_filament_TextureSampler() {
     assert_eq!(
-        ::std::mem::size_of::<filament_TextureSampler>(),
+        ::core::mem::size_of::<filament_TextureSampler>(),
         4usize,
         concat!("Size of: ", stringify!(filament_TextureSampler))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_TextureSampler>(),
+        ::core::mem::align_of::<filament_TextureSampler>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_TextureSampler))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TextureSampler>())).mSamplerParams as *const _ as usize
+            &(*(::core::ptr::null::<filament_TextureSampler>())).mSamplerParams as *const _ as usize
         },
         0usize,
         concat!(
@@ -15985,9 +16016,9 @@ fn bindgen_test_layout_filament_TextureSampler() {
 }
 impl Default for filament_TextureSampler {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -16036,7 +16067,7 @@ pub struct filament_TransformManager_children_iterator {
 #[test]
 fn bindgen_test_layout_filament_TransformManager_children_iterator() {
     assert_eq!(
-        ::std::mem::size_of::<filament_TransformManager_children_iterator>(),
+        ::core::mem::size_of::<filament_TransformManager_children_iterator>(),
         16usize,
         concat!(
             "Size of: ",
@@ -16044,7 +16075,7 @@ fn bindgen_test_layout_filament_TransformManager_children_iterator() {
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_TransformManager_children_iterator>(),
+        ::core::mem::align_of::<filament_TransformManager_children_iterator>(),
         8usize,
         concat!(
             "Alignment of ",
@@ -16053,7 +16084,7 @@ fn bindgen_test_layout_filament_TransformManager_children_iterator() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TransformManager_children_iterator>())).mManager
+            &(*(::core::ptr::null::<filament_TransformManager_children_iterator>())).mManager
                 as *const _ as usize
         },
         0usize,
@@ -16066,7 +16097,7 @@ fn bindgen_test_layout_filament_TransformManager_children_iterator() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_TransformManager_children_iterator>())).mInstance
+            &(*(::core::ptr::null::<filament_TransformManager_children_iterator>())).mInstance
                 as *const _ as usize
         },
         8usize,
@@ -16080,9 +16111,9 @@ fn bindgen_test_layout_filament_TransformManager_children_iterator() {
 }
 impl Default for filament_TransformManager_children_iterator {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -16090,12 +16121,12 @@ impl Default for filament_TransformManager_children_iterator {
 #[test]
 fn bindgen_test_layout_filament_TransformManager() {
     assert_eq!(
-        ::std::mem::size_of::<filament_TransformManager>(),
+        ::core::mem::size_of::<filament_TransformManager>(),
         1usize,
         concat!("Size of: ", stringify!(filament_TransformManager))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_TransformManager>(),
+        ::core::mem::align_of::<filament_TransformManager>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_TransformManager))
     );
@@ -16564,12 +16595,12 @@ pub struct filament_VertexBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_VertexBuffer_Builder() {
     assert_eq!(
-        ::std::mem::size_of::<filament_VertexBuffer_Builder>(),
+        ::core::mem::size_of::<filament_VertexBuffer_Builder>(),
         8usize,
         concat!("Size of: ", stringify!(filament_VertexBuffer_Builder))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_VertexBuffer_Builder>(),
+        ::core::mem::align_of::<filament_VertexBuffer_Builder>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_VertexBuffer_Builder))
     );
@@ -16709,9 +16740,9 @@ extern "C" {
 }
 impl Default for filament_VertexBuffer_Builder {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -16764,19 +16795,19 @@ impl filament_VertexBuffer_Builder {
     }
     #[inline]
     pub unsafe fn new() -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_VertexBuffer_Builder_Builder(__bindgen_tmp.as_mut_ptr());
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new1(rhs: *const filament_VertexBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_VertexBuffer_Builder_Builder1(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
     #[inline]
     pub unsafe fn new2(rhs: *mut filament_VertexBuffer_Builder) -> Self {
-        let mut __bindgen_tmp = ::std::mem::MaybeUninit::uninit();
+        let mut __bindgen_tmp = ::core::mem::MaybeUninit::uninit();
         filament_VertexBuffer_Builder_Builder2(__bindgen_tmp.as_mut_ptr(), rhs);
         __bindgen_tmp.assume_init()
     }
@@ -16788,12 +16819,12 @@ impl filament_VertexBuffer_Builder {
 #[test]
 fn bindgen_test_layout_filament_VertexBuffer() {
     assert_eq!(
-        ::std::mem::size_of::<filament_VertexBuffer>(),
+        ::core::mem::size_of::<filament_VertexBuffer>(),
         1usize,
         concat!("Size of: ", stringify!(filament_VertexBuffer))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_VertexBuffer>(),
+        ::core::mem::align_of::<filament_VertexBuffer>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_VertexBuffer))
     );
@@ -17022,12 +17053,12 @@ pub struct filament_View_PickingQueryResult {
 #[test]
 fn bindgen_test_layout_filament_View_PickingQueryResult() {
     assert_eq!(
-        ::std::mem::size_of::<filament_View_PickingQueryResult>(),
+        ::core::mem::size_of::<filament_View_PickingQueryResult>(),
         28usize,
         concat!("Size of: ", stringify!(filament_View_PickingQueryResult))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_View_PickingQueryResult>(),
+        ::core::mem::align_of::<filament_View_PickingQueryResult>(),
         4usize,
         concat!(
             "Alignment of ",
@@ -17036,7 +17067,7 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQueryResult>())).renderable as *const _
+            &(*(::core::ptr::null::<filament_View_PickingQueryResult>())).renderable as *const _
                 as usize
         },
         0usize,
@@ -17049,7 +17080,7 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQueryResult>())).depth as *const _ as usize
+            &(*(::core::ptr::null::<filament_View_PickingQueryResult>())).depth as *const _ as usize
         },
         4usize,
         concat!(
@@ -17061,7 +17092,7 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQueryResult>())).reserved1 as *const _
+            &(*(::core::ptr::null::<filament_View_PickingQueryResult>())).reserved1 as *const _
                 as usize
         },
         8usize,
@@ -17074,7 +17105,7 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQueryResult>())).reserved2 as *const _
+            &(*(::core::ptr::null::<filament_View_PickingQueryResult>())).reserved2 as *const _
                 as usize
         },
         12usize,
@@ -17087,7 +17118,7 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQueryResult>())).fragCoords as *const _
+            &(*(::core::ptr::null::<filament_View_PickingQueryResult>())).fragCoords as *const _
                 as usize
         },
         16usize,
@@ -17101,9 +17132,9 @@ fn bindgen_test_layout_filament_View_PickingQueryResult() {
 }
 impl Default for filament_View_PickingQueryResult {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -17112,23 +17143,23 @@ impl Default for filament_View_PickingQueryResult {
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct filament_View_PickingQuery {
-    pub storage: [*mut ::std::os::raw::c_void; 4usize],
+    pub storage: [*mut ::core::ffi::c_void; 4usize],
 }
 #[test]
 fn bindgen_test_layout_filament_View_PickingQuery() {
     assert_eq!(
-        ::std::mem::size_of::<filament_View_PickingQuery>(),
+        ::core::mem::size_of::<filament_View_PickingQuery>(),
         32usize,
         concat!("Size of: ", stringify!(filament_View_PickingQuery))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_View_PickingQuery>(),
+        ::core::mem::align_of::<filament_View_PickingQuery>(),
         8usize,
         concat!("Alignment of ", stringify!(filament_View_PickingQuery))
     );
     assert_eq!(
         unsafe {
-            &(*(::std::ptr::null::<filament_View_PickingQuery>())).storage as *const _ as usize
+            &(*(::core::ptr::null::<filament_View_PickingQuery>())).storage as *const _ as usize
         },
         0usize,
         concat!(
@@ -17141,15 +17172,15 @@ fn bindgen_test_layout_filament_View_PickingQuery() {
 }
 impl Default for filament_View_PickingQuery {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
 }
 #[doc = " callback type used for picking queries."]
-pub type filament_View_PickingQueryResultCallback = ::std::option::Option<
+pub type filament_View_PickingQueryResultCallback = ::core::option::Option<
     unsafe extern "C" fn(
         result: *const filament_View_PickingQueryResult,
         pq: *mut filament_View_PickingQuery,
@@ -17165,12 +17196,12 @@ pub type filament_View_AmbientOcclusion = u8;
 #[test]
 fn bindgen_test_layout_filament_View() {
     assert_eq!(
-        ::std::mem::size_of::<filament_View>(),
+        ::core::mem::size_of::<filament_View>(),
         1usize,
         concat!("Size of: ", stringify!(filament_View))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_View>(),
+        ::core::mem::align_of::<filament_View>(),
         1usize,
         concat!("Alignment of ", stringify!(filament_View))
     );
@@ -18114,12 +18145,12 @@ pub struct filament_Viewport {
 #[test]
 fn bindgen_test_layout_filament_Viewport() {
     assert_eq!(
-        ::std::mem::size_of::<filament_Viewport>(),
+        ::core::mem::size_of::<filament_Viewport>(),
         16usize,
         concat!("Size of: ", stringify!(filament_Viewport))
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_Viewport>(),
+        ::core::mem::align_of::<filament_Viewport>(),
         4usize,
         concat!("Alignment of ", stringify!(filament_Viewport))
     );
@@ -18166,17 +18197,17 @@ pub type utils_Entity_Type = u32;
 #[test]
 fn bindgen_test_layout_utils_Entity() {
     assert_eq!(
-        ::std::mem::size_of::<utils_Entity>(),
+        ::core::mem::size_of::<utils_Entity>(),
         4usize,
         concat!("Size of: ", stringify!(utils_Entity))
     );
     assert_eq!(
-        ::std::mem::align_of::<utils_Entity>(),
+        ::core::mem::align_of::<utils_Entity>(),
         4usize,
         concat!("Alignment of ", stringify!(utils_Entity))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<utils_Entity>())).mIdentity as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<utils_Entity>())).mIdentity as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -18187,12 +18218,17 @@ fn bindgen_test_layout_utils_Entity() {
     );
 }
 #[repr(C)]
+#[derive(Debug, Default, Copy, Clone)]
+pub struct utils_Invocable {
+    pub _address: u8,
+}
+#[repr(C)]
 #[derive(Debug)]
 pub struct utils_EntityManager {
     pub mGens: *mut u8,
 }
 #[repr(C)]
-pub struct utils_EntityManager_Listener__bindgen_vtable(::std::os::raw::c_void);
+pub struct utils_EntityManager_Listener__bindgen_vtable(::core::ffi::c_void);
 #[repr(C)]
 #[derive(Debug)]
 pub struct utils_EntityManager_Listener {
@@ -18201,12 +18237,12 @@ pub struct utils_EntityManager_Listener {
 #[test]
 fn bindgen_test_layout_utils_EntityManager_Listener() {
     assert_eq!(
-        ::std::mem::size_of::<utils_EntityManager_Listener>(),
+        ::core::mem::size_of::<utils_EntityManager_Listener>(),
         8usize,
         concat!("Size of: ", stringify!(utils_EntityManager_Listener))
     );
     assert_eq!(
-        ::std::mem::align_of::<utils_EntityManager_Listener>(),
+        ::core::mem::align_of::<utils_EntityManager_Listener>(),
         8usize,
         concat!("Alignment of ", stringify!(utils_EntityManager_Listener))
     );
@@ -18219,9 +18255,9 @@ extern "C" {
 }
 impl Default for utils_EntityManager_Listener {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -18238,17 +18274,17 @@ pub const utils_EntityManager_INDEX_MASK: utils_Entity_Type = 131071;
 #[test]
 fn bindgen_test_layout_utils_EntityManager() {
     assert_eq!(
-        ::std::mem::size_of::<utils_EntityManager>(),
+        ::core::mem::size_of::<utils_EntityManager>(),
         8usize,
         concat!("Size of: ", stringify!(utils_EntityManager))
     );
     assert_eq!(
-        ::std::mem::align_of::<utils_EntityManager>(),
+        ::core::mem::align_of::<utils_EntityManager>(),
         8usize,
         concat!("Alignment of ", stringify!(utils_EntityManager))
     );
     assert_eq!(
-        unsafe { &(*(::std::ptr::null::<utils_EntityManager>())).mGens as *const _ as usize },
+        unsafe { &(*(::core::ptr::null::<utils_EntityManager>())).mGens as *const _ as usize },
         0usize,
         concat!(
             "Offset of field: ",
@@ -18294,9 +18330,9 @@ extern "C" {
 }
 impl Default for utils_EntityManager {
     fn default() -> Self {
-        let mut s = ::std::mem::MaybeUninit::<Self>::uninit();
+        let mut s = ::core::mem::MaybeUninit::<Self>::uninit();
         unsafe {
-            ::std::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
+            ::core::ptr::write_bytes(s.as_mut_ptr(), 0, 1);
             s.assume_init()
         }
     }
@@ -18327,7 +18363,7 @@ impl utils_EntityManager {
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_BufferObject_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_BufferObject_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_BufferObject_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18335,7 +18371,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_BufferObject_Builde
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_BufferObject_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_BufferObject_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18347,7 +18383,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_BufferObject_Builde
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_ColorGrading_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_ColorGrading_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_ColorGrading_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18355,7 +18391,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_ColorGrading_Builde
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_ColorGrading_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_ColorGrading_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18367,7 +18403,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_ColorGrading_Builde
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndexBuffer_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_IndexBuffer_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_IndexBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18375,7 +18411,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndexBuffer_Builder
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_IndexBuffer_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_IndexBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18387,7 +18423,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndexBuffer_Builder
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndirectLight_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_IndirectLight_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_IndirectLight_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18395,7 +18431,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndirectLight_Build
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_IndirectLight_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_IndirectLight_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18407,7 +18443,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_IndirectLight_Build
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_LightManager_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_LightManager_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_LightManager_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18415,7 +18451,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_LightManager_Builde
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_LightManager_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_LightManager_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18427,7 +18463,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_LightManager_Builde
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Material_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_Material_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_Material_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18435,7 +18471,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Material_BuilderDet
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_Material_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_Material_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18447,7 +18483,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Material_BuilderDet
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_MorphTargetBuffer_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_MorphTargetBuffer_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_MorphTargetBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18455,7 +18491,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_MorphTargetBuffer_B
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_MorphTargetBuffer_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_MorphTargetBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18467,7 +18503,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_MorphTargetBuffer_B
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderableManager_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_RenderableManager_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_RenderableManager_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18475,7 +18511,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderableManager_B
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_RenderableManager_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_RenderableManager_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18487,7 +18523,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderableManager_B
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderTarget_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_RenderTarget_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_RenderTarget_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18495,7 +18531,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderTarget_Builde
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_RenderTarget_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_RenderTarget_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18507,7 +18543,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_RenderTarget_Builde
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_SkinningBuffer_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_SkinningBuffer_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_SkinningBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18515,7 +18551,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_SkinningBuffer_Buil
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_SkinningBuffer_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_SkinningBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18527,7 +18563,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_SkinningBuffer_Buil
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Skybox_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_Skybox_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_Skybox_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18535,7 +18571,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Skybox_BuilderDetai
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_Skybox_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_Skybox_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18547,7 +18583,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Skybox_BuilderDetai
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Stream_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_Stream_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_Stream_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18555,7 +18591,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Stream_BuilderDetai
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_Stream_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_Stream_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18567,7 +18603,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Stream_BuilderDetai
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Texture_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_Texture_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_Texture_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18575,7 +18611,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Texture_BuilderDeta
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_Texture_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_Texture_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18587,7 +18623,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_Texture_BuilderDeta
 fn __bindgen_test_layout_std_iterator_open0_std_forward_iterator_tag_filament_TransformManager_Instance_long_ptr_EntityInstance_ref_EntityInstance_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<std_iterator>(),
+        ::core::mem::size_of::<std_iterator>(),
         1usize,
         concat!(
             "Size of template specialization: ",
@@ -18595,7 +18631,7 @@ fn __bindgen_test_layout_std_iterator_open0_std_forward_iterator_tag_filament_Tr
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<std_iterator>(),
+        ::core::mem::align_of::<std_iterator>(),
         1usize,
         concat!(
             "Alignment of template specialization: ",
@@ -18607,7 +18643,7 @@ fn __bindgen_test_layout_std_iterator_open0_std_forward_iterator_tag_filament_Tr
 fn __bindgen_test_layout_filament_BuilderBase_open0_filament_VertexBuffer_BuilderDetails_close0_instantiation(
 ) {
     assert_eq!(
-        ::std::mem::size_of::<filament_BuilderBase<filament_VertexBuffer_BuilderDetails>>(),
+        ::core::mem::size_of::<filament_BuilderBase<filament_VertexBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Size of template specialization: ",
@@ -18615,7 +18651,7 @@ fn __bindgen_test_layout_filament_BuilderBase_open0_filament_VertexBuffer_Builde
         )
     );
     assert_eq!(
-        ::std::mem::align_of::<filament_BuilderBase<filament_VertexBuffer_BuilderDetails>>(),
+        ::core::mem::align_of::<filament_BuilderBase<filament_VertexBuffer_BuilderDetails>>(),
         8usize,
         concat!(
             "Alignment of template specialization: ",
