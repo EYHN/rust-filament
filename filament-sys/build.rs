@@ -14,6 +14,17 @@ use build_support::{download, Target};
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::{Deserialize, Serialize};
 
+#[cfg(not(target_os = "windows"))]
+fn path_regex_escape(path: impl AsRef<str>) -> String {
+    regex::escape(path.as_ref())
+}
+
+#[cfg(target_os = "windows")]
+fn path_regex_escape(path: impl AsRef<str>) -> String {
+    let re = regex::Regex::new(r"[/\\]+").unwrap();
+    re.split(path.as_ref()).map(|segment| regex::escape(segment)).collect::<Vec<String>>().join(r"[/\\]+")
+}
+
 fn build_from_source<P>(filament_source_dir: P, target: Target) -> BuildManifest
 where
     P: AsRef<Path>,
@@ -42,6 +53,7 @@ where
         .arg(format!("-DFILAMENT_SKIP_SAMPLES={}", "ON"))
         .arg(format!("-DFILAMENT_SKIP_SDL2={}", "ON"))
         .arg(format!("-USE_STATIC_LIBCXX={}", "OFF"))
+        .arg(format!("-DFILAMENT_SUPPORTS_VULKAN={}", "ON"))
         .arg(format!(
             "-DCMAKE_INSTALL_PREFIX={}",
             install_dir.to_str().unwrap()
@@ -119,13 +131,13 @@ where
         .raw_line("#![allow(non_snake_case)]")
         .raw_line("include!(\"fix.rs\");")
         .allowlist_type("filament::Engine")
-        .blocklist_file(regex::escape(filament_include.join("math").join("vec2.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("vec3.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("vec4.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("quat.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("mat2.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("mat3.h").to_str().unwrap()))
-        .blocklist_file(regex::escape(filament_include.join("math").join("mat4.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec2.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec3.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec4.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("quat.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat2.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat3.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat4.h").to_str().unwrap()))
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
