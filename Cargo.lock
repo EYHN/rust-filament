@@ -178,7 +178,6 @@ version = "0.1.0"
 dependencies = [
  "bindgen",
  "flate2",
- "link-cplusplus",
  "num_cpus",
  "regex",
  "serde",
@@ -294,15 +293,6 @@ checksum = "efbc0f03f9a775e9f6aed295c6a1ba2253c5757a9e03d55c6caa46a681abcddd"
 dependencies = [
  "cfg-if",
  "winapi",
-]
-
-[[package]]
-name = "link-cplusplus"
-version = "1.0.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f8cae2cd7ba2f3f63938b9c724475dfb7b9861b545a90324476324ed21dbc8c8"
-dependencies = [
- "cc",
 ]
 
 [[package]]

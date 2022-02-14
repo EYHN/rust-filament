@@ -127,11 +127,12 @@ fn bindgen_test_layout_std_forward_iterator_tag() {
 pub struct std_iterator {
     pub _address: u8,
 }
-pub type std_iterator_iterator_category<_Category> = _Category;
 pub type std_iterator_value_type<_Tp> = _Tp;
 pub type std_iterator_difference_type<_Distance> = _Distance;
 pub type std_iterator_pointer<_Pointer> = _Pointer;
 pub type std_iterator_reference<_Reference> = _Reference;
+pub type std_iterator_iterator_category<_Category> = _Category;
+pub type size_t = ::std::os::raw::c_ulong;
 #[repr(C)]
 #[derive(Debug, Default, Copy, Clone)]
 pub struct filament_math_details_TVecAddOperators {
@@ -371,7 +372,7 @@ fn bindgen_test_layout_filament_backend_PresentCallable() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7backend15PresentCallableC1EPFvbPvES2_"]
+    #[link_name = "\u{1}__ZN8filament7backend15PresentCallableC1EPFvbPvES2_"]
     pub fn filament_backend_PresentCallable_PresentCallable(
         this: *mut filament_backend_PresentCallable,
         fn_: filament_backend_PresentCallable_PresentFn,
@@ -1782,7 +1783,7 @@ impl Default for filament_backend_Platform {
     }
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7backend8PlatformD1Ev"]
+    #[link_name = "\u{1}__ZN8filament7backend8PlatformD1Ev"]
     pub fn filament_backend_Platform_Platform_destructor(this: *mut filament_backend_Platform);
 }
 #[doc = " A descriptor to an image in main memory, typically used to transfer image data from the CPU"]
@@ -2137,7 +2138,7 @@ impl Default for filament_backend_CallbackHandler {
     }
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7backend15CallbackHandlerD1Ev"]
+    #[link_name = "\u{1}__ZN8filament7backend15CallbackHandlerD1Ev"]
     pub fn filament_backend_CallbackHandler_CallbackHandler_destructor(
         this: *mut filament_backend_CallbackHandler,
     );
@@ -2193,7 +2194,7 @@ extern "C" {
     #[doc = " Size of the buffer in bytes."]
     #[doc = " @param byteCount Maximum number of bytes the BufferObject can hold."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12BufferObject7Builder4sizeEj"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7Builder4sizeEj"]
     pub fn filament_BufferObject_Builder_size(
         this: *mut filament_BufferObject_Builder,
         byteCount: u32,
@@ -2203,7 +2204,7 @@ extern "C" {
     #[doc = " The binding type for this buffer object. (defaults to VERTEX)"]
     #[doc = " @param BindingType Distinguishes between SSBO, VBO, etc. For now this must be VERTEX."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12BufferObject7Builder11bindingTypeENS_7backend19BufferObjectBindingE"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7Builder11bindingTypeENS_7backend19BufferObjectBindingE"]
     pub fn filament_BufferObject_Builder_bindingType(
         this: *mut filament_BufferObject_Builder,
         bindingType: filament_BufferObject_BindingType,
@@ -2223,32 +2224,32 @@ extern "C" {
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
     #[doc = ""]
     #[doc = " @see IndexBuffer::setBuffer"]
-    #[link_name = "\u{1}_ZN8filament12BufferObject7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7Builder5buildERNS_6EngineE"]
     pub fn filament_BufferObject_Builder_build(
         this: *mut filament_BufferObject_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_BufferObject;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12BufferObject7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7BuilderC1Ev"]
     pub fn filament_BufferObject_Builder_Builder(this: *mut filament_BufferObject_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12BufferObject7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7BuilderC1ERKS1_"]
     pub fn filament_BufferObject_Builder_Builder1(
         this: *mut filament_BufferObject_Builder,
         rhs: *const filament_BufferObject_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12BufferObject7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7BuilderC1EOS1_"]
     pub fn filament_BufferObject_Builder_Builder2(
         this: *mut filament_BufferObject_Builder,
         rhs: *mut filament_BufferObject_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12BufferObject7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject7BuilderD1Ev"]
     pub fn filament_BufferObject_Builder_Builder_destructor(
         this: *mut filament_BufferObject_Builder,
     );
@@ -2320,7 +2321,7 @@ extern "C" {
     #[doc = " @param engine Reference to the filament::Engine associated with this BufferObject."]
     #[doc = " @param buffer A BufferDescriptor representing the data used to initialize the BufferObject."]
     #[doc = " @param byteOffset Offset in bytes into the BufferObject"]
-    #[link_name = "\u{1}_ZN8filament12BufferObject9setBufferERNS_6EngineEONS_7backend16BufferDescriptorEj"]
+    #[link_name = "\u{1}__ZN8filament12BufferObject9setBufferERNS_6EngineEONS_7backend16BufferDescriptorEj"]
     pub fn filament_BufferObject_setBuffer(
         this: *mut filament_BufferObject,
         engine: *mut filament_Engine,
@@ -2331,7 +2332,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the size of this BufferObject in elements."]
     #[doc = " @return The maximum capacity of the BufferObject."]
-    #[link_name = "\u{1}_ZNK8filament12BufferObject12getByteCountEv"]
+    #[link_name = "\u{1}__ZNK8filament12BufferObject12getByteCountEv"]
     pub fn filament_BufferObject_getByteCount(this: *const filament_BufferObject) -> size_t;
 }
 impl filament_BufferObject {
@@ -2501,7 +2502,7 @@ extern "C" {
     #[doc = " @attention these parameters are silently modified to meet the preconditions above."]
     #[doc = ""]
     #[doc = " @see Projection, Frustum"]
-    #[link_name = "\u{1}_ZN8filament6Camera13setProjectionENS0_10ProjectionEdddddd"]
+    #[link_name = "\u{1}__ZN8filament6Camera13setProjectionENS0_10ProjectionEdddddd"]
     pub fn filament_Camera_setProjection(
         this: *mut filament_Camera,
         projection: filament_Camera_Projection,
@@ -2523,7 +2524,7 @@ extern "C" {
     #[doc = " @param direction    direction of the \\p fovInDegrees parameter."]
     #[doc = ""]
     #[doc = " @see Fov."]
-    #[link_name = "\u{1}_ZN8filament6Camera13setProjectionEddddNS0_3FovE"]
+    #[link_name = "\u{1}__ZN8filament6Camera13setProjectionEddddNS0_3FovE"]
     pub fn filament_Camera_setProjection1(
         this: *mut filament_Camera,
         fovInDegrees: f64,
@@ -2540,7 +2541,7 @@ extern "C" {
     #[doc = " @param aspect      aspect ratio \\f$ \\frac{width}{height} \\f$. \\p aspect > 0."]
     #[doc = " @param near        distance in world units from the camera to the near plane. \\p near > 0."]
     #[doc = " @param far         distance in world units from the camera to the far plane. \\p far > \\p near."]
-    #[link_name = "\u{1}_ZN8filament6Camera17setLensProjectionEdddd"]
+    #[link_name = "\u{1}__ZN8filament6Camera17setLensProjectionEdddd"]
     pub fn filament_Camera_setLensProjection(
         this: *mut filament_Camera,
         focalLengthInMillimeters: f64,
@@ -2564,7 +2565,7 @@ extern "C" {
     #[doc = " @param projection  custom projection matrix used for rendering and culling"]
     #[doc = " @param near        distance in world units from the camera to the near plane. \\p near > 0."]
     #[doc = " @param far         distance in world units from the camera to the far plane. \\p far > \\p near."]
-    #[link_name = "\u{1}_ZN8filament6Camera19setCustomProjectionERKNS_4math7details6TMat44IdEEdd"]
+    #[link_name = "\u{1}__ZN8filament6Camera19setCustomProjectionERKNS_4math7details6TMat44IdEEdd"]
     pub fn filament_Camera_setCustomProjection(
         this: *mut filament_Camera,
         projection: *const filament_math_mat4,
@@ -2588,7 +2589,7 @@ extern "C" {
     #[doc = " @param projectionForCulling  custom projection matrix used for culling"]
     #[doc = " @param near        distance in world units from the camera to the near plane. \\p near > 0."]
     #[doc = " @param far         distance in world units from the camera to the far plane. \\p far > \\p near."]
-    #[link_name = "\u{1}_ZN8filament6Camera19setCustomProjectionERKNS_4math7details6TMat44IdEES6_dd"]
+    #[link_name = "\u{1}__ZN8filament6Camera19setCustomProjectionERKNS_4math7details6TMat44IdEES6_dd"]
     pub fn filament_Camera_setCustomProjection1(
         this: *mut filament_Camera,
         projection: *const filament_math_mat4,
@@ -2618,7 +2619,7 @@ extern "C" {
     #[doc = " @param scaling     diagonal of the 2x2 scaling matrix to be applied after the projection matrix."]
     #[doc = ""]
     #[doc = " @see setProjection, setLensProjection, setCustomProjection"]
-    #[link_name = "\u{1}_ZN8filament6Camera10setScalingENS_4math7details5TVec2IdEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera10setScalingENS_4math7details5TVec2IdEE"]
     pub fn filament_Camera_setScaling(this: *mut filament_Camera, scaling: filament_math_double2);
 }
 extern "C" {
@@ -2630,7 +2631,7 @@ extern "C" {
     #[doc = "                  shift must be scaled by 1.0 / { viewport.width, viewport.height }."]
     #[doc = ""]
     #[doc = " @see setProjection, setLensProjection, setCustomProjection"]
-    #[link_name = "\u{1}_ZN8filament6Camera8setShiftENS_4math7details5TVec2IdEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera8setShiftENS_4math7details5TVec2IdEE"]
     pub fn filament_Camera_setShift(this: *mut filament_Camera, shift: filament_math_double2);
 }
 extern "C" {
@@ -2639,7 +2640,7 @@ extern "C" {
     #[doc = " @return the diagonal of the scaling matrix applied after the projection matrix."]
     #[doc = ""]
     #[doc = " @see setScaling"]
-    #[link_name = "\u{1}_ZNK8filament6Camera10getScalingEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera10getScalingEv"]
     pub fn filament_Camera_getScaling(this: *const filament_Camera) -> filament_math_double4;
 }
 extern "C" {
@@ -2648,7 +2649,7 @@ extern "C" {
     #[doc = " @return the 2D translation x and y offsets applied after the projection matrix."]
     #[doc = ""]
     #[doc = " @see setShift"]
-    #[link_name = "\u{1}_ZNK8filament6Camera8getShiftEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera8getShiftEv"]
     pub fn filament_Camera_getShift(this: *const filament_Camera) -> filament_math_double2;
 }
 extern "C" {
@@ -2660,7 +2661,7 @@ extern "C" {
     #[doc = " @return The projection matrix used for rendering"]
     #[doc = ""]
     #[doc = " @see setProjection, setLensProjection, setCustomProjection, getCullingProjectionMatrix"]
-    #[link_name = "\u{1}_ZNK8filament6Camera19getProjectionMatrixEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera19getProjectionMatrixEv"]
     pub fn filament_Camera_getProjectionMatrix(this: *const filament_Camera) -> filament_math_mat4;
 }
 extern "C" {
@@ -2669,19 +2670,19 @@ extern "C" {
     #[doc = " @return The projection matrix set by setProjection or setLensProjection."]
     #[doc = ""]
     #[doc = " @see setProjection, setLensProjection, getProjectionMatrix"]
-    #[link_name = "\u{1}_ZNK8filament6Camera26getCullingProjectionMatrixEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera26getCullingProjectionMatrixEv"]
     pub fn filament_Camera_getCullingProjectionMatrix(
         this: *const filament_Camera,
     ) -> filament_math_mat4;
 }
 extern "C" {
     #[doc = "! Returns the frustum's near plane"]
-    #[link_name = "\u{1}_ZNK8filament6Camera7getNearEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera7getNearEv"]
     pub fn filament_Camera_getNear(this: *const filament_Camera) -> f32;
 }
 extern "C" {
     #[doc = "! Returns the frustum's far plane used for culling"]
-    #[link_name = "\u{1}_ZNK8filament6Camera13getCullingFarEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera13getCullingFarEv"]
     pub fn filament_Camera_getCullingFar(this: *const filament_Camera) -> f32;
 }
 extern "C" {
@@ -2700,14 +2701,14 @@ extern "C" {
     #[doc = " @note The Camera \"looks\" towards its -z axis"]
     #[doc = ""]
     #[doc = " @warning \\p view must be a rigid transform"]
-    #[link_name = "\u{1}_ZN8filament6Camera14setModelMatrixERKNS_4math7details6TMat44IdEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera14setModelMatrixERKNS_4math7details6TMat44IdEE"]
     pub fn filament_Camera_setModelMatrix(
         this: *mut filament_Camera,
         view: *const filament_math_mat4,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Camera14setModelMatrixERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera14setModelMatrixERKNS_4math7details6TMat44IfEE"]
     pub fn filament_Camera_setModelMatrix1(
         this: *mut filament_Camera,
         view: *const filament_math_mat4f,
@@ -2719,7 +2720,7 @@ extern "C" {
     #[doc = " @param eye       The position of the camera in world space."]
     #[doc = " @param center    The point in world space the camera is looking at."]
     #[doc = " @param up        A unit vector denoting the camera's \"up\" direction."]
-    #[link_name = "\u{1}_ZN8filament6Camera6lookAtERKNS_4math7details5TVec3IfEES6_S6_"]
+    #[link_name = "\u{1}__ZN8filament6Camera6lookAtERKNS_4math7details5TVec3IfEES6_S6_"]
     pub fn filament_Camera_lookAt(
         this: *mut filament_Camera,
         eye: *const filament_math_float3,
@@ -2732,7 +2733,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param eye       The position of the camera in world space."]
     #[doc = " @param center    The point in world space the camera is looking at."]
-    #[link_name = "\u{1}_ZN8filament6Camera6lookAtERKNS_4math7details5TVec3IfEES6_"]
+    #[link_name = "\u{1}__ZN8filament6Camera6lookAtERKNS_4math7details5TVec3IfEES6_"]
     pub fn filament_Camera_lookAt1(
         this: *mut filament_Camera,
         eye: *const filament_math_float3,
@@ -2752,37 +2753,37 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return The camera's pose in world space as a rigid transform. Parent transforms, if any,"]
     #[doc = " are taken into account."]
-    #[link_name = "\u{1}_ZNK8filament6Camera14getModelMatrixEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera14getModelMatrixEv"]
     pub fn filament_Camera_getModelMatrix(this: *const filament_Camera) -> filament_math_mat4;
 }
 extern "C" {
     #[doc = "! Returns the camera's view matrix (inverse of the model matrix)"]
-    #[link_name = "\u{1}_ZNK8filament6Camera13getViewMatrixEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera13getViewMatrixEv"]
     pub fn filament_Camera_getViewMatrix(this: *const filament_Camera) -> filament_math_mat4;
 }
 extern "C" {
     #[doc = "! Returns the camera's position in world space"]
-    #[link_name = "\u{1}_ZNK8filament6Camera11getPositionEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera11getPositionEv"]
     pub fn filament_Camera_getPosition(this: *const filament_Camera) -> filament_math_float3;
 }
 extern "C" {
     #[doc = "! Returns the camera's normalized left vector"]
-    #[link_name = "\u{1}_ZNK8filament6Camera13getLeftVectorEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera13getLeftVectorEv"]
     pub fn filament_Camera_getLeftVector(this: *const filament_Camera) -> filament_math_float3;
 }
 extern "C" {
     #[doc = "! Returns the camera's normalized up vector"]
-    #[link_name = "\u{1}_ZNK8filament6Camera11getUpVectorEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera11getUpVectorEv"]
     pub fn filament_Camera_getUpVector(this: *const filament_Camera) -> filament_math_float3;
 }
 extern "C" {
     #[doc = "! Returns the camera's forward vector"]
-    #[link_name = "\u{1}_ZNK8filament6Camera16getForwardVectorEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera16getForwardVectorEv"]
     pub fn filament_Camera_getForwardVector(this: *const filament_Camera) -> filament_math_float3;
 }
 extern "C" {
     #[doc = "! Returns the camera's field of view in degrees"]
-    #[link_name = "\u{1}_ZNK8filament6Camera23getFieldOfViewInDegreesENS0_3FovE"]
+    #[link_name = "\u{1}__ZNK8filament6Camera23getFieldOfViewInDegreesENS0_3FovE"]
     pub fn filament_Camera_getFieldOfViewInDegrees(
         this: *const filament_Camera,
         direction: filament_Camera_Fov,
@@ -2790,12 +2791,12 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! Returns the camera's culling Frustum in world space"]
-    #[link_name = "\u{1}_ZNK8filament6Camera10getFrustumEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera10getFrustumEv"]
     pub fn filament_Camera_getFrustum(this: *const filament_Camera) -> filament_Frustum;
 }
 extern "C" {
     #[doc = "! Returns the entity representing this camera"]
-    #[link_name = "\u{1}_ZNK8filament6Camera9getEntityEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera9getEntityEv"]
     pub fn filament_Camera_getEntity(this: *const filament_Camera) -> utils_Entity;
 }
 extern "C" {
@@ -2822,7 +2823,7 @@ extern "C" {
     #[doc = " similar to the sun (e.g.: a 100,000 lux directional light)."]
     #[doc = ""]
     #[doc = " @see LightManager, Exposure"]
-    #[link_name = "\u{1}_ZN8filament6Camera11setExposureEfff"]
+    #[link_name = "\u{1}__ZN8filament6Camera11setExposureEfff"]
     pub fn filament_Camera_setExposure(
         this: *mut filament_Camera,
         aperture: f32,
@@ -2832,34 +2833,34 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! returns this camera's aperture in f-stops"]
-    #[link_name = "\u{1}_ZNK8filament6Camera11getApertureEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera11getApertureEv"]
     pub fn filament_Camera_getAperture(this: *const filament_Camera) -> f32;
 }
 extern "C" {
     #[doc = "! returns this camera's shutter speed in seconds"]
-    #[link_name = "\u{1}_ZNK8filament6Camera15getShutterSpeedEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera15getShutterSpeedEv"]
     pub fn filament_Camera_getShutterSpeed(this: *const filament_Camera) -> f32;
 }
 extern "C" {
     #[doc = "! returns this camera's sensitivity in ISO"]
-    #[link_name = "\u{1}_ZNK8filament6Camera14getSensitivityEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera14getSensitivityEv"]
     pub fn filament_Camera_getSensitivity(this: *const filament_Camera) -> f32;
 }
 extern "C" {
     #[doc = "! returns the focal length in meters [m] for a 35mm camera"]
-    #[link_name = "\u{1}_ZNK8filament6Camera14getFocalLengthEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera14getFocalLengthEv"]
     pub fn filament_Camera_getFocalLength(this: *const filament_Camera) -> f64;
 }
 extern "C" {
     #[doc = " Sets the camera focus distance. This is used by the Depth-of-field PostProcessing effect."]
     #[doc = " @param distance Distance from the camera to the plane of focus in world units."]
     #[doc = "                 Must be positive and larger than the near clipping plane."]
-    #[link_name = "\u{1}_ZN8filament6Camera16setFocusDistanceEf"]
+    #[link_name = "\u{1}__ZN8filament6Camera16setFocusDistanceEf"]
     pub fn filament_Camera_setFocusDistance(this: *mut filament_Camera, distance: f32);
 }
 extern "C" {
     #[doc = "! Returns the focus distance in world units"]
-    #[link_name = "\u{1}_ZNK8filament6Camera16getFocusDistanceEv"]
+    #[link_name = "\u{1}__ZNK8filament6Camera16getFocusDistanceEv"]
     pub fn filament_Camera_getFocusDistance(this: *const filament_Camera) -> f32;
 }
 extern "C" {
@@ -2894,13 +2895,13 @@ extern "C" {
     #[doc = "      \\end{array}"]
     #[doc = "      \\right)"]
     #[doc = "      \\f$"]
-    #[link_name = "\u{1}_ZN8filament6Camera17inverseProjectionERKNS_4math7details6TMat44IdEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera17inverseProjectionERKNS_4math7details6TMat44IdEE"]
     pub fn filament_Camera_inverseProjection(p: *const filament_math_mat4) -> filament_math_mat4;
 }
 extern "C" {
     #[doc = " Returns the inverse of a projection matrix."]
     #[doc = " @see inverseProjection(const math::mat4&)"]
-    #[link_name = "\u{1}_ZN8filament6Camera17inverseProjectionERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament6Camera17inverseProjectionERKNS_4math7details6TMat44IfEE"]
     pub fn filament_Camera_inverseProjection1(p: *const filament_math_mat4f)
         -> filament_math_mat4f;
 }
@@ -2910,7 +2911,7 @@ extern "C" {
     #[doc = " @param focalLength       focal length in any unit (e.g. [m] or [mm])"]
     #[doc = " @param focusDistance     focus distance in same unit as focalLength"]
     #[doc = " @return                  the effective focal length in same unit as focalLength"]
-    #[link_name = "\u{1}_ZN8filament6Camera27computeEffectiveFocalLengthEdd"]
+    #[link_name = "\u{1}__ZN8filament6Camera27computeEffectiveFocalLengthEdd"]
     pub fn filament_Camera_computeEffectiveFocalLength(focalLength: f64, focusDistance: f64)
         -> f64;
 }
@@ -2920,7 +2921,7 @@ extern "C" {
     #[doc = " @param fovInDegrees      full field of view in degrees"]
     #[doc = " @param focusDistance     focus distance in meters [m]"]
     #[doc = " @return                  effective full field of view in degrees"]
-    #[link_name = "\u{1}_ZN8filament6Camera19computeEffectiveFovEdd"]
+    #[link_name = "\u{1}__ZN8filament6Camera19computeEffectiveFovEdd"]
     pub fn filament_Camera_computeEffectiveFov(fovInDegrees: f64, focusDistance: f64) -> f64;
 }
 impl filament_Camera {
@@ -3158,7 +3159,7 @@ fn bindgen_test_layout_filament_ToneMapper() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament10ToneMapperC2Ev"]
+    #[link_name = "\u{1}__ZN8filament10ToneMapperC2Ev"]
     pub fn filament_ToneMapper_ToneMapper(this: *mut filament_ToneMapper);
 }
 impl Default for filament_ToneMapper {
@@ -3179,7 +3180,7 @@ impl filament_ToneMapper {
     }
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament10ToneMapperD1Ev"]
+    #[link_name = "\u{1}__ZN8filament10ToneMapperD1Ev"]
     pub fn filament_ToneMapper_ToneMapper_destructor(this: *mut filament_ToneMapper);
 }
 #[doc = " ColorGrading is used to transform (either to modify or correct) the colors of the HDR buffer"]
@@ -3315,7 +3316,7 @@ extern "C" {
     #[doc = " @param qualityLevel The desired quality of the color grading process"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder7qualityENS0_12QualityLevelE"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder7qualityENS0_12QualityLevelE"]
     pub fn filament_ColorGrading_Builder_quality(
         this: *mut filament_ColorGrading_Builder,
         qualityLevel: filament_ColorGrading_QualityLevel,
@@ -3330,7 +3331,7 @@ extern "C" {
     #[doc = " @param format The desired format of the 3D LUT."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder6formatENS0_9LutFormatE"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder6formatENS0_9LutFormatE"]
     pub fn filament_ColorGrading_Builder_format(
         this: *mut filament_ColorGrading_Builder,
         format: filament_ColorGrading_LutFormat,
@@ -3345,7 +3346,7 @@ extern "C" {
     #[doc = " @param dim The desired dimension of the LUT. Between 16 and 64."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder10dimensionsEh"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder10dimensionsEh"]
     pub fn filament_ColorGrading_Builder_dimensions(
         this: *mut filament_ColorGrading_Builder,
         dim: u8,
@@ -3364,7 +3365,7 @@ extern "C" {
     #[doc = " @param toneMapper The tone mapping operator to apply to the HDR color buffer"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder10toneMapperEPKNS_10ToneMapperE"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder10toneMapperEPKNS_10ToneMapperE"]
     pub fn filament_ColorGrading_Builder_toneMapper(
         this: *mut filament_ColorGrading_Builder,
         toneMapper: *const filament_ToneMapper,
@@ -3381,7 +3382,7 @@ extern "C" {
     #[doc = " @return This Builder, for chaining calls"]
     #[doc = ""]
     #[doc = " @deprecated Use toneMapper(ToneMapper*) instead"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder11toneMappingENS0_11ToneMappingE"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder11toneMappingENS0_11ToneMappingE"]
     pub fn filament_ColorGrading_Builder_toneMapping(
         this: *mut filament_ColorGrading_Builder,
         toneMapping: filament_ColorGrading_ToneMapping,
@@ -3400,7 +3401,7 @@ extern "C" {
     #[doc = " @param luminanceScaling Enables or disables luminance scaling post-tone mapping"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder16luminanceScalingEb"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder16luminanceScalingEb"]
     pub fn filament_ColorGrading_Builder_luminanceScaling(
         this: *mut filament_ColorGrading_Builder,
         luminanceScaling: bool,
@@ -3416,7 +3417,7 @@ extern "C" {
     #[doc = " @param gamutMapping Enables or disables gamut mapping"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder12gamutMappingEb"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder12gamutMappingEb"]
     pub fn filament_ColorGrading_Builder_gamutMapping(
         this: *mut filament_ColorGrading_Builder,
         gamutMapping: bool,
@@ -3432,7 +3433,7 @@ extern "C" {
     #[doc = " @param exposure Value in EV stops. Can be negative, 0, or positive."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder8exposureEf"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder8exposureEf"]
     pub fn filament_ColorGrading_Builder_exposure(
         this: *mut filament_ColorGrading_Builder,
         exposure: f32,
@@ -3448,7 +3449,7 @@ extern "C" {
     #[doc = " @param adaptation Amount of adaptation, between 0 (no adaptation) and 1 (full adaptation)."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder15nightAdaptationEf"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder15nightAdaptationEf"]
     pub fn filament_ColorGrading_Builder_nightAdaptation(
         this: *mut filament_ColorGrading_Builder,
         adaptation: f32,
@@ -3477,7 +3478,7 @@ extern "C" {
     #[doc = " @param tint Modification on the green/magenta axis, as a value between -1.0 and +1.0."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder12whiteBalanceEff"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder12whiteBalanceEff"]
     pub fn filament_ColorGrading_Builder_whiteBalance(
         this: *mut filament_ColorGrading_Builder,
         temperature: f32,
@@ -3510,7 +3511,7 @@ extern "C" {
     #[doc = " @param outBlue The mix of source RGB for the output blue channel, between -2.0 and +2.0"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder12channelMixerENS_4math7details5TVec3IfEES5_S5_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder12channelMixerENS_4math7details5TVec3IfEES5_S5_"]
     pub fn filament_ColorGrading_Builder_channelMixer(
         this: *mut filament_ColorGrading_Builder,
         outRed: filament_math_float3,
@@ -3542,7 +3543,7 @@ extern "C" {
     #[doc = " @param ranges Range of the shadows (x and y), and range of the highlights (z and w)"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder25shadowsMidtonesHighlightsENS_4math7details5TVec4IfEES5_S5_S5_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder25shadowsMidtonesHighlightsENS_4math7details5TVec4IfEES5_S5_S5_"]
     pub fn filament_ColorGrading_Builder_shadowsMidtonesHighlights(
         this: *mut filament_ColorGrading_Builder,
         shadows: filament_math_float4,
@@ -3573,7 +3574,7 @@ extern "C" {
     #[doc = " @param power Power exponent of the input color, must be a strictly positive number"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder16slopeOffsetPowerENS_4math7details5TVec3IfEES5_S5_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder16slopeOffsetPowerENS_4math7details5TVec3IfEES5_S5_"]
     pub fn filament_ColorGrading_Builder_slopeOffsetPower(
         this: *mut filament_ColorGrading_Builder,
         slope: filament_math_float3,
@@ -3594,7 +3595,7 @@ extern "C" {
     #[doc = " @param contrast Contrast expansion, between 0.0 and 2.0. 1.0 leaves contrast unaffected"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder8contrastEf"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder8contrastEf"]
     pub fn filament_ColorGrading_Builder_contrast(
         this: *mut filament_ColorGrading_Builder,
         contrast: f32,
@@ -3617,7 +3618,7 @@ extern "C" {
     #[doc = " @param vibrance Vibrance, between 0.0 and 2.0. 1.0 leaves vibrance unaffected"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder8vibranceEf"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder8vibranceEf"]
     pub fn filament_ColorGrading_Builder_vibrance(
         this: *mut filament_ColorGrading_Builder,
         vibrance: f32,
@@ -3636,7 +3637,7 @@ extern "C" {
     #[doc = " @param saturation Saturation, between 0.0 and 2.0. 1.0 leaves saturation unaffected"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder10saturationEf"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder10saturationEf"]
     pub fn filament_ColorGrading_Builder_saturation(
         this: *mut filament_ColorGrading_Builder,
         saturation: f32,
@@ -3657,7 +3658,7 @@ extern "C" {
     #[doc = " @param highlightScale Scale factor for the highlights, can be any negative or positive value"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls"]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder6curvesENS_4math7details5TVec3IfEES5_S5_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder6curvesENS_4math7details5TVec3IfEES5_S5_"]
     pub fn filament_ColorGrading_Builder_curves(
         this: *mut filament_ColorGrading_Builder,
         shadowGamma: filament_math_float3,
@@ -3672,32 +3673,32 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return pointer to the newly created object or nullptr if exceptions are disabled and"]
     #[doc = "         an error occurred."]
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7Builder5buildERNS_6EngineE"]
     pub fn filament_ColorGrading_Builder_build(
         this: *mut filament_ColorGrading_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_ColorGrading;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7BuilderC1Ev"]
     pub fn filament_ColorGrading_Builder_Builder(this: *mut filament_ColorGrading_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7BuilderC1ERKS1_"]
     pub fn filament_ColorGrading_Builder_Builder1(
         this: *mut filament_ColorGrading_Builder,
         rhs: *const filament_ColorGrading_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7BuilderC1EOS1_"]
     pub fn filament_ColorGrading_Builder_Builder2(
         this: *mut filament_ColorGrading_Builder,
         rhs: *mut filament_ColorGrading_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12ColorGrading7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament12ColorGrading7BuilderD1Ev"]
     pub fn filament_ColorGrading_Builder_Builder_destructor(
         this: *mut filament_ColorGrading_Builder,
     );
@@ -4176,7 +4177,7 @@ extern "C" {
     #[doc = " Queries whether a property exists"]
     #[doc = " @param name The name of the property to query"]
     #[doc = " @return true if the property exists, false otherwise"]
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11hasPropertyEPKc"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11hasPropertyEPKc"]
     pub fn filament_DebugRegistry_hasProperty(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4187,7 +4188,7 @@ extern "C" {
     #[doc = " @param name Name of the property we want the data address of"]
     #[doc = " @return Address of the data of the \\p name property"]
     #[doc = " @{"]
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry18getPropertyAddressEPKc"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry18getPropertyAddressEPKc"]
     pub fn filament_DebugRegistry_getPropertyAddress(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4199,7 +4200,7 @@ extern "C" {
     #[doc = " @param v Value to set"]
     #[doc = " @return true if the operation was successful, false otherwise."]
     #[doc = " @{"]
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKcb"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKcb"]
     pub fn filament_DebugRegistry_setProperty(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4207,7 +4208,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKci"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKci"]
     pub fn filament_DebugRegistry_setProperty1(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4215,7 +4216,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKcf"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKcf"]
     pub fn filament_DebugRegistry_setProperty2(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4223,7 +4224,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec2IfEE"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec2IfEE"]
     pub fn filament_DebugRegistry_setProperty3(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4231,7 +4232,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec3IfEE"]
     pub fn filament_DebugRegistry_setProperty4(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4239,7 +4240,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZN8filament13DebugRegistry11setPropertyEPKcNS_4math7details5TVec4IfEE"]
     pub fn filament_DebugRegistry_setProperty5(
         this: *mut filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4252,7 +4253,7 @@ extern "C" {
     #[doc = " @param v A pointer to a variable which will hold the result"]
     #[doc = " @return true if the call was successful and \\p v was updated"]
     #[doc = " @{"]
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPb"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPb"]
     pub fn filament_DebugRegistry_getProperty(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4260,7 +4261,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPi"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPi"]
     pub fn filament_DebugRegistry_getProperty1(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4268,7 +4269,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPf"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPf"]
     pub fn filament_DebugRegistry_getProperty2(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4276,7 +4277,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec2IfEE"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec2IfEE"]
     pub fn filament_DebugRegistry_getProperty3(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4284,7 +4285,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec3IfEE"]
     pub fn filament_DebugRegistry_getProperty4(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4292,7 +4293,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry11getPropertyEPKcPNS_4math7details5TVec4IfEE"]
     pub fn filament_DebugRegistry_getProperty5(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4300,7 +4301,7 @@ extern "C" {
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament13DebugRegistry13getDataSourceEPKc"]
+    #[link_name = "\u{1}__ZNK8filament13DebugRegistry13getDataSourceEPKc"]
     pub fn filament_DebugRegistry_getDataSource(
         this: *const filament_DebugRegistry,
         name: *const ::std::os::raw::c_char,
@@ -4564,7 +4565,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\remark"]
     #[doc = " This method is thread-safe."]
-    #[link_name = "\u{1}_ZN8filament6Engine6createENS_7backend7BackendEPNS1_8PlatformEPv"]
+    #[link_name = "\u{1}__ZN8filament6Engine6createENS_7backend7BackendEPNS1_8PlatformEPv"]
     pub fn filament_Engine_create(
         backend: filament_Engine_Backend,
         platform: *mut filament_Engine_Platform,
@@ -4598,7 +4599,7 @@ extern "C" {
     #[doc = "                          when creating filament's internal context."]
     #[doc = "                          Setting this parameter will force filament to use the OpenGL"]
     #[doc = "                          implementation (instead of Vulkan for instance)."]
-    #[link_name = "\u{1}_ZN8filament6Engine11createAsyncEPFvPvS1_ES1_NS_7backend7BackendEPNS4_8PlatformES1_"]
+    #[link_name = "\u{1}__ZN8filament6Engine11createAsyncEPFvPvS1_ES1_NS_7backend7BackendEPNS4_8PlatformES1_"]
     pub fn filament_Engine_createAsync(
         callback: filament_Engine_CreateCallback,
         user: *mut ::core::ffi::c_void,
@@ -4618,7 +4619,7 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic can be thrown if there isn't enough memory to"]
     #[doc = " allocate the command buffer. If exceptions are disabled, this condition if fatal and"]
     #[doc = " this function will abort."]
-    #[link_name = "\u{1}_ZN8filament6Engine9getEngineEPv"]
+    #[link_name = "\u{1}__ZN8filament6Engine9getEngineEPv"]
     pub fn filament_Engine_getEngine(token: *mut ::core::ffi::c_void) -> *mut filament_Engine;
 }
 extern "C" {
@@ -4646,7 +4647,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\remark"]
     #[doc = " This method is thread-safe."]
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPPS0_"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPPS0_"]
     pub fn filament_Engine_destroy(engine: *mut *mut filament_Engine);
 }
 extern "C" {
@@ -4673,32 +4674,32 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\remark"]
     #[doc = " This method is thread-safe."]
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPS0_"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPS0_"]
     pub fn filament_Engine_destroy1(engine: *mut filament_Engine);
 }
 extern "C" {
     #[doc = " @return EntityManager used by filament"]
-    #[link_name = "\u{1}_ZN8filament6Engine16getEntityManagerEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine16getEntityManagerEv"]
     pub fn filament_Engine_getEntityManager(this: *mut filament_Engine)
         -> *mut utils_EntityManager;
 }
 extern "C" {
     #[doc = " @return RenderableManager reference"]
-    #[link_name = "\u{1}_ZN8filament6Engine20getRenderableManagerEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine20getRenderableManagerEv"]
     pub fn filament_Engine_getRenderableManager(
         this: *mut filament_Engine,
     ) -> *mut filament_RenderableManager;
 }
 extern "C" {
     #[doc = " @return LightManager reference"]
-    #[link_name = "\u{1}_ZN8filament6Engine15getLightManagerEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine15getLightManagerEv"]
     pub fn filament_Engine_getLightManager(
         this: *mut filament_Engine,
     ) -> *mut filament_LightManager;
 }
 extern "C" {
     #[doc = " @return TransformManager reference"]
-    #[link_name = "\u{1}_ZN8filament6Engine19getTransformManagerEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine19getTransformManagerEv"]
     pub fn filament_Engine_getTransformManager(
         this: *mut filament_Engine,
     ) -> *mut filament_TransformManager;
@@ -4709,7 +4710,7 @@ extern "C" {
     #[doc = " automatically is to enable accurate translations in the TransformManager. This helper"]
     #[doc = " provides a convenient way of doing that."]
     #[doc = " This is typically called once just after creating the Engine."]
-    #[link_name = "\u{1}_ZN8filament6Engine26enableAccurateTranslationsEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine26enableAccurateTranslationsEv"]
     pub fn filament_Engine_enableAccurateTranslations(this: *mut filament_Engine);
 }
 extern "C" {
@@ -4722,7 +4723,7 @@ extern "C" {
     #[doc = " @return A pointer to the newly created SwapChain or nullptr if it couldn't be created."]
     #[doc = ""]
     #[doc = " @see Renderer.beginFrame()"]
-    #[link_name = "\u{1}_ZN8filament6Engine15createSwapChainEPvm"]
+    #[link_name = "\u{1}__ZN8filament6Engine15createSwapChainEPvy"]
     pub fn filament_Engine_createSwapChain(
         this: *mut filament_Engine,
         nativeWindow: *mut ::core::ffi::c_void,
@@ -4739,7 +4740,7 @@ extern "C" {
     #[doc = " @return A pointer to the newly created SwapChain or nullptr if it couldn't be created."]
     #[doc = ""]
     #[doc = " @see Renderer.beginFrame()"]
-    #[link_name = "\u{1}_ZN8filament6Engine15createSwapChainEjjm"]
+    #[link_name = "\u{1}__ZN8filament6Engine15createSwapChainEjjy"]
     pub fn filament_Engine_createSwapChain1(
         this: *mut filament_Engine,
         width: u32,
@@ -4753,21 +4754,21 @@ extern "C" {
     #[doc = " A Renderer is intended to map to a *window* on screen."]
     #[doc = ""]
     #[doc = " @return A pointer to the newly created Renderer or nullptr if it couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Engine14createRendererEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine14createRendererEv"]
     pub fn filament_Engine_createRenderer(this: *mut filament_Engine) -> *mut filament_Renderer;
 }
 extern "C" {
     #[doc = " Creates a View."]
     #[doc = ""]
     #[doc = " @return A pointer to the newly created View or nullptr if it couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Engine10createViewEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine10createViewEv"]
     pub fn filament_Engine_createView(this: *mut filament_Engine) -> *mut filament_View;
 }
 extern "C" {
     #[doc = " Creates a Scene."]
     #[doc = ""]
     #[doc = " @return A pointer to the newly created Scene or nullptr if it couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Engine11createSceneEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine11createSceneEv"]
     pub fn filament_Engine_createScene(this: *mut filament_Engine) -> *mut filament_Scene;
 }
 extern "C" {
@@ -4775,7 +4776,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param entity Entity to add the camera component to."]
     #[doc = " @return A pointer to the newly created Camera or nullptr if it couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Engine12createCameraEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament6Engine12createCameraEN5utils6EntityE"]
     pub fn filament_Engine_createCamera(
         this: *mut filament_Engine,
         entity: utils_Entity,
@@ -4788,7 +4789,7 @@ extern "C" {
     #[doc = " @return A pointer to the Camera component for this entity or nullptr if the entity didn't"]
     #[doc = "         have a Camera component. The pointer is valid until destroyCameraComponent()"]
     #[doc = "         is called or the entity itself is destroyed."]
-    #[link_name = "\u{1}_ZN8filament6Engine18getCameraComponentEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament6Engine18getCameraComponentEN5utils6EntityE"]
     pub fn filament_Engine_getCameraComponent(
         this: *mut filament_Engine,
         entity: utils_Entity,
@@ -4798,57 +4799,57 @@ extern "C" {
     #[doc = " Destroys the Camera component associated with the given entity."]
     #[doc = ""]
     #[doc = " @param entity An entity."]
-    #[link_name = "\u{1}_ZN8filament6Engine22destroyCameraComponentEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament6Engine22destroyCameraComponentEN5utils6EntityE"]
     pub fn filament_Engine_destroyCameraComponent(this: *mut filament_Engine, entity: utils_Entity);
 }
 extern "C" {
     #[doc = " Creates a Fence."]
     #[doc = ""]
     #[doc = " @return A pointer to the newly created Fence or nullptr if it couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Engine11createFenceEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine11createFenceEv"]
     pub fn filament_Engine_createFence(this: *mut filament_Engine) -> *mut filament_Fence;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_12BufferObjectE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_12BufferObjectE"]
     pub fn filament_Engine_destroy2(
         this: *mut filament_Engine,
         p: *const filament_BufferObject,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_12VertexBufferE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_12VertexBufferE"]
     pub fn filament_Engine_destroy3(
         this: *mut filament_Engine,
         p: *const filament_VertexBuffer,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_5FenceE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_5FenceE"]
     pub fn filament_Engine_destroy4(this: *mut filament_Engine, p: *const filament_Fence) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_11IndexBufferE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_11IndexBufferE"]
     pub fn filament_Engine_destroy5(
         this: *mut filament_Engine,
         p: *const filament_IndexBuffer,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_14SkinningBufferE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_14SkinningBufferE"]
     pub fn filament_Engine_destroy6(
         this: *mut filament_Engine,
         p: *const filament_SkinningBuffer,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_17MorphTargetBufferE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_17MorphTargetBufferE"]
     pub fn filament_Engine_destroy7(
         this: *mut filament_Engine,
         p: *const filament_MorphTargetBuffer,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_13IndirectLightE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_13IndirectLightE"]
     pub fn filament_Engine_destroy8(
         this: *mut filament_Engine,
         p: *const filament_IndirectLight,
@@ -4861,74 +4862,74 @@ extern "C" {
     #[doc = "            destroying it."]
     #[doc = " @exception utils::PreConditionPanic is thrown if some MaterialInstances remain."]
     #[doc = " no-op if exceptions are disabled and some MaterialInstances remain."]
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_8MaterialE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_8MaterialE"]
     pub fn filament_Engine_destroy9(
         this: *mut filament_Engine,
         p: *const filament_Material,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_16MaterialInstanceE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_16MaterialInstanceE"]
     pub fn filament_Engine_destroy10(
         this: *mut filament_Engine,
         p: *const filament_MaterialInstance,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_8RendererE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_8RendererE"]
     pub fn filament_Engine_destroy11(
         this: *mut filament_Engine,
         p: *const filament_Renderer,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_5SceneE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_5SceneE"]
     pub fn filament_Engine_destroy12(this: *mut filament_Engine, p: *const filament_Scene) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_6SkyboxE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_6SkyboxE"]
     pub fn filament_Engine_destroy13(this: *mut filament_Engine, p: *const filament_Skybox)
         -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_12ColorGradingE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_12ColorGradingE"]
     pub fn filament_Engine_destroy14(
         this: *mut filament_Engine,
         p: *const filament_ColorGrading,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_9SwapChainE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_9SwapChainE"]
     pub fn filament_Engine_destroy15(
         this: *mut filament_Engine,
         p: *const filament_SwapChain,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_6StreamE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_6StreamE"]
     pub fn filament_Engine_destroy16(this: *mut filament_Engine, p: *const filament_Stream)
         -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_7TextureE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_7TextureE"]
     pub fn filament_Engine_destroy17(
         this: *mut filament_Engine,
         p: *const filament_Texture,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_12RenderTargetE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_12RenderTargetE"]
     pub fn filament_Engine_destroy18(
         this: *mut filament_Engine,
         p: *const filament_RenderTarget,
     ) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEPKNS_4ViewE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEPKNS_4ViewE"]
     pub fn filament_Engine_destroy19(this: *mut filament_Engine, p: *const filament_View) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine7destroyEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament6Engine7destroyEN5utils6EntityE"]
     pub fn filament_Engine_destroy20(this: *mut filament_Engine, e: utils_Entity);
 }
 extern "C" {
@@ -4940,7 +4941,7 @@ extern "C" {
     #[doc = " in cases where a guarantee about the <code>SwapChain</code> destruction is needed in a"]
     #[doc = " timely fashion, such as when responding to Android's"]
     #[doc = " <code>android.view.SurfaceHolder.Callback.surfaceDestroyed</code></p>"]
-    #[link_name = "\u{1}_ZN8filament6Engine12flushAndWaitEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine12flushAndWaitEv"]
     pub fn filament_Engine_flushAndWait(this: *mut filament_Engine);
 }
 extern "C" {
@@ -4949,7 +4950,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " <p>This is typically used after creating a lot of objects to start draining the command"]
     #[doc = " queue which has a limited size.</p>"]
-    #[link_name = "\u{1}_ZN8filament6Engine5flushEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine5flushEv"]
     pub fn filament_Engine_flush(this: *mut filament_Engine);
 }
 extern "C" {
@@ -4959,7 +4960,7 @@ extern "C" {
     #[doc = " and typically just before computing parameters (e.g. object positions) for the next frame."]
     #[doc = " This is useful because otherwise callbacks will be executed by filament at a later time,"]
     #[doc = " which may increase latency in certain applications.</p>"]
-    #[link_name = "\u{1}_ZN8filament6Engine17pumpMessageQueuesEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine17pumpMessageQueuesEv"]
     pub fn filament_Engine_pumpMessageQueues(this: *mut filament_Engine);
 }
 extern "C" {
@@ -4968,14 +4969,14 @@ extern "C" {
     #[doc = " The default material is 80% white and uses the Material.Shading.LIT shading."]
     #[doc = ""]
     #[doc = " @return A pointer to the default Material instance (a singleton)."]
-    #[link_name = "\u{1}_ZNK8filament6Engine18getDefaultMaterialEv"]
+    #[link_name = "\u{1}__ZNK8filament6Engine18getDefaultMaterialEv"]
     pub fn filament_Engine_getDefaultMaterial(
         this: *const filament_Engine,
     ) -> *const filament_Material;
 }
 extern "C" {
     #[doc = " Returns the resolved backend."]
-    #[link_name = "\u{1}_ZNK8filament6Engine10getBackendEv"]
+    #[link_name = "\u{1}__ZNK8filament6Engine10getBackendEv"]
     pub fn filament_Engine_getBackend(this: *const filament_Engine) -> filament_Engine_Backend;
 }
 extern "C" {
@@ -5001,7 +5002,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return A pointer to the Platform object that was provided to Engine::create, or the"]
     #[doc = " Filament-created one."]
-    #[link_name = "\u{1}_ZNK8filament6Engine11getPlatformEv"]
+    #[link_name = "\u{1}__ZNK8filament6Engine11getPlatformEv"]
     pub fn filament_Engine_getPlatform(
         this: *const filament_Engine,
     ) -> *mut filament_Engine_Platform;
@@ -5016,7 +5017,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note there is no need to destroy this buffer, it will be freed automatically when"]
     #[doc = "       the current command buffer is executed."]
-    #[link_name = "\u{1}_ZN8filament6Engine11streamAllocEmm"]
+    #[link_name = "\u{1}__ZN8filament6Engine11streamAllocEmm"]
     pub fn filament_Engine_streamAlloc(
         this: *mut filament_Engine,
         size: size_t,
@@ -5027,18 +5028,18 @@ extern "C" {
     #[doc = " Invokes one iteration of the render loop, used only on single-threaded platforms."]
     #[doc = ""]
     #[doc = " This should be called every time the windowing system needs to paint (e.g. at 60 Hz)."]
-    #[link_name = "\u{1}_ZN8filament6Engine7executeEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine7executeEv"]
     pub fn filament_Engine_execute(this: *mut filament_Engine);
 }
 extern "C" {
     #[doc = " Retrieves the job system that the Engine has ownership over."]
     #[doc = ""]
     #[doc = " @return JobSystem used by filament"]
-    #[link_name = "\u{1}_ZN8filament6Engine12getJobSystemEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine12getJobSystemEv"]
     pub fn filament_Engine_getJobSystem(this: *mut filament_Engine) -> *mut utils_JobSystem;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Engine16getDebugRegistryEv"]
+    #[link_name = "\u{1}__ZN8filament6Engine16getDebugRegistryEv"]
     pub fn filament_Engine_getDebugRegistry(
         this: *mut filament_Engine,
     ) -> *mut filament_DebugRegistry;
@@ -5285,7 +5286,7 @@ pub const filament_Fence_Mode_DONT_FLUSH: filament_Fence_Mode = 1;
 pub type filament_Fence_Mode = u8;
 extern "C" {
     #[doc = "! Special \\p timeout value to disable wait()'s timeout."]
-    #[link_name = "\u{1}_ZN8filament5Fence19FENCE_WAIT_FOR_EVERE"]
+    #[link_name = "\u{1}__ZN8filament5Fence19FENCE_WAIT_FOR_EVERE"]
     pub static filament_Fence_FENCE_WAIT_FOR_EVER: u64;
 }
 #[test]
@@ -5313,7 +5314,7 @@ extern "C" {
     #[doc = "                  FenceStatus::TIMEOUT_EXPIRED if the time out expired or"]
     #[doc = "                  FenceStatus::ERROR in other cases."]
     #[doc = " @see #Mode"]
-    #[link_name = "\u{1}_ZN8filament5Fence4waitENS0_4ModeEm"]
+    #[link_name = "\u{1}__ZN8filament5Fence4waitENS0_4ModeEy"]
     pub fn filament_Fence_wait(
         this: *mut filament_Fence,
         mode: filament_Fence_Mode,
@@ -5329,7 +5330,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return  FenceStatus::CONDITION_SATISFIED on success,"]
     #[doc = "          FenceStatus::ERROR otherwise."]
-    #[link_name = "\u{1}_ZN8filament5Fence14waitAndDestroyEPS0_NS0_4ModeE"]
+    #[link_name = "\u{1}__ZN8filament5Fence14waitAndDestroyEPS0_NS0_4ModeE"]
     pub fn filament_Fence_waitAndDestroy(
         fence: *mut filament_Fence,
         mode: filament_Fence_Mode,
@@ -5390,7 +5391,7 @@ fn bindgen_test_layout_filament_Frustum() {
 extern "C" {
     #[doc = " Sets the frustum from the given projection matrix"]
     #[doc = " @param pv a 4x4 projection matrix"]
-    #[link_name = "\u{1}_ZN8filament7Frustum13setProjectionERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament7Frustum13setProjectionERKNS_4math7details6TMat44IfEE"]
     pub fn filament_Frustum_setProjection(
         this: *mut filament_Frustum,
         pv: *const filament_math_mat4f,
@@ -5400,7 +5401,7 @@ extern "C" {
     #[doc = " Returns the plane equation parameters with normalized normals"]
     #[doc = " @param plane Identifier of the plane to retrieve the equation of"]
     #[doc = " @return A plane equation encoded a float4 R such as R.x*x + R.y*y + R.z*z + R.w = 0"]
-    #[link_name = "\u{1}_ZNK8filament7Frustum18getNormalizedPlaneENS0_5PlaneE"]
+    #[link_name = "\u{1}__ZNK8filament7Frustum18getNormalizedPlaneENS0_5PlaneE"]
     pub fn filament_Frustum_getNormalizedPlane(
         this: *const filament_Frustum,
         plane: filament_Frustum_Plane,
@@ -5410,7 +5411,7 @@ extern "C" {
     #[doc = " Returns a copy of all six frustum planes in left, right, bottom, top, far, near order"]
     #[doc = " @param planes six plane equations encoded as in getNormalizedPlane() in"]
     #[doc = "              left, right, bottom, top, far, near order"]
-    #[link_name = "\u{1}_ZNK8filament7Frustum19getNormalizedPlanesEPNS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZNK8filament7Frustum19getNormalizedPlanesEPNS_4math7details5TVec4IfEE"]
     pub fn filament_Frustum_getNormalizedPlanes(
         this: *const filament_Frustum,
         planes: *mut filament_math_float4,
@@ -5422,7 +5423,7 @@ extern "C" {
     #[doc = " @return true if the box may intersects the frustum, false otherwise. In some situations"]
     #[doc = " a box that doesn't intersect the frustum might be reported as though it does. However,"]
     #[doc = " a box that does intersect the frustum is always reported correctly (true)."]
-    #[link_name = "\u{1}_ZNK8filament7Frustum10intersectsERKNS_3BoxE"]
+    #[link_name = "\u{1}__ZNK8filament7Frustum10intersectsERKNS_3BoxE"]
     pub fn filament_Frustum_intersects(
         this: *const filament_Frustum,
         box_: *const filament_Box,
@@ -5434,7 +5435,7 @@ extern "C" {
     #[doc = " @return true if the sphere may intersects the frustum, false otherwise. In some situations"]
     #[doc = " a sphere that doesn't intersect the frustum might be reported as though it does. However,"]
     #[doc = " a sphere that does intersect the frustum is always reported correctly (true)."]
-    #[link_name = "\u{1}_ZNK8filament7Frustum10intersectsERKNS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZNK8filament7Frustum10intersectsERKNS_4math7details5TVec4IfEE"]
     pub fn filament_Frustum_intersects1(
         this: *const filament_Frustum,
         sphere: *const filament_math_float4,
@@ -5444,7 +5445,7 @@ extern "C" {
     #[doc = " Returns whether the frustum contains a given point."]
     #[doc = " @param p the point to test"]
     #[doc = " @return the maximum signed distance to the frustum. Negative if p is inside."]
-    #[link_name = "\u{1}_ZNK8filament7Frustum8containsENS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZNK8filament7Frustum8containsENS_4math7details5TVec3IfEE"]
     pub fn filament_Frustum_contains(this: *const filament_Frustum, p: filament_math_float3)
         -> f32;
 }
@@ -5452,7 +5453,7 @@ extern "C" {
     #[doc = " Creates a frustum from a projection matrix in GL convention"]
     #[doc = " (usually the projection * view matrix)"]
     #[doc = " @param pv a 4x4 projection matrix in GL convention"]
-    #[link_name = "\u{1}_ZN8filament7FrustumC1ERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament7FrustumC1ERKNS_4math7details6TMat44IfEE"]
     pub fn filament_Frustum_Frustum(this: *mut filament_Frustum, pv: *const filament_math_mat4f);
 }
 extern "C" {
@@ -5476,7 +5477,7 @@ extern "C" {
     #[doc = "   |/   |/       /"]
     #[doc = "   4----5      near"]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament7FrustumC1EPKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament7FrustumC1EPKNS_4math7details5TVec3IfEE"]
     pub fn filament_Frustum_Frustum1(
         this: *mut filament_Frustum,
         corners: *const filament_math_float3,
@@ -5581,7 +5582,7 @@ extern "C" {
     #[doc = " Size of the index buffer in elements."]
     #[doc = " @param indexCount Number of indices the IndexBuffer can hold."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7Builder10indexCountEj"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7Builder10indexCountEj"]
     pub fn filament_IndexBuffer_Builder_indexCount(
         this: *mut filament_IndexBuffer_Builder,
         indexCount: u32,
@@ -5591,7 +5592,7 @@ extern "C" {
     #[doc = " Type of the index buffer, 16-bit or 32-bit."]
     #[doc = " @param indexType Type of indices stored in the IndexBuffer."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7Builder10bufferTypeENS0_9IndexTypeE"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7Builder10bufferTypeENS0_9IndexTypeE"]
     pub fn filament_IndexBuffer_Builder_bufferType(
         this: *mut filament_IndexBuffer_Builder,
         indexType: filament_IndexBuffer_IndexType,
@@ -5611,32 +5612,32 @@ extern "C" {
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
     #[doc = ""]
     #[doc = " @see IndexBuffer::setBuffer"]
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7Builder5buildERNS_6EngineE"]
     pub fn filament_IndexBuffer_Builder_build(
         this: *mut filament_IndexBuffer_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_IndexBuffer;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7BuilderC1Ev"]
     pub fn filament_IndexBuffer_Builder_Builder(this: *mut filament_IndexBuffer_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7BuilderC1ERKS1_"]
     pub fn filament_IndexBuffer_Builder_Builder1(
         this: *mut filament_IndexBuffer_Builder,
         rhs: *const filament_IndexBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7BuilderC1EOS1_"]
     pub fn filament_IndexBuffer_Builder_Builder2(
         this: *mut filament_IndexBuffer_Builder,
         rhs: *mut filament_IndexBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer7BuilderD1Ev"]
     pub fn filament_IndexBuffer_Builder_Builder_destructor(this: *mut filament_IndexBuffer_Builder);
 }
 impl Default for filament_IndexBuffer_Builder {
@@ -5708,7 +5709,7 @@ extern "C" {
     #[doc = "               BufferDescriptor points to raw, untyped data that will be interpreted as"]
     #[doc = "               either 16-bit or 32-bits indices based on the Type of this IndexBuffer."]
     #[doc = " @param byteOffset Offset in *bytes* into the IndexBuffer"]
-    #[link_name = "\u{1}_ZN8filament11IndexBuffer9setBufferERNS_6EngineEONS_7backend16BufferDescriptorEj"]
+    #[link_name = "\u{1}__ZN8filament11IndexBuffer9setBufferERNS_6EngineEONS_7backend16BufferDescriptorEj"]
     pub fn filament_IndexBuffer_setBuffer(
         this: *mut filament_IndexBuffer,
         engine: *mut filament_Engine,
@@ -5719,7 +5720,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the size of this IndexBuffer in elements."]
     #[doc = " @return The number of indices the IndexBuffer holds."]
-    #[link_name = "\u{1}_ZNK8filament11IndexBuffer13getIndexCountEv"]
+    #[link_name = "\u{1}__ZNK8filament11IndexBuffer13getIndexCountEv"]
     pub fn filament_IndexBuffer_getIndexCount(this: *const filament_IndexBuffer) -> size_t;
 }
 impl filament_IndexBuffer {
@@ -5829,7 +5830,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder11reflectionsEPKNS_7TextureE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder11reflectionsEPKNS_7TextureE"]
     pub fn filament_IndirectLight_Builder_reflections(
         this: *mut filament_IndirectLight_Builder,
         cubemap: *const filament_Texture,
@@ -5878,7 +5879,7 @@ extern "C" {
     #[doc = " @note"]
     #[doc = " Because the coefficients are pre-scaled, `sh[0]` is the environment's"]
     #[doc = " average irradiance."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder10irradianceEhPKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder10irradianceEhPKNS_4math7details5TVec3IfEE"]
     pub fn filament_IndirectLight_Builder_irradiance(
         this: *mut filament_IndirectLight_Builder,
         bands: u8,
@@ -5914,7 +5915,7 @@ extern "C" {
     #[doc = "                  (i.e. 1, 4 or 9 coefficients respectively)."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder8radianceEhPKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder8radianceEhPKNS_4math7details5TVec3IfEE"]
     pub fn filament_IndirectLight_Builder_radiance(
         this: *mut filament_IndirectLight_Builder,
         bands: u8,
@@ -5937,7 +5938,7 @@ extern "C" {
     #[doc = " This irradiance cubemap can be generated with the **cmgen** tool."]
     #[doc = ""]
     #[doc = " @see irradiance(uint8_t bands, math::float3 const* sh)"]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder10irradianceEPKNS_7TextureE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder10irradianceEPKNS_7TextureE"]
     pub fn filament_IndirectLight_Builder_irradiance1(
         this: *mut filament_IndirectLight_Builder,
         cubemap: *const filament_Texture,
@@ -5953,7 +5954,7 @@ extern "C" {
     #[doc = "                      the result is in lux, or lumen/m^2 (default = 30000)"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder9intensityEf"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder9intensityEf"]
     pub fn filament_IndirectLight_Builder_intensity(
         this: *mut filament_IndirectLight_Builder,
         envIntensity: f32,
@@ -5965,7 +5966,7 @@ extern "C" {
     #[doc = " @param rotation 3x3 rotation matrix. Must be a rigid-body transform."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder8rotationERKNS_4math7details6TMat33IfEE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder8rotationERKNS_4math7details6TMat33IfEE"]
     pub fn filament_IndirectLight_Builder_rotation(
         this: *mut filament_IndirectLight_Builder,
         rotation: *const filament_math_mat3f,
@@ -5982,32 +5983,32 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7Builder5buildERNS_6EngineE"]
     pub fn filament_IndirectLight_Builder_build(
         this: *mut filament_IndirectLight_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_IndirectLight;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7BuilderC1Ev"]
     pub fn filament_IndirectLight_Builder_Builder(this: *mut filament_IndirectLight_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7BuilderC1ERKS1_"]
     pub fn filament_IndirectLight_Builder_Builder1(
         this: *mut filament_IndirectLight_Builder,
         rhs: *const filament_IndirectLight_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7BuilderC1EOS1_"]
     pub fn filament_IndirectLight_Builder_Builder2(
         this: *mut filament_IndirectLight_Builder,
         rhs: *mut filament_IndirectLight_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament13IndirectLight7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight7BuilderD1Ev"]
     pub fn filament_IndirectLight_Builder_Builder_destructor(
         this: *mut filament_IndirectLight_Builder,
     );
@@ -6111,19 +6112,19 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param intensity  Scale factor applied to the environment and irradiance such that"]
     #[doc = "                   the result is in lux, or <i>lumen/m^2(default = 30000)"]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight12setIntensityEf"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight12setIntensityEf"]
     pub fn filament_IndirectLight_setIntensity(this: *mut filament_IndirectLight, intensity: f32);
 }
 extern "C" {
     #[doc = " Returns the environment's intensity in <i>lux</i>, or <i>lumen/m^2</i>."]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight12getIntensityEv"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight12getIntensityEv"]
     pub fn filament_IndirectLight_getIntensity(this: *const filament_IndirectLight) -> f32;
 }
 extern "C" {
     #[doc = " Sets the rigid-body transformation to apply to the IBL."]
     #[doc = ""]
     #[doc = " @param rotation 3x3 rotation matrix. Must be a rigid-body transform."]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight11setRotationERKNS_4math7details6TMat33IfEE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight11setRotationERKNS_4math7details6TMat33IfEE"]
     pub fn filament_IndirectLight_setRotation(
         this: *mut filament_IndirectLight,
         rotation: *const filament_math_mat3f,
@@ -6131,21 +6132,21 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Returns the rigid-body transformation applied to the IBL."]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight11getRotationEv"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight11getRotationEv"]
     pub fn filament_IndirectLight_getRotation(
         this: *const filament_IndirectLight,
     ) -> *const filament_math_mat3f;
 }
 extern "C" {
     #[doc = " Returns the associated reflection map, or null if it does not exist."]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight21getReflectionsTextureEv"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight21getReflectionsTextureEv"]
     pub fn filament_IndirectLight_getReflectionsTexture(
         this: *const filament_IndirectLight,
     ) -> *const filament_Texture;
 }
 extern "C" {
     #[doc = " Returns the associated irradiance map, or null if it does not exist."]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight20getIrradianceTextureEv"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight20getIrradianceTextureEv"]
     pub fn filament_IndirectLight_getIrradianceTexture(
         this: *const filament_IndirectLight,
     ) -> *const filament_Texture;
@@ -6170,7 +6171,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see LightManager::Builder::direction()"]
     #[doc = " @see getColorEstimate()"]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight20getDirectionEstimateEPKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight20getDirectionEstimateEPKNS_4math7details5TVec3IfEE"]
     pub fn filament_IndirectLight_getDirectionEstimate(
         sh: *const filament_math_float3,
     ) -> filament_math_float3;
@@ -6192,7 +6193,7 @@ extern "C" {
     #[doc = " @see LightManager::Builder::color()"]
     #[doc = " @see LightManager::Builder::intensity()"]
     #[doc = " @see getDirectionEstimate, getIntensity, setIntensity"]
-    #[link_name = "\u{1}_ZN8filament13IndirectLight16getColorEstimateEPKNS_4math7details5TVec3IfEES4_"]
+    #[link_name = "\u{1}__ZN8filament13IndirectLight16getColorEstimateEPKNS_4math7details5TVec3IfEES4_"]
     pub fn filament_IndirectLight_getColorEstimate(
         sh: *const filament_math_float3,
         direction: filament_math_float3,
@@ -6200,14 +6201,14 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @deprecated use static versions instead"]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight20getDirectionEstimateEv"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight20getDirectionEstimateEv"]
     pub fn filament_IndirectLight_getDirectionEstimate1(
         this: *const filament_IndirectLight,
     ) -> filament_math_float3;
 }
 extern "C" {
     #[doc = " @deprecated use static versions instead"]
-    #[link_name = "\u{1}_ZNK8filament13IndirectLight16getColorEstimateENS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZNK8filament13IndirectLight16getColorEstimateENS_4math7details5TVec3IfEE"]
     pub fn filament_IndirectLight_getColorEstimate1(
         this: *const filament_IndirectLight,
         direction: filament_math_float3,
@@ -6795,7 +6796,7 @@ extern "C" {
     #[doc = " @param splitPositions    a float array of at least size (cascades - 1) to write the split"]
     #[doc = "                          positions into"]
     #[doc = " @param cascades          the number of shadow cascades, at most 4"]
-    #[link_name = "\u{1}_ZN8filament12LightManager14ShadowCascades20computeUniformSplitsEPfh"]
+    #[link_name = "\u{1}__ZN8filament12LightManager14ShadowCascades20computeUniformSplitsEPfh"]
     pub fn filament_LightManager_ShadowCascades_computeUniformSplits(
         splitPositions: *mut f32,
         cascades: u8,
@@ -6810,7 +6811,7 @@ extern "C" {
     #[doc = " @param cascades          the number of shadow cascades, at most 4"]
     #[doc = " @param near              the camera near plane"]
     #[doc = " @param far               the camera far plane"]
-    #[link_name = "\u{1}_ZN8filament12LightManager14ShadowCascades16computeLogSplitsEPfhff"]
+    #[link_name = "\u{1}__ZN8filament12LightManager14ShadowCascades16computeLogSplitsEPfhff"]
     pub fn filament_LightManager_ShadowCascades_computeLogSplits(
         splitPositions: *mut f32,
         cascades: u8,
@@ -6834,7 +6835,7 @@ extern "C" {
     #[doc = " @param far               the camera far plane"]
     #[doc = " @param lambda            a float in the range [0, 1] that interpolates between log and"]
     #[doc = "                          uniform split schemes"]
-    #[link_name = "\u{1}_ZN8filament12LightManager14ShadowCascades22computePracticalSplitsEPfhfff"]
+    #[link_name = "\u{1}__ZN8filament12LightManager14ShadowCascades22computePracticalSplitsEPfhfff"]
     pub fn filament_LightManager_ShadowCascades_computePracticalSplits(
         splitPositions: *mut f32,
         cascades: u8,
@@ -6897,7 +6898,7 @@ extern "C" {
     #[doc = " @param channel Light channel to enable or disable, between 0 and 7."]
     #[doc = " @param enable Whether to enable or disable the light channel."]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder12lightChannelEjb"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder12lightChannelEjb"]
     pub fn filament_LightManager_Builder_lightChannel(
         this: *mut filament_LightManager_Builder,
         channel: ::std::os::raw::c_uint,
@@ -6913,7 +6914,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @warning"]
     #[doc = " - Only a Type.DIRECTIONAL, Type.SUN, Type.SPOT, or Type.FOCUSED_SPOT light can cast shadows"]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder11castShadowsEb"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder11castShadowsEb"]
     pub fn filament_LightManager_Builder_castShadows(
         this: *mut filament_LightManager_Builder,
         enable: bool,
@@ -6923,7 +6924,7 @@ extern "C" {
     #[doc = " Sets the shadow-map options for this light."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder13shadowOptionsERKNS0_13ShadowOptionsE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder13shadowOptionsERKNS0_13ShadowOptionsE"]
     pub fn filament_LightManager_Builder_shadowOptions(
         this: *mut filament_LightManager_Builder,
         options: *const filament_LightManager_ShadowOptions,
@@ -6939,7 +6940,7 @@ extern "C" {
     #[doc = " @note"]
     #[doc = " In some situations it can be useful to have a light in the scene that doesn't"]
     #[doc = " actually emit light, but does cast shadows."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder9castLightEb"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder9castLightEb"]
     pub fn filament_LightManager_Builder_castLight(
         this: *mut filament_LightManager_Builder,
         enable: bool,
@@ -6954,7 +6955,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note"]
     #[doc = " The Light's position is ignored for directional lights (Type.DIRECTIONAL or Type.SUN)"]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder8positionERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder8positionERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_Builder_position(
         this: *mut filament_LightManager_Builder,
         position: *const filament_math_float3,
@@ -6970,7 +6971,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note"]
     #[doc = " The Light's direction is ignored for Type.POINT lights."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder9directionERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder9directionERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_Builder_direction(
         this: *mut filament_LightManager_Builder,
         direction: *const filament_math_float3,
@@ -6983,7 +6984,7 @@ extern "C" {
     #[doc = "              The default is white {1,1,1}."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder5colorERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder5colorERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_Builder_color(
         this: *mut filament_LightManager_Builder,
         color: *const filament_LinearColor,
@@ -7003,7 +7004,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " This method overrides any prior calls to intensity or intensityCandela."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder9intensityEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder9intensityEf"]
     pub fn filament_LightManager_Builder_intensity(
         this: *mut filament_LightManager_Builder,
         intensity: f32,
@@ -7021,7 +7022,7 @@ extern "C" {
     #[doc = " (Type.DIRECTIONAL or Type.SUN)."]
     #[doc = ""]
     #[doc = " This method overrides any prior calls to intensity or intensityCandela."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder16intensityCandelaEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder16intensityCandelaEf"]
     pub fn filament_LightManager_Builder_intensityCandela(
         this: *mut filament_LightManager_Builder,
         intensity: f32,
@@ -7051,7 +7052,7 @@ extern "C" {
     #[doc = " This call is equivalent to `Builder::intensity(efficiency * 683 * watts);`"]
     #[doc = ""]
     #[doc = " This method overrides any prior calls to intensity or intensityCandela."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder9intensityEff"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder9intensityEff"]
     pub fn filament_LightManager_Builder_intensity1(
         this: *mut filament_LightManager_Builder,
         watts: f32,
@@ -7075,7 +7076,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note"]
     #[doc = " The Light's falloff is ignored for directional lights (Type.DIRECTIONAL or Type.SUN)"]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder7falloffEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder7falloffEf"]
     pub fn filament_LightManager_Builder_falloff(
         this: *mut filament_LightManager_Builder,
         radius: f32,
@@ -7100,7 +7101,7 @@ extern "C" {
     #[doc = " The spot light cone is ignored for directional and point lights."]
     #[doc = ""]
     #[doc = " @see Type.SPOT, Type.FOCUSED_SPOT"]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder13spotLightConeEff"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder13spotLightConeEff"]
     pub fn filament_LightManager_Builder_spotLightCone(
         this: *mut filament_LightManager_Builder,
         inner: f32,
@@ -7115,7 +7116,7 @@ extern "C" {
     #[doc = " @param angularRadius sun's radius in degree. Default is 0.545°."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder16sunAngularRadiusEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder16sunAngularRadiusEf"]
     pub fn filament_LightManager_Builder_sunAngularRadius(
         this: *mut filament_LightManager_Builder,
         angularRadius: f32,
@@ -7128,7 +7129,7 @@ extern "C" {
     #[doc = " @param haloSize radius multiplier. Default is 10.0."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder11sunHaloSizeEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder11sunHaloSizeEf"]
     pub fn filament_LightManager_Builder_sunHaloSize(
         this: *mut filament_LightManager_Builder,
         haloSize: f32,
@@ -7141,7 +7142,7 @@ extern "C" {
     #[doc = " @param haloFalloff halo falloff. Default is 80.0."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder14sunHaloFalloffEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder14sunHaloFalloffEf"]
     pub fn filament_LightManager_Builder_sunHaloFalloff(
         this: *mut filament_LightManager_Builder,
         haloFalloff: f32,
@@ -7166,7 +7167,7 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7Builder5buildERNS_6EngineEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7Builder5buildERNS_6EngineEN5utils6EntityE"]
     pub fn filament_LightManager_Builder_build(
         this: *mut filament_LightManager_Builder,
         engine: *mut filament_Engine,
@@ -7177,28 +7178,28 @@ extern "C" {
     #[doc = " Creates a light builder and set the light's #Type."]
     #[doc = ""]
     #[doc = " @param type #Type of Light object to create."]
-    #[link_name = "\u{1}_ZN8filament12LightManager7BuilderC1ENS0_4TypeE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7BuilderC1ENS0_4TypeE"]
     pub fn filament_LightManager_Builder_Builder(
         this: *mut filament_LightManager_Builder,
         type_: filament_LightManager_Type,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12LightManager7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7BuilderC1ERKS1_"]
     pub fn filament_LightManager_Builder_Builder1(
         this: *mut filament_LightManager_Builder,
         rhs: *const filament_LightManager_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12LightManager7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7BuilderC1EOS1_"]
     pub fn filament_LightManager_Builder_Builder2(
         this: *mut filament_LightManager_Builder,
         rhs: *mut filament_LightManager_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12LightManager7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7BuilderD1Ev"]
     pub fn filament_LightManager_Builder_Builder_destructor(
         this: *mut filament_LightManager_Builder,
     );
@@ -7363,14 +7364,14 @@ extern "C" {
     #[doc = " guaranteed to be active. Use the EntityManager::isAlive() before use if needed."]
     #[doc = ""]
     #[doc = " @return number of component in the LightManager"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager17getComponentCountEv"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager17getComponentCountEv"]
     pub fn filament_LightManager_getComponentCount(this: *const filament_LightManager) -> size_t;
 }
 extern "C" {
     #[doc = " Returns the list of Entity for all components. Use getComponentCount() to know the size"]
     #[doc = " of the list."]
     #[doc = " @return a pointer to Entity"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager11getEntitiesEv"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager11getEntitiesEv"]
     pub fn filament_LightManager_getEntities(
         this: *const filament_LightManager,
     ) -> *const utils_Entity;
@@ -7379,7 +7380,7 @@ extern "C" {
     #[doc = " Returns whether a particular Entity is associated with a component of this LightManager"]
     #[doc = " @param e An Entity."]
     #[doc = " @return true if this Entity has a component associated with this manager."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager12hasComponentEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager12hasComponentEN5utils6EntityE"]
     pub fn filament_LightManager_hasComponent(
         this: *const filament_LightManager,
         e: utils_Entity,
@@ -7391,18 +7392,18 @@ extern "C" {
     #[doc = " @return An Instance object, which represents the Light component associated with the Entity e."]
     #[doc = " @note Use Instance::isValid() to make sure the component exists."]
     #[doc = " @see hasComponent()"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager11getInstanceEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager11getInstanceEN5utils6EntityE"]
     pub fn filament_LightManager_getInstance(
         this: *const filament_LightManager,
         e: utils_Entity,
     ) -> filament_LightManager_Instance;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12LightManager7destroyEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager7destroyEN5utils6EntityE"]
     pub fn filament_LightManager_destroy(this: *mut filament_LightManager, e: utils_Entity);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament12LightManager7getTypeEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager7getTypeEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getType(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7412,7 +7413,7 @@ extern "C" {
     #[doc = " Enables or disables a light channel. Light channel 0 is enabled by default."]
     #[doc = " @param channel light channel to enable or disable, between 0 and 7."]
     #[doc = " @param enable whether to enable (true) or disable (false) the specified light channel."]
-    #[link_name = "\u{1}_ZN8filament12LightManager15setLightChannelEN5utils14EntityInstanceIS0_Lb0EEEjb"]
+    #[link_name = "\u{1}__ZN8filament12LightManager15setLightChannelEN5utils14EntityInstanceIS0_Lb0EEEjb"]
     pub fn filament_LightManager_setLightChannel(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7425,7 +7426,7 @@ extern "C" {
     #[doc = " @param i        Instance of the component obtained from getInstance()."]
     #[doc = " @param channel  Light channel to query"]
     #[doc = " @return         true if the light channel is enabled, false otherwise"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager15getLightChannelEN5utils14EntityInstanceIS0_Lb0EEEj"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager15getLightChannelEN5utils14EntityInstanceIS0_Lb0EEEj"]
     pub fn filament_LightManager_getLightChannel(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7439,7 +7440,7 @@ extern "C" {
     #[doc = " @param position Light's position in world space. The default is at the origin."]
     #[doc = ""]
     #[doc = " @see Builder.position()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager11setPositionEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager11setPositionEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_setPosition(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7448,7 +7449,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! returns the light's position in world space"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager11getPositionEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager11getPositionEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getPosition(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7462,7 +7463,7 @@ extern "C" {
     #[doc = "                  The default is {0,-1,0}."]
     #[doc = ""]
     #[doc = " @see Builder.direction()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager12setDirectionEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager12setDirectionEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_setDirection(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7471,7 +7472,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! returns the light's direction in world space"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager12getDirectionEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager12getDirectionEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getDirection(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7485,7 +7486,7 @@ extern "C" {
     #[doc = "              The default is white {1,1,1}."]
     #[doc = ""]
     #[doc = " @see Builder.color(), getInstance()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager8setColorEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager8setColorEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details5TVec3IfEE"]
     pub fn filament_LightManager_setColor(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7495,7 +7496,7 @@ extern "C" {
 extern "C" {
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the light's color in linear sRGB"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager8getColorEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager8getColorEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getColor(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7512,7 +7513,7 @@ extern "C" {
     #[doc = "                  in *lumen*."]
     #[doc = ""]
     #[doc = " @see Builder.intensity()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager12setIntensityEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager12setIntensityEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setIntensity(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7530,7 +7531,7 @@ extern "C" {
     #[doc = " (Type.DIRECTIONAL or Type.SUN)."]
     #[doc = ""]
     #[doc = " @see Builder.intensityCandela(float intensity)"]
-    #[link_name = "\u{1}_ZN8filament12LightManager19setIntensityCandelaEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager19setIntensityCandelaEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setIntensityCandela(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7545,7 +7546,7 @@ extern "C" {
     #[doc = " @note for Type.FOCUSED_SPOT lights, the returned value depends on the \\p outer cone angle."]
     #[doc = ""]
     #[doc = " @return luminous intensity in candela."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager12getIntensityEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager12getIntensityEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getIntensity(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7558,7 +7559,7 @@ extern "C" {
     #[doc = " @param radius falloff distance in world units. Default is 1 meter."]
     #[doc = ""]
     #[doc = " @see Builder.falloff()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager10setFalloffEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager10setFalloffEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setFalloff(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7569,7 +7570,7 @@ extern "C" {
     #[doc = " returns the falloff distance of this light."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the falloff distance of this light."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager10getFalloffEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager10getFalloffEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getFalloff(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7583,7 +7584,7 @@ extern "C" {
     #[doc = " @param outer outer cone angle in *radians* between 0.00873 and pi/2"]
     #[doc = ""]
     #[doc = " @see Builder.spotLightCone()"]
-    #[link_name = "\u{1}_ZN8filament12LightManager16setSpotLightConeEN5utils14EntityInstanceIS0_Lb0EEEff"]
+    #[link_name = "\u{1}__ZN8filament12LightManager16setSpotLightConeEN5utils14EntityInstanceIS0_Lb0EEEff"]
     pub fn filament_LightManager_setSpotLightCone(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7595,7 +7596,7 @@ extern "C" {
     #[doc = " returns the outer cone angle in *radians* between inner and pi/2."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the outer cone angle of this light."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager21getSpotLightOuterConeEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager21getSpotLightOuterConeEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getSpotLightOuterCone(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7609,7 +7610,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the inner cone angle of this light."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager21getSpotLightInnerConeEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager21getSpotLightInnerConeEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getSpotLightInnerCone(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7622,7 +7623,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @param angularRadius sun's radius in degrees. Default is 0.545°."]
-    #[link_name = "\u{1}_ZN8filament12LightManager19setSunAngularRadiusEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager19setSunAngularRadiusEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setSunAngularRadius(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7633,7 +7634,7 @@ extern "C" {
     #[doc = " returns the angular radius if the sun in degrees."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the angular radius if the sun in degrees."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager19getSunAngularRadiusEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager19getSunAngularRadiusEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getSunAngularRadius(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7645,7 +7646,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @param haloSize radius multiplier. Default is 10.0."]
-    #[link_name = "\u{1}_ZN8filament12LightManager14setSunHaloSizeEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager14setSunHaloSizeEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setSunHaloSize(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7657,7 +7658,7 @@ extern "C" {
     #[doc = " sun angular radius."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the halo size"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager14getSunHaloSizeEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager14getSunHaloSizeEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getSunHaloSize(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7669,7 +7670,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @param haloFalloff halo falloff. Default is 80.0."]
-    #[link_name = "\u{1}_ZN8filament12LightManager17setSunHaloFalloffEN5utils14EntityInstanceIS0_Lb0EEEf"]
+    #[link_name = "\u{1}__ZN8filament12LightManager17setSunHaloFalloffEN5utils14EntityInstanceIS0_Lb0EEEf"]
     pub fn filament_LightManager_setSunHaloFalloff(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7680,7 +7681,7 @@ extern "C" {
     #[doc = " returns the halo falloff of a Type.SUN light as a dimensionless value."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return the halo falloff"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager17getSunHaloFalloffEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager17getSunHaloFalloffEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getSunHaloFalloff(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7690,7 +7691,7 @@ extern "C" {
     #[doc = " returns the shadow-map options for a given light"]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @return      A ShadowOption structure"]
-    #[link_name = "\u{1}_ZNK8filament12LightManager16getShadowOptionsEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager16getShadowOptionsEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_getShadowOptions(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7700,7 +7701,7 @@ extern "C" {
     #[doc = " sets the shadow-map options for a given light"]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
     #[doc = " @param options  A ShadowOption structure"]
-    #[link_name = "\u{1}_ZN8filament12LightManager16setShadowOptionsEN5utils14EntityInstanceIS0_Lb0EEERKNS0_13ShadowOptionsE"]
+    #[link_name = "\u{1}__ZN8filament12LightManager16setShadowOptionsEN5utils14EntityInstanceIS0_Lb0EEERKNS0_13ShadowOptionsE"]
     pub fn filament_LightManager_setShadowOptions(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7715,7 +7716,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @warning"]
     #[doc = " - Only a Type.DIRECTIONAL, Type.SUN, Type.SPOT, or Type.FOCUSED_SPOT light can cast shadows"]
-    #[link_name = "\u{1}_ZN8filament12LightManager15setShadowCasterEN5utils14EntityInstanceIS0_Lb0EEEb"]
+    #[link_name = "\u{1}__ZN8filament12LightManager15setShadowCasterEN5utils14EntityInstanceIS0_Lb0EEEb"]
     pub fn filament_LightManager_setShadowCaster(
         this: *mut filament_LightManager,
         i: filament_LightManager_Instance,
@@ -7725,7 +7726,7 @@ extern "C" {
 extern "C" {
     #[doc = " returns whether this light casts shadows."]
     #[doc = " @param i     Instance of the component obtained from getInstance()."]
-    #[link_name = "\u{1}_ZNK8filament12LightManager14isShadowCasterEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament12LightManager14isShadowCasterEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_LightManager_isShadowCaster(
         this: *const filament_LightManager,
         i: filament_LightManager_Instance,
@@ -8064,7 +8065,7 @@ extern "C" {
     #[doc = " @param other A MaterialInstance to use as a template for initializing a new instance"]
     #[doc = " @param name  A name for the new MaterialInstance or nullptr to use the template's name"]
     #[doc = " @return      A new MaterialInstance"]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance9duplicateEPKS0_PKc"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance9duplicateEPKS0_PKc"]
     pub fn filament_MaterialInstance_duplicate(
         other: *const filament_MaterialInstance,
         name: *const ::std::os::raw::c_char,
@@ -8072,14 +8073,14 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @return the Material associated with this instance"]
-    #[link_name = "\u{1}_ZNK8filament16MaterialInstance11getMaterialEv"]
+    #[link_name = "\u{1}__ZNK8filament16MaterialInstance11getMaterialEv"]
     pub fn filament_MaterialInstance_getMaterial(
         this: *const filament_MaterialInstance,
     ) -> *const filament_Material;
 }
 extern "C" {
     #[doc = " @return the name associated with this instance"]
-    #[link_name = "\u{1}_ZNK8filament16MaterialInstance7getNameEv"]
+    #[link_name = "\u{1}__ZNK8filament16MaterialInstance7getNameEv"]
     pub fn filament_MaterialInstance_getName(
         this: *const filament_MaterialInstance,
     ) -> *const ::std::os::raw::c_char;
@@ -8094,7 +8095,7 @@ extern "C" {
     #[doc = " @param texture   Non nullptr Texture object pointer."]
     #[doc = " @param sampler   Sampler parameters."]
     #[doc = " @throws utils::PreConditionPanic if name doesn't exist or no-op if exceptions are disabled."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance12setParameterEPKcPKNS_7TextureERKNS_14TextureSamplerE"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance12setParameterEPKcPKNS_7TextureERKNS_14TextureSamplerE"]
     pub fn filament_MaterialInstance_setParameter(
         this: *mut filament_MaterialInstance,
         name: *const ::std::os::raw::c_char,
@@ -8110,7 +8111,7 @@ extern "C" {
     #[doc = " @param type      Whether the color value is encoded as Linear or sRGB."]
     #[doc = " @param color     Array of read, green, blue channels values."]
     #[doc = " @throws utils::PreConditionPanic if name doesn't exist or no-op if exceptions are disabled."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance12setParameterEPKcNS_7RgbTypeENS_4math7details5TVec3IfEE"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance12setParameterEPKcNS_7RgbTypeENS_4math7details5TVec3IfEE"]
     pub fn filament_MaterialInstance_setParameter1(
         this: *mut filament_MaterialInstance,
         name: *const ::std::os::raw::c_char,
@@ -8126,7 +8127,7 @@ extern "C" {
     #[doc = " @param type      Whether the color value is encoded as Linear or sRGB/A."]
     #[doc = " @param color     Array of read, green, blue and alpha channels values."]
     #[doc = " @throws utils::PreConditionPanic if name doesn't exist or no-op if exceptions are disabled."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance12setParameterEPKcNS_8RgbaTypeENS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance12setParameterEPKcNS_8RgbaTypeENS_4math7details5TVec4IfEE"]
     pub fn filament_MaterialInstance_setParameter2(
         this: *mut filament_MaterialInstance,
         name: *const ::std::os::raw::c_char,
@@ -8141,7 +8142,7 @@ extern "C" {
     #[doc = " @param bottom    bottom coordinate of the scissor box"]
     #[doc = " @param width     width of the scissor box"]
     #[doc = " @param height    height of the scissor box"]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance10setScissorEjjjj"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance10setScissorEjjjj"]
     pub fn filament_MaterialInstance_setScissor(
         this: *mut filament_MaterialInstance,
         left: u32,
@@ -8152,7 +8153,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Returns the scissor rectangle to its default setting, which encompasses the View."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance12unsetScissorEv"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance12unsetScissorEv"]
     pub fn filament_MaterialInstance_unsetScissor(this: *mut filament_MaterialInstance);
 }
 extern "C" {
@@ -8170,7 +8171,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param scale scale factor used to create a variable depth offset for each triangle"]
     #[doc = " @param constant scale factor used to create a constant depth offset for each triangle"]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance16setPolygonOffsetEff"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance16setPolygonOffsetEff"]
     pub fn filament_MaterialInstance_setPolygonOffset(
         this: *mut filament_MaterialInstance,
         scale: f32,
@@ -8181,7 +8182,7 @@ extern "C" {
     #[doc = " Overrides the minimum alpha value a fragment must have to not be discarded when the blend"]
     #[doc = " mode is MASKED. Defaults to 0.4 if it has not been set in the parent Material. The specified"]
     #[doc = " value should be between 0 and 1 and will be clamped if necessary."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance16setMaskThresholdEf"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance16setMaskThresholdEf"]
     pub fn filament_MaterialInstance_setMaskThreshold(
         this: *mut filament_MaterialInstance,
         threshold: f32,
@@ -8191,7 +8192,7 @@ extern "C" {
     #[doc = " Sets the screen space variance of the filter kernel used when applying specular"]
     #[doc = " anti-aliasing. The default value is set to 0.15. The specified value should be between"]
     #[doc = " 0 and 1 and will be clamped if necessary."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance31setSpecularAntiAliasingVarianceEf"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance31setSpecularAntiAliasingVarianceEf"]
     pub fn filament_MaterialInstance_setSpecularAntiAliasingVariance(
         this: *mut filament_MaterialInstance,
         variance: f32,
@@ -8201,7 +8202,7 @@ extern "C" {
     #[doc = " Sets the clamping threshold used to suppress estimation errors when applying specular"]
     #[doc = " anti-aliasing. The default value is set to 0.2. The specified value should be between 0"]
     #[doc = " and 1 and will be clamped if necessary."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance32setSpecularAntiAliasingThresholdEf"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance32setSpecularAntiAliasingThresholdEf"]
     pub fn filament_MaterialInstance_setSpecularAntiAliasingThreshold(
         this: *mut filament_MaterialInstance,
         threshold: f32,
@@ -8211,7 +8212,7 @@ extern "C" {
     #[doc = " Enables or disables double-sided lighting if the parent Material has double-sided capability,"]
     #[doc = " otherwise prints a warning. If double-sided lighting is enabled, backface culling is"]
     #[doc = " automatically disabled."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance14setDoubleSidedEb"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance14setDoubleSidedEb"]
     pub fn filament_MaterialInstance_setDoubleSided(
         this: *mut filament_MaterialInstance,
         doubleSided: bool,
@@ -8219,7 +8220,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Specifies how transparent objects should be rendered (default is DEFAULT)."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance19setTransparencyModeENS_16TransparencyModeE"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance19setTransparencyModeENS_16TransparencyModeE"]
     pub fn filament_MaterialInstance_setTransparencyMode(
         this: *mut filament_MaterialInstance,
         mode: filament_MaterialInstance_TransparencyMode,
@@ -8227,7 +8228,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Overrides the default triangle culling state that was set on the material."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance14setCullingModeENS_7backend11CullingModeE"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance14setCullingModeENS_7backend11CullingModeE"]
     pub fn filament_MaterialInstance_setCullingMode(
         this: *mut filament_MaterialInstance,
         culling: filament_MaterialInstance_CullingMode,
@@ -8235,7 +8236,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Overrides the default color-buffer write state that was set on the material."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance13setColorWriteEb"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance13setColorWriteEb"]
     pub fn filament_MaterialInstance_setColorWrite(
         this: *mut filament_MaterialInstance,
         enable: bool,
@@ -8243,7 +8244,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Overrides the default depth-buffer write state that was set on the material."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance13setDepthWriteEb"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance13setDepthWriteEb"]
     pub fn filament_MaterialInstance_setDepthWrite(
         this: *mut filament_MaterialInstance,
         enable: bool,
@@ -8251,7 +8252,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Overrides the default depth testing state that was set on the material."]
-    #[link_name = "\u{1}_ZN8filament16MaterialInstance15setDepthCullingEb"]
+    #[link_name = "\u{1}__ZN8filament16MaterialInstance15setDepthCullingEb"]
     pub fn filament_MaterialInstance_setDepthCulling(
         this: *mut filament_MaterialInstance,
         enable: bool,
@@ -8587,7 +8588,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param payload Pointer to the material data, must stay valid until build() is called."]
     #[doc = " @param size Size of the material data pointed to by \"payload\" in bytes."]
-    #[link_name = "\u{1}_ZN8filament8Material7Builder7packageEPKvm"]
+    #[link_name = "\u{1}__ZN8filament8Material7Builder7packageEPKvm"]
     pub fn filament_Material_Builder_package(
         this: *mut filament_Material_Builder,
         payload: *const ::core::ffi::c_void,
@@ -8605,32 +8606,32 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament8Material7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament8Material7Builder5buildERNS_6EngineE"]
     pub fn filament_Material_Builder_build(
         this: *mut filament_Material_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_Material;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament8Material7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament8Material7BuilderC1Ev"]
     pub fn filament_Material_Builder_Builder(this: *mut filament_Material_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament8Material7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament8Material7BuilderC1ERKS1_"]
     pub fn filament_Material_Builder_Builder1(
         this: *mut filament_Material_Builder,
         rhs: *const filament_Material_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament8Material7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament8Material7BuilderC1EOS1_"]
     pub fn filament_Material_Builder_Builder2(
         this: *mut filament_Material_Builder,
         rhs: *mut filament_Material_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament8Material7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament8Material7BuilderD1Ev"]
     pub fn filament_Material_Builder_Builder_destructor(this: *mut filament_Material_Builder);
 }
 impl Default for filament_Material_Builder {
@@ -8699,7 +8700,7 @@ extern "C" {
     #[doc = " then the instance inherits the material's name."]
     #[doc = ""]
     #[doc = " @return A pointer to the new instance."]
-    #[link_name = "\u{1}_ZNK8filament8Material14createInstanceEPKc"]
+    #[link_name = "\u{1}__ZNK8filament8Material14createInstanceEPKc"]
     pub fn filament_Material_createInstance(
         this: *const filament_Material,
         name: *const ::std::os::raw::c_char,
@@ -8707,35 +8708,35 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! Returns the name of this material as a null-terminated string."]
-    #[link_name = "\u{1}_ZNK8filament8Material7getNameEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material7getNameEv"]
     pub fn filament_Material_getName(
         this: *const filament_Material,
     ) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
     #[doc = "! Returns the shading model of this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material10getShadingEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material10getShadingEv"]
     pub fn filament_Material_getShading(
         this: *const filament_Material,
     ) -> filament_Material_Shading;
 }
 extern "C" {
     #[doc = "! Returns the interpolation mode of this material. This affects how variables are interpolated."]
-    #[link_name = "\u{1}_ZNK8filament8Material16getInterpolationEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material16getInterpolationEv"]
     pub fn filament_Material_getInterpolation(
         this: *const filament_Material,
     ) -> filament_Material_Interpolation;
 }
 extern "C" {
     #[doc = "! Returns the blending mode of this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material15getBlendingModeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material15getBlendingModeEv"]
     pub fn filament_Material_getBlendingMode(
         this: *const filament_Material,
     ) -> filament_Material_BlendingMode;
 }
 extern "C" {
     #[doc = "! Returns the vertex domain of this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material15getVertexDomainEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material15getVertexDomainEv"]
     pub fn filament_Material_getVertexDomain(
         this: *const filament_Material,
     ) -> filament_Material_VertexDomain;
@@ -8743,14 +8744,14 @@ extern "C" {
 extern "C" {
     #[doc = "! Returns the material domain of this material."]
     #[doc = "! The material domain determines how the material is used."]
-    #[link_name = "\u{1}_ZNK8filament8Material17getMaterialDomainEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material17getMaterialDomainEv"]
     pub fn filament_Material_getMaterialDomain(
         this: *const filament_Material,
     ) -> filament_MaterialDomain;
 }
 extern "C" {
     #[doc = "! Returns the default culling mode of this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material14getCullingModeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material14getCullingModeEv"]
     pub fn filament_Material_getCullingMode(
         this: *const filament_Material,
     ) -> filament_Material_CullingMode;
@@ -8758,84 +8759,84 @@ extern "C" {
 extern "C" {
     #[doc = "! Returns the transparency mode of this material."]
     #[doc = "! This value only makes sense when the blending mode is transparent or fade."]
-    #[link_name = "\u{1}_ZNK8filament8Material19getTransparencyModeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material19getTransparencyModeEv"]
     pub fn filament_Material_getTransparencyMode(
         this: *const filament_Material,
     ) -> filament_Material_TransparencyMode;
 }
 extern "C" {
     #[doc = "! Indicates whether instances of this material will, by default, write to the color buffer."]
-    #[link_name = "\u{1}_ZNK8filament8Material19isColorWriteEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material19isColorWriteEnabledEv"]
     pub fn filament_Material_isColorWriteEnabled(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Indicates whether instances of this material will, by default, write to the depth buffer."]
-    #[link_name = "\u{1}_ZNK8filament8Material19isDepthWriteEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material19isDepthWriteEnabledEv"]
     pub fn filament_Material_isDepthWriteEnabled(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Indicates whether instances of this material will, by default, use depth testing."]
-    #[link_name = "\u{1}_ZNK8filament8Material21isDepthCullingEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material21isDepthCullingEnabledEv"]
     pub fn filament_Material_isDepthCullingEnabled(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Indicates whether this material is double-sided."]
-    #[link_name = "\u{1}_ZNK8filament8Material13isDoubleSidedEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material13isDoubleSidedEv"]
     pub fn filament_Material_isDoubleSided(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Returns the alpha mask threshold used when the blending mode is set to masked."]
-    #[link_name = "\u{1}_ZNK8filament8Material16getMaskThresholdEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material16getMaskThresholdEv"]
     pub fn filament_Material_getMaskThreshold(this: *const filament_Material) -> f32;
 }
 extern "C" {
     #[doc = "! Indicates whether this material uses the shadowing factor as a color multiplier."]
     #[doc = "! This values only makes sense when the shading mode is unlit."]
-    #[link_name = "\u{1}_ZNK8filament8Material19hasShadowMultiplierEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material19hasShadowMultiplierEv"]
     pub fn filament_Material_hasShadowMultiplier(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Indicates whether this material has specular anti-aliasing enabled"]
-    #[link_name = "\u{1}_ZNK8filament8Material23hasSpecularAntiAliasingEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material23hasSpecularAntiAliasingEv"]
     pub fn filament_Material_hasSpecularAntiAliasing(this: *const filament_Material) -> bool;
 }
 extern "C" {
     #[doc = "! Returns the screen-space variance for specular-antialiasing, this value is between 0 and 1."]
-    #[link_name = "\u{1}_ZNK8filament8Material31getSpecularAntiAliasingVarianceEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material31getSpecularAntiAliasingVarianceEv"]
     pub fn filament_Material_getSpecularAntiAliasingVariance(this: *const filament_Material)
         -> f32;
 }
 extern "C" {
     #[doc = "! Returns the clamping threshold for specular-antialiasing, this value is between 0 and 1."]
-    #[link_name = "\u{1}_ZNK8filament8Material32getSpecularAntiAliasingThresholdEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material32getSpecularAntiAliasingThresholdEv"]
     pub fn filament_Material_getSpecularAntiAliasingThreshold(
         this: *const filament_Material,
     ) -> f32;
 }
 extern "C" {
     #[doc = "! Returns the list of vertex attributes required by this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material21getRequiredAttributesEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material21getRequiredAttributesEv"]
     pub fn filament_Material_getRequiredAttributes(
         this: *const filament_Material,
     ) -> filament_AttributeBitset;
 }
 extern "C" {
     #[doc = "! Returns the refraction mode used by this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material17getRefractionModeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material17getRefractionModeEv"]
     pub fn filament_Material_getRefractionMode(
         this: *const filament_Material,
     ) -> filament_RefractionMode;
 }
 extern "C" {
     #[doc = "! Return the refraction type used by this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material17getRefractionTypeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material17getRefractionTypeEv"]
     pub fn filament_Material_getRefractionType(
         this: *const filament_Material,
     ) -> filament_RefractionType;
 }
 extern "C" {
     #[doc = "! Returns the reflection mode used by this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material17getReflectionModeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material17getReflectionModeEv"]
     pub fn filament_Material_getReflectionMode(
         this: *const filament_Material,
     ) -> filament_ReflectionMode;
@@ -8843,7 +8844,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the number of parameters declared by this material."]
     #[doc = " The returned value can be 0."]
-    #[link_name = "\u{1}_ZNK8filament8Material17getParameterCountEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material17getParameterCountEv"]
     pub fn filament_Material_getParameterCount(this: *const filament_Material) -> size_t;
 }
 extern "C" {
@@ -8854,7 +8855,7 @@ extern "C" {
     #[doc = " @param count The number of parameters to retrieve. Must be >= 0 and can be > count."]
     #[doc = ""]
     #[doc = " @return The number of parameters written to the parameters pointer."]
-    #[link_name = "\u{1}_ZNK8filament8Material13getParametersEPNS0_13ParameterInfoEm"]
+    #[link_name = "\u{1}__ZNK8filament8Material13getParametersEPNS0_13ParameterInfoEm"]
     pub fn filament_Material_getParameters(
         this: *const filament_Material,
         parameters: *mut filament_Material_ParameterInfo,
@@ -8863,7 +8864,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! Indicates whether a parameter of the given name exists on this material."]
-    #[link_name = "\u{1}_ZNK8filament8Material12hasParameterEPKc"]
+    #[link_name = "\u{1}__ZNK8filament8Material12hasParameterEPKc"]
     pub fn filament_Material_hasParameter(
         this: *const filament_Material,
         name: *const ::std::os::raw::c_char,
@@ -8871,7 +8872,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! Indicates whether an existing parameter is a sampler or not."]
-    #[link_name = "\u{1}_ZNK8filament8Material9isSamplerEPKc"]
+    #[link_name = "\u{1}__ZNK8filament8Material9isSamplerEPKc"]
     pub fn filament_Material_isSampler(
         this: *const filament_Material,
         name: *const ::std::os::raw::c_char,
@@ -8879,14 +8880,14 @@ extern "C" {
 }
 extern "C" {
     #[doc = "! Returns this material's default instance."]
-    #[link_name = "\u{1}_ZN8filament8Material18getDefaultInstanceEv"]
+    #[link_name = "\u{1}__ZN8filament8Material18getDefaultInstanceEv"]
     pub fn filament_Material_getDefaultInstance(
         this: *mut filament_Material,
     ) -> *mut filament_MaterialInstance;
 }
 extern "C" {
     #[doc = "! Returns this material's default instance."]
-    #[link_name = "\u{1}_ZNK8filament8Material18getDefaultInstanceEv"]
+    #[link_name = "\u{1}__ZNK8filament8Material18getDefaultInstanceEv"]
     pub fn filament_Material_getDefaultInstance1(
         this: *const filament_Material,
     ) -> *const filament_MaterialInstance;
@@ -9051,7 +9052,7 @@ extern "C" {
     #[doc = " Size of the morph targets in vertex counts."]
     #[doc = " @param vertexCount Number of vertex counts the morph targets can hold."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7Builder11vertexCountEm"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7Builder11vertexCountEm"]
     pub fn filament_MorphTargetBuffer_Builder_vertexCount(
         this: *mut filament_MorphTargetBuffer_Builder,
         vertexCount: size_t,
@@ -9061,7 +9062,7 @@ extern "C" {
     #[doc = " Size of the morph targets in targets."]
     #[doc = " @param count Number of targets the morph targets can hold."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7Builder5countEm"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7Builder5countEm"]
     pub fn filament_MorphTargetBuffer_Builder_count(
         this: *mut filament_MorphTargetBuffer_Builder,
         count: size_t,
@@ -9078,34 +9079,34 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7Builder5buildERNS_6EngineE"]
     pub fn filament_MorphTargetBuffer_Builder_build(
         this: *mut filament_MorphTargetBuffer_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_MorphTargetBuffer;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7BuilderC1Ev"]
     pub fn filament_MorphTargetBuffer_Builder_Builder(
         this: *mut filament_MorphTargetBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7BuilderC1ERKS1_"]
     pub fn filament_MorphTargetBuffer_Builder_Builder1(
         this: *mut filament_MorphTargetBuffer_Builder,
         rhs: *const filament_MorphTargetBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7BuilderC1EOS1_"]
     pub fn filament_MorphTargetBuffer_Builder_Builder2(
         this: *mut filament_MorphTargetBuffer_Builder,
         rhs: *mut filament_MorphTargetBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer7BuilderD1Ev"]
     pub fn filament_MorphTargetBuffer_Builder_Builder_destructor(
         this: *mut filament_MorphTargetBuffer_Builder,
     );
@@ -9184,7 +9185,7 @@ extern "C" {
     #[doc = " @param weights pointer to at least count positions"]
     #[doc = " @param count number of position elements in positions"]
     #[doc = " @see setTangentsAt"]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer14setPositionsAtERNS_6EngineEmPKNS_4math7details5TVec3IfEEmm"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer14setPositionsAtERNS_6EngineEmPKNS_4math7details5TVec3IfEEmm"]
     pub fn filament_MorphTargetBuffer_setPositionsAt(
         this: *mut filament_MorphTargetBuffer,
         engine: *mut filament_Engine,
@@ -9204,7 +9205,7 @@ extern "C" {
     #[doc = " @param weights pointer to at least count positions"]
     #[doc = " @param count number of position elements in positions"]
     #[doc = " @see setPositionsAt"]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer14setPositionsAtERNS_6EngineEmPKNS_4math7details5TVec4IfEEmm"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer14setPositionsAtERNS_6EngineEmPKNS_4math7details5TVec4IfEEmm"]
     pub fn filament_MorphTargetBuffer_setPositionsAt1(
         this: *mut filament_MorphTargetBuffer,
         engine: *mut filament_Engine,
@@ -9224,7 +9225,7 @@ extern "C" {
     #[doc = " @param tangents pointer to at least count tangents"]
     #[doc = " @param count number of tangent elements in tangents"]
     #[doc = " @see setTangentsAt"]
-    #[link_name = "\u{1}_ZN8filament17MorphTargetBuffer13setTangentsAtERNS_6EngineEmPKNS_4math7details5TVec4IsEEmm"]
+    #[link_name = "\u{1}__ZN8filament17MorphTargetBuffer13setTangentsAtERNS_6EngineEmPKNS_4math7details5TVec4IsEEmm"]
     pub fn filament_MorphTargetBuffer_setTangentsAt(
         this: *mut filament_MorphTargetBuffer,
         engine: *mut filament_Engine,
@@ -9237,7 +9238,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the vertex count of this MorphTargetBuffer."]
     #[doc = " @return The number of vertices the MorphTargetBuffer holds."]
-    #[link_name = "\u{1}_ZNK8filament17MorphTargetBuffer14getVertexCountEv"]
+    #[link_name = "\u{1}__ZNK8filament17MorphTargetBuffer14getVertexCountEv"]
     pub fn filament_MorphTargetBuffer_getVertexCount(
         this: *const filament_MorphTargetBuffer,
     ) -> size_t;
@@ -9245,7 +9246,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the target count of this MorphTargetBuffer."]
     #[doc = " @return The number of targets the MorphTargetBuffer holds."]
-    #[link_name = "\u{1}_ZNK8filament17MorphTargetBuffer8getCountEv"]
+    #[link_name = "\u{1}__ZNK8filament17MorphTargetBuffer8getCountEv"]
     pub fn filament_MorphTargetBuffer_getCount(this: *const filament_MorphTargetBuffer) -> size_t;
 }
 impl filament_MorphTargetBuffer {
@@ -11389,7 +11390,7 @@ extern "C" {
     #[doc = " @param minIndex specifies the minimum index contained in the index buffer"]
     #[doc = " @param maxIndex specifies the maximum index contained in the index buffer"]
     #[doc = " @param count number of indices to read (for triangles, this should be a multiple of 3)"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmmmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmmmm"]
     pub fn filament_RenderableManager_Builder_geometry(
         this: *mut filament_RenderableManager_Builder,
         index: size_t,
@@ -11403,7 +11404,7 @@ extern "C" {
     ) -> *mut filament_RenderableManager_Builder;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmm"]
     pub fn filament_RenderableManager_Builder_geometry1(
         this: *mut filament_RenderableManager_Builder,
         index: size_t,
@@ -11415,7 +11416,7 @@ extern "C" {
     ) -> *mut filament_RenderableManager_Builder;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8geometryEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferE"]
     pub fn filament_RenderableManager_Builder_geometry2(
         this: *mut filament_RenderableManager_Builder,
         index: size_t,
@@ -11431,7 +11432,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param index zero-based index of the primitive, must be less than the count passed to Builder constructor"]
     #[doc = " @param materialInstance the material to bind"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8materialEmPKNS_16MaterialInstanceE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8materialEmPKNS_16MaterialInstanceE"]
     pub fn filament_RenderableManager_Builder_material(
         this: *mut filament_RenderableManager_Builder,
         index: size_t,
@@ -11446,7 +11447,7 @@ extern "C" {
     #[doc = " disabled for the renderable."]
     #[doc = ""]
     #[doc = " \\see computeAABB()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder11boundingBoxERKNS_3BoxE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder11boundingBoxERKNS_3BoxE"]
     pub fn filament_RenderableManager_Builder_boundingBox(
         this: *mut filament_RenderableManager_Builder,
         axisAlignedBoundingBox: *const filament_Box,
@@ -11465,7 +11466,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param select the set of bits to affect"]
     #[doc = " @param values the replacement values for the affected bits"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder9layerMaskEhh"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder9layerMaskEhh"]
     pub fn filament_RenderableManager_Builder_layerMask(
         this: *mut filament_RenderableManager_Builder,
         select: u8,
@@ -11486,7 +11487,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " The priority is clamped to the range [0..7], defaults to 4; 7 is lowest priority"]
     #[doc = " (rendered last)."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8priorityEh"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8priorityEh"]
     pub fn filament_RenderableManager_Builder_priority(
         this: *mut filament_RenderableManager_Builder,
         priority: u8,
@@ -11497,7 +11498,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\note Do not confuse frustum culling with backface culling. The latter is controlled via"]
     #[doc = " the material."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder7cullingEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder7cullingEb"]
     pub fn filament_RenderableManager_Builder_culling(
         this: *mut filament_RenderableManager_Builder,
         enable: bool,
@@ -11508,7 +11509,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param channel Light channel to enable or disable, between 0 and 7."]
     #[doc = " @param enable Whether to enable or disable the light channel."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder12lightChannelEjb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder12lightChannelEjb"]
     pub fn filament_RenderableManager_Builder_lightChannel(
         this: *mut filament_RenderableManager_Builder,
         channel: ::std::os::raw::c_uint,
@@ -11523,7 +11524,7 @@ extern "C" {
     #[doc = "   - receiveShadows is also disabled"]
     #[doc = "   - the object is guaranteed to not cast shadows on itself or other objects (for example,"]
     #[doc = "     a ground plane)"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder11castShadowsEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder11castShadowsEb"]
     pub fn filament_RenderableManager_Builder_castShadows(
         this: *mut filament_RenderableManager_Builder,
         enable: bool,
@@ -11531,7 +11532,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Controls if this renderable receives shadows, true by default."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder14receiveShadowsEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder14receiveShadowsEb"]
     pub fn filament_RenderableManager_Builder_receiveShadows(
         this: *mut filament_RenderableManager_Builder,
         enable: bool,
@@ -11541,7 +11542,7 @@ extern "C" {
     #[doc = " Controls if this renderable uses screen-space contact shadows. This is more"]
     #[doc = " expensive but can improve the quality of shadows, especially in large scenes."]
     #[doc = " (off by default)."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder25screenSpaceContactShadowsEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder25screenSpaceContactShadowsEb"]
     pub fn filament_RenderableManager_Builder_screenSpaceContactShadows(
         this: *mut filament_RenderableManager_Builder,
         enable: bool,
@@ -11554,7 +11555,7 @@ extern "C" {
     #[doc = " setBones(). This allows sharing of data between renderables."]
     #[doc = ""]
     #[doc = " @param enabled If true, enables buffer object mode.  False by default."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder21enableSkinningBuffersEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder21enableSkinningBuffersEb"]
     pub fn filament_RenderableManager_Builder_enableSkinningBuffers(
         this: *mut filament_RenderableManager_Builder,
         enabled: bool,
@@ -11575,7 +11576,7 @@ extern "C" {
     #[doc = " @param skinningBuffer nullptr to disable, otherwise the SkinningBuffer to use"]
     #[doc = " @param count 0 to disable, otherwise the number of bone transforms (up to 255)"]
     #[doc = " @param offset offset in the SkinningBuffer"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8skinningEPNS_14SkinningBufferEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8skinningEPNS_14SkinningBufferEmm"]
     pub fn filament_RenderableManager_Builder_skinning(
         this: *mut filament_RenderableManager_Builder,
         skinningBuffer: *mut filament_SkinningBuffer,
@@ -11597,7 +11598,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param boneCount 0 to disable, otherwise the number of bone transforms (up to 255)"]
     #[doc = " @param transforms the initial set of transforms (one for each bone)"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8skinningEmPKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8skinningEmPKNS_4math7details6TMat44IfEE"]
     pub fn filament_RenderableManager_Builder_skinning1(
         this: *mut filament_RenderableManager_Builder,
         boneCount: size_t,
@@ -11605,7 +11606,7 @@ extern "C" {
     ) -> *mut filament_RenderableManager_Builder;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8skinningEmPKNS0_4BoneE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8skinningEmPKNS0_4BoneE"]
     pub fn filament_RenderableManager_Builder_skinning2(
         this: *mut filament_RenderableManager_Builder,
         boneCount: size_t,
@@ -11613,7 +11614,7 @@ extern "C" {
     ) -> *mut filament_RenderableManager_Builder;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8skinningEm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8skinningEm"]
     pub fn filament_RenderableManager_Builder_skinning3(
         this: *mut filament_RenderableManager_Builder,
         boneCount: size_t,
@@ -11637,7 +11638,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " See also RenderableManager::setMorphWeights(), which can be called on a per-frame basis"]
     #[doc = " to advance the animation."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder8morphingEm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder8morphingEm"]
     pub fn filament_RenderableManager_Builder_morphing(
         this: *mut filament_RenderableManager_Builder,
         targetCount: size_t,
@@ -11648,7 +11649,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param primitiveIndex the primitive of interest"]
     #[doc = " @param order draw order number (0 by default). Only the lowest 15 bits are used."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder10blendOrderEmt"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder10blendOrderEmt"]
     pub fn filament_RenderableManager_Builder_blendOrder(
         this: *mut filament_RenderableManager_Builder,
         primitiveIndex: size_t,
@@ -11672,7 +11673,7 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7Builder5buildERNS_6EngineEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7Builder5buildERNS_6EngineEN5utils6EntityE"]
     pub fn filament_RenderableManager_Builder_build(
         this: *mut filament_RenderableManager_Builder,
         engine: *mut filament_Engine,
@@ -11686,21 +11687,21 @@ extern "C" {
     #[doc = ""]
     #[doc = " Note that builders typically do not have a long lifetime since clients should discard"]
     #[doc = " them after calling build(). For a usage example, see RenderableManager."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7BuilderC1Em"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7BuilderC1Em"]
     pub fn filament_RenderableManager_Builder_Builder(
         this: *mut filament_RenderableManager_Builder,
         count: size_t,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7BuilderC1EOS1_"]
     pub fn filament_RenderableManager_Builder_Builder1(
         this: *mut filament_RenderableManager_Builder,
         rhs: *mut filament_RenderableManager_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7BuilderD1Ev"]
     pub fn filament_RenderableManager_Builder_Builder_destructor(
         this: *mut filament_RenderableManager_Builder,
     );
@@ -11919,7 +11920,7 @@ fn bindgen_test_layout_filament_RenderableManager() {
 }
 extern "C" {
     #[doc = " Checks if the given entity already has a renderable component."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager12hasComponentEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager12hasComponentEN5utils6EntityE"]
     pub fn filament_RenderableManager_hasComponent(
         this: *const filament_RenderableManager,
         e: utils_Entity,
@@ -11929,7 +11930,7 @@ extern "C" {
     #[doc = " Gets a temporary handle that can be used to access the renderable state."]
     #[doc = ""]
     #[doc = " @return Non-zero handle if the entity has a renderable component, 0 otherwise."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager11getInstanceEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager11getInstanceEN5utils6EntityE"]
     pub fn filament_RenderableManager_getInstance(
         this: *const filament_RenderableManager,
         e: utils_Entity,
@@ -11937,7 +11938,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Destroys the renderable component in the given entity."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager7destroyEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager7destroyEN5utils6EntityE"]
     pub fn filament_RenderableManager_destroy(
         this: *mut filament_RenderableManager,
         e: utils_Entity,
@@ -11948,7 +11949,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\see Builder::boundingBox()"]
     #[doc = " \\see RenderableManager::getAxisAlignedBoundingBox()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager25setAxisAlignedBoundingBoxEN5utils14EntityInstanceIS0_Lb0EEERKNS_3BoxE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager25setAxisAlignedBoundingBoxEN5utils14EntityInstanceIS0_Lb0EEERKNS_3BoxE"]
     pub fn filament_RenderableManager_setAxisAlignedBoundingBox(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -11961,7 +11962,7 @@ extern "C" {
     #[doc = " \\see Builder::layerMask()"]
     #[doc = " \\see View::setVisibleLayers()."]
     #[doc = " \\see RenderableManager::getLayerMask()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager12setLayerMaskEN5utils14EntityInstanceIS0_Lb0EEEhh"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager12setLayerMaskEN5utils14EntityInstanceIS0_Lb0EEEhh"]
     pub fn filament_RenderableManager_setLayerMask(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -11973,7 +11974,7 @@ extern "C" {
     #[doc = " Changes the coarse-level draw ordering."]
     #[doc = ""]
     #[doc = " \\see Builder::priority()."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager11setPriorityEN5utils14EntityInstanceIS0_Lb0EEEh"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager11setPriorityEN5utils14EntityInstanceIS0_Lb0EEEh"]
     pub fn filament_RenderableManager_setPriority(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -11984,7 +11985,7 @@ extern "C" {
     #[doc = " Changes whether or not frustum culling is on."]
     #[doc = ""]
     #[doc = " \\see Builder::culling()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager10setCullingEN5utils14EntityInstanceIS0_Lb0EEEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager10setCullingEN5utils14EntityInstanceIS0_Lb0EEEb"]
     pub fn filament_RenderableManager_setCulling(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -11996,7 +11997,7 @@ extern "C" {
     #[doc = " Light channel 0 is enabled by default."]
     #[doc = ""]
     #[doc = " \\see Builder::lightChannel()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager15setLightChannelEN5utils14EntityInstanceIS0_Lb0EEEjb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager15setLightChannelEN5utils14EntityInstanceIS0_Lb0EEEjb"]
     pub fn filament_RenderableManager_setLightChannel(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12009,7 +12010,7 @@ extern "C" {
     #[doc = " @param instance Instance of the component obtained from getInstance()."]
     #[doc = " @param channel  Light channel to query"]
     #[doc = " @return         true if the light channel is enabled, false otherwise"]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager15getLightChannelEN5utils14EntityInstanceIS0_Lb0EEEj"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager15getLightChannelEN5utils14EntityInstanceIS0_Lb0EEEj"]
     pub fn filament_RenderableManager_getLightChannel(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12020,7 +12021,7 @@ extern "C" {
     #[doc = " Changes whether or not the renderable casts shadows."]
     #[doc = ""]
     #[doc = " \\see Builder::castShadows()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager14setCastShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager14setCastShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
     pub fn filament_RenderableManager_setCastShadows(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12031,7 +12032,7 @@ extern "C" {
     #[doc = " Changes whether or not the renderable can receive shadows."]
     #[doc = ""]
     #[doc = " \\see Builder::receiveShadows()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager17setReceiveShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager17setReceiveShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
     pub fn filament_RenderableManager_setReceiveShadows(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12042,7 +12043,7 @@ extern "C" {
     #[doc = " Changes whether or not the renderable can use screen-space contact shadows."]
     #[doc = ""]
     #[doc = " \\see Builder::screenSpaceContactShadows()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager28setScreenSpaceContactShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager28setScreenSpaceContactShadowsEN5utils14EntityInstanceIS0_Lb0EEEb"]
     pub fn filament_RenderableManager_setScreenSpaceContactShadows(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12053,7 +12054,7 @@ extern "C" {
     #[doc = " Checks if the renderable can cast shadows."]
     #[doc = ""]
     #[doc = " \\see Builder::castShadows()."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager14isShadowCasterEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager14isShadowCasterEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_isShadowCaster(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12063,7 +12064,7 @@ extern "C" {
     #[doc = " Checks if the renderable can receive shadows."]
     #[doc = ""]
     #[doc = " \\see Builder::receiveShadows()."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager16isShadowReceiverEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager16isShadowReceiverEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_isShadowReceiver(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12072,7 +12073,7 @@ extern "C" {
 extern "C" {
     #[doc = " Updates the bone transforms in the range [offset, offset + boneCount)."]
     #[doc = " The bones must be pre-allocated using Builder::skinning()."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager8setBonesEN5utils14EntityInstanceIS0_Lb0EEEPKNS0_4BoneEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager8setBonesEN5utils14EntityInstanceIS0_Lb0EEEPKNS0_4BoneEmm"]
     pub fn filament_RenderableManager_setBones(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12082,7 +12083,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager8setBonesEN5utils14EntityInstanceIS0_Lb0EEEPKNS_4math7details6TMat44IfEEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager8setBonesEN5utils14EntityInstanceIS0_Lb0EEEPKNS_4math7details6TMat44IfEEmm"]
     pub fn filament_RenderableManager_setBones1(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12093,7 +12094,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Associates a SkinningBuffer to a renderable instance"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager17setSkinningBufferEN5utils14EntityInstanceIS0_Lb0EEEPNS_14SkinningBufferEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager17setSkinningBufferEN5utils14EntityInstanceIS0_Lb0EEEPNS_14SkinningBufferEmm"]
     pub fn filament_RenderableManager_setSkinningBuffer(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12112,7 +12113,7 @@ extern "C" {
     #[doc = " @param weights Pointer to morph target weights to be update."]
     #[doc = " @param count Number of morph target weights."]
     #[doc = " @param offset Index of the first first morph target weight to set at instance."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager15setMorphWeightsEN5utils14EntityInstanceIS0_Lb0EEEPKfmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager15setMorphWeightsEN5utils14EntityInstanceIS0_Lb0EEEPKfmm"]
     pub fn filament_RenderableManager_setMorphWeights(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12123,7 +12124,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Associates a MorphTargetBuffer to the given primitive."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager22setMorphTargetBufferAtEN5utils14EntityInstanceIS0_Lb0EEEhmPNS_17MorphTargetBufferEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager22setMorphTargetBufferAtEN5utils14EntityInstanceIS0_Lb0EEEhmPNS_17MorphTargetBufferEmm"]
     pub fn filament_RenderableManager_setMorphTargetBufferAt(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12135,7 +12136,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament17RenderableManager22setMorphTargetBufferAtEN5utils14EntityInstanceIS0_Lb0EEEhmPNS_17MorphTargetBufferEm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager22setMorphTargetBufferAtEN5utils14EntityInstanceIS0_Lb0EEEhmPNS_17MorphTargetBufferEm"]
     pub fn filament_RenderableManager_setMorphTargetBufferAt1(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12148,7 +12149,7 @@ extern "C" {
 extern "C" {
     #[doc = " Gets t"]
     #[doc = " number of morphing in the given entity."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager19getMorphTargetCountEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager19getMorphTargetCountEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_getMorphTargetCount(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12159,7 +12160,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " \\see Builder::boundingBox()"]
     #[doc = " \\see RenderableManager::setAxisAlignedBoundingBox()"]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager25getAxisAlignedBoundingBoxEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager25getAxisAlignedBoundingBoxEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_getAxisAlignedBoundingBox(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12171,7 +12172,7 @@ extern "C" {
     #[doc = " \\see Builder::layerMask()"]
     #[doc = " \\see View::setVisibleLayers()."]
     #[doc = " \\see RenderableManager::getLayerMask()"]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager12getLayerMaskEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager12getLayerMaskEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_getLayerMask(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12179,7 +12180,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Gets the immutable number of primitives in the given renderable."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager17getPrimitiveCountEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager17getPrimitiveCountEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_RenderableManager_getPrimitiveCount(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12189,7 +12190,7 @@ extern "C" {
     #[doc = " Changes the material instance binding for the given primitive."]
     #[doc = ""]
     #[doc = " \\see Builder::material()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager21setMaterialInstanceAtEN5utils14EntityInstanceIS0_Lb0EEEmPKNS_16MaterialInstanceE"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager21setMaterialInstanceAtEN5utils14EntityInstanceIS0_Lb0EEEmPKNS_16MaterialInstanceE"]
     pub fn filament_RenderableManager_setMaterialInstanceAt(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12199,7 +12200,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Retrieves the material instance that is bound to the given primitive."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager21getMaterialInstanceAtEN5utils14EntityInstanceIS0_Lb0EEEm"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager21getMaterialInstanceAtEN5utils14EntityInstanceIS0_Lb0EEEm"]
     pub fn filament_RenderableManager_getMaterialInstanceAt(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12210,7 +12211,7 @@ extern "C" {
     #[doc = " Changes the geometry for the given primitive."]
     #[doc = ""]
     #[doc = " \\see Builder::geometry()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager13setGeometryAtEN5utils14EntityInstanceIS0_Lb0EEEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager13setGeometryAtEN5utils14EntityInstanceIS0_Lb0EEEmNS_7backend13PrimitiveTypeEPNS_12VertexBufferEPNS_11IndexBufferEmm"]
     pub fn filament_RenderableManager_setGeometryAt(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12226,7 +12227,7 @@ extern "C" {
     #[doc = " Changes the active range of indices or topology for the given primitive."]
     #[doc = ""]
     #[doc = " \\see Builder::geometry()"]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager13setGeometryAtEN5utils14EntityInstanceIS0_Lb0EEEmNS_7backend13PrimitiveTypeEmm"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager13setGeometryAtEN5utils14EntityInstanceIS0_Lb0EEEmNS_7backend13PrimitiveTypeEmm"]
     pub fn filament_RenderableManager_setGeometryAt1(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12244,7 +12245,7 @@ extern "C" {
     #[doc = " @param instance the renderable of interest"]
     #[doc = " @param primitiveIndex the primitive of interest"]
     #[doc = " @param order draw order number (0 by default). Only the lowest 15 bits are used."]
-    #[link_name = "\u{1}_ZN8filament17RenderableManager15setBlendOrderAtEN5utils14EntityInstanceIS0_Lb0EEEmt"]
+    #[link_name = "\u{1}__ZN8filament17RenderableManager15setBlendOrderAtEN5utils14EntityInstanceIS0_Lb0EEEmt"]
     pub fn filament_RenderableManager_setBlendOrderAt(
         this: *mut filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12254,7 +12255,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Retrieves the set of enabled attribute slots in the given primitive's VertexBuffer."]
-    #[link_name = "\u{1}_ZNK8filament17RenderableManager22getEnabledAttributesAtEN5utils14EntityInstanceIS0_Lb0EEEm"]
+    #[link_name = "\u{1}__ZNK8filament17RenderableManager22getEnabledAttributesAtEN5utils14EntityInstanceIS0_Lb0EEEm"]
     pub fn filament_RenderableManager_getEnabledAttributesAt(
         this: *const filament_RenderableManager,
         instance: filament_RenderableManager_Instance,
@@ -12842,7 +12843,7 @@ fn bindgen_test_layout_filament_Renderer() {
 extern "C" {
     #[doc = " Information about the display this Renderer is associated to. This information is needed"]
     #[doc = " to accurately compute dynamic-resolution scaling and for frame-pacing."]
-    #[link_name = "\u{1}_ZN8filament8Renderer14setDisplayInfoERKNS0_11DisplayInfoE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer14setDisplayInfoERKNS0_11DisplayInfoE"]
     pub fn filament_Renderer_setDisplayInfo(
         this: *mut filament_Renderer,
         info: *const filament_Renderer_DisplayInfo,
@@ -12850,7 +12851,7 @@ extern "C" {
 }
 extern "C" {
     #[doc = " Set options controlling the desired frame-rate."]
-    #[link_name = "\u{1}_ZN8filament8Renderer19setFrameRateOptionsERKNS0_16FrameRateOptionsE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer19setFrameRateOptionsERKNS0_16FrameRateOptionsE"]
     pub fn filament_Renderer_setFrameRateOptions(
         this: *mut filament_Renderer,
         options: *const filament_Renderer_FrameRateOptions,
@@ -12859,7 +12860,7 @@ extern "C" {
 extern "C" {
     #[doc = " Set ClearOptions which are used at the beginning of a frame to clear or retain the"]
     #[doc = " SwapChain content."]
-    #[link_name = "\u{1}_ZN8filament8Renderer15setClearOptionsERKNS0_12ClearOptionsE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer15setClearOptionsERKNS0_12ClearOptionsE"]
     pub fn filament_Renderer_setClearOptions(
         this: *mut filament_Renderer,
         options: *const filament_Renderer_ClearOptions,
@@ -12869,7 +12870,7 @@ extern "C" {
     #[doc = " Get the Engine that created this Renderer."]
     #[doc = ""]
     #[doc = " @return A pointer to the Engine instance this Renderer is associated to."]
-    #[link_name = "\u{1}_ZN8filament8Renderer9getEngineEv"]
+    #[link_name = "\u{1}__ZN8filament8Renderer9getEngineEv"]
     pub fn filament_Renderer_getEngine(this: *mut filament_Renderer) -> *mut filament_Engine;
 }
 extern "C" {
@@ -12908,7 +12909,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see"]
     #[doc = " endFrame()"]
-    #[link_name = "\u{1}_ZN8filament8Renderer10beginFrameEPNS_9SwapChainEm"]
+    #[link_name = "\u{1}__ZN8filament8Renderer10beginFrameEPNS_9SwapChainEy"]
     pub fn filament_Renderer_beginFrame(
         this: *mut filament_Renderer,
         swapChain: *mut filament_SwapChain,
@@ -12968,7 +12969,7 @@ extern "C" {
     #[doc = " @see"]
     #[doc = " beginFrame(), endFrame(), View"]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament8Renderer6renderEPKNS_4ViewE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer6renderEPKNS_4ViewE"]
     pub fn filament_Renderer_render(this: *mut filament_Renderer, view: *const filament_View);
 }
 extern "C" {
@@ -12983,7 +12984,7 @@ extern "C" {
     #[doc = " @remark"]
     #[doc = " copyFrame() should be called after a frame is rendered using render()"]
     #[doc = " but before endFrame() is called."]
-    #[link_name = "\u{1}_ZN8filament8Renderer9copyFrameEPNS_9SwapChainERKNS_8ViewportES5_j"]
+    #[link_name = "\u{1}__ZN8filament8Renderer9copyFrameEPNS_9SwapChainERKNS_8ViewportES5_j"]
     pub fn filament_Renderer_copyFrame(
         this: *mut filament_Renderer,
         dstSwapChain: *mut filament_SwapChain,
@@ -13048,7 +13049,7 @@ extern "C" {
     #[doc = " @remark"]
     #[doc = " readPixels() is intended for debugging and testing. It will impact performance significantly."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament8Renderer10readPixelsEjjjjONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer10readPixelsEjjjjONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Renderer_readPixels(
         this: *mut filament_Renderer,
         xoffset: u32,
@@ -13070,7 +13071,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see"]
     #[doc = " beginFrame()"]
-    #[link_name = "\u{1}_ZN8filament8Renderer8endFrameEv"]
+    #[link_name = "\u{1}__ZN8filament8Renderer8endFrameEv"]
     pub fn filament_Renderer_endFrame(this: *mut filament_Renderer);
 }
 extern "C" {
@@ -13129,7 +13130,7 @@ extern "C" {
     #[doc = " @remark"]
     #[doc = " readPixels() is intended for debugging and testing. It will impact performance significantly."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament8Renderer10readPixelsEPNS_12RenderTargetEjjjjONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer10readPixelsEPNS_12RenderTargetEjjjjONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Renderer_readPixels1(
         this: *mut filament_Renderer,
         renderTarget: *mut filament_RenderTarget,
@@ -13162,7 +13163,7 @@ extern "C" {
     #[doc = " renderStandaloneView() perform potentially heavy computations and cannot be multi-threaded."]
     #[doc = " However, internally, renderStandaloneView() is highly multi-threaded to both improve"]
     #[doc = " performance in mitigate the call's latency."]
-    #[link_name = "\u{1}_ZN8filament8Renderer20renderStandaloneViewEPKNS_4ViewE"]
+    #[link_name = "\u{1}__ZN8filament8Renderer20renderStandaloneViewEPKNS_4ViewE"]
     pub fn filament_Renderer_renderStandaloneView(
         this: *mut filament_Renderer,
         view: *const filament_View,
@@ -13211,7 +13212,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see"]
     #[doc = " resetUserTime()"]
-    #[link_name = "\u{1}_ZNK8filament8Renderer11getUserTimeEv"]
+    #[link_name = "\u{1}__ZNK8filament8Renderer11getUserTimeEv"]
     pub fn filament_Renderer_getUserTime(this: *const filament_Renderer) -> f64;
 }
 extern "C" {
@@ -13222,7 +13223,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see"]
     #[doc = " getUserTime()"]
-    #[link_name = "\u{1}_ZN8filament8Renderer13resetUserTimeEv"]
+    #[link_name = "\u{1}__ZN8filament8Renderer13resetUserTimeEv"]
     pub fn filament_Renderer_resetUserTime(this: *mut filament_Renderer);
 }
 impl filament_Renderer {
@@ -13388,7 +13389,7 @@ extern "C" {
     #[doc = " @param attachment The attachment point of the texture."]
     #[doc = " @param texture The associated texture object."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7Builder7textureENS0_15AttachmentPointEPNS_7TextureE"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7Builder7textureENS0_15AttachmentPointEPNS_7TextureE"]
     pub fn filament_RenderTarget_Builder_texture(
         this: *mut filament_RenderTarget_Builder,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13401,7 +13402,7 @@ extern "C" {
     #[doc = " @param attachment The attachment point of the texture."]
     #[doc = " @param level The associated mipmap level, 0 by default."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7Builder8mipLevelENS0_15AttachmentPointEh"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7Builder8mipLevelENS0_15AttachmentPointEh"]
     pub fn filament_RenderTarget_Builder_mipLevel(
         this: *mut filament_RenderTarget_Builder,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13414,7 +13415,7 @@ extern "C" {
     #[doc = " @param attachment The attachment point."]
     #[doc = " @param face The associated cubemap face."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7Builder4faceENS0_15AttachmentPointENS_7backend18TextureCubemapFaceE"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7Builder4faceENS0_15AttachmentPointENS_7backend18TextureCubemapFaceE"]
     pub fn filament_RenderTarget_Builder_face(
         this: *mut filament_RenderTarget_Builder,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13427,7 +13428,7 @@ extern "C" {
     #[doc = " @param attachment The attachment point."]
     #[doc = " @param layer The associated cubemap layer."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7Builder5layerENS0_15AttachmentPointEj"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7Builder5layerENS0_15AttachmentPointEj"]
     pub fn filament_RenderTarget_Builder_layer(
         this: *mut filament_RenderTarget_Builder,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13439,32 +13440,32 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return pointer to the newly created object or nullptr if exceptions are disabled and"]
     #[doc = "         an error occurred."]
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7Builder5buildERNS_6EngineE"]
     pub fn filament_RenderTarget_Builder_build(
         this: *mut filament_RenderTarget_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_RenderTarget;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7BuilderC1Ev"]
     pub fn filament_RenderTarget_Builder_Builder(this: *mut filament_RenderTarget_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7BuilderC1ERKS1_"]
     pub fn filament_RenderTarget_Builder_Builder1(
         this: *mut filament_RenderTarget_Builder,
         rhs: *const filament_RenderTarget_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7BuilderC1EOS1_"]
     pub fn filament_RenderTarget_Builder_Builder2(
         this: *mut filament_RenderTarget_Builder,
         rhs: *mut filament_RenderTarget_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12RenderTarget7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament12RenderTarget7BuilderD1Ev"]
     pub fn filament_RenderTarget_Builder_Builder_destructor(
         this: *mut filament_RenderTarget_Builder,
     );
@@ -13559,7 +13560,7 @@ extern "C" {
     #[doc = " Gets the texture set on the given attachment point"]
     #[doc = " @param attachment Attachment point"]
     #[doc = " @return A Texture object or nullptr if no texture is set for this attachment point"]
-    #[link_name = "\u{1}_ZNK8filament12RenderTarget10getTextureENS0_15AttachmentPointE"]
+    #[link_name = "\u{1}__ZNK8filament12RenderTarget10getTextureENS0_15AttachmentPointE"]
     pub fn filament_RenderTarget_getTexture(
         this: *const filament_RenderTarget,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13569,7 +13570,7 @@ extern "C" {
     #[doc = " Returns the mipmap level set on the given attachment point"]
     #[doc = " @param attachment Attachment point"]
     #[doc = " @return the mipmap level set on the given attachment point"]
-    #[link_name = "\u{1}_ZNK8filament12RenderTarget11getMipLevelENS0_15AttachmentPointE"]
+    #[link_name = "\u{1}__ZNK8filament12RenderTarget11getMipLevelENS0_15AttachmentPointE"]
     pub fn filament_RenderTarget_getMipLevel(
         this: *const filament_RenderTarget,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13580,7 +13581,7 @@ extern "C" {
     #[doc = " @param attachment Attachment point"]
     #[doc = " @return A cubemap face identifier. This is only relevant if the attachment's texture is"]
     #[doc = " a cubemap."]
-    #[link_name = "\u{1}_ZNK8filament12RenderTarget7getFaceENS0_15AttachmentPointE"]
+    #[link_name = "\u{1}__ZNK8filament12RenderTarget7getFaceENS0_15AttachmentPointE"]
     pub fn filament_RenderTarget_getFace(
         this: *const filament_RenderTarget,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13590,7 +13591,7 @@ extern "C" {
     #[doc = " Returns the texture-layer set on the given attachment point"]
     #[doc = " @param attachment Attachment point"]
     #[doc = " @return A texture layer. This is only relevant if the attachment's texture is a 3D texture."]
-    #[link_name = "\u{1}_ZNK8filament12RenderTarget8getLayerENS0_15AttachmentPointE"]
+    #[link_name = "\u{1}__ZNK8filament12RenderTarget8getLayerENS0_15AttachmentPointE"]
     pub fn filament_RenderTarget_getLayer(
         this: *const filament_RenderTarget,
         attachment: filament_RenderTarget_AttachmentPoint,
@@ -13601,7 +13602,7 @@ extern "C" {
     #[doc = " guaranteed to return at least MIN_SUPPORTED_COLOR_ATTACHMENTS_COUNT and at most"]
     #[doc = " MAX_SUPPORTED_COLOR_ATTACHMENTS_COUNT."]
     #[doc = " @return Number of color attachments usable in a render target."]
-    #[link_name = "\u{1}_ZNK8filament12RenderTarget33getSupportedColorAttachmentsCountEv"]
+    #[link_name = "\u{1}__ZNK8filament12RenderTarget33getSupportedColorAttachmentsCountEv"]
     pub fn filament_RenderTarget_getSupportedColorAttachmentsCount(
         this: *const filament_RenderTarget,
     ) -> u8;
@@ -13686,21 +13687,21 @@ extern "C" {
     #[doc = " The Skybox is drawn last and covers all pixels not touched by geometry."]
     #[doc = ""]
     #[doc = " @param skybox The Skybox to use to fill untouched pixels, or nullptr to unset the Skybox."]
-    #[link_name = "\u{1}_ZN8filament5Scene9setSkyboxEPNS_6SkyboxE"]
+    #[link_name = "\u{1}__ZN8filament5Scene9setSkyboxEPNS_6SkyboxE"]
     pub fn filament_Scene_setSkybox(this: *mut filament_Scene, skybox: *mut filament_Skybox);
 }
 extern "C" {
     #[doc = " Returns the Skybox associated with the Scene."]
     #[doc = ""]
     #[doc = " @return The associated Skybox, or nullptr if there is none."]
-    #[link_name = "\u{1}_ZN8filament5Scene9getSkyboxEv"]
+    #[link_name = "\u{1}__ZN8filament5Scene9getSkyboxEv"]
     pub fn filament_Scene_getSkybox(this: *mut filament_Scene) -> *mut filament_Skybox;
 }
 extern "C" {
     #[doc = " Returns an immutable Skybox associated with the Scene."]
     #[doc = ""]
     #[doc = " @return The associated Skybox, or nullptr if there is none."]
-    #[link_name = "\u{1}_ZNK8filament5Scene9getSkyboxEv"]
+    #[link_name = "\u{1}__ZNK8filament5Scene9getSkyboxEv"]
     pub fn filament_Scene_getSkybox1(this: *const filament_Scene) -> *const filament_Skybox;
 }
 extern "C" {
@@ -13710,7 +13711,7 @@ extern "C" {
     #[doc = " IndirectLight."]
     #[doc = ""]
     #[doc = " @param ibl The IndirectLight to use when rendering the Scene or nullptr to unset."]
-    #[link_name = "\u{1}_ZN8filament5Scene16setIndirectLightEPKNS_13IndirectLightE"]
+    #[link_name = "\u{1}__ZN8filament5Scene16setIndirectLightEPKNS_13IndirectLightE"]
     pub fn filament_Scene_setIndirectLight(
         this: *mut filament_Scene,
         ibl: *const filament_IndirectLight,
@@ -13724,7 +13725,7 @@ extern "C" {
     #[doc = " \\attention"]
     #[doc = "  A given Entity object can only be added once to a Scene."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament5Scene9addEntityEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament5Scene9addEntityEN5utils6EntityE"]
     pub fn filament_Scene_addEntity(this: *mut filament_Scene, entity: utils_Entity);
 }
 extern "C" {
@@ -13732,7 +13733,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param entities Array containing entities to add to the scene."]
     #[doc = " @param count Size of the entity array."]
-    #[link_name = "\u{1}_ZN8filament5Scene11addEntitiesEPKN5utils6EntityEm"]
+    #[link_name = "\u{1}__ZN8filament5Scene11addEntitiesEPKN5utils6EntityEm"]
     pub fn filament_Scene_addEntities(
         this: *mut filament_Scene,
         entities: *const utils_Entity,
@@ -13744,7 +13745,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param entity The Entity to remove from the Scene. If the specified"]
     #[doc = "                   \\p entity doesn't exist, this call is ignored."]
-    #[link_name = "\u{1}_ZN8filament5Scene6removeEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament5Scene6removeEN5utils6EntityE"]
     pub fn filament_Scene_remove(this: *mut filament_Scene, entity: utils_Entity);
 }
 extern "C" {
@@ -13755,7 +13756,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param entities Array containing entities to remove from the scene."]
     #[doc = " @param count Size of the entity array."]
-    #[link_name = "\u{1}_ZN8filament5Scene14removeEntitiesEPKN5utils6EntityEm"]
+    #[link_name = "\u{1}__ZN8filament5Scene14removeEntitiesEPKN5utils6EntityEm"]
     pub fn filament_Scene_removeEntities(
         this: *mut filament_Scene,
         entities: *const utils_Entity,
@@ -13766,21 +13767,21 @@ extern "C" {
     #[doc = " Returns the number of Renderable objects in the Scene."]
     #[doc = ""]
     #[doc = " @return number of Renderable objects in the Scene."]
-    #[link_name = "\u{1}_ZNK8filament5Scene18getRenderableCountEv"]
+    #[link_name = "\u{1}__ZNK8filament5Scene18getRenderableCountEv"]
     pub fn filament_Scene_getRenderableCount(this: *const filament_Scene) -> size_t;
 }
 extern "C" {
     #[doc = " Returns the total number of Light objects in the Scene."]
     #[doc = ""]
     #[doc = " @return The total number of Light objects in the Scene."]
-    #[link_name = "\u{1}_ZNK8filament5Scene13getLightCountEv"]
+    #[link_name = "\u{1}__ZNK8filament5Scene13getLightCountEv"]
     pub fn filament_Scene_getLightCount(this: *const filament_Scene) -> size_t;
 }
 extern "C" {
     #[doc = " Returns true if the given entity is in the Scene."]
     #[doc = ""]
     #[doc = " @return Whether the given entity is in the Scene."]
-    #[link_name = "\u{1}_ZNK8filament5Scene9hasEntityEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament5Scene9hasEntityEN5utils6EntityE"]
     pub fn filament_Scene_hasEntity(this: *const filament_Scene, entity: utils_Entity) -> bool;
 }
 extern "C" {
@@ -13789,7 +13790,7 @@ extern "C" {
     #[doc = " It is not allowed to add or remove an entity from the scene within the functor."]
     #[doc = ""]
     #[doc = " @param functor User provided functor called for each entity in the scene"]
-    #[link_name = "\u{1}_ZNK8filament5Scene7forEachEON5utils9InvocableIFvNS1_6EntityEEEE"]
+    #[link_name = "\u{1}__ZNK8filament5Scene7forEachEON5utils9InvocableIFvNS1_6EntityEEEE"]
     pub fn filament_Scene_forEach(this: *const filament_Scene, functor: *mut utils_Invocable);
 }
 impl filament_Scene {
@@ -13882,7 +13883,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param boneCount Number of bones the skinning buffer can hold."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7Builder9boneCountEj"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7Builder9boneCountEj"]
     pub fn filament_SkinningBuffer_Builder_boneCount(
         this: *mut filament_SkinningBuffer_Builder,
         boneCount: u32,
@@ -13892,7 +13893,7 @@ extern "C" {
     #[doc = " The new buffer is created with identity bones"]
     #[doc = " @param initialize true to initializing the buffer, false to not."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7Builder10initializeEb"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7Builder10initializeEb"]
     pub fn filament_SkinningBuffer_Builder_initialize(
         this: *mut filament_SkinningBuffer_Builder,
         initialize: bool,
@@ -13911,32 +13912,32 @@ extern "C" {
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
     #[doc = ""]
     #[doc = " @see SkinningBuffer::setBones"]
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7Builder5buildERNS_6EngineE"]
     pub fn filament_SkinningBuffer_Builder_build(
         this: *mut filament_SkinningBuffer_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_SkinningBuffer;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7BuilderC1Ev"]
     pub fn filament_SkinningBuffer_Builder_Builder(this: *mut filament_SkinningBuffer_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7BuilderC1ERKS1_"]
     pub fn filament_SkinningBuffer_Builder_Builder1(
         this: *mut filament_SkinningBuffer_Builder,
         rhs: *const filament_SkinningBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7BuilderC1EOS1_"]
     pub fn filament_SkinningBuffer_Builder_Builder2(
         this: *mut filament_SkinningBuffer_Builder,
         rhs: *mut filament_SkinningBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer7BuilderD1Ev"]
     pub fn filament_SkinningBuffer_Builder_Builder_destructor(
         this: *mut filament_SkinningBuffer_Builder,
     );
@@ -14005,7 +14006,7 @@ extern "C" {
     #[doc = " @param transforms pointer to at least count Bone"]
     #[doc = " @param count number of Bone elements in transforms"]
     #[doc = " @param offset offset in elements (not bytes) in the SkinningBuffer (not in transforms)"]
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer8setBonesERNS_6EngineEPKNS_17RenderableManager4BoneEmm"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer8setBonesERNS_6EngineEPKNS_17RenderableManager4BoneEmm"]
     pub fn filament_SkinningBuffer_setBones(
         this: *mut filament_SkinningBuffer,
         engine: *mut filament_Engine,
@@ -14020,7 +14021,7 @@ extern "C" {
     #[doc = " @param transforms pointer to at least count mat4f"]
     #[doc = " @param count number of mat4f elements in transforms"]
     #[doc = " @param offset offset in elements (not bytes) in the SkinningBuffer (not in transforms)"]
-    #[link_name = "\u{1}_ZN8filament14SkinningBuffer8setBonesERNS_6EngineEPKNS_4math7details6TMat44IfEEmm"]
+    #[link_name = "\u{1}__ZN8filament14SkinningBuffer8setBonesERNS_6EngineEPKNS_4math7details6TMat44IfEEmm"]
     pub fn filament_SkinningBuffer_setBones1(
         this: *mut filament_SkinningBuffer,
         engine: *mut filament_Engine,
@@ -14032,7 +14033,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the size of this SkinningBuffer in elements."]
     #[doc = " @return The number of bones the SkinningBuffer holds."]
-    #[link_name = "\u{1}_ZNK8filament14SkinningBuffer12getBoneCountEv"]
+    #[link_name = "\u{1}__ZNK8filament14SkinningBuffer12getBoneCountEv"]
     pub fn filament_SkinningBuffer_getBoneCount(this: *const filament_SkinningBuffer) -> size_t;
 }
 impl filament_SkinningBuffer {
@@ -14130,7 +14131,7 @@ extern "C" {
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = ""]
     #[doc = " @see Texture"]
-    #[link_name = "\u{1}_ZN8filament6Skybox7Builder11environmentEPNS_7TextureE"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7Builder11environmentEPNS_7TextureE"]
     pub fn filament_Skybox_Builder_environment(
         this: *mut filament_Skybox_Builder,
         cubemap: *mut filament_Texture,
@@ -14144,7 +14145,7 @@ extern "C" {
     #[doc = " @param show True if the sun should be rendered, false otherwise"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament6Skybox7Builder7showSunEb"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7Builder7showSunEb"]
     pub fn filament_Skybox_Builder_showSun(
         this: *mut filament_Skybox_Builder,
         show: bool,
@@ -14162,7 +14163,7 @@ extern "C" {
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = ""]
     #[doc = " @see IndirectLight::Builder::intensity"]
-    #[link_name = "\u{1}_ZN8filament6Skybox7Builder9intensityEf"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7Builder9intensityEf"]
     pub fn filament_Skybox_Builder_intensity(
         this: *mut filament_Skybox_Builder,
         envIntensity: f32,
@@ -14176,7 +14177,7 @@ extern "C" {
     #[doc = " @param color"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament6Skybox7Builder5colorENS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7Builder5colorENS_4math7details5TVec4IfEE"]
     pub fn filament_Skybox_Builder_color(
         this: *mut filament_Skybox_Builder,
         color: filament_math_float4,
@@ -14188,32 +14189,32 @@ extern "C" {
     #[doc = " @param engine Reference to the filament::Engine to associate this Skybox with."]
     #[doc = ""]
     #[doc = " @return pointer to the newly created object, or nullptr if the light couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Skybox7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7Builder5buildERNS_6EngineE"]
     pub fn filament_Skybox_Builder_build(
         this: *mut filament_Skybox_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_Skybox;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Skybox7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7BuilderC1Ev"]
     pub fn filament_Skybox_Builder_Builder(this: *mut filament_Skybox_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Skybox7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7BuilderC1ERKS1_"]
     pub fn filament_Skybox_Builder_Builder1(
         this: *mut filament_Skybox_Builder,
         rhs: *const filament_Skybox_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Skybox7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7BuilderC1EOS1_"]
     pub fn filament_Skybox_Builder_Builder2(
         this: *mut filament_Skybox_Builder,
         rhs: *mut filament_Skybox_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Skybox7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament6Skybox7BuilderD1Ev"]
     pub fn filament_Skybox_Builder_Builder_destructor(this: *mut filament_Skybox_Builder);
 }
 impl Default for filament_Skybox_Builder {
@@ -14286,7 +14287,7 @@ fn bindgen_test_layout_filament_Skybox() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Skybox8setColorENS_4math7details5TVec4IfEE"]
+    #[link_name = "\u{1}__ZN8filament6Skybox8setColorENS_4math7details5TVec4IfEE"]
     pub fn filament_Skybox_setColor(this: *mut filament_Skybox, color: filament_math_float4);
 }
 extern "C" {
@@ -14301,22 +14302,22 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param select the set of bits to affect"]
     #[doc = " @param values the replacement values for the affected bits"]
-    #[link_name = "\u{1}_ZN8filament6Skybox12setLayerMaskEhh"]
+    #[link_name = "\u{1}__ZN8filament6Skybox12setLayerMaskEhh"]
     pub fn filament_Skybox_setLayerMask(this: *mut filament_Skybox, select: u8, values: u8);
 }
 extern "C" {
     #[doc = " @return the visibility mask bits"]
-    #[link_name = "\u{1}_ZNK8filament6Skybox12getLayerMaskEv"]
+    #[link_name = "\u{1}__ZNK8filament6Skybox12getLayerMaskEv"]
     pub fn filament_Skybox_getLayerMask(this: *const filament_Skybox) -> u8;
 }
 extern "C" {
     #[doc = " Returns the skybox's intensity in lux, or lumen/m^2."]
-    #[link_name = "\u{1}_ZNK8filament6Skybox12getIntensityEv"]
+    #[link_name = "\u{1}__ZNK8filament6Skybox12getIntensityEv"]
     pub fn filament_Skybox_getIntensity(this: *const filament_Skybox) -> f32;
 }
 extern "C" {
     #[doc = " @return the associated texture, or null if it does not exist"]
-    #[link_name = "\u{1}_ZNK8filament6Skybox10getTextureEv"]
+    #[link_name = "\u{1}__ZNK8filament6Skybox10getTextureEv"]
     pub fn filament_Skybox_getTexture(this: *const filament_Skybox) -> *const filament_Texture;
 }
 impl filament_Skybox {
@@ -14438,7 +14439,7 @@ extern "C" {
     #[doc = "                     be CLAMP_TO_EDGE."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament6Stream7Builder6streamEPv"]
+    #[link_name = "\u{1}__ZN8filament6Stream7Builder6streamEPv"]
     pub fn filament_Stream_Builder_stream(
         this: *mut filament_Stream_Builder,
         stream: *mut ::core::ffi::c_void,
@@ -14457,7 +14458,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see Texture::setExternalStream()"]
     #[doc = " @deprecated this method existed only for ARCore which doesn't need this anymore, use Texture::import() instead."]
-    #[link_name = "\u{1}_ZN8filament6Stream7Builder6streamEl"]
+    #[link_name = "\u{1}__ZN8filament6Stream7Builder6streamEl"]
     pub fn filament_Stream_Builder_stream1(
         this: *mut filament_Stream_Builder,
         externalTextureId: isize,
@@ -14469,7 +14470,7 @@ extern "C" {
     #[doc = "              Builder::stream(long externalTextureId)."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament6Stream7Builder5widthEj"]
+    #[link_name = "\u{1}__ZN8filament6Stream7Builder5widthEj"]
     pub fn filament_Stream_Builder_width(
         this: *mut filament_Stream_Builder,
         width: u32,
@@ -14481,7 +14482,7 @@ extern "C" {
     #[doc = "              Builder::stream(long externalTextureId)."]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament6Stream7Builder6heightEj"]
+    #[link_name = "\u{1}__ZN8filament6Stream7Builder6heightEj"]
     pub fn filament_Stream_Builder_height(
         this: *mut filament_Stream_Builder,
         height: u32,
@@ -14493,32 +14494,32 @@ extern "C" {
     #[doc = " @param engine Reference to the filament::Engine to associate this Stream with."]
     #[doc = ""]
     #[doc = " @return pointer to the newly created object, or nullptr if the stream couldn't be created."]
-    #[link_name = "\u{1}_ZN8filament6Stream7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament6Stream7Builder5buildERNS_6EngineE"]
     pub fn filament_Stream_Builder_build(
         this: *mut filament_Stream_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_Stream;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Stream7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament6Stream7BuilderC1Ev"]
     pub fn filament_Stream_Builder_Builder(this: *mut filament_Stream_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Stream7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament6Stream7BuilderC1ERKS1_"]
     pub fn filament_Stream_Builder_Builder1(
         this: *mut filament_Stream_Builder,
         rhs: *const filament_Stream_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Stream7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament6Stream7BuilderC1EOS1_"]
     pub fn filament_Stream_Builder_Builder2(
         this: *mut filament_Stream_Builder,
         rhs: *mut filament_Stream_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament6Stream7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament6Stream7BuilderD1Ev"]
     pub fn filament_Stream_Builder_Builder_destructor(this: *mut filament_Stream_Builder);
 }
 impl Default for filament_Stream_Builder {
@@ -14592,7 +14593,7 @@ fn bindgen_test_layout_filament_Stream() {
 }
 extern "C" {
     #[doc = " Indicates whether this stream is a NATIVE stream, TEXTURE_ID stream, or ACQUIRED stream."]
-    #[link_name = "\u{1}_ZNK8filament6Stream13getStreamTypeEv"]
+    #[link_name = "\u{1}__ZNK8filament6Stream13getStreamTypeEv"]
     pub fn filament_Stream_getStreamType(
         this: *const filament_Stream,
     ) -> filament_Stream_StreamType;
@@ -14617,7 +14618,7 @@ extern "C" {
     #[doc = "                   It callback tales two arguments: the AHardwareBuffer and the userdata."]
     #[doc = " @param userdata   Optional closure data. Filament will pass this into the callback when it"]
     #[doc = "                   releases the image."]
-    #[link_name = "\u{1}_ZN8filament6Stream16setAcquiredImageEPvPFvS1_S1_ES1_"]
+    #[link_name = "\u{1}__ZN8filament6Stream16setAcquiredImageEPvPFvS1_S1_ES1_"]
     pub fn filament_Stream_setAcquiredImage(
         this: *mut filament_Stream,
         image: *mut ::core::ffi::c_void,
@@ -14634,7 +14635,7 @@ extern "C" {
     #[doc = "                   It callback tales two arguments: the AHardwareBuffer and the userdata."]
     #[doc = " @param userdata   Optional closure data. Filament will pass this into the callback when it"]
     #[doc = "                   releases the image."]
-    #[link_name = "\u{1}_ZN8filament6Stream16setAcquiredImageEPvPNS_7backend15CallbackHandlerEPFvS1_S1_ES1_"]
+    #[link_name = "\u{1}__ZN8filament6Stream16setAcquiredImageEPvPNS_7backend15CallbackHandlerEPFvS1_S1_ES1_"]
     pub fn filament_Stream_setAcquiredImage1(
         this: *mut filament_Stream,
         image: *mut ::core::ffi::c_void,
@@ -14650,7 +14651,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param width     new width of the incoming stream"]
     #[doc = " @param height    new height of the incoming stream"]
-    #[link_name = "\u{1}_ZN8filament6Stream13setDimensionsEjj"]
+    #[link_name = "\u{1}__ZN8filament6Stream13setDimensionsEjj"]
     pub fn filament_Stream_setDimensions(this: *mut filament_Stream, width: u32, height: u32);
 }
 extern "C" {
@@ -14706,7 +14707,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @remark"]
     #[doc = " readPixels() is intended for debugging and testing. It will impact performance significantly."]
-    #[link_name = "\u{1}_ZN8filament6Stream10readPixelsEjjjjONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZN8filament6Stream10readPixelsEjjjjONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Stream_readPixels(
         this: *mut filament_Stream,
         xoffset: u32,
@@ -14722,7 +14723,7 @@ extern "C" {
     #[doc = " This value can change at any time."]
     #[doc = ""]
     #[doc = " @return timestamp in nanosecond."]
-    #[link_name = "\u{1}_ZNK8filament6Stream12getTimestampEv"]
+    #[link_name = "\u{1}__ZNK8filament6Stream12getTimestampEv"]
     pub fn filament_Stream_getTimestamp(this: *const filament_Stream) -> i64;
 }
 impl filament_Stream {
@@ -14926,7 +14927,7 @@ fn bindgen_test_layout_filament_SwapChain() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZNK8filament9SwapChain15getNativeWindowEv"]
+    #[link_name = "\u{1}__ZNK8filament9SwapChain15getNativeWindowEv"]
     pub fn filament_SwapChain_getNativeWindow(
         this: *const filament_SwapChain,
     ) -> *mut ::core::ffi::c_void;
@@ -14955,7 +14956,7 @@ extern "C" {
     #[doc = " @remark The SwapChain::FrameScheduledCallback is called on an arbitrary thread."]
     #[doc = ""]
     #[doc = " @see PresentCallable"]
-    #[link_name = "\u{1}_ZN8filament9SwapChain25setFrameScheduledCallbackEPFvNS_7backend15PresentCallableEPvES3_"]
+    #[link_name = "\u{1}__ZN8filament9SwapChain25setFrameScheduledCallbackEPFvNS_7backend15PresentCallableEPvES3_"]
     pub fn filament_SwapChain_setFrameScheduledCallback(
         this: *mut filament_SwapChain,
         callback: filament_SwapChain_FrameScheduledCallback,
@@ -14976,7 +14977,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @remark Only Filament's Metal backend supports frame callbacks. Other backends ignore the"]
     #[doc = " callback (which will never be called) and proceed normally."]
-    #[link_name = "\u{1}_ZN8filament9SwapChain25setFrameCompletedCallbackEPFvPvES1_"]
+    #[link_name = "\u{1}__ZN8filament9SwapChain25setFrameCompletedCallbackEPFvPvES1_"]
     pub fn filament_SwapChain_setFrameCompletedCallback(
         this: *mut filament_SwapChain,
         callback: filament_SwapChain_FrameCompletedCallback,
@@ -15227,7 +15228,7 @@ extern "C" {
     #[doc = " Specifies the width in texels of the texture. Doesn't need to be a power-of-two."]
     #[doc = " @param width Width of the texture in texels (default: 1)."]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder5widthEj"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder5widthEj"]
     pub fn filament_Texture_Builder_width(
         this: *mut filament_Texture_Builder,
         width: u32,
@@ -15237,7 +15238,7 @@ extern "C" {
     #[doc = " Specifies the height in texels of the texture. Doesn't need to be a power-of-two."]
     #[doc = " @param height Height of the texture in texels (default: 1)."]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder6heightEj"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder6heightEj"]
     pub fn filament_Texture_Builder_height(
         this: *mut filament_Texture_Builder,
         height: u32,
@@ -15250,7 +15251,7 @@ extern "C" {
     #[doc = " @param depth Depth of the texture in texels (default: 1)."]
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = " @attention This Texture instance must use Sampler::SAMPLER_3D or Sampler::SAMPLER_2D_ARRAY or it has no effect."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder5depthEj"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder5depthEj"]
     pub fn filament_Texture_Builder_depth(
         this: *mut filament_Texture_Builder,
         depth: u32,
@@ -15262,7 +15263,7 @@ extern "C" {
     #[doc = " such that max(width, height, level) / 2^MAX_LEVELS = 1"]
     #[doc = " @param levels Number of mipmap levels for this texture."]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder6levelsEh"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder6levelsEh"]
     pub fn filament_Texture_Builder_levels(
         this: *mut filament_Texture_Builder,
         levels: u8,
@@ -15273,7 +15274,7 @@ extern "C" {
     #[doc = " @param target Sampler type"]
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = " @see Sampler"]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder7samplerENS_7backend11SamplerTypeE"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder7samplerENS_7backend11SamplerTypeE"]
     pub fn filament_Texture_Builder_sampler(
         this: *mut filament_Texture_Builder,
         target: filament_Texture_Sampler,
@@ -15289,7 +15290,7 @@ extern "C" {
     #[doc = " @param format Format of the texture's texel."]
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = " @see InternalFormat, setImage"]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder6formatENS_7backend13TextureFormatE"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder6formatENS_7backend13TextureFormatE"]
     pub fn filament_Texture_Builder_format(
         this: *mut filament_Texture_Builder,
         format: filament_Texture_InternalFormat,
@@ -15303,7 +15304,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param usage Defaults to Texture::Usage::DEFAULT; c.f. Texture::Usage::COLOR_ATTACHMENT."]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder5usageENS_7backend12TextureUsageE"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder5usageENS_7backend12TextureUsageE"]
     pub fn filament_Texture_Builder_usage(
         this: *mut filament_Texture_Builder,
         usage: filament_Texture_Usage,
@@ -15320,7 +15321,7 @@ extern "C" {
     #[doc = " @param a  texture channel for alpha component"]
     #[doc = " @return This Builder, for chaining calls."]
     #[doc = " @see Texture::isTextureSwizzleSupported()"]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder7swizzleENS_7backend14TextureSwizzleES3_S3_S3_"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder7swizzleENS_7backend14TextureSwizzleES3_S3_S3_"]
     pub fn filament_Texture_Builder_swizzle(
         this: *mut filament_Texture_Builder,
         r: filament_Texture_Swizzle,
@@ -15340,7 +15341,7 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder5buildERNS_6EngineE"]
     pub fn filament_Texture_Builder_build(
         this: *mut filament_Texture_Builder,
         engine: *mut filament_Engine,
@@ -15372,32 +15373,32 @@ extern "C" {
     #[doc = " @param id a backend specific texture identifier"]
     #[doc = ""]
     #[doc = " @return This Builder, for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament7Texture7Builder6importEl"]
+    #[link_name = "\u{1}__ZN8filament7Texture7Builder6importEl"]
     pub fn filament_Texture_Builder_import(
         this: *mut filament_Texture_Builder,
         id: isize,
     ) -> *mut filament_Texture_Builder;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7Texture7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament7Texture7BuilderC1Ev"]
     pub fn filament_Texture_Builder_Builder(this: *mut filament_Texture_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7Texture7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament7Texture7BuilderC1ERKS1_"]
     pub fn filament_Texture_Builder_Builder1(
         this: *mut filament_Texture_Builder,
         rhs: *const filament_Texture_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7Texture7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament7Texture7BuilderC1EOS1_"]
     pub fn filament_Texture_Builder_Builder2(
         this: *mut filament_Texture_Builder,
         rhs: *mut filament_Texture_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7Texture7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament7Texture7BuilderD1Ev"]
     pub fn filament_Texture_Builder_Builder_destructor(this: *mut filament_Texture_Builder);
 }
 impl Default for filament_Texture_Builder {
@@ -15501,7 +15502,7 @@ fn bindgen_test_layout_filament_Texture() {
 }
 extern "C" {
     #[doc = " @return whether a backend supports a particular format."]
-    #[link_name = "\u{1}_ZN8filament7Texture24isTextureFormatSupportedERNS_6EngineENS_7backend13TextureFormatE"]
+    #[link_name = "\u{1}__ZN8filament7Texture24isTextureFormatSupportedERNS_6EngineENS_7backend13TextureFormatE"]
     pub fn filament_Texture_isTextureFormatSupported(
         engine: *mut filament_Engine,
         format: filament_Texture_InternalFormat,
@@ -15509,11 +15510,11 @@ extern "C" {
 }
 extern "C" {
     #[doc = " @return whether a backend supports texture swizzling."]
-    #[link_name = "\u{1}_ZN8filament7Texture25isTextureSwizzleSupportedERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament7Texture25isTextureSwizzleSupportedERNS_6EngineE"]
     pub fn filament_Texture_isTextureSwizzleSupported(engine: *mut filament_Engine) -> bool;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament7Texture22computeTextureDataSizeENS_7backend15PixelDataFormatENS1_13PixelDataTypeEmmm"]
+    #[link_name = "\u{1}__ZN8filament7Texture22computeTextureDataSizeENS_7backend15PixelDataFormatENS1_13PixelDataTypeEmmm"]
     pub fn filament_Texture_computeTextureDataSize(
         format: filament_Texture_Format,
         type_: filament_Texture_Type,
@@ -15528,7 +15529,7 @@ extern "C" {
     #[doc = " @return Width in texel of the specified \\p level, clamped to 1."]
     #[doc = " @attention If this texture is using Sampler::SAMPLER_EXTERNAL, the dimension"]
     #[doc = " of the texture are unknown and this method always returns whatever was set on the Builder."]
-    #[link_name = "\u{1}_ZNK8filament7Texture8getWidthEm"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8getWidthEm"]
     pub fn filament_Texture_getWidth(this: *const filament_Texture, level: size_t) -> size_t;
 }
 extern "C" {
@@ -15537,7 +15538,7 @@ extern "C" {
     #[doc = " @return Height in texel of the specified \\p level, clamped to 1."]
     #[doc = " @attention If this texture is using Sampler::SAMPLER_EXTERNAL, the dimension"]
     #[doc = " of the texture are unknown and this method always returns whatever was set on the Builder."]
-    #[link_name = "\u{1}_ZNK8filament7Texture9getHeightEm"]
+    #[link_name = "\u{1}__ZNK8filament7Texture9getHeightEm"]
     pub fn filament_Texture_getHeight(this: *const filament_Texture, level: size_t) -> size_t;
 }
 extern "C" {
@@ -15546,7 +15547,7 @@ extern "C" {
     #[doc = " @return Depth in texel of the specified \\p level, clamped to 1."]
     #[doc = " @attention If this texture is using Sampler::SAMPLER_EXTERNAL, the dimension"]
     #[doc = " of the texture are unknown and this method always returns whatever was set on the Builder."]
-    #[link_name = "\u{1}_ZNK8filament7Texture8getDepthEm"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8getDepthEm"]
     pub fn filament_Texture_getDepth(this: *const filament_Texture, level: size_t) -> size_t;
 }
 extern "C" {
@@ -15554,19 +15555,19 @@ extern "C" {
     #[doc = " @return maximum number of levels this texture can have."]
     #[doc = " @attention If this texture is using Sampler::SAMPLER_EXTERNAL, the dimension"]
     #[doc = " of the texture are unknown and this method always returns whatever was set on the Builder."]
-    #[link_name = "\u{1}_ZNK8filament7Texture9getLevelsEv"]
+    #[link_name = "\u{1}__ZNK8filament7Texture9getLevelsEv"]
     pub fn filament_Texture_getLevels(this: *const filament_Texture) -> size_t;
 }
 extern "C" {
     #[doc = " Return this texture Sampler as set by Builder::sampler()."]
     #[doc = " @return this texture Sampler as set by Builder::sampler()"]
-    #[link_name = "\u{1}_ZNK8filament7Texture9getTargetEv"]
+    #[link_name = "\u{1}__ZNK8filament7Texture9getTargetEv"]
     pub fn filament_Texture_getTarget(this: *const filament_Texture) -> filament_Texture_Sampler;
 }
 extern "C" {
     #[doc = " Return this texture InternalFormat as set by Builder::format()."]
     #[doc = " @return this texture InternalFormat as set by Builder::format()."]
-    #[link_name = "\u{1}_ZNK8filament7Texture9getFormatEv"]
+    #[link_name = "\u{1}__ZNK8filament7Texture9getFormatEv"]
     pub fn filament_Texture_getFormat(
         this: *const filament_Texture,
     ) -> filament_Texture_InternalFormat;
@@ -15594,7 +15595,7 @@ extern "C" {
     #[doc = " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"]
     #[doc = ""]
     #[doc = " @see Builder::sampler()"]
-    #[link_name = "\u{1}_ZNK8filament7Texture8setImageERNS_6EngineEmONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8setImageERNS_6EngineEmONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Texture_setImage(
         this: *const filament_Texture,
         engine: *mut filament_Engine,
@@ -15623,7 +15624,7 @@ extern "C" {
     #[doc = "            texture was specified with Sampler::SAMPLER_2D."]
     #[doc = ""]
     #[doc = " @see Builder::sampler()"]
-    #[link_name = "\u{1}_ZNK8filament7Texture8setImageERNS_6EngineEmjjjjONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8setImageERNS_6EngineEmjjjjONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Texture_setImage1(
         this: *const filament_Texture,
         engine: *mut filament_Engine,
@@ -15654,7 +15655,7 @@ extern "C" {
     #[doc = " @attention This Texture instance must use Sampler::SAMPLER_3D or Sampler::SAMPLER_2D_array."]
     #[doc = ""]
     #[doc = " @see Builder::sampler()"]
-    #[link_name = "\u{1}_ZNK8filament7Texture8setImageERNS_6EngineEmjjjjjjONS_7backend21PixelBufferDescriptorE"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8setImageERNS_6EngineEmjjjjjjONS_7backend21PixelBufferDescriptorE"]
     pub fn filament_Texture_setImage2(
         this: *const filament_Texture,
         engine: *mut filament_Engine,
@@ -15685,7 +15686,7 @@ extern "C" {
     #[doc = " @attention This Texture instance must use Sampler::SAMPLER_CUBEMAP or it has no effect"]
     #[doc = ""]
     #[doc = " @see Texture::CubemapFace, Builder::sampler()"]
-    #[link_name = "\u{1}_ZNK8filament7Texture8setImageERNS_6EngineEmONS_7backend21PixelBufferDescriptorERKNS3_11FaceOffsetsE"]
+    #[link_name = "\u{1}__ZNK8filament7Texture8setImageERNS_6EngineEmONS_7backend21PixelBufferDescriptorERKNS3_11FaceOffsetsE"]
     pub fn filament_Texture_setImage3(
         this: *const filament_Texture,
         engine: *mut filament_Engine,
@@ -15716,7 +15717,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see Builder::sampler()"]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament7Texture16setExternalImageERNS_6EngineEPv"]
+    #[link_name = "\u{1}__ZN8filament7Texture16setExternalImageERNS_6EngineEPv"]
     pub fn filament_Texture_setExternalImage(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
@@ -15751,7 +15752,7 @@ extern "C" {
     #[doc = "                      This method is only meaningful on iOS with"]
     #[doc = "                      kCVPixelFormatType_420YpCbCr8BiPlanarFullRange images. On platforms"]
     #[doc = "                      other than iOS, this method is a no-op."]
-    #[link_name = "\u{1}_ZN8filament7Texture16setExternalImageERNS_6EngineEPvm"]
+    #[link_name = "\u{1}__ZN8filament7Texture16setExternalImageERNS_6EngineEPvm"]
     pub fn filament_Texture_setExternalImage1(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
@@ -15775,7 +15776,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see Builder::sampler(), Stream"]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament7Texture17setExternalStreamERNS_6EngineEPNS_6StreamE"]
+    #[link_name = "\u{1}__ZN8filament7Texture17setExternalStreamERNS_6EngineEPNS_6StreamE"]
     pub fn filament_Texture_setExternalStream(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
@@ -15790,7 +15791,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @attention \\p engine must be the instance passed to Builder::build()"]
     #[doc = " @attention This Texture instance must NOT use Sampler::SAMPLER_CUBEMAP or it has no effect"]
-    #[link_name = "\u{1}_ZNK8filament7Texture15generateMipmapsERNS_6EngineE"]
+    #[link_name = "\u{1}__ZNK8filament7Texture15generateMipmapsERNS_6EngineE"]
     pub fn filament_Texture_generateMipmaps(
         this: *const filament_Texture,
         engine: *mut filament_Engine,
@@ -15829,7 +15830,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @exception utils::PreConditionPanic if the source data constraints are not respected."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament7Texture23generatePrefilterMipmapERNS_6EngineEONS_7backend21PixelBufferDescriptorERKNS3_11FaceOffsetsEPKNS0_16PrefilterOptionsE"]
+    #[link_name = "\u{1}__ZN8filament7Texture23generatePrefilterMipmapERNS_6EngineEONS_7backend21PixelBufferDescriptorERKNS3_11FaceOffsetsEPKNS0_16PrefilterOptionsE"]
     pub fn filament_Texture_generatePrefilterMipmap(
         this: *mut filament_Texture,
         engine: *mut filament_Engine,
@@ -16135,7 +16136,7 @@ extern "C" {
     #[doc = " Returns whether a particular Entity is associated with a component of this TransformManager"]
     #[doc = " @param e An Entity."]
     #[doc = " @return true if this Entity has a component associated with this manager."]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager12hasComponentEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager12hasComponentEN5utils6EntityE"]
     pub fn filament_TransformManager_hasComponent(
         this: *const filament_TransformManager,
         e: utils_Entity,
@@ -16147,7 +16148,7 @@ extern "C" {
     #[doc = " @return An Instance object, which represents the transform component associated with the Entity e."]
     #[doc = " @note Use Instance::isValid() to make sure the component exists."]
     #[doc = " @see hasComponent()"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager11getInstanceEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager11getInstanceEN5utils6EntityE"]
     pub fn filament_TransformManager_getInstance(
         this: *const filament_TransformManager,
         e: utils_Entity,
@@ -16167,7 +16168,7 @@ extern "C" {
     #[doc = " @see setTransform(Instance, const math::mat4&)"]
     #[doc = " @see getTransformAccurate"]
     #[doc = " @see getWorldTransformAccurate"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager30setAccurateTranslationsEnabledEb"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager30setAccurateTranslationsEnabledEb"]
     pub fn filament_TransformManager_setAccurateTranslationsEnabled(
         this: *mut filament_TransformManager,
         enable: bool,
@@ -16177,7 +16178,7 @@ extern "C" {
     #[doc = " Returns whether the high precision translation mode is active."]
     #[doc = " @return true if accurate translations mode is active, false otherwise"]
     #[doc = " @see setAccurateTranslationsEnabled"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager29isAccurateTranslationsEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager29isAccurateTranslationsEnabledEv"]
     pub fn filament_TransformManager_isAccurateTranslationsEnabled(
         this: *const filament_TransformManager,
     ) -> bool;
@@ -16193,7 +16194,7 @@ extern "C" {
     #[doc = " destroy(utils::Entity e) was called."]
     #[doc = ""]
     #[doc = " @see destroy()"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IfEE"]
     pub fn filament_TransformManager_create(
         this: *mut filament_TransformManager,
         entity: utils_Entity,
@@ -16202,7 +16203,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IdEE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IdEE"]
     pub fn filament_TransformManager_create1(
         this: *mut filament_TransformManager,
         entity: utils_Entity,
@@ -16211,7 +16212,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager6createEN5utils6EntityENS1_14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_create2(
         this: *mut filament_TransformManager,
         entity: utils_Entity,
@@ -16227,7 +16228,7 @@ extern "C" {
     #[doc = " sure that a destroyed transform doesn't have children."]
     #[doc = ""]
     #[doc = " @see create()"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager7destroyEN5utils6EntityE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager7destroyEN5utils6EntityE"]
     pub fn filament_TransformManager_destroy(this: *mut filament_TransformManager, e: utils_Entity);
 }
 extern "C" {
@@ -16236,7 +16237,7 @@ extern "C" {
     #[doc = " @param newParent     The instance of the new parent transform"]
     #[doc = " @attention It is an error to re-parent an entity to a descendant and will cause undefined behaviour."]
     #[doc = " @see getInstance()"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager9setParentEN5utils14EntityInstanceIS0_Lb0EEES3_"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager9setParentEN5utils14EntityInstanceIS0_Lb0EEES3_"]
     pub fn filament_TransformManager_setParent(
         this: *mut filament_TransformManager,
         i: filament_TransformManager_Instance,
@@ -16246,7 +16247,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the parent of a transform component, or the null entity if it is a root."]
     #[doc = " @param i The instance of the transform component to query."]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager9getParentEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager9getParentEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getParent(
         this: *const filament_TransformManager,
         i: filament_TransformManager_Instance,
@@ -16256,7 +16257,7 @@ extern "C" {
     #[doc = " Returns the number of children of a transform component."]
     #[doc = " @param i The instance of the transform component to query."]
     #[doc = " @return The number of children of the queried component."]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager13getChildCountEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager13getChildCountEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getChildCount(
         this: *const filament_TransformManager,
         i: filament_TransformManager_Instance,
@@ -16269,7 +16270,7 @@ extern "C" {
     #[doc = " @param children Pointer to array-of-Entity. The array must have at least \"count\" elements."]
     #[doc = " @param count The maximum number of children to retrieve."]
     #[doc = " @return The number of children written to the pointer."]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager11getChildrenEN5utils14EntityInstanceIS0_Lb0EEEPNS1_6EntityEm"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager11getChildrenEN5utils14EntityInstanceIS0_Lb0EEEPNS1_6EntityEm"]
     pub fn filament_TransformManager_getChildren(
         this: *const filament_TransformManager,
         i: filament_TransformManager_Instance,
@@ -16284,7 +16285,7 @@ extern "C" {
     #[doc = " @return A forward iterator pointing to the first child of the given parent."]
     #[doc = ""]
     #[doc = " A child_iterator can only safely be dereferenced if it's different from getChildrenEnd(parent)"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager16getChildrenBeginEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager16getChildrenBeginEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getChildrenBegin(
         this: *const filament_TransformManager,
         parent: filament_TransformManager_Instance,
@@ -16297,7 +16298,7 @@ extern "C" {
     #[doc = " @return A forward iterator."]
     #[doc = ""]
     #[doc = " This iterator cannot be dereferenced"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager14getChildrenEndEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager14getChildrenEndEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getChildrenEnd(
         this: *const filament_TransformManager,
         parent: filament_TransformManager_Instance,
@@ -16311,7 +16312,7 @@ extern "C" {
     #[doc = " @attention This operation can be slow if the hierarchy of transform is too deep, and this"]
     #[doc = "            will be particularly bad when updating a lot of transforms. In that case,"]
     #[doc = "            consider using openLocalTransformTransaction() / commitLocalTransformTransaction()."]
-    #[link_name = "\u{1}_ZN8filament16TransformManager12setTransformEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IfEE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager12setTransformEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IfEE"]
     pub fn filament_TransformManager_setTransform(
         this: *mut filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16327,7 +16328,7 @@ extern "C" {
     #[doc = " @attention This operation can be slow if the hierarchy of transform is too deep, and this"]
     #[doc = "            will be particularly bad when updating a lot of transforms. In that case,"]
     #[doc = "            consider using openLocalTransformTransaction() / commitLocalTransformTransaction()."]
-    #[link_name = "\u{1}_ZN8filament16TransformManager12setTransformEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IdEE"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager12setTransformEN5utils14EntityInstanceIS0_Lb0EEERKNS_4math7details6TMat44IdEE"]
     pub fn filament_TransformManager_setTransform1(
         this: *mut filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16340,7 +16341,7 @@ extern "C" {
     #[doc = " @return The local transform of the component (i.e. relative to the parent). This always"]
     #[doc = "         returns the value set by setTransform()."]
     #[doc = " @see setTransform()"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager12getTransformEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager12getTransformEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getTransform(
         this: *const filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16352,7 +16353,7 @@ extern "C" {
     #[doc = " @return The local transform of the component (i.e. relative to the parent). This always"]
     #[doc = "         returns the value set by setTransform()."]
     #[doc = " @see setTransform()"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager20getTransformAccurateEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager20getTransformAccurateEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getTransformAccurate(
         this: *const filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16364,7 +16365,7 @@ extern "C" {
     #[doc = " @return The world transform of the component (i.e. relative to the root). This is the"]
     #[doc = "         composition of this component's local transform with its parent's world transform."]
     #[doc = " @see setTransform()"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager17getWorldTransformEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager17getWorldTransformEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getWorldTransform(
         this: *const filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16376,7 +16377,7 @@ extern "C" {
     #[doc = " @return The world transform of the component (i.e. relative to the root). This is the"]
     #[doc = "         composition of this component's local transform with its parent's world transform."]
     #[doc = " @see setTransform()"]
-    #[link_name = "\u{1}_ZNK8filament16TransformManager25getWorldTransformAccurateEN5utils14EntityInstanceIS0_Lb0EEE"]
+    #[link_name = "\u{1}__ZNK8filament16TransformManager25getWorldTransformAccurateEN5utils14EntityInstanceIS0_Lb0EEE"]
     pub fn filament_TransformManager_getWorldTransformAccurate(
         this: *const filament_TransformManager,
         ci: filament_TransformManager_Instance,
@@ -16393,7 +16394,7 @@ extern "C" {
     #[doc = " @note If the local transform transaction is already open, this is a no-op."]
     #[doc = ""]
     #[doc = " @see commitLocalTransformTransaction(), setTransform()"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager29openLocalTransformTransactionEv"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager29openLocalTransformTransactionEv"]
     pub fn filament_TransformManager_openLocalTransformTransaction(
         this: *mut filament_TransformManager,
     );
@@ -16409,7 +16410,7 @@ extern "C" {
     #[doc = " @note If the local transform transaction is not open, this is a no-op."]
     #[doc = ""]
     #[doc = " @see openLocalTransformTransaction(), setTransform()"]
-    #[link_name = "\u{1}_ZN8filament16TransformManager31commitLocalTransformTransactionEv"]
+    #[link_name = "\u{1}__ZN8filament16TransformManager31commitLocalTransformTransactionEv"]
     pub fn filament_TransformManager_commitLocalTransformTransaction(
         this: *mut filament_TransformManager,
     );
@@ -16613,7 +16614,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param bufferCount Number of buffers in this vertex buffer set. The maximum value is 8."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder11bufferCountEh"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder11bufferCountEh"]
     pub fn filament_VertexBuffer_Builder_bufferCount(
         this: *mut filament_VertexBuffer_Builder,
         bufferCount: u8,
@@ -16624,7 +16625,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param vertexCount Number of vertices in each buffer in this set."]
     #[doc = " @return A reference to this Builder for chaining calls."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder11vertexCountEj"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder11vertexCountEj"]
     pub fn filament_VertexBuffer_Builder_vertexCount(
         this: *mut filament_VertexBuffer_Builder,
         vertexCount: u32,
@@ -16638,7 +16639,7 @@ extern "C" {
     #[doc = " slightly increase the memory footprint of Filament's internal bookkeeping."]
     #[doc = ""]
     #[doc = " @param enabled If true, enables buffer object mode.  False by default."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder19enableBufferObjectsEb"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder19enableBufferObjectsEb"]
     pub fn filament_VertexBuffer_Builder_enableBufferObjects(
         this: *mut filament_VertexBuffer_Builder,
         enabled: bool,
@@ -16670,7 +16671,7 @@ extern "C" {
     #[doc = " This is a no-op if the \\p attribute is an invalid enum."]
     #[doc = " This is a no-op if the \\p bufferIndex is out of bounds."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder9attributeENS_15VertexAttributeEhNS_7backend11ElementTypeEjh"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder9attributeENS_15VertexAttributeEhNS_7backend11ElementTypeEjh"]
     pub fn filament_VertexBuffer_Builder_attribute(
         this: *mut filament_VertexBuffer_Builder,
         attribute: filament_VertexAttribute,
@@ -16690,7 +16691,7 @@ extern "C" {
     #[doc = " @return A reference to this Builder for chaining calls."]
     #[doc = ""]
     #[doc = " This is a no-op if the \\p attribute is an invalid enum."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder10normalizedENS_15VertexAttributeEb"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder10normalizedENS_15VertexAttributeEb"]
     pub fn filament_VertexBuffer_Builder_normalized(
         this: *mut filament_VertexBuffer_Builder,
         attribute: filament_VertexAttribute,
@@ -16708,32 +16709,32 @@ extern "C" {
     #[doc = " @exception utils::PostConditionPanic if a runtime error occurred, such as running out of"]
     #[doc = "            memory or other resources."]
     #[doc = " @exception utils::PreConditionPanic if a parameter to a builder function was invalid."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7Builder5buildERNS_6EngineE"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7Builder5buildERNS_6EngineE"]
     pub fn filament_VertexBuffer_Builder_build(
         this: *mut filament_VertexBuffer_Builder,
         engine: *mut filament_Engine,
     ) -> *mut filament_VertexBuffer;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7BuilderC1Ev"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7BuilderC1Ev"]
     pub fn filament_VertexBuffer_Builder_Builder(this: *mut filament_VertexBuffer_Builder);
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7BuilderC1ERKS1_"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7BuilderC1ERKS1_"]
     pub fn filament_VertexBuffer_Builder_Builder1(
         this: *mut filament_VertexBuffer_Builder,
         rhs: *const filament_VertexBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7BuilderC1EOS1_"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7BuilderC1EOS1_"]
     pub fn filament_VertexBuffer_Builder_Builder2(
         this: *mut filament_VertexBuffer_Builder,
         rhs: *mut filament_VertexBuffer_Builder,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer7BuilderD1Ev"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer7BuilderD1Ev"]
     pub fn filament_VertexBuffer_Builder_Builder_destructor(
         this: *mut filament_VertexBuffer_Builder,
     );
@@ -16832,7 +16833,7 @@ fn bindgen_test_layout_filament_VertexBuffer() {
 extern "C" {
     #[doc = " Returns the vertex count."]
     #[doc = " @return Number of vertices in this vertex buffer set."]
-    #[link_name = "\u{1}_ZNK8filament12VertexBuffer14getVertexCountEv"]
+    #[link_name = "\u{1}__ZNK8filament12VertexBuffer14getVertexCountEv"]
     pub fn filament_VertexBuffer_getVertexCount(this: *const filament_VertexBuffer) -> size_t;
 }
 extern "C" {
@@ -16848,7 +16849,7 @@ extern "C" {
     #[doc = "               be copied as-is into the buffer."]
     #[doc = " @param byteOffset Offset in *bytes* into the buffer at index \\p bufferIndex of this vertex"]
     #[doc = "                   buffer set."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer11setBufferAtERNS_6EngineEhONS_7backend16BufferDescriptorEj"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer11setBufferAtERNS_6EngineEhONS_7backend16BufferDescriptorEj"]
     pub fn filament_VertexBuffer_setBufferAt(
         this: *mut filament_VertexBuffer,
         engine: *mut filament_Engine,
@@ -16866,7 +16867,7 @@ extern "C" {
     #[doc = " @param bufferIndex Index of the buffer to initialize. Must be between 0"]
     #[doc = "                    and Builder::bufferCount() - 1."]
     #[doc = " @param bufferObject The handle to the GPU data that will be used in this buffer slot."]
-    #[link_name = "\u{1}_ZN8filament12VertexBuffer17setBufferObjectAtERNS_6EngineEhPKNS_12BufferObjectE"]
+    #[link_name = "\u{1}__ZN8filament12VertexBuffer17setBufferObjectAtERNS_6EngineEhPKNS_12BufferObjectE"]
     pub fn filament_VertexBuffer_setBufferObjectAt(
         this: *mut filament_VertexBuffer,
         engine: *mut filament_Engine,
@@ -17209,7 +17210,7 @@ fn bindgen_test_layout_filament_View() {
 extern "C" {
     #[doc = " Sets the View's name. Only useful for debugging."]
     #[doc = " @param name Pointer to the View's name. The string is copied."]
-    #[link_name = "\u{1}_ZN8filament4View7setNameEPKc"]
+    #[link_name = "\u{1}__ZN8filament4View7setNameEPKc"]
     pub fn filament_View_setName(this: *mut filament_View, name: *const ::std::os::raw::c_char);
 }
 extern "C" {
@@ -17218,7 +17219,7 @@ extern "C" {
     #[doc = " @return a pointer owned by the View instance to the View's name."]
     #[doc = ""]
     #[doc = " @attention Do *not* free the pointer or modify its content."]
-    #[link_name = "\u{1}_ZNK8filament4View7getNameEv"]
+    #[link_name = "\u{1}__ZNK8filament4View7getNameEv"]
     pub fn filament_View_getName(this: *const filament_View) -> *const ::std::os::raw::c_char;
 }
 extern "C" {
@@ -17234,13 +17235,13 @@ extern "C" {
     #[doc = " @note"]
     #[doc = "  There is no reference-counting."]
     #[doc = "  Make sure to dissociate a Scene from all Views before destroying it."]
-    #[link_name = "\u{1}_ZN8filament4View8setSceneEPNS_5SceneE"]
+    #[link_name = "\u{1}__ZN8filament4View8setSceneEPNS_5SceneE"]
     pub fn filament_View_setScene(this: *mut filament_View, scene: *mut filament_Scene);
 }
 extern "C" {
     #[doc = " Returns the Scene currently associated with this View."]
     #[doc = " @return A pointer to the Scene associated to this View. nullptr if no Scene is set."]
-    #[link_name = "\u{1}_ZN8filament4View8getSceneEv"]
+    #[link_name = "\u{1}__ZN8filament4View8getSceneEv"]
     pub fn filament_View_getScene(this: *mut filament_View) -> *mut filament_Scene;
 }
 extern "C" {
@@ -17253,7 +17254,7 @@ extern "C" {
     #[doc = " to the SwapChain. Such view can use a Skybox instead."]
     #[doc = ""]
     #[doc = " @param renderTarget Render target associated with view, or nullptr for the swap chain."]
-    #[link_name = "\u{1}_ZN8filament4View15setRenderTargetEPNS_12RenderTargetE"]
+    #[link_name = "\u{1}__ZN8filament4View15setRenderTargetEPNS_12RenderTargetE"]
     pub fn filament_View_setRenderTarget(
         this: *mut filament_View,
         renderTarget: *mut filament_RenderTarget,
@@ -17265,7 +17266,7 @@ extern "C" {
     #[doc = " Returns nullptr if the render target is the swap chain (which is default)."]
     #[doc = ""]
     #[doc = " @see setRenderTarget"]
-    #[link_name = "\u{1}_ZNK8filament4View15getRenderTargetEv"]
+    #[link_name = "\u{1}__ZNK8filament4View15getRenderTargetEv"]
     pub fn filament_View_getRenderTarget(this: *const filament_View) -> *mut filament_RenderTarget;
 }
 extern "C" {
@@ -17276,13 +17277,13 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param viewport  The Viewport to render the Scene into. The Viewport is a value-type, it is"]
     #[doc = "                  therefore copied. The parameter can be discarded after this call returns."]
-    #[link_name = "\u{1}_ZN8filament4View11setViewportERKNS_8ViewportE"]
+    #[link_name = "\u{1}__ZN8filament4View11setViewportERKNS_8ViewportE"]
     pub fn filament_View_setViewport(this: *mut filament_View, viewport: *const filament_Viewport);
 }
 extern "C" {
     #[doc = " Returns the rectangular region that gets rendered to."]
     #[doc = " @return A constant reference to View's viewport."]
-    #[link_name = "\u{1}_ZNK8filament4View11getViewportEv"]
+    #[link_name = "\u{1}__ZNK8filament4View11getViewportEv"]
     pub fn filament_View_getViewport(this: *const filament_View) -> *const filament_Viewport;
 }
 extern "C" {
@@ -17298,13 +17299,13 @@ extern "C" {
     #[doc = " @note"]
     #[doc = "  There is no reference-counting."]
     #[doc = "  Make sure to dissociate a Camera from all Views before destroying it."]
-    #[link_name = "\u{1}_ZN8filament4View9setCameraEPNS_6CameraE"]
+    #[link_name = "\u{1}__ZN8filament4View9setCameraEPNS_6CameraE"]
     pub fn filament_View_setCamera(this: *mut filament_View, camera: *mut filament_Camera);
 }
 extern "C" {
     #[doc = " Returns the Camera currently associated with this View."]
     #[doc = " @return A reference to the Camera associated to this View."]
-    #[link_name = "\u{1}_ZN8filament4View9getCameraEv"]
+    #[link_name = "\u{1}__ZN8filament4View9getCameraEv"]
     pub fn filament_View_getCamera(this: *mut filament_View) -> *mut filament_Camera;
 }
 extern "C" {
@@ -17312,13 +17313,13 @@ extern "C" {
     #[doc = ""]
     #[doc = " @param blendMode either BlendMode::OPAQUE or BlendMode::TRANSLUCENT"]
     #[doc = " @see getBlendMode"]
-    #[link_name = "\u{1}_ZN8filament4View12setBlendModeENS_9BlendModeE"]
+    #[link_name = "\u{1}__ZN8filament4View12setBlendModeENS_9BlendModeE"]
     pub fn filament_View_setBlendMode(this: *mut filament_View, blendMode: filament_View_BlendMode);
 }
 extern "C" {
     #[doc = " @return blending mode set by setBlendMode"]
     #[doc = " @see setBlendMode"]
-    #[link_name = "\u{1}_ZNK8filament4View12getBlendModeEv"]
+    #[link_name = "\u{1}__ZNK8filament4View12getBlendModeEv"]
     pub fn filament_View_getBlendMode(this: *const filament_View) -> filament_View_BlendMode;
 }
 extern "C" {
@@ -17337,14 +17338,14 @@ extern "C" {
     #[doc = ""]
     #[doc = " @note By default all layers are visible."]
     #[doc = " @note This is a convenient way to quickly show or hide sets of Renderable objects."]
-    #[link_name = "\u{1}_ZN8filament4View16setVisibleLayersEhh"]
+    #[link_name = "\u{1}__ZN8filament4View16setVisibleLayersEhh"]
     pub fn filament_View_setVisibleLayers(this: *mut filament_View, select: u8, values: u8);
 }
 extern "C" {
     #[doc = " Get the visible layers."]
     #[doc = ""]
     #[doc = " @see View::setVisibleLayers()"]
-    #[link_name = "\u{1}_ZNK8filament4View16getVisibleLayersEv"]
+    #[link_name = "\u{1}__ZNK8filament4View16getVisibleLayersEv"]
     pub fn filament_View_getVisibleLayers(this: *const filament_View) -> u8;
 }
 extern "C" {
@@ -17355,24 +17356,24 @@ extern "C" {
     #[doc = " @see LightManager::Builder::castShadows(),"]
     #[doc = "      RenderableManager::Builder::receiveShadows(),"]
     #[doc = "      RenderableManager::Builder::castShadows(),"]
-    #[link_name = "\u{1}_ZN8filament4View19setShadowingEnabledEb"]
+    #[link_name = "\u{1}__ZN8filament4View19setShadowingEnabledEb"]
     pub fn filament_View_setShadowingEnabled(this: *mut filament_View, enabled: bool);
 }
 extern "C" {
     #[doc = " @return whether shadowing is enabled"]
-    #[link_name = "\u{1}_ZNK8filament4View18isShadowingEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament4View18isShadowingEnabledEv"]
     pub fn filament_View_isShadowingEnabled(this: *const filament_View) -> bool;
 }
 extern "C" {
     #[doc = " Enables or disables screen space refraction. Enabled by default."]
     #[doc = ""]
     #[doc = " @param enabled true enables screen space refraction, false disables it."]
-    #[link_name = "\u{1}_ZN8filament4View31setScreenSpaceRefractionEnabledEb"]
+    #[link_name = "\u{1}__ZN8filament4View31setScreenSpaceRefractionEnabledEb"]
     pub fn filament_View_setScreenSpaceRefractionEnabled(this: *mut filament_View, enabled: bool);
 }
 extern "C" {
     #[doc = " @return whether screen space refraction is enabled"]
-    #[link_name = "\u{1}_ZNK8filament4View30isScreenSpaceRefractionEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament4View30isScreenSpaceRefractionEnabledEv"]
     pub fn filament_View_isScreenSpaceRefractionEnabled(this: *const filament_View) -> bool;
 }
 extern "C" {
@@ -17390,7 +17391,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @see setAntialiasing"]
     #[doc = " @deprecated use setMultiSampleAntiAliasingOptions instead"]
-    #[link_name = "\u{1}_ZN8filament4View14setSampleCountEh"]
+    #[link_name = "\u{1}__ZN8filament4View14setSampleCountEh"]
     pub fn filament_View_setSampleCount(this: *mut filament_View, count: u8);
 }
 extern "C" {
@@ -17399,7 +17400,7 @@ extern "C" {
     #[doc = ""]
     #[doc = " @return value set by setSampleCount()."]
     #[doc = " @deprecated use getMultiSampleAntiAliasingOptions instead"]
-    #[link_name = "\u{1}_ZNK8filament4View14getSampleCountEv"]
+    #[link_name = "\u{1}__ZNK8filament4View14getSampleCountEv"]
     pub fn filament_View_getSampleCount(this: *const filament_View) -> u8;
 }
 extern "C" {
@@ -17411,7 +17412,7 @@ extern "C" {
     #[doc = " @note For MSAA anti-aliasing, see setSamplerCount()."]
     #[doc = ""]
     #[doc = " @see setSampleCount"]
-    #[link_name = "\u{1}_ZN8filament4View15setAntiAliasingENS_12AntiAliasingE"]
+    #[link_name = "\u{1}__ZN8filament4View15setAntiAliasingENS_12AntiAliasingE"]
     pub fn filament_View_setAntiAliasing(
         this: *mut filament_View,
         type_: filament_View_AntiAliasing,
@@ -17422,14 +17423,14 @@ extern "C" {
     #[doc = " whether MSAA is enabled, see getSampleCount()."]
     #[doc = ""]
     #[doc = " @return The post-processing anti-aliasing method."]
-    #[link_name = "\u{1}_ZNK8filament4View15getAntiAliasingEv"]
+    #[link_name = "\u{1}__ZNK8filament4View15getAntiAliasingEv"]
     pub fn filament_View_getAntiAliasing(this: *const filament_View) -> filament_View_AntiAliasing;
 }
 extern "C" {
     #[doc = " Enables or disable temporal anti-aliasing (TAA). Disabled by default."]
     #[doc = ""]
     #[doc = " @param options temporal anti-aliasing options"]
-    #[link_name = "\u{1}_ZN8filament4View30setTemporalAntiAliasingOptionsENS_27TemporalAntiAliasingOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View30setTemporalAntiAliasingOptionsENS_27TemporalAntiAliasingOptionsE"]
     pub fn filament_View_setTemporalAntiAliasingOptions(
         this: *mut filament_View,
         options: filament_View_TemporalAntiAliasingOptions,
@@ -17439,7 +17440,7 @@ extern "C" {
     #[doc = " Returns temporal anti-aliasing options."]
     #[doc = ""]
     #[doc = " @return temporal anti-aliasing options"]
-    #[link_name = "\u{1}_ZNK8filament4View30getTemporalAntiAliasingOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View30getTemporalAntiAliasingOptionsEv"]
     pub fn filament_View_getTemporalAntiAliasingOptions(
         this: *const filament_View,
     ) -> *const filament_View_TemporalAntiAliasingOptions;
@@ -17448,7 +17449,7 @@ extern "C" {
     #[doc = " Enables or disable screen-space reflections. Disabled by default."]
     #[doc = ""]
     #[doc = " @param options screen-space reflections options"]
-    #[link_name = "\u{1}_ZN8filament4View32setScreenSpaceReflectionsOptionsENS_29ScreenSpaceReflectionsOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View32setScreenSpaceReflectionsOptionsENS_29ScreenSpaceReflectionsOptionsE"]
     pub fn filament_View_setScreenSpaceReflectionsOptions(
         this: *mut filament_View,
         options: filament_View_ScreenSpaceReflectionsOptions,
@@ -17458,7 +17459,7 @@ extern "C" {
     #[doc = " Returns screen-space reflections options."]
     #[doc = ""]
     #[doc = " @return screen-space reflections options"]
-    #[link_name = "\u{1}_ZNK8filament4View32getScreenSpaceReflectionsOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View32getScreenSpaceReflectionsOptionsEv"]
     pub fn filament_View_getScreenSpaceReflectionsOptions(
         this: *const filament_View,
     ) -> *const filament_View_ScreenSpaceReflectionsOptions;
@@ -17467,7 +17468,7 @@ extern "C" {
     #[doc = " Enables or disable multi-sample anti-aliasing (MSAA). Disabled by default."]
     #[doc = ""]
     #[doc = " @param options multi-sample anti-aliasing options"]
-    #[link_name = "\u{1}_ZN8filament4View33setMultiSampleAntiAliasingOptionsENS_30MultiSampleAntiAliasingOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View33setMultiSampleAntiAliasingOptionsENS_30MultiSampleAntiAliasingOptionsE"]
     pub fn filament_View_setMultiSampleAntiAliasingOptions(
         this: *mut filament_View,
         options: filament_View_MultiSampleAntiAliasingOptions,
@@ -17477,7 +17478,7 @@ extern "C" {
     #[doc = " Returns multi-sample anti-aliasing options."]
     #[doc = ""]
     #[doc = " @return multi-sample anti-aliasing options"]
-    #[link_name = "\u{1}_ZNK8filament4View33getMultiSampleAntiAliasingOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View33getMultiSampleAntiAliasingOptionsEv"]
     pub fn filament_View_getMultiSampleAntiAliasingOptions(
         this: *const filament_View,
     ) -> *const filament_View_MultiSampleAntiAliasingOptions;
@@ -17496,7 +17497,7 @@ extern "C" {
     #[doc = " @note"]
     #[doc = "  There is no reference-counting."]
     #[doc = "  Make sure to dissociate a ColorGrading from all Views before destroying it."]
-    #[link_name = "\u{1}_ZN8filament4View15setColorGradingEPNS_12ColorGradingE"]
+    #[link_name = "\u{1}__ZN8filament4View15setColorGradingEPNS_12ColorGradingE"]
     pub fn filament_View_setColorGrading(
         this: *mut filament_View,
         colorGrading: *mut filament_ColorGrading,
@@ -17505,7 +17506,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the color grading transforms currently associated to this view."]
     #[doc = " @return A pointer to the ColorGrading associated to this View."]
-    #[link_name = "\u{1}_ZNK8filament4View15getColorGradingEv"]
+    #[link_name = "\u{1}__ZNK8filament4View15getColorGradingEv"]
     pub fn filament_View_getColorGrading(
         this: *const filament_View,
     ) -> *const filament_ColorGrading;
@@ -17514,7 +17515,7 @@ extern "C" {
     #[doc = " Sets ambient occlusion options."]
     #[doc = ""]
     #[doc = " @param options Options for ambient occlusion."]
-    #[link_name = "\u{1}_ZN8filament4View26setAmbientOcclusionOptionsERKNS_23AmbientOcclusionOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View26setAmbientOcclusionOptionsERKNS_23AmbientOcclusionOptionsE"]
     pub fn filament_View_setAmbientOcclusionOptions(
         this: *mut filament_View,
         options: *const filament_View_AmbientOcclusionOptions,
@@ -17524,7 +17525,7 @@ extern "C" {
     #[doc = " Gets the ambient occlusion options."]
     #[doc = ""]
     #[doc = " @return ambient occlusion options currently set."]
-    #[link_name = "\u{1}_ZNK8filament4View26getAmbientOcclusionOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View26getAmbientOcclusionOptionsEv"]
     pub fn filament_View_getAmbientOcclusionOptions(
         this: *const filament_View,
     ) -> *const filament_View_AmbientOcclusionOptions;
@@ -17533,7 +17534,7 @@ extern "C" {
     #[doc = " Enables or disables bloom in the post-processing stage. Disabled by default."]
     #[doc = ""]
     #[doc = " @param options options"]
-    #[link_name = "\u{1}_ZN8filament4View15setBloomOptionsENS_12BloomOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View15setBloomOptionsENS_12BloomOptionsE"]
     pub fn filament_View_setBloomOptions(
         this: *mut filament_View,
         options: filament_View_BloomOptions,
@@ -17543,28 +17544,28 @@ extern "C" {
     #[doc = " Queries the bloom options."]
     #[doc = ""]
     #[doc = " @return the current bloom options for this view."]
-    #[link_name = "\u{1}_ZNK8filament4View15getBloomOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View15getBloomOptionsEv"]
     pub fn filament_View_getBloomOptions(this: *const filament_View) -> filament_View_BloomOptions;
 }
 extern "C" {
     #[doc = " Enables or disables fog. Disabled by default."]
     #[doc = ""]
     #[doc = " @param options options"]
-    #[link_name = "\u{1}_ZN8filament4View13setFogOptionsENS_10FogOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View13setFogOptionsENS_10FogOptionsE"]
     pub fn filament_View_setFogOptions(this: *mut filament_View, options: filament_View_FogOptions);
 }
 extern "C" {
     #[doc = " Queries the fog options."]
     #[doc = ""]
     #[doc = " @return the current fog options for this view."]
-    #[link_name = "\u{1}_ZNK8filament4View13getFogOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View13getFogOptionsEv"]
     pub fn filament_View_getFogOptions(this: *const filament_View) -> filament_View_FogOptions;
 }
 extern "C" {
     #[doc = " Enables or disables Depth of Field. Disabled by default."]
     #[doc = ""]
     #[doc = " @param options options"]
-    #[link_name = "\u{1}_ZN8filament4View22setDepthOfFieldOptionsENS_19DepthOfFieldOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View22setDepthOfFieldOptionsENS_19DepthOfFieldOptionsE"]
     pub fn filament_View_setDepthOfFieldOptions(
         this: *mut filament_View,
         options: filament_View_DepthOfFieldOptions,
@@ -17574,7 +17575,7 @@ extern "C" {
     #[doc = " Queries the depth of field options."]
     #[doc = ""]
     #[doc = " @return the current depth of field options for this view."]
-    #[link_name = "\u{1}_ZNK8filament4View22getDepthOfFieldOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View22getDepthOfFieldOptionsEv"]
     pub fn filament_View_getDepthOfFieldOptions(
         this: *const filament_View,
     ) -> filament_View_DepthOfFieldOptions;
@@ -17583,7 +17584,7 @@ extern "C" {
     #[doc = " Enables or disables the vignetted effect in the post-processing stage. Disabled by default."]
     #[doc = ""]
     #[doc = " @param options options"]
-    #[link_name = "\u{1}_ZN8filament4View18setVignetteOptionsENS_15VignetteOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View18setVignetteOptionsENS_15VignetteOptionsE"]
     pub fn filament_View_setVignetteOptions(
         this: *mut filament_View,
         options: filament_View_VignetteOptions,
@@ -17593,7 +17594,7 @@ extern "C" {
     #[doc = " Queries the vignette options."]
     #[doc = ""]
     #[doc = " @return the current vignette options for this view."]
-    #[link_name = "\u{1}_ZNK8filament4View18getVignetteOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View18getVignetteOptionsEv"]
     pub fn filament_View_getVignetteOptions(
         this: *const filament_View,
     ) -> filament_View_VignetteOptions;
@@ -17602,14 +17603,14 @@ extern "C" {
     #[doc = " Enables or disables dithering in the post-processing stage. Enabled by default."]
     #[doc = ""]
     #[doc = " @param dithering dithering type"]
-    #[link_name = "\u{1}_ZN8filament4View12setDitheringENS_9DitheringE"]
+    #[link_name = "\u{1}__ZN8filament4View12setDitheringENS_9DitheringE"]
     pub fn filament_View_setDithering(this: *mut filament_View, dithering: filament_View_Dithering);
 }
 extern "C" {
     #[doc = " Queries whether dithering is enabled during the post-processing stage."]
     #[doc = ""]
     #[doc = " @return the current dithering type for this view."]
-    #[link_name = "\u{1}_ZNK8filament4View12getDitheringEv"]
+    #[link_name = "\u{1}__ZNK8filament4View12getDitheringEv"]
     pub fn filament_View_getDithering(this: *const filament_View) -> filament_View_Dithering;
 }
 extern "C" {
@@ -17617,7 +17618,7 @@ extern "C" {
     #[doc = " controls whether dynamic resolution is enabled, and if it is, how it behaves."]
     #[doc = ""]
     #[doc = " @param options The dynamic resolution options to use on this view"]
-    #[link_name = "\u{1}_ZN8filament4View27setDynamicResolutionOptionsERKNS_24DynamicResolutionOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View27setDynamicResolutionOptionsERKNS_24DynamicResolutionOptionsE"]
     pub fn filament_View_setDynamicResolutionOptions(
         this: *mut filament_View,
         options: *const filament_View_DynamicResolutionOptions,
@@ -17626,7 +17627,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the dynamic resolution options associated with this view."]
     #[doc = " @return value set by setDynamicResolutionOptions()."]
-    #[link_name = "\u{1}_ZNK8filament4View27getDynamicResolutionOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View27getDynamicResolutionOptionsEv"]
     pub fn filament_View_getDynamicResolutionOptions(
         this: *const filament_View,
     ) -> filament_View_DynamicResolutionOptions;
@@ -17636,7 +17637,7 @@ extern "C" {
     #[doc = " information about the different settings available."]
     #[doc = ""]
     #[doc = " @param renderQuality The render quality to use on this view"]
-    #[link_name = "\u{1}_ZN8filament4View16setRenderQualityERKNS_13RenderQualityE"]
+    #[link_name = "\u{1}__ZN8filament4View16setRenderQualityERKNS_13RenderQualityE"]
     pub fn filament_View_setRenderQuality(
         this: *mut filament_View,
         renderQuality: *const filament_View_RenderQuality,
@@ -17645,7 +17646,7 @@ extern "C" {
 extern "C" {
     #[doc = " Returns the render quality used by this view."]
     #[doc = " @return value set by setRenderQuality()."]
-    #[link_name = "\u{1}_ZNK8filament4View16getRenderQualityEv"]
+    #[link_name = "\u{1}__ZNK8filament4View16getRenderQualityEv"]
     pub fn filament_View_getRenderQuality(
         this: *const filament_View,
     ) -> filament_View_RenderQuality;
@@ -17669,7 +17670,7 @@ extern "C" {
     #[doc = " Together zLightNear and zLightFar must be chosen so that the visible influence of lights"]
     #[doc = " is spread between these two values."]
     #[doc = ""]
-    #[link_name = "\u{1}_ZN8filament4View25setDynamicLightingOptionsEff"]
+    #[link_name = "\u{1}__ZN8filament4View25setDynamicLightingOptionsEff"]
     pub fn filament_View_setDynamicLightingOptions(
         this: *mut filament_View,
         zLightNear: f32,
@@ -17677,7 +17678,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN8filament4View13setShadowTypeENS_10ShadowTypeE"]
+    #[link_name = "\u{1}__ZN8filament4View13setShadowTypeENS_10ShadowTypeE"]
     pub fn filament_View_setShadowType(this: *mut filament_View, shadow: filament_View_ShadowType);
 }
 extern "C" {
@@ -17692,7 +17693,7 @@ extern "C" {
     #[doc = " @see setShadowType"]
     #[doc = ""]
     #[doc = " @warning This API is still experimental and subject to change."]
-    #[link_name = "\u{1}_ZN8filament4View19setVsmShadowOptionsERKNS_16VsmShadowOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View19setVsmShadowOptionsERKNS_16VsmShadowOptionsE"]
     pub fn filament_View_setVsmShadowOptions(
         this: *mut filament_View,
         options: *const filament_View_VsmShadowOptions,
@@ -17702,7 +17703,7 @@ extern "C" {
     #[doc = " Returns the VSM shadowing options associated with this View."]
     #[doc = ""]
     #[doc = " @return value set by setVsmShadowOptions()."]
-    #[link_name = "\u{1}_ZNK8filament4View19getVsmShadowOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View19getVsmShadowOptionsEv"]
     pub fn filament_View_getVsmShadowOptions(
         this: *const filament_View,
     ) -> filament_View_VsmShadowOptions;
@@ -17719,7 +17720,7 @@ extern "C" {
     #[doc = " @see setShadowType"]
     #[doc = ""]
     #[doc = " @warning This API is still experimental and subject to change."]
-    #[link_name = "\u{1}_ZN8filament4View20setSoftShadowOptionsERKNS_17SoftShadowOptionsE"]
+    #[link_name = "\u{1}__ZN8filament4View20setSoftShadowOptionsERKNS_17SoftShadowOptionsE"]
     pub fn filament_View_setSoftShadowOptions(
         this: *mut filament_View,
         options: *const filament_View_SoftShadowOptions,
@@ -17729,7 +17730,7 @@ extern "C" {
     #[doc = " Returns the soft shadowing options associated with this View."]
     #[doc = ""]
     #[doc = " @return value set by setSoftShadowOptions()."]
-    #[link_name = "\u{1}_ZNK8filament4View20getSoftShadowOptionsEv"]
+    #[link_name = "\u{1}__ZNK8filament4View20getSoftShadowOptionsEv"]
     pub fn filament_View_getSoftShadowOptions(
         this: *const filament_View,
     ) -> filament_View_SoftShadowOptions;
@@ -17754,12 +17755,12 @@ extern "C" {
     #[doc = " @param enabled true enables post processing, false disables it."]
     #[doc = ""]
     #[doc = " @see setBloomOptions, setColorGrading, setAntiAliasing, setDithering, setSampleCount"]
-    #[link_name = "\u{1}_ZN8filament4View24setPostProcessingEnabledEb"]
+    #[link_name = "\u{1}__ZN8filament4View24setPostProcessingEnabledEb"]
     pub fn filament_View_setPostProcessingEnabled(this: *mut filament_View, enabled: bool);
 }
 extern "C" {
     #[doc = "! Returns true if post-processing is enabled. See setPostProcessingEnabled() for more info."]
-    #[link_name = "\u{1}_ZNK8filament4View23isPostProcessingEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament4View23isPostProcessingEnabledEv"]
     pub fn filament_View_isPostProcessingEnabled(this: *const filament_View) -> bool;
 }
 extern "C" {
@@ -17774,33 +17775,33 @@ extern "C" {
     #[doc = " (water, mirror surfaces, front camera in AR, etc.)."]
     #[doc = ""]
     #[doc = " @param inverted True to invert front faces, false otherwise."]
-    #[link_name = "\u{1}_ZN8filament4View27setFrontFaceWindingInvertedEb"]
+    #[link_name = "\u{1}__ZN8filament4View27setFrontFaceWindingInvertedEb"]
     pub fn filament_View_setFrontFaceWindingInverted(this: *mut filament_View, inverted: bool);
 }
 extern "C" {
     #[doc = " Returns true if the winding order of front faces is inverted."]
     #[doc = " See setFrontFaceWindingInverted() for more information."]
-    #[link_name = "\u{1}_ZNK8filament4View26isFrontFaceWindingInvertedEv"]
+    #[link_name = "\u{1}__ZNK8filament4View26isFrontFaceWindingInvertedEv"]
     pub fn filament_View_isFrontFaceWindingInverted(this: *const filament_View) -> bool;
 }
 extern "C" {
     #[doc = "! debugging: allows to entirely disable frustum culling. (culling enabled by default)."]
-    #[link_name = "\u{1}_ZN8filament4View24setFrustumCullingEnabledEb"]
+    #[link_name = "\u{1}__ZN8filament4View24setFrustumCullingEnabledEb"]
     pub fn filament_View_setFrustumCullingEnabled(this: *mut filament_View, culling: bool);
 }
 extern "C" {
     #[doc = "! debugging: returns whether frustum culling is enabled."]
-    #[link_name = "\u{1}_ZNK8filament4View23isFrustumCullingEnabledEv"]
+    #[link_name = "\u{1}__ZNK8filament4View23isFrustumCullingEnabledEv"]
     pub fn filament_View_isFrustumCullingEnabled(this: *const filament_View) -> bool;
 }
 extern "C" {
     #[doc = "! debugging: sets the Camera used for rendering. It may be different from the culling camera."]
-    #[link_name = "\u{1}_ZN8filament4View14setDebugCameraEPNS_6CameraE"]
+    #[link_name = "\u{1}__ZN8filament4View14setDebugCameraEPNS_6CameraE"]
     pub fn filament_View_setDebugCamera(this: *mut filament_View, camera: *mut filament_Camera);
 }
 extern "C" {
     #[doc = "! debugging: returns a Camera from the point of view of *the* dominant directional light used for shadowing."]
-    #[link_name = "\u{1}_ZNK8filament4View25getDirectionalLightCameraEv"]
+    #[link_name = "\u{1}__ZNK8filament4View25getDirectionalLightCameraEv"]
     pub fn filament_View_getDirectionalLightCamera(
         this: *const filament_View,
     ) -> *const filament_Camera;
@@ -17819,7 +17820,7 @@ extern "C" {
     #[doc = " @return          A reference to a PickingQuery structure, which can be used to store up to"]
     #[doc = "                  8*sizeof(void*) bytes of user data. This user data is later accessible"]
     #[doc = "                  in the PickingQueryResultCallback callback 3rd parameter."]
-    #[link_name = "\u{1}_ZN8filament4View4pickEjjPNS_7backend15CallbackHandlerEPFvRKNS0_18PickingQueryResultEPNS0_12PickingQueryEE"]
+    #[link_name = "\u{1}__ZN8filament4View4pickEjjPNS_7backend15CallbackHandlerEPFvRKNS0_18PickingQueryResultEPNS0_12PickingQueryEE"]
     pub fn filament_View_pick(
         this: *mut filament_View,
         x: u32,
@@ -17834,7 +17835,7 @@ extern "C" {
     #[doc = " @see setAmbientOcclusionOptions"]
     #[doc = ""]
     #[doc = " @param ambientOcclusion Type of ambient occlusion to use."]
-    #[link_name = "\u{1}_ZN8filament4View19setAmbientOcclusionENS0_16AmbientOcclusionE"]
+    #[link_name = "\u{1}__ZN8filament4View19setAmbientOcclusionENS0_16AmbientOcclusionE"]
     pub fn filament_View_setAmbientOcclusion(
         this: *mut filament_View,
         ambientOcclusion: filament_View_AmbientOcclusion,
@@ -17846,7 +17847,7 @@ extern "C" {
     #[doc = " @see getAmbientOcclusionOptions"]
     #[doc = ""]
     #[doc = " @return ambient occlusion type."]
-    #[link_name = "\u{1}_ZNK8filament4View19getAmbientOcclusionEv"]
+    #[link_name = "\u{1}__ZNK8filament4View19getAmbientOcclusionEv"]
     pub fn filament_View_getAmbientOcclusion(
         this: *const filament_View,
     ) -> filament_View_AmbientOcclusion;
@@ -18160,7 +18161,7 @@ extern "C" {
     #[doc = " @param s scaling factor on the x and y axes."]
     #[doc = " @return A new scaled Viewport. The coordinates and dimensions of the new Viewport are"]
     #[doc = " rounded to the nearest integer value."]
-    #[link_name = "\u{1}_ZNK8filament8Viewport5scaleENS_4math7details5TVec2IfEE"]
+    #[link_name = "\u{1}__ZNK8filament8Viewport5scaleENS_4math7details5TVec2IfEE"]
     pub fn filament_Viewport_scale(
         this: *const filament_Viewport,
         s: filament_math_float2,
@@ -18172,15 +18173,7 @@ impl filament_Viewport {
         filament_Viewport_scale(self, s)
     }
 }
-pub type size_t = ::std::os::raw::c_ulong;
-pub type __int8_t = ::std::os::raw::c_schar;
-pub type __uint8_t = ::std::os::raw::c_uchar;
-pub type __int16_t = ::std::os::raw::c_short;
-pub type __uint16_t = ::std::os::raw::c_ushort;
-pub type __int32_t = ::std::os::raw::c_int;
-pub type __uint32_t = ::std::os::raw::c_uint;
-pub type __int64_t = ::std::os::raw::c_long;
-pub type __uint64_t = ::std::os::raw::c_ulong;
+pub type __darwin_intptr_t = ::std::os::raw::c_long;
 pub type utils_bitset_container_type<T> = T;
 pub type utils_bitset32 = u32;
 #[repr(C)]
@@ -18248,7 +18241,7 @@ fn bindgen_test_layout_utils_EntityManager_Listener() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager8ListenerD1Ev"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager8ListenerD1Ev"]
     pub fn utils_EntityManager_Listener_Listener_destructor(
         this: *mut utils_EntityManager_Listener,
     );
@@ -18295,11 +18288,11 @@ fn bindgen_test_layout_utils_EntityManager() {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager3getEv"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager3getEv"]
     pub fn utils_EntityManager_get() -> *mut utils_EntityManager;
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager6createEmPNS_6EntityE"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager6createEmPNS_6EntityE"]
     pub fn utils_EntityManager_create(
         this: *mut utils_EntityManager,
         n: size_t,
@@ -18307,7 +18300,7 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager7destroyEmPNS_6EntityE"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager7destroyEmPNS_6EntityE"]
     pub fn utils_EntityManager_destroy(
         this: *mut utils_EntityManager,
         n: size_t,
@@ -18315,14 +18308,14 @@ extern "C" {
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager16registerListenerEPNS0_8ListenerE"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager16registerListenerEPNS0_8ListenerE"]
     pub fn utils_EntityManager_registerListener(
         this: *mut utils_EntityManager,
         l: *mut utils_EntityManager_Listener,
     );
 }
 extern "C" {
-    #[link_name = "\u{1}_ZN5utils13EntityManager18unregisterListenerEPNS0_8ListenerE"]
+    #[link_name = "\u{1}__ZN5utils13EntityManager18unregisterListenerEPNS0_8ListenerE"]
     pub fn utils_EntityManager_unregisterListener(
         this: *mut utils_EntityManager,
         l: *mut utils_EntityManager_Listener,

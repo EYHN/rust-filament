@@ -6,9 +6,6 @@ edition = "2021"
 [lib]
 doctest = false
 
-[dependencies]
-link-cplusplus = { version = "1.0", features = ["libc++"] }
-
 [build-dependencies]
 bindgen = "0.59"
 serde_json = "1.0"

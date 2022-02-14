@@ -178,6 +178,17 @@ fn install(manifest: &BuildManifest) {
         println!("cargo:rustc-link-lib=static={}", lib);
     }
 
+    if cfg!(target_os = "linux") {
+        println!("cargo:rustc-link-lib={}", "c++");
+    }
+
+    if cfg!(target_os = "macos") {
+        println!("cargo:rustc-link-lib={}", "c++");
+        println!("cargo:rustc-link-lib={}", "framework=Metal");
+        println!("cargo:rustc-link-lib={}", "framework=CoreVideo");
+        println!("cargo:rustc-link-lib={}", "framework=Cocoa");
+    }
+
     // Write the bindings to the src/bindings.rs file.
     let bindings_path = PathBuf::from("src").join("bindings.rs");
     fs::copy(&manifest.bindings_rs, bindings_path).unwrap();
