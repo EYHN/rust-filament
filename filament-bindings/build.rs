@@ -287,7 +287,7 @@ fn try_from_cache(
     }
 
     let download_url = format!(
-        "https://github.com/EYHN/filament-binaries/releases/download/v{}/{}",
+        "https://github.com/EYHN/filament-binaries/releases/download/filament-bindings/v{}/{}",
         version.as_ref(),
         cache_tar_name.as_ref()
     );
