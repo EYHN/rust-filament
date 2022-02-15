@@ -65,6 +65,7 @@ jobs:
       - name: Build ${{ matrix.target }}
         env:
           FILAMENT_BUILD_CACHE_DIR: ${{ runner.temp }}/release
+          FILAMENT_BUILD_OUT_DIR: ${{ runner.temp }}/out
           FILAMENT_BUILD_DISABLE_CACHE: ON
         run: |
           cargo build --release -p filament-bindings --target ${{ matrix.target }}
