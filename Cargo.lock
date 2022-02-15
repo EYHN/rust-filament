@@ -166,14 +166,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "filament"
-version = "0.1.0"
-dependencies = [
- "filament-sys",
-]
-
-[[package]]
-name = "filament-sys"
+name = "filament-bindings"
 version = "0.1.0"
 dependencies = [
  "bindgen",

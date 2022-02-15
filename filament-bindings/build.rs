@@ -42,7 +42,14 @@ where
     let install_dir = build_dir.join("out");
     fs::create_dir_all(&build_dir).unwrap();
 
-    println!("{}", install_dir.join("include").join("math").join("vec3.h").display());
+    println!(
+        "{}",
+        install_dir
+            .join("include")
+            .join("math")
+            .join("vec3.h")
+            .display()
+    );
 
     let mut cmake = Command::new("cmake");
 
@@ -181,9 +188,10 @@ fn unpack(package: impl AsRef<Path>) -> BuildManifest {
 }
 
 fn install(manifest: &BuildManifest) {
+    println!("cargo:rerun-if-env-changed=FILAMENT_NATIVE_LIB_PATH");
     println!(
         "cargo:rustc-link-search=native={}",
-        manifest.filament_native_lib.display()
+        env::var("FILAMENT_NATIVE_LIB_PATH").unwrap_or(manifest.filament_native_lib.display().to_string())
     );
 
     for lib in &manifest.link_libs {

@@ -1,12 +1,4 @@
-[package]
-name = "filament"
-version = "0.1.0"
-edition = "2021"
-
 [workspace]
 members = [
-  "filament-sys"
+  "filament-bindings"
 ]
-
-[dependencies]
-filament-sys = { path = "filament-sys" }

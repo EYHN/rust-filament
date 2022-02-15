@@ -1,8 +1,8 @@
-name: Build Release
+name: Build Release filament-bindings
 on:
   push:
     tags:
-      - v*
+      - filament-bindings/v*
 jobs:
   create-release:
     runs-on: 'ubuntu-20.04'
@@ -67,7 +67,7 @@ jobs:
           FILAMENT_BUILD_CACHE_DIR: ${{ runner.temp }}/release
           FILAMENT_BUILD_DISABLE_CACHE: ON
         run: |
-          cargo build --release -p filament-sys --target ${{ matrix.target }}
+          cargo build --release -p filament-bindings --target ${{ matrix.target }}
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:

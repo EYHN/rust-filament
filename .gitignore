@@ -1,3 +1,5 @@
 /target
 
-/filament-sys/src/bindings.rs
+.DS_Store
+
+/filament-bindings/src/bindings.rs

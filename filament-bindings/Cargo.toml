@@ -1,5 +1,5 @@
 [package]
-name = "filament-sys"
+name = "filament-bindings"
 version = "0.1.0"
 edition = "2021"
 
