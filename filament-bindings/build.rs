@@ -130,13 +130,7 @@ where
         .use_core()
         .header("bindings.h")
         .disable_header_comment()
-        .raw_line("#![allow(clippy::all)]")
-        .raw_line("#![allow(unknown_lints)]")
-        .raw_line("#![allow(deref_nullptr)]")
-        .raw_line("#![allow(non_upper_case_globals)]")
-        .raw_line("#![allow(non_camel_case_types)]")
-        .raw_line("#![allow(non_snake_case)]")
-        .raw_line("include!(\"fix.rs\");")
+        .raw_line(include_str!("src/fix.rs"))
         .allowlist_type("filament::Engine")
         .blocklist_file(path_regex_escape(filament_include.join("math").join("vec2.h").to_str().unwrap()))
         .blocklist_file(path_regex_escape(filament_include.join("math").join("vec3.h").to_str().unwrap()))
@@ -210,7 +204,9 @@ fn install(manifest: &BuildManifest) {
     }
 
     // Write the bindings to the src/bindings.rs file.
-    let bindings_path = PathBuf::from("src").join("bindings.rs");
+    let bindings_dir = PathBuf::from(env::var("OUT_DIR").unwrap()).join("bindings");
+    fs::create_dir_all(&bindings_dir).unwrap();
+    let bindings_path = bindings_dir.join("bindings.rs");
     fs::copy(&manifest.bindings_rs, bindings_path).unwrap();
 }
 
