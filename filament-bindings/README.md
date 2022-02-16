@@ -11,3 +11,13 @@ When a new version is released, github action automatically runs pre-build tasks
 The `filament-binding` build script will try to download the prebuilt binaries from github first, and skip the full source build.
 
 We currently provide pre-built binary packages for `Windows`, `Linux`, `macOS`, and enable `OpenGL`, `Vulkan` backend for all platforms and `Metal` backend for macOS. For other platforms such as `Android`, `iOS` and `WASM` support is planned but not yet available.
+
+# Build requirement
+
+* cmake
+* clang
+* ninja
+* libglu1-mesa-dev
+* libxi-dev
+* libc++-dev
+* libc++abi-dev

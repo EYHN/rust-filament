@@ -35,13 +35,25 @@ fn build_from_source(target: Target) -> BuildManifest {
             .arg(swiftshader_source_dir.to_str().unwrap())
             .arg(format!("-DCMAKE_BUILD_TYPE={}", "Release"))
             .arg(format!("-DSWIFTSHADER_BUILD_TESTS={}", "FALSE"));
+
+        if cfg!(target_os = "linux") {
+            swiftshader_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
+            swiftshader_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
+            swiftshader_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
+        }
+
         run_command(&mut swiftshader_cmake, "cmake");
 
         // build swiftshader
         let mut swiftshader_build_cmake = Command::new("cmake");
         swiftshader_build_cmake
             .current_dir(&swiftshader_build_dir)
-            .args(["--build", ".", "--parallel"]);
+            .args([
+                "--build",
+                ".",
+                "--parallel",
+                &env::var("NUM_JOBS").unwrap_or(num_cpus::get().to_string()),
+            ]);
         run_command(&mut swiftshader_build_cmake, "cmake");
     }
 
@@ -96,7 +108,10 @@ fn build_from_source(target: Target) -> BuildManifest {
         .args(["--build", "."])
         .args(["--target", "install"])
         .args(["--config", "Release"]);
-    filament_cmake_install.arg("--parallel");
+    filament_cmake_install.args([
+        "--parallel",
+        &env::var("NUM_JOBS").unwrap_or(num_cpus::get().to_string()),
+    ]);
 
     run_command(&mut filament_cmake_install, "cmake");
 

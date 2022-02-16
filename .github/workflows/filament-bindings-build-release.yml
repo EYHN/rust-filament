@@ -49,7 +49,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install libglu1-mesa-dev ninja-build libxi-dev ninja-build libc++-11-dev libc++abi-11-dev
+          sudo apt-get install libglu1-mesa-dev ninja-build libxi-dev libc++-11-dev libc++abi-11-dev
           df -h
       - name: Install LLVM (Windows) # required for bindgen to work, see https://github.com/rust-lang/rust-bindgen/issues/1797
         uses: KyleMayes/install-llvm-action@v1
