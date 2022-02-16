@@ -3,59 +3,54 @@ extern crate bindgen;
 mod build_support;
 
 use std::{
-    env, fs,
-    io::{self, ErrorKind},
+    env, fs, io,
     path::{Path, PathBuf},
     process::Command,
     time::SystemTime,
 };
 
-use build_support::{download, Target};
+use build_support::{download, path_regex_escape, run_command, Target};
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::{Deserialize, Serialize};
 
-#[cfg(not(target_os = "windows"))]
-fn path_regex_escape(path: impl AsRef<str>) -> String {
-    regex::escape(path.as_ref())
-}
-
-#[cfg(target_os = "windows")]
-fn path_regex_escape(path: impl AsRef<str>) -> String {
-    let re = regex::Regex::new(r"[/\\]+").unwrap();
-    re.split(path.as_ref()).map(|segment| regex::escape(segment)).collect::<Vec<String>>().join(r"[/\\]+")
-}
-
-fn build_from_source<P>(filament_source_dir: P, target: Target) -> BuildManifest
-where
-    P: AsRef<Path>,
-{
-    let sdir = env::current_dir()
-        .unwrap()
-        .join(filament_source_dir.as_ref());
+fn build_from_source(target: Target) -> BuildManifest {
+    let filament_source_dir = env::current_dir().unwrap().join("filament");
+    let swiftshader_source_dir = env::current_dir().unwrap().join("swiftshader");
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_OUT_DIR");
     let out_dir = env::current_dir().unwrap().join(
         env::var("FILAMENT_BUILD_OUT_DIR")
             .or(env::var("OUT_DIR"))
             .unwrap(),
     );
-    let build_dir = out_dir.join("build");
-    let install_dir = build_dir.join("out");
-    fs::create_dir_all(&build_dir).unwrap();
+    let filament_build_dir = out_dir.join("filament");
+    let swiftshader_build_dir = out_dir.join("swiftshader");
+    let filament_install_dir = filament_build_dir.join("out");
 
-    println!(
-        "{}",
-        install_dir
-            .join("include")
-            .join("math")
-            .join("vec3.h")
-            .display()
-    );
+    if cfg!(feature = "swiftshader") {
+        // configure swiftshader
+        fs::create_dir_all(&swiftshader_build_dir).unwrap();
+        let mut swiftshader_cmake = Command::new("cmake");
+        swiftshader_cmake
+            .current_dir(&swiftshader_build_dir)
+            .arg(swiftshader_source_dir.to_str().unwrap())
+            .arg(format!("-DCMAKE_BUILD_TYPE={}", "Release"))
+            .arg(format!("-DSWIFTSHADER_BUILD_TESTS={}", "FALSE"));
+        run_command(&mut swiftshader_cmake, "cmake");
 
-    let mut cmake = Command::new("cmake");
+        // build swiftshader
+        let mut swiftshader_build_cmake = Command::new("cmake");
+        swiftshader_build_cmake
+            .current_dir(&swiftshader_build_dir)
+            .args(["--build", ".", "--parallel"]);
+        run_command(&mut swiftshader_build_cmake, "cmake");
+    }
 
-    cmake
-        .current_dir(&build_dir)
-        .arg(sdir.to_str().unwrap())
+    // configure filament
+    fs::create_dir_all(&filament_build_dir).unwrap();
+    let mut filament_cmake = Command::new("cmake");
+    filament_cmake
+        .current_dir(&filament_build_dir)
+        .arg(filament_source_dir.to_str().unwrap())
         .arg(format!("-DCMAKE_BUILD_TYPE={}", "Release"))
         .arg(format!("-DFILAMENT_SKIP_SAMPLES={}", "ON"))
         .arg(format!("-DFILAMENT_SKIP_SDL2={}", "ON"))
@@ -63,47 +58,52 @@ where
         .arg(format!("-DFILAMENT_SUPPORTS_VULKAN={}", "ON"))
         .arg(format!(
             "-DCMAKE_INSTALL_PREFIX={}",
-            install_dir.to_str().unwrap()
+            filament_install_dir.to_str().unwrap()
         ))
         .arg(format!("-DDIST_DIR={}", &target.to_string()));
 
+    if cfg!(feature = "swiftshader") {
+        filament_cmake.arg("-DFILAMENT_USE_SWIFTSHADER=ON");
+        filament_cmake.env(
+            "SWIFTSHADER_LD_LIBRARY_PATH",
+            swiftshader_build_dir.to_str().unwrap(),
+        );
+    }
+
     if cfg!(target_os = "linux") {
-        cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
-        cmake.env(
+        filament_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
+        filament_cmake.env(
             "CXXFLAGS",
             env::var("CXXFLAGS").unwrap_or("-stdlib=libc++".to_string()),
         );
-        cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
-        cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
+        filament_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
+        filament_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
     }
 
     if !cfg!(target_os = "windows") {
-        cmake.env(
+        filament_cmake.env(
             "CMAKE_GENERATOR",
             env::var("CMAKE_GENERATOR").unwrap_or("Ninja".to_string()),
         );
     }
 
-    run(&mut cmake, "cmake");
+    run_command(&mut filament_cmake, "cmake");
 
-    let mut cmake_install = Command::new("cmake");
-
-    cmake_install
-        .current_dir(&build_dir)
+    // build filament
+    let mut filament_cmake_install = Command::new("cmake");
+    filament_cmake_install
+        .current_dir(&filament_build_dir)
         .args(["--build", "."])
         .args(["--target", "install"])
         .args(["--config", "Release"]);
+    filament_cmake_install.arg("--parallel");
 
-    cmake_install
-        .arg("--parallel")
-        .arg(env::var("NUM_JOBS").unwrap_or_else(|_| num_cpus::get().to_string()));
+    run_command(&mut filament_cmake_install, "cmake");
 
-    run(&mut cmake_install, "cmake");
+    let filament_native_lib = filament_install_dir.join("lib").join(&target.to_string());
 
-    let filament_native_lib = install_dir.join("lib").join(&target.to_string());
-
-    let filament_license = install_dir.join("LICENSE");
-    let filament_include = install_dir.join("include");
+    let filament_license = filament_install_dir.join("LICENSE");
+    let filament_include = filament_install_dir.join("include");
 
     let filament_link_libs = vec![
         "filament",
@@ -132,13 +132,55 @@ where
         .disable_header_comment()
         .raw_line(include_str!("src/fix.rs"))
         .allowlist_type("filament::Engine")
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec2.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec3.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("vec4.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("quat.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat2.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat3.h").to_str().unwrap()))
-        .blocklist_file(path_regex_escape(filament_include.join("math").join("mat4.h").to_str().unwrap()))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("vec2.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("vec3.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("vec4.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("quat.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("mat2.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("mat3.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("mat4.h")
+                .to_str()
+                .unwrap(),
+        ))
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
@@ -185,7 +227,8 @@ fn install(manifest: &BuildManifest) {
     println!("cargo:rerun-if-env-changed=FILAMENT_NATIVE_LIB_PATH");
     println!(
         "cargo:rustc-link-search=native={}",
-        env::var("FILAMENT_NATIVE_LIB_PATH").unwrap_or(manifest.filament_native_lib.display().to_string())
+        env::var("FILAMENT_NATIVE_LIB_PATH")
+            .unwrap_or(manifest.filament_native_lib.display().to_string())
     );
 
     for lib in &manifest.link_libs {
@@ -201,6 +244,12 @@ fn install(manifest: &BuildManifest) {
         println!("cargo:rustc-link-lib={}", "framework=Metal");
         println!("cargo:rustc-link-lib={}", "framework=CoreVideo");
         println!("cargo:rustc-link-lib={}", "framework=Cocoa");
+    }
+
+    if cfg!(target_os = "windows") {
+        println!("cargo:rustc-link-lib={}", "gdi32");
+        println!("cargo:rustc-link-lib={}", "user32");
+        println!("cargo:rustc-link-lib={}", "opengl32");
     }
 
     // Write the bindings to the src/bindings.rs file.
@@ -305,12 +354,22 @@ fn try_from_cache(
 fn main() {
     let target = Target::target();
     let version = env::var("CARGO_PKG_VERSION").unwrap();
-    let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
+
+    let cache_tar_name = format!(
+        "filament-{}-{}{}.tar.gz",
+        version,
+        target.to_string(),
+        if cfg!(feature = "swiftshader") {
+            "-swiftshader"
+        } else {
+            ""
+        }
+    );
 
     let build_manifest = if let Some(cache) = try_from_cache(&cache_tar_name, &version) {
         cache
     } else {
-        let build_manifest = build_from_source("filament", target);
+        let build_manifest = build_from_source(target);
 
         println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_CACHE_DIR");
         if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {
@@ -323,33 +382,4 @@ fn main() {
     };
 
     install(&build_manifest)
-}
-
-fn run(cmd: &mut Command, program: &str) {
-    println!(
-        "current_dir: {:?}\nrunning: {:?}",
-        cmd.get_current_dir()
-            .map(|p| p.display().to_string())
-            .unwrap_or("".to_string()),
-        cmd
-    );
-    let status = match cmd.status() {
-        Ok(status) => status,
-        Err(ref e) if e.kind() == ErrorKind::NotFound => {
-            panic!(
-                "{}",
-                &format!(
-                    "failed to execute command: {}\nis `{}` not installed?",
-                    e, program
-                )
-            );
-        }
-        Err(e) => panic!("{}", &format!("failed to execute command: {:?}", e)),
-    };
-    if !status.success() {
-        panic!(
-            "{}",
-            &format!("command did not execute successfully, got: {}", status)
-        );
-    }
 }

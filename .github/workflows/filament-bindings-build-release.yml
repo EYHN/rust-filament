@@ -1,4 +1,4 @@
-name: Build Release filament-bindings
+name: filament-bindings Build Release
 on:
   push:
     tags:
@@ -19,23 +19,27 @@ jobs:
           owner: EYHN
           repo: filament-binaries
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.target.os }}
     needs: create-release
     strategy:
       fail-fast: false
       matrix:
-        include:
+        target:
           - os: ubuntu-20.04
-            target: x86_64-unknown-linux-gnu
+            triple: x86_64-unknown-linux-gnu
           - os: macos-11
-            target: x86_64-apple-darwin
+            triple: x86_64-apple-darwin
+          - os: macos-11
+            triple: aarch64-apple-darwin
           - os: windows-2019
-            target: x86_64-pc-windows-msvc
+            triple: x86_64-pc-windows-msvc
+        features: ["default", "swiftshader"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-            submodules: true
+      - name: Initialize Submodules
+        run: |
+          git submodule update --init --depth 1
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
@@ -46,6 +50,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libglu1-mesa-dev ninja-build libxi-dev ninja-build libc++-11-dev libc++abi-11-dev
+          df -h
       - name: Install LLVM (Windows) # required for bindgen to work, see https://github.com/rust-lang/rust-bindgen/issues/1797
         uses: KyleMayes/install-llvm-action@v1
         if: runner.os == 'Windows'
@@ -59,16 +64,16 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install ninja
-      - name: Install Rust target ${{ matrix.target }}
+      - name: Install Rust target ${{ matrix.target.triple }}
         run: |
-          rustup target add ${{ matrix.target }}
-      - name: Build ${{ matrix.target }}
+          rustup target add ${{ matrix.target.triple }}
+      - name: Build ${{ matrix.target.triple }}
         env:
           FILAMENT_BUILD_CACHE_DIR: ${{ runner.temp }}/release
           FILAMENT_BUILD_OUT_DIR: ${{ runner.temp }}/out
           FILAMENT_BUILD_DISABLE_CACHE: ON
         run: |
-          cargo build --release -p filament-bindings --target ${{ matrix.target }}
+          cargo build -vv --release -p filament-bindings --features ${{ matrix.features }} --target ${{ matrix.target.triple }}
       - name: Upload release
         uses: ncipollo/release-action@v1
         with:
