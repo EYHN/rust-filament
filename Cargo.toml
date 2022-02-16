@@ -1,4 +1,5 @@
 [workspace]
 members = [
-  "filament-bindings"
+  "filament-bindings",
+  "filament-safe"
 ]
