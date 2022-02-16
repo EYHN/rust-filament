@@ -15,7 +15,6 @@ use serde::{Deserialize, Serialize};
 
 fn build_from_source(target: Target) -> BuildManifest {
     let filament_source_dir = env::current_dir().unwrap().join("filament");
-    let swiftshader_source_dir = env::current_dir().unwrap().join("swiftshader");
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_OUT_DIR");
     let out_dir = env::current_dir().unwrap().join(
         env::var("FILAMENT_BUILD_OUT_DIR")
@@ -23,39 +22,7 @@ fn build_from_source(target: Target) -> BuildManifest {
             .unwrap(),
     );
     let filament_build_dir = out_dir.join("filament");
-    let swiftshader_build_dir = out_dir.join("swiftshader");
     let filament_install_dir = filament_build_dir.join("out");
-
-    if cfg!(feature = "swiftshader") {
-        // configure swiftshader
-        fs::create_dir_all(&swiftshader_build_dir).unwrap();
-        let mut swiftshader_cmake = Command::new("cmake");
-        swiftshader_cmake
-            .current_dir(&swiftshader_build_dir)
-            .arg(swiftshader_source_dir.to_str().unwrap())
-            .arg(format!("-DCMAKE_BUILD_TYPE={}", "Release"))
-            .arg(format!("-DSWIFTSHADER_BUILD_TESTS={}", "FALSE"));
-
-        if cfg!(target_os = "linux") {
-            swiftshader_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
-            swiftshader_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
-            swiftshader_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
-        }
-
-        run_command(&mut swiftshader_cmake, "cmake");
-
-        // build swiftshader
-        let mut swiftshader_build_cmake = Command::new("cmake");
-        swiftshader_build_cmake
-            .current_dir(&swiftshader_build_dir)
-            .args([
-                "--build",
-                ".",
-                "--parallel",
-                &env::var("NUM_JOBS").unwrap_or(num_cpus::get().to_string()),
-            ]);
-        run_command(&mut swiftshader_build_cmake, "cmake");
-    }
 
     // configure filament
     fs::create_dir_all(&filament_build_dir).unwrap();
@@ -73,14 +40,6 @@ fn build_from_source(target: Target) -> BuildManifest {
             filament_install_dir.to_str().unwrap()
         ))
         .arg(format!("-DDIST_DIR={}", &target.to_string()));
-
-    if cfg!(feature = "swiftshader") {
-        filament_cmake.arg("-DFILAMENT_USE_SWIFTSHADER=ON");
-        filament_cmake.env(
-            "SWIFTSHADER_LD_LIBRARY_PATH",
-            swiftshader_build_dir.to_str().unwrap(),
-        );
-    }
 
     if cfg!(target_os = "linux") {
         filament_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
@@ -370,16 +329,7 @@ fn main() {
     let target = Target::target();
     let version = env::var("CARGO_PKG_VERSION").unwrap();
 
-    let cache_tar_name = format!(
-        "filament-{}-{}{}.tar.gz",
-        version,
-        target.to_string(),
-        if cfg!(feature = "swiftshader") {
-            "-swiftshader"
-        } else {
-            ""
-        }
-    );
+    let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
 
     let build_manifest = if let Some(cache) = try_from_cache(&cache_tar_name, &version) {
         cache

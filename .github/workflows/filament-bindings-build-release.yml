@@ -33,7 +33,7 @@ jobs:
             triple: aarch64-apple-darwin
           - os: windows-2019
             triple: x86_64-pc-windows-msvc
-        features: ["default", "swiftshader"]
+        features: ["default"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

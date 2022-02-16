@@ -1,6 +1,3 @@
 [submodule "filament-bindings/filament"]
 	path = filament-bindings/filament
 	url = https://github.com/google/filament
-[submodule "filament-bindings/swiftshader"]
-	path = filament-bindings/swiftshader
-	url = https://github.com/google/swiftshader.git
