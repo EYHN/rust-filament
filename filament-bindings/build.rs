@@ -88,6 +88,8 @@ fn build_from_source(target: Target) -> BuildManifest {
         "filaflat",
         "smol-v",
         "vkshaders",
+        "geometry",
+        "ibl",
         "utils",
     ]
     .into_iter()
@@ -105,7 +107,9 @@ fn build_from_source(target: Target) -> BuildManifest {
         .header("bindings.h")
         .disable_header_comment()
         .raw_line(include_str!("src/fix.rs"))
-        .allowlist_type("filament::Engine")
+        .allowlist_type("filament::*")
+        .allowlist_type("backend::*")
+        .allowlist_type("utils::*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -295,8 +299,12 @@ fn try_from_cache(
     cache_tar_name: impl AsRef<str>,
     version: impl AsRef<str>,
 ) -> Option<BuildManifest> {
-    println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_DISABLE_CACHE");
-    if env::var("FILAMENT_BUILD_DISABLE_CACHE").unwrap_or("OFF".to_string()) == "ON" {
+    println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
+    if env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) == "OFF" {
+        return None;
+    }
+
+    if cfg!(not(feature = "prebuilt")) {
         return None;
     }
 
