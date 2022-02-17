@@ -1,12 +1,31 @@
 use std::{os::raw, ptr};
 
 use filament_bindings::{
-    filament_Engine, filament_Engine_createSwapChain, filament_Engine_enableAccurateTranslations, filament_Engine_createSwapChain1, filament_Engine_flushAndWait, filament_Engine_flush, filament_Engine_pumpMessageQueues,
+    filament_BufferObject, filament_ColorGrading, filament_Engine, filament_Engine_createSwapChain,
+    filament_Engine_createSwapChain1, filament_Engine_destroy10, filament_Engine_destroy11,
+    filament_Engine_destroy12, filament_Engine_destroy13, filament_Engine_destroy14,
+    filament_Engine_destroy15, filament_Engine_destroy16, filament_Engine_destroy17,
+    filament_Engine_destroy18, filament_Engine_destroy19, filament_Engine_destroy2,
+    filament_Engine_destroy3, filament_Engine_destroy4, filament_Engine_destroy5,
+    filament_Engine_destroy6, filament_Engine_destroy7, filament_Engine_destroy8,
+    filament_Engine_destroy9, filament_Engine_enableAccurateTranslations, filament_Engine_flush,
+    filament_Engine_flushAndWait, filament_Engine_getBackend, filament_Engine_getPlatform,
+    filament_Engine_pumpMessageQueues, filament_Fence, filament_IndexBuffer,
+    filament_IndirectLight, filament_Material, filament_MaterialInstance,
+    filament_MorphTargetBuffer, filament_RenderTarget, filament_Renderer, filament_Scene,
+    filament_SkinningBuffer, filament_Skybox, filament_Stream, filament_SwapChain,
+    filament_Texture, filament_VertexBuffer, filament_View,
 };
 
-use crate::{backend::Backend, utils};
+use crate::{
+    backend::{Backend, Platform},
+    utils,
+};
 
-use super::{LightManager, RenderableManager, SwapChain, SwapChainConfig, Renderer, View, Scene, Camera, Fence};
+use super::{
+    Camera, EngineDestroy, Fence, LightManager, RenderableManager, Renderer, Scene, SwapChain,
+    SwapChainConfig, View,
+};
 
 pub struct Engine(pub(crate) *mut filament_Engine);
 
@@ -135,12 +154,51 @@ impl Engine {
     }
 
     #[inline]
+    pub fn get_backend(&self) -> Backend {
+        Backend::try_from(unsafe { filament_Engine_getBackend(self.0) }).unwrap()
+    }
+
+    #[inline]
+    pub fn get_platform(&self) -> &Platform {
+        unsafe { std::mem::transmute(filament_Engine_getPlatform(self.0)) }
+    }
+
+    #[inline]
     fn destroy(engine: &mut Engine) {
         unsafe {
             filament_Engine::destroy(engine.0 as *mut *mut filament_Engine);
         }
     }
 }
+
+macro_rules! engine_destory_type {
+    ($native_type:ident, $destory_fn:ident) => {
+        impl EngineDestroy for $native_type {
+            fn destory(p: *const Self, engine: &mut super::Engine) -> bool {
+                unsafe { $destory_fn(engine.0, p) }
+            }
+        }
+    };
+}
+
+engine_destory_type!(filament_BufferObject, filament_Engine_destroy2);
+engine_destory_type!(filament_VertexBuffer, filament_Engine_destroy3);
+engine_destory_type!(filament_Fence, filament_Engine_destroy4);
+engine_destory_type!(filament_IndexBuffer, filament_Engine_destroy5);
+engine_destory_type!(filament_SkinningBuffer, filament_Engine_destroy6);
+engine_destory_type!(filament_MorphTargetBuffer, filament_Engine_destroy7);
+engine_destory_type!(filament_IndirectLight, filament_Engine_destroy8);
+engine_destory_type!(filament_Material, filament_Engine_destroy9);
+engine_destory_type!(filament_MaterialInstance, filament_Engine_destroy10);
+engine_destory_type!(filament_Renderer, filament_Engine_destroy11);
+engine_destory_type!(filament_Scene, filament_Engine_destroy12);
+engine_destory_type!(filament_Skybox, filament_Engine_destroy13);
+engine_destory_type!(filament_ColorGrading, filament_Engine_destroy14);
+engine_destory_type!(filament_SwapChain, filament_Engine_destroy15);
+engine_destory_type!(filament_Stream, filament_Engine_destroy16);
+engine_destory_type!(filament_Texture, filament_Engine_destroy17);
+engine_destory_type!(filament_RenderTarget, filament_Engine_destroy18);
+engine_destory_type!(filament_View, filament_Engine_destroy19);
 
 impl Drop for Engine {
     fn drop(&mut self) {

@@ -1,3 +1,0 @@
-pub trait NativeBase<BaseType> {
-    
-}
