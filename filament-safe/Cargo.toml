@@ -9,3 +9,4 @@ prebuilt = ["filament-bindings/prebuilt"]
 
 [dependencies]
 filament-bindings = { path = "../filament-bindings", default-features = false }
+bitflags = "1.3"

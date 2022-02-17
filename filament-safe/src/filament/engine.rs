@@ -1,19 +1,21 @@
-use std::{ptr, os::raw};
+use std::{os::raw, ptr};
 
-use filament_bindings::{filament_Engine, filament_Engine_enableAccurateTranslations};
+use filament_bindings::{
+    filament_Engine, filament_Engine_createSwapChain, filament_Engine_enableAccurateTranslations, filament_Engine_createSwapChain1, filament_Engine_flushAndWait, filament_Engine_flush, filament_Engine_pumpMessageQueues,
+};
 
 use crate::{backend::Backend, utils};
 
-use super::{LightManager, RenderableManager, SwapChain};
+use super::{LightManager, RenderableManager, SwapChain, SwapChainConfig, Renderer, View, Scene, Camera, Fence};
 
-pub struct Engine(*mut filament_Engine);
+pub struct Engine(pub(crate) *mut filament_Engine);
 
 impl Engine {
-    pub fn from_ptr(raw_ptr: *mut filament_Engine) -> Option<Engine> {
+    pub(crate) fn from_ptr(raw_ptr: *mut filament_Engine) -> Option<Self> {
         if raw_ptr.is_null() {
             None
         } else {
-            Some(Engine(raw_ptr))
+            Some(Self(raw_ptr))
         }
     }
 
@@ -51,12 +53,84 @@ impl Engine {
     }
 
     #[inline]
-    pub fn create_swap_chain(native_window: *const raw::c_void, flag: u64) -> Option<SwapChain> {
+    pub fn create_swap_chain(
+        &mut self,
+        native_window: *mut raw::c_void,
+        flags: SwapChainConfig,
+    ) -> Option<SwapChain> {
+        unsafe {
+            SwapChain::from_ptr(filament_Engine_createSwapChain(
+                self.0,
+                native_window,
+                flags.bits(),
+            ))
+        }
+    }
+
+    #[inline]
+    pub fn create_headless_swap_chain(
+        &mut self,
+        width: u32,
+        height: u32,
+        flags: SwapChainConfig,
+    ) -> Option<SwapChain> {
+        unsafe {
+            SwapChain::from_ptr(filament_Engine_createSwapChain1(
+                self.0,
+                width,
+                height,
+                flags.bits(),
+            ))
+        }
+    }
+
+    #[inline]
+    pub fn create_renderer(&mut self) -> Option<Renderer> {
         todo!()
     }
 
     #[inline]
-    pub fn create_headless_swap_chain(width: u32, height: u32, flag: u64) -> Option<SwapChain> {
+    pub fn create_view(&mut self) -> Option<View> {
+        todo!()
+    }
+
+    #[inline]
+    pub fn create_scene(&mut self) -> Option<Scene> {
+        todo!()
+    }
+
+    #[inline]
+    pub fn create_camera(&mut self) -> Option<&Camera> {
+        todo!()
+    }
+
+    #[inline]
+    pub fn create_camera_component(&mut self) -> Option<&Camera> {
+        todo!()
+    }
+
+    #[inline]
+    pub fn create_fence(&mut self) -> Option<Fence> {
+        todo!()
+    }
+
+    #[inline]
+    pub fn flush_and_wait(&mut self) {
+        unsafe { filament_Engine_flushAndWait(self.0) };
+    }
+
+    #[inline]
+    pub fn flush(&mut self) {
+        unsafe { filament_Engine_flush(self.0) };
+    }
+
+    #[inline]
+    pub fn pump_message_queues(&mut self) {
+        unsafe { filament_Engine_pumpMessageQueues(self.0) };
+    }
+
+    #[inline]
+    pub fn get_default_material(&mut self) {
         todo!()
     }
 

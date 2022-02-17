@@ -108,8 +108,6 @@ fn build_from_source(target: Target) -> BuildManifest {
         .disable_header_comment()
         .raw_line(include_str!("src/fix.rs"))
         .allowlist_type("filament.*")
-        .allowlist_type("backend.*")
-        .allowlist_type("utils.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -156,6 +154,13 @@ fn build_from_source(target: Target) -> BuildManifest {
             filament_include
                 .join("math")
                 .join("mat4.h")
+                .to_str()
+                .unwrap(),
+        ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("mathfwd.h")
                 .to_str()
                 .unwrap(),
         ))

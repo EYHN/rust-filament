@@ -183,6 +183,7 @@ dependencies = [
 name = "filament-safe"
 version = "0.1.0"
 dependencies = [
+ "bitflags",
  "filament-bindings",
 ]
 
