@@ -13,8 +13,10 @@ jobs:
         id: create-release
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           omitBody: true
           prerelease: true
+          draft: true
           token: ${{ secrets.ACCESS_TOKEN }}
           owner: EYHN
           repo: filament-binaries
@@ -84,6 +86,7 @@ jobs:
           omitBodyDuringUpdate: true
           omitNameDuringUpdate: true
           prerelease: true
+          draft: true
           token: ${{ secrets.ACCESS_TOKEN }}
           owner: EYHN
           repo: filament-binaries

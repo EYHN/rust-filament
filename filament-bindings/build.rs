@@ -9,7 +9,7 @@ use std::{
     time::SystemTime,
 };
 
-use build_support::{download, path_regex_escape, run_command, Target};
+use build_support::{download, path_regex_escape, run_command, static_lib_filename, Target};
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::{Deserialize, Serialize};
 
@@ -107,9 +107,9 @@ fn build_from_source(target: Target) -> BuildManifest {
         .header("bindings.h")
         .disable_header_comment()
         .raw_line(include_str!("src/fix.rs"))
-        .allowlist_type("filament::*")
-        .allowlist_type("backend::*")
-        .allowlist_type("utils::*")
+        .allowlist_type("filament.*")
+        .allowlist_type("backend.*")
+        .allowlist_type("utils.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -172,7 +172,7 @@ fn build_from_source(target: Target) -> BuildManifest {
     BuildManifest {
         filament_native_lib,
         filament_license,
-        link_libs: filament_link_libs,
+        filament_link_libs,
         bindings_rs,
         target: target.to_string(),
     }
@@ -195,7 +195,7 @@ fn unpack(package: impl AsRef<Path>) -> BuildManifest {
     BuildManifest {
         filament_native_lib: unpack_dir.join(manifest.filament_native_lib),
         filament_license: unpack_dir.join(manifest.filament_license),
-        link_libs: manifest.link_libs.clone(),
+        filament_link_libs: manifest.filament_link_libs.clone(),
         bindings_rs: unpack_dir.join(manifest.bindings_rs),
         target: manifest.target.clone(),
     }
@@ -209,7 +209,7 @@ fn install(manifest: &BuildManifest) {
             .unwrap_or(manifest.filament_native_lib.display().to_string())
     );
 
-    for lib in &manifest.link_libs {
+    for lib in &manifest.filament_link_libs {
         println!("cargo:rustc-link-lib=static={}", lib);
     }
 
@@ -256,13 +256,23 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
         .unwrap();
 
     tar_builder
-        .append_dir_all("lib", &manifest.filament_native_lib)
+        .append_dir("lib", &manifest.filament_native_lib)
         .unwrap();
+
+    for lib_name in &manifest.filament_link_libs {
+        let filename = static_lib_filename(&lib_name);
+        tar_builder
+            .append_file(
+                format!("lib/{}", filename),
+                &mut fs::File::open(&manifest.filament_native_lib.join(filename)).unwrap(),
+            )
+            .unwrap();
+    }
 
     let manifest_json = serde_json::to_string(&BuildManifest {
         filament_native_lib: PathBuf::from("lib"),
         filament_license: PathBuf::from("LICENSE"),
-        link_libs: manifest.link_libs.clone(),
+        filament_link_libs: manifest.filament_link_libs.clone(),
         bindings_rs: PathBuf::from("bindings.rs"),
         target: manifest.target.clone(),
     })
@@ -290,7 +300,7 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
 struct BuildManifest {
     pub filament_native_lib: PathBuf,
     pub filament_license: PathBuf,
-    pub link_libs: Vec<String>,
+    pub filament_link_libs: Vec<String>,
     pub bindings_rs: PathBuf,
     pub target: String,
 }
