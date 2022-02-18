@@ -108,6 +108,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         .disable_header_comment()
         .raw_line(include_str!("src/fix.rs"))
         .allowlist_type("filament.*")
+        .allowlist_type("utils.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")

@@ -1,4 +1,4 @@
-use std::{os::raw, ptr};
+use std::{mem, os::raw, ptr};
 
 use filament_bindings::{
     filament_BufferObject, filament_ColorGrading, filament_Engine, filament_Engine_createSwapChain,
@@ -30,6 +30,7 @@ use super::{
 pub struct Engine(pub(crate) *mut filament_Engine);
 
 impl Engine {
+    #[inline]
     pub(crate) fn from_ptr(raw_ptr: *mut filament_Engine) -> Option<Self> {
         if raw_ptr.is_null() {
             None
@@ -45,9 +46,33 @@ impl Engine {
         })
     }
 
-    // TODO: create_platform
-    // TODO: create_shared_gl_context
-    // TODO: create_platform_shared_gl_context
+    #[inline]
+    pub fn create_platform(backend: Backend, platform: &mut Platform) -> Option<Engine> {
+        Engine::from_ptr(unsafe {
+            filament_Engine::create(backend.into(), mem::transmute(platform), ptr::null_mut())
+        })
+    }
+
+    #[inline]
+    pub fn create_shared_gl_context(
+        backend: Backend,
+        shared_gl_context: *mut raw::c_void,
+    ) -> Option<Engine> {
+        Engine::from_ptr(unsafe {
+            filament_Engine::create(backend.into(), ptr::null_mut(), shared_gl_context)
+        })
+    }
+
+    #[inline]
+    pub fn create_platform_shared_gl_context(
+        backend: Backend,
+        platform: &mut Platform,
+        shared_gl_context: *mut raw::c_void,
+    ) -> Option<Engine> {
+        Engine::from_ptr(unsafe {
+            filament_Engine::create(backend.into(), mem::transmute(platform), shared_gl_context)
+        })
+    }
 
     // TODO: create_async
 
@@ -159,8 +184,8 @@ impl Engine {
     }
 
     #[inline]
-    pub fn get_platform(&self) -> &Platform {
-        unsafe { std::mem::transmute(filament_Engine_getPlatform(self.0)) }
+    pub fn get_platform(&self) -> &mut Platform {
+        unsafe { mem::transmute(filament_Engine_getPlatform(self.0)) }
     }
 
     #[inline]
