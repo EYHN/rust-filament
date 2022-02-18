@@ -1,5 +1,7 @@
+use std::{ptr::NonNull, rc::Rc};
+
 use filament_bindings::filament_Scene;
 
-use super::EngineManaged;
+use super::Engine;
 
-pub type Scene<'a> = EngineManaged<'a, filament_Scene>;
+pub struct Scene(Rc<NonNull<filament_Scene>>, Engine);

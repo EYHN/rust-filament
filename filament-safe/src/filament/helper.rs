@@ -1,22 +1,42 @@
-use super::Engine;
+// use std::{cell::RefCell, rc::Rc};
 
-pub struct EngineManaged<'a, NativeType> where NativeType: EngineDestroy {
-  pub(crate) engine: &'a mut Engine,
-  pub ptr: *mut NativeType,
-}
+// use super::EngineHandler;
 
-impl<'a, NativeType> EngineManaged<'a, NativeType> where NativeType: EngineDestroy {
-  pub fn from_ptr(engine: &'a mut Engine, ptr: *mut NativeType) -> Self {
-      Self { engine, ptr }
-  }
-}
+// pub trait NativeManager<ManagedType> {
+//     fn destroy(&mut self, p: ManagedType);
+// }
 
-pub trait EngineDestroy {
-    fn destory(p: *const Self, engine: &mut Engine) -> bool;
-}
+// pub struct NativeManaged<ManagerType, ManagedType>
+// where
+//     ManagerType: NativeManager<ManagedType>,
+// {
+//     pub(crate) manager: Rc<RefCell<ManagerType>>,
+//     pub data: ManagedType,
+// }
 
-impl<NativeType> Drop for EngineManaged<'_, NativeType> where NativeType: EngineDestroy {
-  fn drop(&mut self) {
-    NativeType::destory(self.ptr, self.engine);
-  }
-}
+// impl<ManagerType, PtrType> NativeManaged<ManagerType, *mut PtrType>
+// where
+//     ManagerType: NativeManager<*mut PtrType>,
+// {
+//     pub fn try_from_ptr(manager: Rc<RefCell<ManagerType>>, ptr: *mut PtrType) -> Option<Self> {
+//         if ptr.is_null() {
+//             None
+//         } else {
+//             Some(Self {
+//                 manager: manager,
+//                 data: ptr,
+//             })
+//         }
+//     }
+// }
+
+// impl<ManagerType, ManagedType> Drop for NativeManaged<ManagerType, ManagedType>
+// where
+//     ManagerType: NativeManager<ManagedType>,
+// {
+//     fn drop(&mut self) {
+//         self.manager.borrow_mut().destroy(self.data);
+//     }
+// }
+
+// pub type EngineManaged<ManagedType> = NativeManaged<EngineHandler, ManagedType>;

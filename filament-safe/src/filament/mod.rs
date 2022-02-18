@@ -10,6 +10,8 @@ mod scene;
 mod view;
 mod material;
 mod helper;
+mod viewport;
+mod Camera;
 
 pub use engine::*;
 pub use renderable_manager::*;
@@ -23,3 +25,4 @@ pub use scene::*;
 pub use view::*;
 pub use material::*;
 pub use helper::*;
+pub use viewport::*;

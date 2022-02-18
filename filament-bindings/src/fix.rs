@@ -1,6 +1,7 @@
 macro_rules! math_vec {
   ($len:expr, $t:ident, $ctype:ident) => {
-      #[repr(C)]
+      #[repr(transparent)]
+      #[derive(Copy, Clone, Debug, Default, Eq, Hash)]
       pub struct $t {
           pub inner: [::std::os::raw::$ctype; $len],
       }
