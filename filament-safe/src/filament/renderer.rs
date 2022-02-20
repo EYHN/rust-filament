@@ -3,13 +3,13 @@ use std::{mem, ptr, rc::Rc};
 use bitflags::bitflags;
 
 use filament_bindings::{
-    filament_Engine_createRenderer, filament_Engine_destroy11,
-    filament_Renderer, filament_Renderer_CLEAR, filament_Renderer_COMMIT,
-    filament_Renderer_CopyFrameFlag, filament_Renderer_SET_PRESENTATION_TIME,
-    filament_Renderer_beginFrame, filament_Renderer_copyFrame, filament_Renderer_endFrame,
-    filament_Renderer_getUserTime, filament_Renderer_resetUserTime,
-    filament_Renderer_setClearOptions, filament_Renderer_setDisplayInfo,
-    filament_Renderer_setFrameRateOptions, filament_math_float4, filament_Renderer_render, filament_Renderer_renderStandaloneView,
+    filament_Engine_createRenderer, filament_Engine_destroy11, filament_Renderer,
+    filament_Renderer_CLEAR, filament_Renderer_COMMIT, filament_Renderer_CopyFrameFlag,
+    filament_Renderer_SET_PRESENTATION_TIME, filament_Renderer_beginFrame,
+    filament_Renderer_copyFrame, filament_Renderer_endFrame, filament_Renderer_getUserTime,
+    filament_Renderer_render, filament_Renderer_renderStandaloneView,
+    filament_Renderer_resetUserTime, filament_Renderer_setClearOptions,
+    filament_Renderer_setDisplayInfo, filament_Renderer_setFrameRateOptions, filament_math_float4,
 };
 
 use crate::prelude::NativeHandle;
@@ -82,23 +82,23 @@ impl Renderer {
     }
 
     #[inline]
-    pub fn set_display_info(info: &DisplayInfo) {
+    pub fn set_display_info(&mut self, info: &DisplayInfo) {
         unsafe {
-            filament_Renderer_setDisplayInfo(ptr::null_mut(), mem::transmute(info));
+            filament_Renderer_setDisplayInfo(self.native_mut(), mem::transmute(info));
         }
     }
 
     #[inline]
-    pub fn set_frame_rate_options(options: &FrameRateOptions) {
+    pub fn set_frame_rate_options(&mut self, options: &FrameRateOptions) {
         unsafe {
-            filament_Renderer_setFrameRateOptions(ptr::null_mut(), mem::transmute(options));
+            filament_Renderer_setFrameRateOptions(self.native_mut(), mem::transmute(options));
         }
     }
 
     #[inline]
-    pub fn set_clear_options(options: &ClearOptions) {
+    pub fn set_clear_options(&mut self, options: &ClearOptions) {
         unsafe {
-            filament_Renderer_setClearOptions(ptr::null_mut(), mem::transmute(options));
+            filament_Renderer_setClearOptions(self.native_mut(), mem::transmute(options));
         }
     }
 
@@ -134,7 +134,7 @@ impl Renderer {
 
     #[inline]
     pub fn render_standalone_view(&mut self, view: &View) {
-      unsafe { filament_Renderer_renderStandaloneView(self.native_mut(), view.native()) }
+        unsafe { filament_Renderer_renderStandaloneView(self.native_mut(), view.native()) }
     }
 
     #[inline]

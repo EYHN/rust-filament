@@ -311,26 +311,16 @@ struct BuildManifest {
     pub target: String,
 }
 
-fn try_from_cache(
+fn cache(
     cache_tar_name: impl AsRef<str>,
     version: impl AsRef<str>,
-) -> Option<BuildManifest> {
-    println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
-    if env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) == "OFF" {
-        return None;
-    }
-
-    if cfg!(not(feature = "prebuilt")) {
-        return None;
-    }
-
+) -> BuildManifest {
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_CACHE_DIR");
     if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {
         println!("cargo:rerun-if-changed={}", cache_dir);
         let package = Path::new(&cache_dir).join(cache_tar_name.as_ref());
-        if fs::File::open(&package).is_ok() {
-            return Some(unpack(&package));
-        }
+        fs::File::open(&package).expect(&format!("Can't open file: {}", package.display()));
+        unpack(&package);
     }
 
     let download_url = format!(
@@ -340,13 +330,8 @@ fn try_from_cache(
     );
 
     println!("Downloading {}", download_url);
-    if let Ok(package) = download(cache_tar_name, download_url) {
-        return Some(unpack(&package));
-    } else {
-        println!("Download Failed")
-    }
-
-    None
+    let package = download(cache_tar_name, download_url).expect("Download Failed");
+    return unpack(&package);
 }
 
 fn main() {
@@ -355,8 +340,11 @@ fn main() {
 
     let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
 
-    let build_manifest = if let Some(cache) = try_from_cache(&cache_tar_name, &version) {
-        cache
+    println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
+    let use_cache = env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) != "OFF" && cfg!(feature = "prebuilt");
+
+    let build_manifest = if use_cache {
+        cache(&cache_tar_name, &version)
     } else {
         let build_manifest = build_from_source(target);
 

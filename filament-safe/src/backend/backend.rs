@@ -1,6 +1,6 @@
-use num_enum::{IntoPrimitive, TryFromPrimitive};
+use num_enum::{IntoPrimitive, FromPrimitive};
 
-#[derive(IntoPrimitive, TryFromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
+#[derive(IntoPrimitive, FromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(u8)]
 pub enum Backend {
     DEFAULT = 0,
@@ -9,5 +9,5 @@ pub enum Backend {
     METAL = 3,
     NOOP = 4,
     #[num_enum(default)]
-    UNKNOWN
+    UNKNOWN = 255
 }

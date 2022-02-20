@@ -12,65 +12,6 @@ use crate::{
     utils,
 };
 
-// impl EngineHandler {
-//     #[inline]
-//     pub(crate) fn try_from_ptr(raw_ptr: *mut filament_Engine) -> Option<Self> {
-//         if raw_ptr.is_null() {
-//             None
-//         } else {
-//             Some(Self(raw_ptr))
-//         }
-//     }
-
-//     #[inline]
-//     fn destroy(engine: &mut EngineHandler) {
-//         unsafe {
-//             filament_Engine::destroy(engine.0 as *mut *mut filament_Engine);
-//         }
-//     }
-// }
-
-// macro_rules! engine_destory_type {
-//     ($native_type:ident, $destory_fn:ident) => {
-//         impl NativeManager<*mut $native_type> for EngineHandler {
-//             fn destroy(&mut self, p: *mut $native_type) {
-//                 unsafe { $destory_fn(self.0, p) };
-//             }
-//         }
-//     };
-// }
-
-// engine_destory_type!(filament_BufferObject, filament_Engine_destroy2);
-// engine_destory_type!(filament_VertexBuffer, filament_Engine_destroy3);
-// engine_destory_type!(filament_Fence, filament_Engine_destroy4);
-// engine_destory_type!(filament_IndexBuffer, filament_Engine_destroy5);
-// engine_destory_type!(filament_SkinningBuffer, filament_Engine_destroy6);
-// engine_destory_type!(filament_MorphTargetBuffer, filament_Engine_destroy7);
-// engine_destory_type!(filament_IndirectLight, filament_Engine_destroy8);
-// engine_destory_type!(filament_Material, filament_Engine_destroy9);
-// engine_destory_type!(filament_MaterialInstance, filament_Engine_destroy10);
-// engine_destory_type!(filament_Renderer, filament_Engine_destroy11);
-// engine_destory_type!(filament_Scene, filament_Engine_destroy12);
-// engine_destory_type!(filament_Skybox, filament_Engine_destroy13);
-// engine_destory_type!(filament_ColorGrading, filament_Engine_destroy14);
-// engine_destory_type!(filament_SwapChain, filament_Engine_destroy15);
-// engine_destory_type!(filament_Stream, filament_Engine_destroy16);
-// engine_destory_type!(filament_Texture, filament_Engine_destroy17);
-// engine_destory_type!(filament_RenderTarget, filament_Engine_destroy18);
-// engine_destory_type!(filament_View, filament_Engine_destroy19);
-
-// impl NativeManager<utils_Entity> for EngineHandler {
-//     fn destroy(&mut self, p: utils_Entity) {
-//         unsafe { filament_Engine_destroy20(self.0, p) };
-//     }
-// }
-
-// impl Drop for EngineHandler {
-//     fn drop(&mut self) {
-//         EngineHandler::destroy(self);
-//     }
-// }
-
 #[derive(Clone)]
 pub struct Engine(pub(crate) Rc<ptr::NonNull<filament_Engine>>);
 
@@ -162,7 +103,7 @@ impl Engine {
 
     #[inline]
     pub fn get_backend(&self) -> Backend {
-        Backend::try_from(unsafe { filament_Engine_getBackend(self.native()) }).unwrap()
+        Backend::from(unsafe { filament_Engine_getBackend(self.native()) })
     }
 
     #[inline]

@@ -12,9 +12,18 @@ pub struct Viewport {
 }
 
 impl Viewport {
-  pub(crate) fn as_native(&self) -> &filament_Viewport {
-    unsafe {
-      mem::transmute(self)
+    pub(crate) fn new_from_ptr(ptr: *const filament_Viewport) -> Viewport {
+        unsafe {
+            Viewport {
+                left: (*ptr)._base.left,
+                bottom: (*ptr)._base.bottom,
+                width: (*ptr)._base.width,
+                height: (*ptr)._base.height,
+            }
+        }
     }
-  }
+
+    pub(crate) fn as_native(&self) -> &filament_Viewport {
+        unsafe { mem::transmute(self) }
+    }
 }
