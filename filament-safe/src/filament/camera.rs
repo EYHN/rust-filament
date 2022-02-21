@@ -1,14 +1,15 @@
-use std::{ptr, rc::Rc};
+use std::{ptr};
 
 use filament_bindings::{
     filament_Camera, filament_Camera_Fov_HORIZONTAL, filament_Camera_Fov_VERTICAL,
     filament_Camera_Projection_ORTHO, filament_Camera_Projection_PERSPECTIVE,
-    filament_Camera_computeEffectiveFocalLength, filament_Camera_getAperture,
-    filament_Camera_getCullingFar, filament_Camera_getCullingProjectionMatrix,
-    filament_Camera_getFieldOfViewInDegrees, filament_Camera_getFocalLength,
-    filament_Camera_getFocusDistance, filament_Camera_getForwardVector, filament_Camera_getFrustum,
-    filament_Camera_getLeftVector, filament_Camera_getModelMatrix, filament_Camera_getNear,
-    filament_Camera_getPosition, filament_Camera_getProjectionMatrix, filament_Camera_getScaling,
+    filament_Camera_computeEffectiveFocalLength, filament_Camera_computeEffectiveFov,
+    filament_Camera_getAperture, filament_Camera_getCullingFar,
+    filament_Camera_getCullingProjectionMatrix, filament_Camera_getFieldOfViewInDegrees,
+    filament_Camera_getFocalLength, filament_Camera_getFocusDistance,
+    filament_Camera_getForwardVector, filament_Camera_getFrustum, filament_Camera_getLeftVector,
+    filament_Camera_getModelMatrix, filament_Camera_getNear, filament_Camera_getPosition,
+    filament_Camera_getProjectionMatrix, filament_Camera_getScaling,
     filament_Camera_getSensitivity, filament_Camera_getShift, filament_Camera_getShutterSpeed,
     filament_Camera_getUpVector, filament_Camera_getViewMatrix, filament_Camera_inverseProjection,
     filament_Camera_inverseProjection1, filament_Camera_lookAt, filament_Camera_lookAt1,
@@ -16,15 +17,12 @@ use filament_bindings::{
     filament_Camera_setExposure, filament_Camera_setFocusDistance,
     filament_Camera_setLensProjection, filament_Camera_setModelMatrix,
     filament_Camera_setModelMatrix1, filament_Camera_setProjection, filament_Camera_setProjection1,
-    filament_Camera_setScaling, filament_Camera_setShift, filament_Engine_createCamera,
-    filament_Engine_destroyCameraComponent, filament_Frustum, filament_math_double2,
-    filament_math_double4, filament_math_float3, filament_math_mat4, filament_math_mat4f, filament_Camera_computeEffectiveFov,
+    filament_Camera_setScaling, filament_Camera_setShift, filament_Frustum, filament_math_double2,
+    filament_math_double4, filament_math_float3, filament_math_mat4, filament_math_mat4f,
 };
 use num_enum::IntoPrimitive;
 
-use crate::{prelude::NativeHandle, utils::Entity};
-
-use super::Engine;
+use crate::{prelude::NativeHandle};
 
 #[derive(IntoPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(i32)]
@@ -40,8 +38,7 @@ pub enum Fov {
     HORIZONTAL = filament_Camera_Fov_HORIZONTAL,
 }
 
-#[derive(Clone)]
-pub struct Camera(Rc<ptr::NonNull<filament_Camera>>, Engine, Entity);
+pub struct Camera(ptr::NonNull<filament_Camera>);
 
 impl NativeHandle<filament_Camera> for Camera {
     #[inline]
@@ -57,24 +54,9 @@ impl NativeHandle<filament_Camera> for Camera {
 
 impl Camera {
     #[inline]
-    pub(crate) fn try_from_native(
-        engine: Engine,
-        entity: Entity,
-        native: *mut filament_Camera,
-    ) -> Option<Self> {
+    pub(crate) fn try_from_native(native: *mut filament_Camera) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Camera(Rc::new(ptr), engine, entity))
-    }
-
-    #[inline]
-    pub fn create(engine: &mut Engine, entity: &Entity) -> Option<Self> {
-        unsafe {
-            Self::try_from_native(
-                engine.clone(),
-                entity.clone(),
-                filament_Engine_createCamera(engine.native_mut(), entity.native_owned()),
-            )
-        }
+        Some(Camera(ptr))
     }
 
     #[inline]
@@ -286,11 +268,6 @@ impl Camera {
     }
 
     #[inline]
-    pub fn get_entity(&self) -> &Entity {
-        &self.2
-    }
-
-    #[inline]
     pub fn set_exposure(&mut self, exposure: f32) {
         self.set_exposure_physical(1.0, 1.2, 100.0 * (1.0 / exposure))
     }
@@ -350,16 +327,5 @@ impl Camera {
     #[inline]
     pub fn compute_effective_fov(fov_in_degrees: f64, focus_distance: f64) -> f64 {
         unsafe { filament_Camera_computeEffectiveFov(fov_in_degrees, focus_distance) }
-    }
-}
-
-impl Drop for Camera {
-    #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.0) {
-            unsafe {
-                filament_Engine_destroyCameraComponent(self.1.native_mut(), self.2.native_owned())
-            };
-        }
     }
 }

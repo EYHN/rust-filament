@@ -66,6 +66,7 @@ impl Drop for IndexBufferBuilder {
     }
 }
 
+#[derive(Clone)]
 pub struct IndexBuffer {
     native: Rc<ptr::NonNull<filament_IndexBuffer>>,
     engine: Engine,

@@ -5,7 +5,10 @@ use filament_bindings::{
     filament_VertexBuffer_getVertexCount, filament_VertexBuffer_setBufferAt,
 };
 
-use crate::{backend::{self, BufferDescriptor}, prelude::NativeHandle};
+use crate::{
+    backend::{self, BufferDescriptor},
+    prelude::NativeHandle,
+};
 
 use super::{Engine, VertexAttribute};
 
@@ -88,6 +91,7 @@ impl Drop for VertexBufferBuilder {
     }
 }
 
+#[derive(Clone)]
 pub struct VertexBuffer {
     native: Rc<ptr::NonNull<filament_VertexBuffer>>,
     engine: Engine,
@@ -124,7 +128,12 @@ impl VertexBuffer {
         unsafe { filament_VertexBuffer_getVertexCount(self.native()) as usize }
     }
 
-    pub fn set_buffer_at<T>(&mut self, buffer_index: u8, buffer: BufferDescriptor<T>, byte_offset: u32) -> &mut Self {
+    pub fn set_buffer_at<T>(
+        &mut self,
+        buffer_index: u8,
+        buffer: BufferDescriptor<T>,
+        byte_offset: u32,
+    ) -> &mut Self {
         unsafe {
             filament_VertexBuffer_setBufferAt(
                 self.native_mut(),

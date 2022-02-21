@@ -11,19 +11,19 @@ use filament_bindings::{
     filament_View_setSampleCount, filament_View_setScene,
     filament_View_setScreenSpaceReflectionsOptions, filament_View_setScreenSpaceRefractionEnabled,
     filament_View_setTemporalAntiAliasingOptions, filament_View_setViewport,
-    filament_View_setVisibleLayers,
+    filament_View_setVisibleLayers, filament_View_setPostProcessingEnabled,
 };
 
-use crate::prelude::NativeHandle;
+use crate::{prelude::NativeHandle, utils::Entity};
 
-use super::{AntiAliasing, BlendMode, Camera, Engine, Scene, Viewport};
+use super::{AntiAliasing, BlendMode, Engine, Scene, Viewport};
 
 pub struct View {
     native: Rc<ptr::NonNull<filament_View>>,
     engine: Engine,
     // hold references
     scene: Option<Scene>,
-    camera: Option<Camera>,
+    camera_entity: Option<Entity>,
 }
 
 impl NativeHandle<filament_View> for View {
@@ -46,7 +46,7 @@ impl View {
             native: Rc::new(ptr),
             engine,
             scene: None,
-            camera: None,
+            camera_entity: None,
         })
     }
 
@@ -100,14 +100,24 @@ impl View {
     }
 
     #[inline]
-    pub fn set_camera(&mut self, camera: &mut Camera) {
-        unsafe { filament_View_setCamera(self.native_mut(), camera.native_mut()) };
-        self.camera = Some(camera.clone());
+    pub fn set_camera_entity(&mut self, camera_entity: &mut Entity) {
+        let camera = camera_entity
+            .get_camera_component_mut()
+            .map(|c| c.native_mut())
+            .unwrap_or(ptr::null_mut());
+        unsafe { filament_View_setCamera(self.native_mut(), camera) };
+        self.camera_entity = Some(camera_entity.clone());
     }
 
     #[inline]
-    pub fn get_camera(&self) -> Option<&Camera> {
-        self.camera.as_ref()
+    pub fn unset_camera_entity(&mut self) {
+        unsafe { filament_View_setCamera(self.native_mut(), ptr::null_mut()) };
+        self.camera_entity = None;
+    }
+
+    #[inline]
+    pub fn get_camera_entity(&self) -> Option<&Entity> {
+        self.camera_entity.as_ref()
     }
 
     #[inline]
@@ -227,7 +237,10 @@ impl View {
     // getVsmShadowOptions
     // setSoftShadowOptions
     // getSoftShadowOptions
-    // setPostProcessingEnabled
+    #[inline]
+    pub fn set_post_processing_enabled(&mut self, enabled: bool) {
+        unsafe { filament_View_setPostProcessingEnabled(self.native_mut(), enabled) }
+    }
     // isPostProcessingEnabled
     // setFrontFaceWindingInverted
     // isFrontFaceWindingInverted

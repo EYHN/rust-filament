@@ -2,12 +2,12 @@ use filament_bindings::filament_math_float4;
 use filament_safe::{
     backend::{
         Backend, BufferDescriptor, ElementType, PixelBufferDescriptor, PixelDataFormat,
-        PixelDataType, TextureFormat,
+        PixelDataType, PrimitiveType, TextureFormat,
     },
     filament::{
-        Camera, ClearOptions, Engine, IndexBufferBuilder, IndexType, MaterialBuilder, Projection,
-        Renderer, Scene, SwapChain, TextureBuilder, TextureSampler, VertexAttribute,
-        VertexBufferBuilder, View, Viewport,
+        ClearOptions, Engine, IndexBufferBuilder, IndexType, MaterialBuilder, Projection,
+        RenderableOptions, Renderer, Scene, SwapChain, TextureBuilder, TextureSampler,
+        VertexAttribute, VertexBufferBuilder, View, Viewport,
     },
 };
 use winit::{
@@ -18,11 +18,11 @@ use winit::{
 
 const MATERIAL_BYTES: &'static [u8] = include_bytes!("texture_unlit_ogl.filamat");
 
-// #[cfg(target_os = "macos")]
-// fn get_active_surface(window: &winit::window::Window) -> *mut std::ffi::c_void {
-//     use winit::os::macos::WindowExt;
-//     window.get_nsview()
-// }
+#[cfg(target_os = "macos")]
+fn get_active_surface(window: &winit::window::Window) -> *mut std::ffi::c_void {
+    use winit::platform::macos::WindowExtMacOS;
+    window.ns_view()
+}
 
 #[cfg(target_os = "windows")]
 fn get_active_surface(window: &winit::window::Window) -> *mut std::ffi::c_void {
@@ -75,15 +75,15 @@ fn triangle_data() -> (Vec<Vertex>, Vec<u16>, Vec<RgbColor>) {
     (
         vec![
             Vertex {
-                position: [1.0, 0.0],
+                position: [1.0, -1.0],
                 uv: [1.0, 0.0],
             },
             Vertex {
-                position: [0.5, 1.0],
+                position: [0.0, 1.0],
                 uv: [0.0, 1.0],
             },
             Vertex {
-                position: [-0.5, 0.0],
+                position: [-1.0, -1.0],
                 uv: [0.0, 0.0],
             },
         ],
@@ -100,79 +100,102 @@ fn main() {
         SwapChain::create_swap_chain(&mut engine, surface, Default::default()).unwrap();
     let mut renderer = Renderer::create(&mut engine).unwrap();
     let mut view = View::create(&mut engine).unwrap();
+    view.set_post_processing_enabled(false);
     let mut scene = Scene::create(&mut engine).unwrap();
 
-    let mut entity_manager = engine.get_entity_manager();
-    let camera_entity = entity_manager.create();
+    {
+        let mut entity_manager = engine.get_entity_manager();
+        let mut camera_entity = entity_manager.create();
 
-    let mut camera = Camera::create(&mut engine, &camera_entity).unwrap();
-    let viewport = Viewport {
-        left: 0,
-        bottom: 0,
-        width: 800,
-        height: 600,
-    };
-    let aspect = viewport.width as f64 / viewport.height as f64;
-    let zoom = 1.0;
+        let camera = camera_entity.create_camera_component().unwrap();
+        let viewport = Viewport {
+            left: 0,
+            bottom: 0,
+            width: 800,
+            height: 600,
+        };
+        let aspect = viewport.width as f64 / viewport.height as f64;
+        let zoom = 1.0;
 
-    camera.set_projection(
-        Projection::ORTHO,
-        -aspect * zoom,
-        aspect * zoom,
-        -zoom,
-        zoom,
-        0.0,
-        10.0,
-    );
+        camera.set_projection(
+            Projection::ORTHO,
+            -aspect * zoom,
+            aspect * zoom,
+            -zoom,
+            zoom,
+            0.0,
+            10.0,
+        );
 
-    view.set_viewport(&viewport);
-    view.set_scene(&mut scene);
-    view.set_camera(&mut camera);
+        view.set_viewport(&viewport);
+        view.set_scene(&mut scene);
+        view.set_camera_entity(&mut camera_entity);
 
-    renderer.set_clear_options(&ClearOptions {
-        clear_color: filament_math_float4 {
-            inner: [0.0, 0.0, 1.0, 1.0],
-        },
-        clear: true,
-        discard: true,
-    });
+        renderer.set_clear_options(&ClearOptions {
+            clear_color: filament_math_float4 {
+                inner: [0.0, 0.0, 1.0, 1.0],
+            },
+            clear: true,
+            discard: true,
+        });
 
-    let (vertices, indices, texture_data) = triangle_data();
-    let mut vertex_buffer = VertexBufferBuilder::new()
-        .vertex_count(3)
-        .buffer_count(1)
-        .attribute(VertexAttribute::POSITION, 0, ElementType::FLOAT2, 0, 16)
-        .build(&mut engine)
-        .unwrap()
-        .set_buffer_at(0, BufferDescriptor::new(vertices), 0);
+        let (vertices, indices, texture_data) = triangle_data();
+        let mut vertex_buffer = VertexBufferBuilder::new()
+            .vertex_count(3)
+            .buffer_count(1)
+            .attribute(VertexAttribute::POSITION, 0, ElementType::FLOAT2, 0, 16)
+            .attribute(VertexAttribute::UV0, 0, ElementType::FLOAT2, 8, 16)
+            .build(&mut engine)
+            .unwrap();
+        vertex_buffer.set_buffer_at(0, BufferDescriptor::new(vertices), 0);
 
-    let mut index_buffer = IndexBufferBuilder::new()
-        .index_count(3)
-        .buffer_type(IndexType::USHORT)
-        .build(&mut engine)
-        .unwrap()
-        .set_buffer(BufferDescriptor::new(indices), 0);
+        let mut index_buffer = IndexBufferBuilder::new()
+            .index_count(3)
+            .buffer_type(IndexType::USHORT)
+            .build(&mut engine)
+            .unwrap();
+        index_buffer.set_buffer(BufferDescriptor::new(indices), 0);
 
-    let mut texture = TextureBuilder::new()
-        .width(256)
-        .height(256)
-        .format(TextureFormat::RGB8)
-        .build(&mut engine)
-        .unwrap();
-    texture.set_image(
-        0,
-        PixelBufferDescriptor::new(texture_data, PixelDataFormat::RGB, PixelDataType::UBYTE),
-    );
+        let mut texture = TextureBuilder::new()
+            .width(256)
+            .height(256)
+            .format(TextureFormat::RGB8)
+            .build(&mut engine)
+            .unwrap();
+        texture.set_image(
+            0,
+            PixelBufferDescriptor::new(texture_data, PixelDataFormat::RGB, PixelDataType::UBYTE),
+        );
 
-    let mut material = MaterialBuilder::new()
-        .package(MATERIAL_BYTES)
-        .build(&mut engine)
-        .unwrap()
-        .create_instance()
-        .unwrap();
-    material.set_texture_parameter(Some("texture"), &texture, &TextureSampler::default()).unwrap();
+        let mut material = MaterialBuilder::new()
+            .package(MATERIAL_BYTES)
+            .build(&mut engine)
+            .unwrap()
+            .create_instance()
+            .unwrap();
+        material
+            .set_texture_parameter("texture", &texture, &TextureSampler::default())
+            .unwrap();
 
-    let mut renderable = entity_manager.create();
+        let mut renderable = entity_manager.create();
+        renderable
+            .create_renderable_component(
+                RenderableOptions::new(1)
+                    .culling(false)
+                    .cast_shadows(false)
+                    .receive_shadows(false)
+                    .material(0, &mut material)
+                    .geometry(
+                        0,
+                        PrimitiveType::TRIANGLES,
+                        &mut vertex_buffer,
+                        &mut index_buffer,
+                    ),
+            )
+            .unwrap();
+
+        scene.add_entity(&renderable);
+    }
 
     let mut close_requested = false;
 

@@ -3,7 +3,7 @@ use std::{mem, os::raw, ptr, rc::Rc};
 use filament_bindings::{
     filament_Engine, filament_Engine_flush, filament_Engine_flushAndWait,
     filament_Engine_getBackend, filament_Engine_getEntityManager, filament_Engine_getPlatform,
-    filament_Engine_pumpMessageQueues,
+    filament_Engine_getRenderableManager, filament_Engine_pumpMessageQueues, filament_RenderableManager,
 };
 
 use crate::{
@@ -110,4 +110,11 @@ impl Engine {
     pub fn get_platform(&self) -> &mut Platform {
         unsafe { mem::transmute(filament_Engine_getPlatform(self.native())) }
     }
+
+    #[inline]
+    pub(crate) fn get_renderable_manger(&mut self) -> *mut filament_RenderableManager {
+        unsafe { filament_Engine_getRenderableManager(self.native_mut()) }
+    }
 }
+
+// TODO: drop

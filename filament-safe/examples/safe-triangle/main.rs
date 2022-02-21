@@ -3,10 +3,7 @@ use std::mem;
 use filament_bindings::filament_math_float4;
 use filament_safe::{
     backend::Backend,
-    filament::{
-        Camera, ClearOptions, Engine, Projection, Renderer, Scene, SwapChain, SwapChainConfig,
-        View, Viewport,
-    },
+    filament::{ClearOptions, Engine, Projection, Renderer, Scene, SwapChain, View, Viewport},
 };
 
 fn main() {
@@ -18,9 +15,9 @@ fn main() {
     let mut scene = Scene::create(&mut engine).unwrap();
 
     let mut entity_manager = engine.get_entity_manager();
-    let camera_entity = entity_manager.create();
+    let mut camera_entity = entity_manager.create();
 
-    let mut camera = Camera::create(&mut engine, &camera_entity).unwrap();
+    let camera = camera_entity.create_camera_component().unwrap();
     let viewport = Viewport {
         left: 0,
         bottom: 0,
@@ -42,7 +39,7 @@ fn main() {
 
     view.set_viewport(&viewport);
     view.set_scene(&mut scene);
-    view.set_camera(&mut camera);
+    view.set_camera_entity(&mut camera_entity);
 
     renderer.set_clear_options(&ClearOptions {
         clear_color: filament_math_float4 {

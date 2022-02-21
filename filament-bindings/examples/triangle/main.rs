@@ -27,7 +27,7 @@ use filament_bindings::{
     filament_backend_SamplerParams__bindgen_ty_1,
     filament_backend_SamplerParams__bindgen_ty_1__bindgen_ty_1,
     filament_backend_SamplerWrapMode_CLAMP_TO_EDGE, filament_backend_TextureFormat_RGB8,
-    filament_backend_Viewport, filament_math_float4, utils_Entity, utils_EntityManager_create,
+    filament_backend_Viewport, filament_math_float4, utils_Entity, utils_EntityManager_create, filament_View_setPostProcessingEnabled, filament_VertexAttribute_UV0,
 };
 
 const MATERIAL_BYTES: &'static [u8] = include_bytes!("texture_unlit_ogl.filamat");
@@ -61,15 +61,15 @@ fn triangle_data() -> (Vec<Vertex>, Vec<u16>, Vec<RgbColor>) {
     (
         vec![
             Vertex {
-                position: [1.0, 0.0],
+                position: [1.0, -1.0],
                 uv: [1.0, 0.0],
             },
             Vertex {
-                position: [0.5, 1.0],
+                position: [0.0, 1.0],
                 uv: [0.0, 1.0],
             },
             Vertex {
-                position: [-0.5, 0.0],
+                position: [-1.0, -1.0],
                 uv: [0.0, 0.0],
             },
         ],
@@ -115,6 +115,7 @@ fn main() {
             },
         };
 
+        filament_View_setPostProcessingEnabled(view, false);
         filament_View_setViewport(view, &viewport as *const _);
         filament_View_setScene(view, scene);
         filament_View_setCamera(view, camera);
@@ -138,6 +139,13 @@ fn main() {
             0,
             filament_backend_ElementType_FLOAT2,
             0,
+            16,
+        );
+        vertex_buffer_builder.attribute(
+            filament_VertexAttribute_UV0,
+            0,
+            filament_backend_ElementType_FLOAT2,
+            8,
             16,
         );
         let vertex_buffer = vertex_buffer_builder.build(engine);

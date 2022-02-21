@@ -1,4 +1,4 @@
-use std::{ptr, rc::Rc};
+use std::ptr;
 
 use filament_bindings::{utils_EntityManager, utils_EntityManager_create};
 
@@ -32,9 +32,7 @@ impl EntityManager {
 
     pub fn create(&mut self) -> Entity {
         let mut entity = Entity::dangling(self.1.clone());
-        unsafe {
-            utils_EntityManager_create(self.native_mut(), 1, Rc::get_mut(&mut entity.0).unwrap())
-        };
+        unsafe { utils_EntityManager_create(self.native_mut(), 1, entity.native_mut()) };
         entity
     }
 }

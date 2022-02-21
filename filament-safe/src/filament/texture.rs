@@ -104,6 +104,7 @@ impl Drop for TextureBuilder {
     }
 }
 
+#[derive(Clone)]
 pub struct Texture {
     native: Rc<ptr::NonNull<filament_Texture>>,
     engine: Engine,

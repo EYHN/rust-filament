@@ -28,7 +28,10 @@ use filament_bindings::{
     filament_backend_PixelDataType_UBYTE, filament_backend_PixelDataType_UINT,
     filament_backend_PixelDataType_UINT_10F_11F_11F_REV,
     filament_backend_PixelDataType_UINT_2_10_10_10_REV, filament_backend_PixelDataType_USHORT,
-    filament_backend_PixelDataType_USHORT_565, filament_backend_SamplerCompareFunc_A,
+    filament_backend_PixelDataType_USHORT_565, filament_backend_PrimitiveType_LINES,
+    filament_backend_PrimitiveType_LINE_STRIP, filament_backend_PrimitiveType_NONE,
+    filament_backend_PrimitiveType_POINTS, filament_backend_PrimitiveType_TRIANGLES,
+    filament_backend_PrimitiveType_TRIANGLE_STRIP, filament_backend_SamplerCompareFunc_A,
     filament_backend_SamplerCompareFunc_E, filament_backend_SamplerCompareFunc_G,
     filament_backend_SamplerCompareFunc_GE, filament_backend_SamplerCompareFunc_L,
     filament_backend_SamplerCompareFunc_LE, filament_backend_SamplerCompareFunc_N,
@@ -397,4 +400,16 @@ pub enum SamplerCompareFunc {
     N = filament_backend_SamplerCompareFunc_N,
     #[num_enum(default)]
     UNKNOWN = u8::MAX,
+}
+
+#[derive(IntoPrimitive, FromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
+#[repr(u8)]
+pub enum PrimitiveType {
+    POINTS = filament_backend_PrimitiveType_POINTS,
+    LINES = filament_backend_PrimitiveType_LINES,
+    LINE_STRIP = filament_backend_PrimitiveType_LINE_STRIP,
+    TRIANGLES = filament_backend_PrimitiveType_TRIANGLES,
+    TRIANGLE_STRIP = filament_backend_PrimitiveType_TRIANGLE_STRIP,
+    #[num_enum(default)]
+    NONE = filament_backend_PrimitiveType_NONE,
 }

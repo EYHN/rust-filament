@@ -1,12 +1,17 @@
-use std::{ffi, ptr, rc::Rc};
+use std::{cell::UnsafeCell, collections::HashMap, ffi, ptr, rc::Rc};
 
 use filament_bindings::{
-    filament_Engine_destroy10, filament_MaterialInstance, filament_MaterialInstance_duplicate,
-    filament_MaterialInstance_getName, filament_MaterialInstance_setParameter,
-    filament_MaterialInstance_setScissor, filament_MaterialInstance_unsetScissor, filament_MaterialInstance_setPolygonOffset, filament_MaterialInstance_setMaskThreshold, filament_MaterialInstance_setSpecularAntiAliasingThreshold, filament_MaterialInstance_setSpecularAntiAliasingVariance, filament_MaterialInstance_setTransparencyMode, filament_MaterialInstance_setDoubleSided, filament_MaterialInstance_setCullingMode, filament_MaterialInstance_setDepthCulling, filament_MaterialInstance_setDepthWrite, filament_MaterialInstance_setColorWrite,
+    filament_Engine_destroy10, filament_MaterialInstance, filament_MaterialInstance_getName,
+    filament_MaterialInstance_setColorWrite, filament_MaterialInstance_setCullingMode,
+    filament_MaterialInstance_setDepthCulling, filament_MaterialInstance_setDepthWrite,
+    filament_MaterialInstance_setDoubleSided, filament_MaterialInstance_setParameter,
+    filament_MaterialInstance_setPolygonOffset, filament_MaterialInstance_setScissor,
+    filament_MaterialInstance_setSpecularAntiAliasingThreshold,
+    filament_MaterialInstance_setSpecularAntiAliasingVariance,
+    filament_MaterialInstance_setTransparencyMode, filament_MaterialInstance_unsetScissor,
 };
 
-use crate::{prelude::NativeHandle, backend::CullingMode};
+use crate::{backend::CullingMode, prelude::NativeHandle};
 
 use super::{Engine, Material, Texture, TextureSampler, TransparencyMode};
 
@@ -14,8 +19,8 @@ use super::{Engine, Material, Texture, TextureSampler, TransparencyMode};
 pub struct MaterialInstance {
     native: Rc<ptr::NonNull<filament_MaterialInstance>>,
     engine: Engine,
-    // hold references
     material: Material,
+    texture_map: Rc<UnsafeCell<HashMap<ffi::CString, Texture>>>,
 }
 
 impl NativeHandle<filament_MaterialInstance> for MaterialInstance {
@@ -42,34 +47,35 @@ impl MaterialInstance {
             native: Rc::new(ptr),
             engine,
             material,
+            texture_map: Rc::new(UnsafeCell::new(HashMap::new())),
         })
     }
 
-    #[inline]
-    pub fn duplicate(other: &MaterialInstance) -> Option<MaterialInstance> {
-        unsafe {
-            Self::try_from_native(
-                other.engine.clone(),
-                other.material.clone(),
-                filament_MaterialInstance_duplicate(other.native(), ptr::null()),
-            )
-        }
-    }
-
-    #[inline]
-    pub fn duplicate_new_name(
-        other: &MaterialInstance,
-        name: impl AsRef<str>,
-    ) -> Result<Option<MaterialInstance>, ffi::NulError> {
-        let c_name = ffi::CString::new(name.as_ref())?;
-        unsafe {
-            Ok(Self::try_from_native(
-                other.engine.clone(),
-                other.material.clone(),
-                filament_MaterialInstance_duplicate(other.native(), c_name.as_ptr()),
-            ))
-        }
-    }
+    // TODO: duplicate
+    // #[inline]
+    // pub fn duplicate(other: &MaterialInstance) -> Option<MaterialInstance> {
+    //     unsafe {
+    //         Self::try_from_native(
+    //             other.engine.clone(),
+    //             other.material.clone(),
+    //             filament_MaterialInstance_duplicate(other.native(), ptr::null()),
+    //         )
+    //     }
+    // }
+    // #[inline]
+    // pub fn duplicate_new_name(
+    //     other: &MaterialInstance,
+    //     name: impl AsRef<str>,
+    // ) -> Result<Option<MaterialInstance>, ffi::NulError> {
+    //     let c_name = ffi::CString::new(name.as_ref())?;
+    //     unsafe {
+    //         Ok(Self::try_from_native(
+    //             other.engine.clone(),
+    //             other.material.clone(),
+    //             filament_MaterialInstance_duplicate(other.native(), c_name.as_ptr()),
+    //         ))
+    //     }
+    // }
 
     #[inline]
     pub fn get_material(&self) -> &Material {
@@ -90,24 +96,21 @@ impl MaterialInstance {
     #[inline]
     pub fn set_texture_parameter(
         &mut self,
-        name: Option<impl AsRef<str>>,
+        name: impl AsRef<str>,
         texture: &Texture,
         sampler: &TextureSampler,
     ) -> Result<&mut Self, ffi::NulError> {
-        let c_name = if let Some(name) = name {
-            Some(ffi::CString::new(name.as_ref())?)
-        } else {
-            None
-        };
+        let c_name = ffi::CString::new(name.as_ref())?;
 
         unsafe {
             filament_MaterialInstance_setParameter(
                 self.native_mut(),
-                c_name.map(|s| s.as_ptr()).unwrap_or(ptr::null()),
+                c_name.as_ptr(),
                 texture.native(),
                 sampler.native(),
             )
         };
+        unsafe { (*self.texture_map.get()).insert(c_name, texture.clone()) };
         Ok(self)
     }
 
@@ -116,7 +119,9 @@ impl MaterialInstance {
 
     #[inline]
     pub fn set_scissor(&mut self, left: u32, bottom: u32, width: u32, height: u32) -> &mut Self {
-        unsafe { filament_MaterialInstance_setScissor(self.native_mut(), left, bottom, width, height) };
+        unsafe {
+            filament_MaterialInstance_setScissor(self.native_mut(), left, bottom, width, height)
+        };
         self
     }
 
@@ -134,13 +139,17 @@ impl MaterialInstance {
 
     #[inline]
     pub fn set_specular_anti_aliasing_variance(&mut self, variance: f32) -> &mut Self {
-        unsafe { filament_MaterialInstance_setSpecularAntiAliasingVariance(self.native_mut(), variance) };
+        unsafe {
+            filament_MaterialInstance_setSpecularAntiAliasingVariance(self.native_mut(), variance)
+        };
         self
     }
 
     #[inline]
     pub fn set_specular_anti_aliasing_threshold(&mut self, threshold: f32) -> &mut Self {
-        unsafe { filament_MaterialInstance_setSpecularAntiAliasingThreshold(self.native_mut(), threshold) };
+        unsafe {
+            filament_MaterialInstance_setSpecularAntiAliasingThreshold(self.native_mut(), threshold)
+        };
         self
     }
 

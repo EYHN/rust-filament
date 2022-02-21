@@ -27,3 +27,6 @@ num_cpus = "1.13"
 [features]
 default = ["prebuilt"]
 prebuilt = []
+
+[dev-dependencies]
+winit = "0.26"
