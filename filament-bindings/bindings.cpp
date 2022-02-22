@@ -74,3 +74,7 @@
 #include "gltfio/FilamentInstance.h"
 #include "gltfio/MaterialProvider.h"
 #include "gltfio/ResourceLoader.h"
+
+extern "C" void helper_material_instance_setParameter_texture(filament::MaterialInstance * instance, const char *name, float const& value) {
+    instance->setParameter(name, value);
+}

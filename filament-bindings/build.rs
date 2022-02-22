@@ -95,7 +95,7 @@ fn build_from_source(target: Target) -> BuildManifest {
     .map(|v| v.to_string())
     .collect();
 
-    println!("cargo:rerun-if-changed=bindings.h");
+    println!("cargo:rerun-if-changed=bindings.cpp");
 
     let bindings = bindgen::Builder::default()
         .clang_arg("-x")
@@ -103,14 +103,16 @@ fn build_from_source(target: Target) -> BuildManifest {
         .clang_arg("-std=c++17")
         .clang_arg(format!("-I{}", filament_include.display()))
         .use_core()
-        .header("bindings.h")
+        .size_t_is_usize(true)
+        .header("bindings.cpp")
         .disable_header_comment()
-        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: true })
+        .default_enum_style(bindgen::EnumVariation::Rust { non_exhaustive: false })
         .enable_cxx_namespaces()
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
         .allowlist_type("gltf.*")
+        .allowlist_function("helper_.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
