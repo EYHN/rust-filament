@@ -14,8 +14,8 @@ fn main() {
     let mut view = View::create(&mut engine).unwrap();
     let mut scene = Scene::create(&mut engine).unwrap();
 
-    let mut entity_manager = engine.get_entity_manager();
-    let mut camera_entity = entity_manager.create();
+    let entity_manager = engine.get_entity_manager();
+    let camera_entity = entity_manager.create();
 
     let camera = camera_entity.create_camera_component().unwrap();
     let viewport = Viewport {
@@ -39,7 +39,7 @@ fn main() {
 
     view.set_viewport(&viewport);
     view.set_scene(&mut scene);
-    view.set_camera_entity(&mut camera_entity);
+    view.set_camera(camera);
 
     renderer.set_clear_options(&ClearOptions {
         clear_color: filament_math_float4 {

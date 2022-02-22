@@ -1,7 +1,5 @@
 mod engine;
-mod renderable_manager;
 mod light_manager;
-mod transform_manager;
 mod swap_chain;
 mod renderer;
 mod fence;
@@ -20,9 +18,7 @@ mod renderable;
 mod camera;
 
 pub use engine::*;
-pub use renderable_manager::*;
 pub use light_manager::*;
-pub use transform_manager::*;
 pub use swap_chain::*;
 pub use renderer::*;
 pub use fence::*;

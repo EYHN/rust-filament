@@ -3,9 +3,13 @@ use filament_bindings::{
     filament_RenderableManager_destroy, filament_RenderableManager_getInstance, size_t,
 };
 
-use crate::{backend::PrimitiveType, prelude::NativeHandle, utils::Entity};
+use crate::{
+    backend::PrimitiveType,
+    prelude::{EngineComponent, EngineData, NativeHandle},
+    utils::Entity,
+};
 
-use super::{IndexBuffer, MaterialInstance, VertexBuffer};
+use super::{IndexBuffer, MaterialInstance, VertexBuffer, WeakEngine};
 
 pub struct RenderableOptions {
     native: filament_RenderableManager_Builder,
@@ -179,16 +183,25 @@ impl Drop for RenderableOptions {
     }
 }
 
-pub struct Renderable {
+pub struct RenderableInner {
     native: filament_RenderableManager_Instance,
-    vertics: Vec<Option<VertexBuffer>>,
-    indices: Vec<Option<IndexBuffer>>,
-    material_instances: Vec<Option<MaterialInstance>>,
+    _vertics: Vec<Option<VertexBuffer>>,
+    _indices: Vec<Option<IndexBuffer>>,
+    _material_instances: Vec<Option<MaterialInstance>>,
+
+    // 
+    _unmanaged_vertics: Vec<VertexBuffer>,
+    _unmanaged_indices: Vec<IndexBuffer>,
+    _unmanaged_material_instances: Vec<MaterialInstance>,
 }
+
+pub type Renderable = EngineComponent<RenderableInner>;
 
 impl Renderable {
     #[inline]
     pub(crate) fn try_from_native(
+        engine: WeakEngine,
+        entity: &Entity,
         native: filament_RenderableManager_Instance,
         vertics: Vec<Option<VertexBuffer>>,
         indices: Vec<Option<IndexBuffer>>,
@@ -197,25 +210,35 @@ impl Renderable {
         if native == 0 {
             None
         } else {
-            Some(Self {
-                native,
-                vertics,
-                indices,
-                material_instances,
-            })
+            Some(Renderable::new(
+                RenderableInner {
+                    native,
+                    _vertics: vertics,
+                    _indices: indices,
+                    _material_instances: material_instances,
+                },
+                engine,
+                entity.identify,
+            ))
         }
     }
 
-    pub(crate) fn from_options(entity: &mut Entity, options: &mut RenderableOptions) -> Option<Self> {
+    pub(crate) fn from_options(
+        entity: &mut Entity,
+        options: &mut RenderableOptions,
+    ) -> Option<Self> {
         let native_builder = options.native_mut();
-        unsafe { native_builder.build(entity.engine.native_mut(), entity.native_owned()) };
+        let mut engine = entity.engine();
+        unsafe { native_builder.build(engine.native_mut(), entity.native_owned()) };
         let native = unsafe {
             filament_RenderableManager_getInstance(
-                entity.engine.get_renderable_manger(),
+                engine.get_renderable_manger(),
                 entity.native_owned(),
             )
         };
         Self::try_from_native(
+            engine.downgrade(),
+            entity,
             native,
             options.vertics.clone(),
             options.indices.clone(),
@@ -227,7 +250,7 @@ impl Renderable {
     pub(crate) fn destroy_instance(entity: &mut Entity) {
         unsafe {
             filament_RenderableManager_destroy(
-                entity.engine.get_renderable_manger(),
+                entity.engine().get_renderable_manger(),
                 entity.native_owned(),
             )
         }
@@ -235,6 +258,6 @@ impl Renderable {
 
     #[inline]
     pub fn native_owned(&self) -> filament_RenderableManager_Instance {
-        self.native
+        self.data.native
     }
 }

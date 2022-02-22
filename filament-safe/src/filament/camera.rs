@@ -1,4 +1,4 @@
-use std::{ptr};
+use std::ptr;
 
 use filament_bindings::{
     filament_Camera, filament_Camera_Fov_HORIZONTAL, filament_Camera_Fov_VERTICAL,
@@ -22,7 +22,12 @@ use filament_bindings::{
 };
 use num_enum::IntoPrimitive;
 
-use crate::{prelude::NativeHandle};
+use crate::{
+    prelude::{EngineComponent, NativeHandle},
+    utils::Entity,
+};
+
+use super::WeakEngine;
 
 #[derive(IntoPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(i32)]
@@ -38,25 +43,31 @@ pub enum Fov {
     HORIZONTAL = filament_Camera_Fov_HORIZONTAL,
 }
 
-pub struct Camera(ptr::NonNull<filament_Camera>);
+pub struct CameraInner(ptr::NonNull<filament_Camera>);
+
+pub type Camera = EngineComponent<CameraInner>;
 
 impl NativeHandle<filament_Camera> for Camera {
     #[inline]
     fn native(&self) -> *const filament_Camera {
-        self.0.as_ptr()
+        self.data.0.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_Camera {
-        self.0.as_ptr()
+        self.data.0.as_ptr()
     }
 }
 
 impl Camera {
     #[inline]
-    pub(crate) fn try_from_native(native: *mut filament_Camera) -> Option<Self> {
+    pub(crate) fn try_from_native(
+        engine: WeakEngine,
+        entity: &Entity,
+        native: *mut filament_Camera,
+    ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Camera(ptr))
+        Some(Camera::new(CameraInner(ptr), engine, entity.identify))
     }
 
     #[inline]

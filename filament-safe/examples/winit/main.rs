@@ -104,8 +104,64 @@ fn main() {
     let mut scene = Scene::create(&mut engine).unwrap();
 
     {
-        let mut entity_manager = engine.get_entity_manager();
-        let mut camera_entity = entity_manager.create();
+        renderer.set_clear_options(&ClearOptions {
+            clear_color: filament_math_float4 {
+                inner: [0.0, 0.0, 1.0, 1.0],
+            },
+            clear: true,
+            discard: true,
+        });
+
+        let (vertices, indices, texture_data) = triangle_data();
+        let mut vertex_buffer = VertexBufferBuilder::new()
+            .vertex_count(3)
+            .buffer_count(1)
+            .attribute(VertexAttribute::POSITION, 0, ElementType::FLOAT2, 0, 16)
+            .attribute(VertexAttribute::UV0, 0, ElementType::FLOAT2, 8, 16)
+            .build(&mut engine)
+            .unwrap();
+        vertex_buffer
+            .set_buffer_at(0, BufferDescriptor::new(vertices), 0)
+            .unwrap();
+
+        let mut index_buffer = IndexBufferBuilder::new()
+            .index_count(3)
+            .buffer_type(IndexType::USHORT)
+            .build(&mut engine)
+            .unwrap();
+        index_buffer
+            .set_buffer(BufferDescriptor::new(indices), 0)
+            .unwrap();
+
+        let mut texture = TextureBuilder::new()
+            .width(256)
+            .height(256)
+            .format(TextureFormat::RGB8)
+            .build(&mut engine)
+            .unwrap();
+        texture
+            .set_image(
+                0,
+                PixelBufferDescriptor::new(
+                    texture_data,
+                    PixelDataFormat::RGB,
+                    PixelDataType::UBYTE,
+                ),
+            )
+            .unwrap();
+
+        let mut material = MaterialBuilder::new()
+            .package(MATERIAL_BYTES)
+            .build(&mut engine)
+            .unwrap()
+            .create_instance()
+            .unwrap();
+        material
+            .set_texture_parameter("texture", &texture, &TextureSampler::default())
+            .unwrap();
+
+        let entity_manager = engine.get_entity_manager();
+        let camera_entity = entity_manager.create();
 
         let camera = camera_entity.create_camera_component().unwrap();
         let viewport = Viewport {
@@ -129,55 +185,9 @@ fn main() {
 
         view.set_viewport(&viewport);
         view.set_scene(&mut scene);
-        view.set_camera_entity(&mut camera_entity);
+        view.set_camera(camera);
 
-        renderer.set_clear_options(&ClearOptions {
-            clear_color: filament_math_float4 {
-                inner: [0.0, 0.0, 1.0, 1.0],
-            },
-            clear: true,
-            discard: true,
-        });
-
-        let (vertices, indices, texture_data) = triangle_data();
-        let mut vertex_buffer = VertexBufferBuilder::new()
-            .vertex_count(3)
-            .buffer_count(1)
-            .attribute(VertexAttribute::POSITION, 0, ElementType::FLOAT2, 0, 16)
-            .attribute(VertexAttribute::UV0, 0, ElementType::FLOAT2, 8, 16)
-            .build(&mut engine)
-            .unwrap();
-        vertex_buffer.set_buffer_at(0, BufferDescriptor::new(vertices), 0);
-
-        let mut index_buffer = IndexBufferBuilder::new()
-            .index_count(3)
-            .buffer_type(IndexType::USHORT)
-            .build(&mut engine)
-            .unwrap();
-        index_buffer.set_buffer(BufferDescriptor::new(indices), 0);
-
-        let mut texture = TextureBuilder::new()
-            .width(256)
-            .height(256)
-            .format(TextureFormat::RGB8)
-            .build(&mut engine)
-            .unwrap();
-        texture.set_image(
-            0,
-            PixelBufferDescriptor::new(texture_data, PixelDataFormat::RGB, PixelDataType::UBYTE),
-        );
-
-        let mut material = MaterialBuilder::new()
-            .package(MATERIAL_BYTES)
-            .build(&mut engine)
-            .unwrap()
-            .create_instance()
-            .unwrap();
-        material
-            .set_texture_parameter("texture", &texture, &TextureSampler::default())
-            .unwrap();
-
-        let mut renderable = entity_manager.create();
+        let renderable = entity_manager.create();
         renderable
             .create_renderable_component(
                 RenderableOptions::new(1)

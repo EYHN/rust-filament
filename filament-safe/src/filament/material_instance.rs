@@ -1,4 +1,4 @@
-use std::{cell::UnsafeCell, collections::HashMap, ffi, ptr, rc::Rc};
+use std::{collections::HashMap, ffi, ptr};
 
 use filament_bindings::{
     filament_Engine_destroy10, filament_MaterialInstance, filament_MaterialInstance_getName,
@@ -11,44 +11,49 @@ use filament_bindings::{
     filament_MaterialInstance_setTransparencyMode, filament_MaterialInstance_unsetScissor,
 };
 
-use crate::{backend::CullingMode, prelude::NativeHandle};
+use crate::{
+    backend::CullingMode,
+    prelude::{EngineData, EngineDrop, NativeHandle, RcHandle},
+};
 
-use super::{Engine, Material, Texture, TextureSampler, TransparencyMode};
+use super::{Engine, Material, Texture, TextureSampler, TransparencyMode, WeakEngine};
 
-#[derive(Clone)]
-pub struct MaterialInstance {
-    native: Rc<ptr::NonNull<filament_MaterialInstance>>,
-    engine: Engine,
+pub struct MaterialInstanceInner {
+    native: ptr::NonNull<filament_MaterialInstance>,
     material: Material,
-    texture_map: Rc<UnsafeCell<HashMap<ffi::CString, Texture>>>,
+    texture_map: HashMap<ffi::CString, Texture>,
 }
+
+pub type MaterialInstance = RcHandle<EngineData<MaterialInstanceInner>>;
 
 impl NativeHandle<filament_MaterialInstance> for MaterialInstance {
     #[inline]
     fn native(&self) -> *const filament_MaterialInstance {
-        self.native.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_MaterialInstance {
-        self.native.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
 impl MaterialInstance {
     #[inline]
     pub(crate) fn try_from_native(
-        engine: Engine,
+        engine: WeakEngine,
         material: Material,
         native: *mut filament_MaterialInstance,
     ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Self {
-            native: Rc::new(ptr),
+        Some(RcHandle::new(EngineData::new(
+            MaterialInstanceInner {
+                native: ptr,
+                material,
+                texture_map: HashMap::new(),
+            },
             engine,
-            material,
-            texture_map: Rc::new(UnsafeCell::new(HashMap::new())),
-        })
+        )))
     }
 
     // TODO: duplicate
@@ -79,7 +84,7 @@ impl MaterialInstance {
 
     #[inline]
     pub fn get_material(&self) -> &Material {
-        &self.material
+        &self.data().material
     }
 
     #[inline]
@@ -110,7 +115,7 @@ impl MaterialInstance {
                 sampler.native(),
             )
         };
-        unsafe { (*self.texture_map.get()).insert(c_name, texture.clone()) };
+        self.data_mut().texture_map.insert(c_name, texture.clone());
         Ok(self)
     }
 
@@ -190,11 +195,11 @@ impl MaterialInstance {
     }
 }
 
-impl Drop for MaterialInstance {
+impl EngineDrop for MaterialInstanceInner {
     #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.native) {
-            unsafe { filament_Engine_destroy10(self.engine.native_mut(), self.native()) };
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe {
+            filament_Engine_destroy10(engine.native_mut(), self.native.as_ptr());
         }
     }
 }

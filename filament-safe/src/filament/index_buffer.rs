@@ -1,4 +1,4 @@
-use std::{ptr, rc::Rc};
+use std::ptr;
 
 use filament_bindings::{
     filament_Engine_destroy5, filament_IndexBuffer, filament_IndexBuffer_Builder,
@@ -7,9 +7,12 @@ use filament_bindings::{
 };
 use num_enum::{FromPrimitive, IntoPrimitive};
 
-use crate::{backend::BufferDescriptor, prelude::NativeHandle};
+use crate::{
+    backend::BufferDescriptor,
+    prelude::{EngineData, EngineDrop, EngineResult, NativeHandle, RcHandle},
+};
 
-use super::Engine;
+use super::{Engine, WeakEngine};
 
 #[derive(IntoPrimitive, FromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(u8)]
@@ -53,7 +56,7 @@ impl IndexBufferBuilder {
 
     #[inline]
     pub fn build(&mut self, engine: &mut Engine) -> Option<IndexBuffer> {
-        IndexBuffer::try_from_native(engine.clone(), unsafe {
+        IndexBuffer::try_from_native(engine.downgrade(), unsafe {
             self.native.build(engine.native_mut())
         })
     }
@@ -66,61 +69,67 @@ impl Drop for IndexBufferBuilder {
     }
 }
 
-#[derive(Clone)]
-pub struct IndexBuffer {
-    native: Rc<ptr::NonNull<filament_IndexBuffer>>,
-    engine: Engine,
+pub struct IndexBufferInner {
+    native: ptr::NonNull<filament_IndexBuffer>,
 }
+
+pub type IndexBuffer = RcHandle<EngineData<IndexBufferInner>>;
 
 impl NativeHandle<filament_IndexBuffer> for IndexBuffer {
     #[inline]
     fn native(&self) -> *const filament_IndexBuffer {
-        self.native.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_IndexBuffer {
-        self.native.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
 impl IndexBuffer {
     #[inline]
     pub(crate) fn try_from_native(
-        engine: Engine,
+        engine: WeakEngine,
         native: *mut filament_IndexBuffer,
     ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Self {
-            native: Rc::new(ptr),
+        Some(RcHandle::new(EngineData::new(
+            IndexBufferInner { native: ptr },
             engine,
-        })
+        )))
     }
 }
 
 impl IndexBuffer {
+    #[inline]
     pub fn get_index_count(&self) -> usize {
         unsafe { filament_IndexBuffer_getIndexCount(self.native()) as usize }
     }
 
-    pub fn set_buffer<T>(&mut self, buffer: BufferDescriptor<T>, byte_offset: u32) -> &mut Self {
+    #[inline]
+    pub fn set_buffer<T>(
+        &mut self,
+        buffer: BufferDescriptor<T>,
+        byte_offset: u32,
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_IndexBuffer_setBuffer(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 &mut buffer.into_native(),
                 byte_offset,
             )
         };
-        self
+        Ok(self)
     }
 }
 
-impl Drop for IndexBuffer {
+impl EngineDrop for IndexBufferInner {
     #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.native) {
-            unsafe { filament_Engine_destroy5(self.engine.native_mut(), self.native()) };
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe {
+            filament_Engine_destroy5(engine.native_mut(), self.native.as_ptr());
         }
     }
 }

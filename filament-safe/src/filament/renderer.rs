@@ -1,4 +1,4 @@
-use std::{mem, ptr, rc::Rc};
+use std::{mem, ptr};
 
 use bitflags::bitflags;
 
@@ -12,7 +12,7 @@ use filament_bindings::{
     filament_Renderer_setDisplayInfo, filament_Renderer_setFrameRateOptions, filament_math_float4,
 };
 
-use crate::prelude::NativeHandle;
+use crate::prelude::{EngineDrop, EngineSystem, NativeHandle, RcHandle};
 
 use super::{Engine, SwapChain, View, Viewport};
 
@@ -50,17 +50,21 @@ bitflags! {
   }
 }
 
-pub struct Renderer(Rc<ptr::NonNull<filament_Renderer>>, Engine);
+pub struct RendererInner {
+    native: ptr::NonNull<filament_Renderer>,
+}
+
+pub type Renderer = RcHandle<EngineSystem<RendererInner>>;
 
 impl NativeHandle<filament_Renderer> for Renderer {
     #[inline]
     fn native(&self) -> *const filament_Renderer {
-        self.0.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_Renderer {
-        self.0.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
@@ -68,7 +72,10 @@ impl Renderer {
     #[inline]
     pub(crate) fn try_from_native(engine: Engine, native: *mut filament_Renderer) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Renderer(Rc::new(ptr), engine))
+        Some(Renderer::new(EngineSystem::new(
+            RendererInner { native: ptr },
+            engine,
+        )))
     }
 
     #[inline]
@@ -104,7 +111,7 @@ impl Renderer {
 
     #[inline]
     pub fn get_engine(&self) -> &Engine {
-        &self.1
+        &self.engine()
     }
 
     #[inline]
@@ -174,11 +181,9 @@ impl Renderer {
     }
 }
 
-impl Drop for Renderer {
+impl EngineDrop for RendererInner {
     #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.0) {
-            unsafe { filament_Engine_destroy11(self.1.native_mut(), self.native()) };
-        }
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe { filament_Engine_destroy11(engine.native_mut(), self.native.as_ptr()) };
     }
 }

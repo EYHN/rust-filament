@@ -1,8 +1,4 @@
-use std::{
-    ffi::{self, NulError},
-    ptr,
-    rc::Rc,
-};
+use std::{ffi, ptr};
 
 use filament_bindings::{
     filament_Engine_destroy9, filament_Material, filament_Material_Builder,
@@ -21,11 +17,14 @@ use filament_bindings::{
     filament_Material_isSampler, size_t,
 };
 
-use crate::{backend::CullingMode, prelude::NativeHandle};
+use crate::{
+    backend::CullingMode,
+    prelude::{EngineData, EngineDrop, NativeHandle, RcHandle},
+};
 
 use super::{
     BlendingMode, Engine, Interpolation, MaterialDomain, MaterialInstance, ReflectionMode,
-    RefractionMode, RefractionType, Shading, TransparencyMode, VertexDomain,
+    RefractionMode, RefractionType, Shading, TransparencyMode, VertexDomain, WeakEngine,
 };
 
 pub struct MaterialBuilder {
@@ -58,7 +57,7 @@ impl MaterialBuilder {
 
     #[inline]
     pub fn build(&mut self, engine: &mut Engine) -> Option<Material> {
-        Material::try_from_native(engine.clone(), unsafe {
+        Material::try_from_native(engine.downgrade(), unsafe {
             self.native.build(engine.native_mut())
         })
     }
@@ -72,31 +71,35 @@ impl Drop for MaterialBuilder {
 }
 
 #[derive(Clone)]
-pub struct Material {
-    native: Rc<ptr::NonNull<filament_Material>>,
-    engine: Engine,
+pub struct MaterialData {
+    native: ptr::NonNull<filament_Material>,
 }
+
+pub type Material = RcHandle<EngineData<MaterialData>>;
 
 impl NativeHandle<filament_Material> for Material {
     #[inline]
     fn native(&self) -> *const filament_Material {
-        self.native.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_Material {
-        self.native.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
 impl Material {
     #[inline]
-    pub(crate) fn try_from_native(engine: Engine, native: *mut filament_Material) -> Option<Self> {
+    pub(crate) fn try_from_native(
+        engine: WeakEngine,
+        native: *mut filament_Material,
+    ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Self {
-            native: Rc::new(ptr),
+        Some(Self::new(EngineData::new(
+            MaterialData { native: ptr },
             engine,
-        })
+        )))
     }
 }
 
@@ -105,7 +108,7 @@ impl Material {
     pub fn create_instance(&self) -> Option<MaterialInstance> {
         unsafe {
             MaterialInstance::try_from_native(
-                self.engine.clone(),
+                self.engine().clone(),
                 self.clone(),
                 filament_Material_createInstance(self.native(), ptr::null()),
             )
@@ -120,7 +123,7 @@ impl Material {
         let c_name = ffi::CString::new(name.as_ref())?;
         unsafe {
             Ok(MaterialInstance::try_from_native(
-                self.engine.clone(),
+                self.engine().clone(),
                 self.clone(),
                 filament_Material_createInstance(self.native(), c_name.as_ptr()),
             ))
@@ -230,7 +233,7 @@ impl Material {
     //     filament_Material_getParameters(self, parameters, count)
     // }
     #[inline]
-    pub fn has_parameter(&self, name: impl AsRef<str>) -> Result<bool, NulError> {
+    pub fn has_parameter(&self, name: impl AsRef<str>) -> Result<bool, ffi::NulError> {
         let c_name = ffi::CString::new(name.as_ref())?;
         unsafe {
             Ok(filament_Material_hasParameter(
@@ -259,11 +262,9 @@ impl Material {
     // }
 }
 
-impl Drop for Material {
+impl EngineDrop for MaterialData {
     #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.native) {
-            unsafe { filament_Engine_destroy9(self.engine.native_mut(), self.native()) };
-        }
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe { filament_Engine_destroy9(engine.native_mut(), self.native.as_ptr()) };
     }
 }

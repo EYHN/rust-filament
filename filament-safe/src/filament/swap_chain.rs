@@ -1,4 +1,4 @@
-use std::{os::raw, ptr, rc::Rc};
+use std::{os::raw, ptr};
 
 use bitflags::bitflags;
 
@@ -9,7 +9,7 @@ use filament_bindings::{
     filament_SwapChain_CONFIG_TRANSPARENT, filament_SwapChain_getNativeWindow,
 };
 
-use crate::prelude::NativeHandle;
+use crate::prelude::{EngineDrop, EngineSystem, NativeHandle, RcHandle};
 
 use super::Engine;
 
@@ -23,17 +23,21 @@ bitflags! {
     }
 }
 
-pub struct SwapChain(Rc<ptr::NonNull<filament_SwapChain>>, Engine);
+pub struct SwapChainInner {
+    native: ptr::NonNull<filament_SwapChain>,
+}
+
+pub type SwapChain = RcHandle<EngineSystem<SwapChainInner>>;
 
 impl NativeHandle<filament_SwapChain> for SwapChain {
     #[inline]
     fn native(&self) -> *const filament_SwapChain {
-        self.0.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_SwapChain {
-        self.0.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
@@ -41,7 +45,10 @@ impl SwapChain {
     #[inline]
     pub(crate) fn try_from_native(engine: Engine, native: *mut filament_SwapChain) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(SwapChain(Rc::new(ptr), engine))
+        Some(SwapChain::new(EngineSystem::new(
+            SwapChainInner { native: ptr },
+            engine,
+        )))
     }
 
     #[inline]
@@ -87,11 +94,8 @@ impl SwapChain {
     }
 }
 
-impl Drop for SwapChain {
-    #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.0) {
-            unsafe { filament_Engine_destroy15(self.1.native_mut(), self.native()) };
-        }
+impl EngineDrop for SwapChainInner {
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe { filament_Engine_destroy15(engine.native_mut(), self.native.as_ptr()) };
     }
 }

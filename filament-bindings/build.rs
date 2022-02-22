@@ -91,6 +91,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         "geometry",
         "ibl",
         "utils",
+        "filameshio",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -106,9 +107,12 @@ fn build_from_source(target: Target) -> BuildManifest {
         .use_core()
         .header("bindings.h")
         .disable_header_comment()
+        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: true })
+        .enable_cxx_namespaces()
         .raw_line(include_str!("src/fix.rs"))
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
+        .allowlist_type("filamesh.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -311,10 +315,7 @@ struct BuildManifest {
     pub target: String,
 }
 
-fn cache(
-    cache_tar_name: impl AsRef<str>,
-    version: impl AsRef<str>,
-) -> BuildManifest {
+fn cache(cache_tar_name: impl AsRef<str>, version: impl AsRef<str>) -> BuildManifest {
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_CACHE_DIR");
     if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {
         println!("cargo:rerun-if-changed={}", cache_dir);
@@ -341,7 +342,8 @@ fn main() {
     let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
 
     println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
-    let use_cache = env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) != "OFF" && cfg!(feature = "prebuilt");
+    let use_cache = env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) != "OFF"
+        && cfg!(feature = "prebuilt");
 
     let build_manifest = if use_cache {
         cache(&cache_tar_name, &version)

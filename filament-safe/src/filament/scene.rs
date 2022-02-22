@@ -1,4 +1,4 @@
-use std::{cell::UnsafeCell, ptr, rc::Rc};
+use std::{ptr, rc::Rc};
 
 use filament_bindings::{
     filament_Engine_createScene, filament_Engine_destroy12, filament_Scene,
@@ -13,7 +13,6 @@ use super::Engine;
 pub struct Scene {
     native: Rc<ptr::NonNull<filament_Scene>>,
     engine: Engine,
-    entities: Rc<UnsafeCell<Vec<Entity>>>,
 }
 
 impl NativeHandle<filament_Scene> for Scene {
@@ -35,7 +34,6 @@ impl Scene {
         Some(Self {
             native: Rc::new(ptr),
             engine,
-            entities: Rc::new(UnsafeCell::new(Vec::new())),
         })
     }
 
@@ -52,7 +50,6 @@ impl Scene {
     #[inline]
     pub fn add_entity(&mut self, entity: &Entity) -> &mut Self {
         unsafe { filament_Scene_addEntity(self.native_mut(), entity.native_owned()) };
-        unsafe { (*self.entities.get()).push(entity.clone()) };
         self
     }
 }

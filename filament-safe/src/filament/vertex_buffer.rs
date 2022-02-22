@@ -1,4 +1,4 @@
-use std::{ptr, rc::Rc};
+use std::ptr;
 
 use filament_bindings::{
     filament_Engine_destroy3, filament_VertexBuffer, filament_VertexBuffer_Builder,
@@ -7,10 +7,10 @@ use filament_bindings::{
 
 use crate::{
     backend::{self, BufferDescriptor},
-    prelude::NativeHandle,
+    prelude::{EngineData, EngineDrop, EngineResult, NativeHandle, RcHandle},
 };
 
-use super::{Engine, VertexAttribute};
+use super::{Engine, VertexAttribute, WeakEngine};
 
 pub struct VertexBufferBuilder {
     native: filament_VertexBuffer_Builder,
@@ -78,7 +78,7 @@ impl VertexBufferBuilder {
 
     #[inline]
     pub fn build(&mut self, engine: &mut Engine) -> Option<VertexBuffer> {
-        VertexBuffer::try_from_native(engine.clone(), unsafe {
+        VertexBuffer::try_from_native(engine.downgrade(), unsafe {
             self.native.build(engine.native_mut())
         })
     }
@@ -92,34 +92,35 @@ impl Drop for VertexBufferBuilder {
 }
 
 #[derive(Clone)]
-pub struct VertexBuffer {
-    native: Rc<ptr::NonNull<filament_VertexBuffer>>,
-    engine: Engine,
+pub struct VertexBufferData {
+    native: ptr::NonNull<filament_VertexBuffer>,
 }
+
+pub type VertexBuffer = RcHandle<EngineData<VertexBufferData>>;
 
 impl NativeHandle<filament_VertexBuffer> for VertexBuffer {
     #[inline]
     fn native(&self) -> *const filament_VertexBuffer {
-        self.native.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_VertexBuffer {
-        self.native.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
 impl VertexBuffer {
     #[inline]
     pub(crate) fn try_from_native(
-        engine: Engine,
+        engine: WeakEngine,
         native: *mut filament_VertexBuffer,
     ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Self {
-            native: Rc::new(ptr),
+        Some(Self::new(EngineData::new(
+            VertexBufferData { native: ptr },
             engine,
-        })
+        )))
     }
 }
 
@@ -133,27 +134,24 @@ impl VertexBuffer {
         buffer_index: u8,
         buffer: BufferDescriptor<T>,
         byte_offset: u32,
-    ) -> &mut Self {
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_VertexBuffer_setBufferAt(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 buffer_index,
                 &mut buffer.into_native(),
                 byte_offset,
             )
         };
-        self
+        Ok(self)
     }
 
     // TODO: set_buffer_object_at
 }
 
-impl Drop for VertexBuffer {
-    #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.native) {
-            unsafe { filament_Engine_destroy3(self.engine.native_mut(), self.native()) };
-        }
+impl EngineDrop for VertexBufferData {
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe { filament_Engine_destroy3(engine.native_mut(), self.native.as_ptr()) };
     }
 }

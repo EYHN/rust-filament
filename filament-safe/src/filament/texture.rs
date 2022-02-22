@@ -1,4 +1,4 @@
-use std::{ffi, ptr, rc::Rc};
+use std::{ffi, ptr};
 
 use filament_bindings::{
     filament_Engine_destroy17, filament_Texture, filament_Texture_BASE_LEVEL,
@@ -11,10 +11,10 @@ use filament_bindings::{
 
 use crate::{
     backend::{PixelBufferDescriptor, SamplerType, TextureFormat, TextureSwizzle, TextureUsage},
-    prelude::NativeHandle,
+    prelude::{EngineData, EngineDrop, EngineResult, NativeHandle, RcHandle},
 };
 
-use super::Engine;
+use super::{Engine, WeakEngine};
 
 pub struct TextureBuilder {
     native: filament_Texture_Builder,
@@ -91,7 +91,7 @@ impl TextureBuilder {
 
     #[inline]
     pub fn build(&mut self, engine: &mut Engine) -> Option<Texture> {
-        Texture::try_from_native(engine.clone(), unsafe {
+        Texture::try_from_native(engine.downgrade(), unsafe {
             self.native.build(engine.native_mut())
         })
     }
@@ -104,32 +104,35 @@ impl Drop for TextureBuilder {
     }
 }
 
-#[derive(Clone)]
-pub struct Texture {
-    native: Rc<ptr::NonNull<filament_Texture>>,
-    engine: Engine,
+pub struct TextureInner {
+    native: ptr::NonNull<filament_Texture>,
 }
+
+pub type Texture = RcHandle<EngineData<TextureInner>>;
 
 impl NativeHandle<filament_Texture> for Texture {
     #[inline]
     fn native(&self) -> *const filament_Texture {
-        self.native.as_ptr()
+        self.data().native.as_ptr()
     }
 
     #[inline]
     fn native_mut(&mut self) -> *mut filament_Texture {
-        self.native.as_ptr()
+        self.data_mut().native.as_ptr()
     }
 }
 
 impl Texture {
     #[inline]
-    pub(crate) fn try_from_native(engine: Engine, native: *mut filament_Texture) -> Option<Self> {
+    pub(crate) fn try_from_native(
+        engine: WeakEngine,
+        native: *mut filament_Texture,
+    ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
-        Some(Self {
-            native: Rc::new(ptr),
+        Some(Self::new(EngineData::new(
+            TextureInner { native: ptr },
             engine,
-        })
+        )))
     }
 }
 
@@ -180,16 +183,20 @@ impl Texture {
     }
 
     #[inline]
-    pub fn set_image<T>(&mut self, level: usize, buffer: PixelBufferDescriptor<T>) -> &mut Self {
+    pub fn set_image<T>(
+        &mut self,
+        level: usize,
+        buffer: PixelBufferDescriptor<T>,
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_Texture_setImage(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 level as size_t,
                 &mut buffer.into_native(),
             )
         };
-        self
+        Ok(self)
     }
 
     #[inline]
@@ -201,11 +208,11 @@ impl Texture {
         width: u32,
         height: u32,
         buffer: PixelBufferDescriptor<T>,
-    ) -> &mut Self {
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_Texture_setImage1(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 level as size_t,
                 xoffset,
                 yoffset,
@@ -214,7 +221,7 @@ impl Texture {
                 &mut buffer.into_native(),
             )
         };
-        self
+        Ok(self)
     }
 
     #[inline]
@@ -228,11 +235,11 @@ impl Texture {
         height: u32,
         depth: u32,
         buffer: PixelBufferDescriptor<T>,
-    ) -> &mut Self {
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_Texture_setImage2(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 level as size_t,
                 xoffset,
                 yoffset,
@@ -243,48 +250,58 @@ impl Texture {
                 &mut buffer.into_native(),
             )
         };
-        self
+        Ok(self)
     }
 
     // TODO: set image face offset
 
     #[inline]
-    pub fn set_external_image(&mut self, image: *mut ffi::c_void) -> &mut Self {
+    pub fn set_external_image(&mut self, image: *mut ffi::c_void) -> EngineResult<&mut Self> {
         unsafe {
-            filament_Texture_setExternalImage(self.native_mut(), self.engine.native_mut(), image)
+            filament_Texture_setExternalImage(
+                self.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
+                image,
+            )
         };
-        self
+        Ok(self)
     }
 
     #[inline]
-    pub fn set_external_image_plane(&mut self, image: *mut ffi::c_void, plane: usize) -> &mut Self {
+    pub fn set_external_image_plane(
+        &mut self,
+        image: *mut ffi::c_void,
+        plane: usize,
+    ) -> EngineResult<&mut Self> {
         unsafe {
             filament_Texture_setExternalImage1(
                 self.native_mut(),
-                self.engine.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
                 image,
                 plane as size_t,
             )
         };
-        self
+        Ok(self)
     }
 
     // TODO: setExternalStream
 
     #[inline]
-    pub fn generate_mipmaps(&mut self) -> &mut Self {
-        unsafe { filament_Texture_generateMipmaps(self.native_mut(), self.engine.native_mut()) };
-        self
+    pub fn generate_mipmaps(&mut self) -> EngineResult<&mut Self> {
+        unsafe {
+            filament_Texture_generateMipmaps(
+                self.native_mut(),
+                self.engine().upgrade_engine()?.native_mut(),
+            )
+        };
+        Ok(self)
     }
 
     // TODO: generatePrefilterMipmap
 }
 
-impl Drop for Texture {
-    #[inline]
-    fn drop(&mut self) {
-        if let Some(_) = Rc::get_mut(&mut self.native) {
-            unsafe { filament_Engine_destroy17(self.engine.native_mut(), self.native()) };
-        }
+impl EngineDrop for TextureInner {
+    fn drop(&mut self, engine: &mut Engine) {
+        unsafe { filament_Engine_destroy17(engine.native_mut(), self.native.as_ptr()) };
     }
 }

@@ -8,22 +8,21 @@ use filament_bindings::{
     filament_View_isScreenSpaceRefractionEnabled, filament_View_setAntiAliasing,
     filament_View_setBlendMode, filament_View_setCamera,
     filament_View_setMultiSampleAntiAliasingOptions, filament_View_setName,
-    filament_View_setSampleCount, filament_View_setScene,
+    filament_View_setPostProcessingEnabled, filament_View_setSampleCount, filament_View_setScene,
     filament_View_setScreenSpaceReflectionsOptions, filament_View_setScreenSpaceRefractionEnabled,
     filament_View_setTemporalAntiAliasingOptions, filament_View_setViewport,
-    filament_View_setVisibleLayers, filament_View_setPostProcessingEnabled,
+    filament_View_setVisibleLayers,
 };
 
-use crate::{prelude::NativeHandle, utils::Entity};
+use crate::prelude::NativeHandle;
 
-use super::{AntiAliasing, BlendMode, Engine, Scene, Viewport};
+use super::{AntiAliasing, BlendMode, Camera, Engine, Scene, Viewport};
 
 pub struct View {
     native: Rc<ptr::NonNull<filament_View>>,
     engine: Engine,
     // hold references
     scene: Option<Scene>,
-    camera_entity: Option<Entity>,
 }
 
 impl NativeHandle<filament_View> for View {
@@ -46,7 +45,6 @@ impl View {
             native: Rc::new(ptr),
             engine,
             scene: None,
-            camera_entity: None,
         })
     }
 
@@ -100,24 +98,13 @@ impl View {
     }
 
     #[inline]
-    pub fn set_camera_entity(&mut self, camera_entity: &mut Entity) {
-        let camera = camera_entity
-            .get_camera_component_mut()
-            .map(|c| c.native_mut())
-            .unwrap_or(ptr::null_mut());
-        unsafe { filament_View_setCamera(self.native_mut(), camera) };
-        self.camera_entity = Some(camera_entity.clone());
+    pub fn set_camera(&mut self, camera: &mut Camera) {
+        unsafe { filament_View_setCamera(self.native_mut(), camera.native_mut()) };
     }
 
     #[inline]
-    pub fn unset_camera_entity(&mut self) {
+    pub fn unset_camera(&mut self) {
         unsafe { filament_View_setCamera(self.native_mut(), ptr::null_mut()) };
-        self.camera_entity = None;
-    }
-
-    #[inline]
-    pub fn get_camera_entity(&self) -> Option<&Entity> {
-        self.camera_entity.as_ref()
     }
 
     #[inline]
