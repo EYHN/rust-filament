@@ -3,13 +3,14 @@ extern crate bindgen;
 mod build_support;
 
 use std::{
-    env, fs, io,
+    env, fs,
+    io::{self, Write},
     path::{Path, PathBuf},
     process::Command,
     time::SystemTime,
 };
 
-use build_support::{download, path_regex_escape, run_command, Target};
+use build_support::{download, path_regex_escape, run_command, static_lib_filename, Target};
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::{Deserialize, Serialize};
 
@@ -67,10 +68,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         .args(["--build", "."])
         .args(["--target", "install"])
         .args(["--config", "Release"]);
-    filament_cmake_install.args([
-        "--parallel",
-        &env::var("NUM_JOBS").unwrap_or(num_cpus::get().to_string()),
-    ]);
+    filament_cmake_install.args(["--parallel", "3"]);
 
     run_command(&mut filament_cmake_install, "cmake");
 
@@ -88,7 +86,10 @@ fn build_from_source(target: Target) -> BuildManifest {
         "filaflat",
         "smol-v",
         "vkshaders",
+        "geometry",
+        "ibl",
         "utils",
+        "filameshio",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -104,8 +105,11 @@ fn build_from_source(target: Target) -> BuildManifest {
         .use_core()
         .header("bindings.h")
         .disable_header_comment()
-        .raw_line(include_str!("src/fix.rs"))
-        .allowlist_type("filament::Engine")
+        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: true })
+        .enable_cxx_namespaces()
+        .allowlist_type("filament.*")
+        .allowlist_type("utils.*")
+        .allowlist_type("filamesh.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -155,20 +159,97 @@ fn build_from_source(target: Target) -> BuildManifest {
                 .to_str()
                 .unwrap(),
         ))
+        .blocklist_file(path_regex_escape(
+            filament_include
+                .join("math")
+                .join("mathfwd.h")
+                .to_str()
+                .unwrap(),
+        ))
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .generate()
         .expect("Unable to generate bindings");
 
+    let bindings_code = bindings.to_string();
+
+    let bindings_code = bindings_code
+        .replace(
+            "root::filament::math::double4",
+            "[::std::os::raw::c_double; 4]",
+        )
+        .replace(
+            "root::filament::math::float4",
+            "[::std::os::raw::c_float; 4]",
+        )
+        .replace(
+            "root::filament::math::short4",
+            "[::std::os::raw::c_short; 4]",
+        )
+        .replace(
+            "root::filament::math::double3",
+            "[::std::os::raw::c_double; 3]",
+        )
+        .replace(
+            "root::filament::math::float3",
+            "[::std::os::raw::c_float; 3]",
+        )
+        .replace(
+            "root::filament::math::short3",
+            "[::std::os::raw::c_short; 3]",
+        )
+        .replace(
+            "root::filament::math::double2",
+            "[::std::os::raw::c_double; 2]",
+        )
+        .replace(
+            "root::filament::math::float2",
+            "[::std::os::raw::c_float; 2]",
+        )
+        .replace(
+            "root::filament::math::short2",
+            "[::std::os::raw::c_short; 2]",
+        )
+        .replace(
+            "root::filament::math::mat4f",
+            "[::std::os::raw::c_float; 16]",
+        )
+        .replace(
+            "root::filament::math::mat4",
+            "[::std::os::raw::c_double; 16]",
+        )
+        .replace(
+            "root::filament::math::mat3f",
+            "[::std::os::raw::c_float; 9]",
+        )
+        .replace(
+            "root::filament::math::mat3",
+            "[::std::os::raw::c_double; 9]",
+        )
+        .replace(
+            "root::filament::math::mat2f",
+            "[::std::os::raw::c_float; 4]",
+        )
+        .replace(
+            "root::filament::math::mat2",
+            "[::std::os::raw::c_double; 4]",
+        )
+        .replace(
+            "root::filament::math::quatf",
+            "[::std::os::raw::c_float; 4]",
+        )
+        .replace(
+            "root::filament::math::quat",
+            "[::std::os::raw::c_double; 4]",
+        );
+
     let bindings_rs = out_dir.join("bindings.rs");
-    bindings
-        .write_to_file(&bindings_rs)
-        .expect("Couldn't write bindings!");
+    fs::write(&bindings_rs, bindings_code).expect("Couldn't write bindings!");
 
     BuildManifest {
         filament_native_lib,
         filament_license,
-        link_libs: filament_link_libs,
+        filament_link_libs,
         bindings_rs,
         target: target.to_string(),
     }
@@ -191,7 +272,7 @@ fn unpack(package: impl AsRef<Path>) -> BuildManifest {
     BuildManifest {
         filament_native_lib: unpack_dir.join(manifest.filament_native_lib),
         filament_license: unpack_dir.join(manifest.filament_license),
-        link_libs: manifest.link_libs.clone(),
+        filament_link_libs: manifest.filament_link_libs.clone(),
         bindings_rs: unpack_dir.join(manifest.bindings_rs),
         target: manifest.target.clone(),
     }
@@ -205,7 +286,7 @@ fn install(manifest: &BuildManifest) {
             .unwrap_or(manifest.filament_native_lib.display().to_string())
     );
 
-    for lib in &manifest.link_libs {
+    for lib in &manifest.filament_link_libs {
         println!("cargo:rustc-link-lib=static={}", lib);
     }
 
@@ -252,13 +333,23 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
         .unwrap();
 
     tar_builder
-        .append_dir_all("lib", &manifest.filament_native_lib)
+        .append_dir("lib", &manifest.filament_native_lib)
         .unwrap();
+
+    for lib_name in &manifest.filament_link_libs {
+        let filename = static_lib_filename(&lib_name);
+        tar_builder
+            .append_file(
+                format!("lib/{}", filename),
+                &mut fs::File::open(&manifest.filament_native_lib.join(filename)).unwrap(),
+            )
+            .unwrap();
+    }
 
     let manifest_json = serde_json::to_string(&BuildManifest {
         filament_native_lib: PathBuf::from("lib"),
         filament_license: PathBuf::from("LICENSE"),
-        link_libs: manifest.link_libs.clone(),
+        filament_link_libs: manifest.filament_link_libs.clone(),
         bindings_rs: PathBuf::from("bindings.rs"),
         target: manifest.target.clone(),
     })
@@ -286,27 +377,18 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
 struct BuildManifest {
     pub filament_native_lib: PathBuf,
     pub filament_license: PathBuf,
-    pub link_libs: Vec<String>,
+    pub filament_link_libs: Vec<String>,
     pub bindings_rs: PathBuf,
     pub target: String,
 }
 
-fn try_from_cache(
-    cache_tar_name: impl AsRef<str>,
-    version: impl AsRef<str>,
-) -> Option<BuildManifest> {
-    println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_DISABLE_CACHE");
-    if env::var("FILAMENT_BUILD_DISABLE_CACHE").unwrap_or("OFF".to_string()) == "ON" {
-        return None;
-    }
-
+fn cache(cache_tar_name: impl AsRef<str>, version: impl AsRef<str>) -> BuildManifest {
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_CACHE_DIR");
     if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {
         println!("cargo:rerun-if-changed={}", cache_dir);
         let package = Path::new(&cache_dir).join(cache_tar_name.as_ref());
-        if fs::File::open(&package).is_ok() {
-            return Some(unpack(&package));
-        }
+        fs::File::open(&package).expect(&format!("Can't open file: {}", package.display()));
+        unpack(&package);
     }
 
     let download_url = format!(
@@ -316,13 +398,8 @@ fn try_from_cache(
     );
 
     println!("Downloading {}", download_url);
-    if let Ok(package) = download(cache_tar_name, download_url) {
-        return Some(unpack(&package));
-    } else {
-        println!("Download Failed")
-    }
-
-    None
+    let package = download(cache_tar_name, download_url).expect("Download Failed");
+    return unpack(&package);
 }
 
 fn main() {
@@ -331,8 +408,12 @@ fn main() {
 
     let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
 
-    let build_manifest = if let Some(cache) = try_from_cache(&cache_tar_name, &version) {
-        cache
+    println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
+    let use_cache = env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) != "OFF"
+        && cfg!(feature = "prebuilt");
+
+    let build_manifest = if use_cache {
+        cache(&cache_tar_name, &version)
     } else {
         let build_manifest = build_from_source(target);
 

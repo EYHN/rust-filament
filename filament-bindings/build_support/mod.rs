@@ -48,3 +48,13 @@ pub fn run_command(cmd: &mut Command, program: &str) {
       );
   }
 }
+
+#[cfg(any(target_os = "linux", target_os = "macos"))]
+pub fn static_lib_filename(lib_name: &str) -> String {
+    format!("lib{}.a", lib_name)
+}
+
+#[cfg(target_os = "windows")]
+pub fn static_lib_filename(lib_name: &str) -> String {
+    format!("{}.lib", lib_name)
+}
