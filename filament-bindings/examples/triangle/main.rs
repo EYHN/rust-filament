@@ -1,6 +1,6 @@
 use filament_bindings::root::{
     filament::{
-        backend::{self, Backend, BufferDescriptor, BufferDescriptor_Callback, SamplerParams},
+        backend::{self, Backend, BufferDescriptor, SamplerParams},
         Camera_Projection, Engine, IndexBuffer_Builder, IndexBuffer_IndexType, Material_Builder,
         RenderableManager_Builder, Renderer_ClearOptions, TextureSampler, Texture_Builder,
         VertexAttribute, VertexBuffer_Builder, Viewport,
@@ -8,7 +8,12 @@ use filament_bindings::root::{
     utils::Entity,
 };
 
-use std::{ffi::CString, fs::File, io::Write, os, ptr::null_mut};
+use std::{
+    ffi::CString,
+    fs::File,
+    io::Write,
+    ptr::{self, null_mut},
+};
 
 const MATERIAL_BYTES: &'static [u8] = include_bytes!("texture_unlit_ogl.filamat");
 
@@ -125,14 +130,14 @@ fn main() {
             16,
         );
         let vertex_buffer = &mut *vertex_buffer_builder.build(engine);
-        let mut vertices_desc = make_buffer_descriptor(vertices, None);
+        let mut vertices_desc = make_buffer_descriptor(vertices, |_| {});
         vertex_buffer.setBufferAt(engine, 0, &mut vertices_desc, 0);
 
         let mut index_buffer_builder = IndexBuffer_Builder::new();
         index_buffer_builder.indexCount(3);
         index_buffer_builder.bufferType(IndexBuffer_IndexType::USHORT);
         let index_buffer = &mut *index_buffer_builder.build(engine);
-        let mut indices_desc = make_buffer_descriptor(indices, None);
+        let mut indices_desc = make_buffer_descriptor(indices, |_| {});
         index_buffer.setBuffer(engine, &mut indices_desc, 0);
 
         let mut texture_builder = Texture_Builder::new();
@@ -144,7 +149,11 @@ fn main() {
             texture_data,
             backend::PixelDataFormat::RGB,
             backend::PixelDataType::UBYTE,
-            None,
+            1,
+            0,
+            0,
+            0,
+            |_| {},
         );
         texture.setImage(engine, 0, &mut texture_desc);
 
@@ -193,7 +202,11 @@ fn main() {
             buffer,
             backend::PixelDataFormat::RGBA,
             backend::PixelDataType::UBYTE,
-            Some(pixelbuffer_read_callback),
+            1,
+            0,
+            0,
+            0,
+            pixelbuffer_read_callback,
         );
         renderer.readPixels(0, 0, 800, 600, &mut pixel as *mut _);
 
@@ -205,13 +218,10 @@ fn main() {
     }
 }
 
-unsafe extern "C" fn pixelbuffer_read_callback(
-    buffer: *mut os::raw::c_void,
-    size: u64,
-    _uesr: *mut os::raw::c_void,
-) {
-    let mut buffer: Vec<u8> = Vec::from_raw_parts(buffer as *mut _, size as usize, size as usize);
-    convert_rgba_to_rgb(buffer.as_mut_ptr(), 800, 600);
+fn pixelbuffer_read_callback(buffer: &mut Vec<u8>) {
+    unsafe {
+        convert_rgba_to_rgb(buffer.as_mut_ptr(), 800, 600);
+    }
 
     let slice_u8 = &buffer[..800 * 600 * 3];
 
@@ -221,8 +231,6 @@ unsafe extern "C" fn pixelbuffer_read_callback(
         .unwrap();
     file.write_all(slice_u8).unwrap();
     file.flush().unwrap();
-
-    std::mem::drop(buffer);
 }
 
 unsafe fn convert_rgba_to_rgb(buffer: *mut u8, width: u32, height: u32) {
@@ -243,14 +251,16 @@ unsafe fn convert_rgba_to_rgb(buffer: *mut u8, width: u32, height: u32) {
 
 fn make_buffer_descriptor<T: Sized>(
     mut data: Vec<T>,
-    callback: BufferDescriptor_Callback,
+    callback: impl FnOnce(&mut Vec<u8>),
 ) -> BufferDescriptor {
+    let callback_box: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::new(Box::new(callback));
+    let user = Box::into_raw(callback_box);
     let desc = BufferDescriptor {
         buffer: data.as_mut_ptr() as *mut _,
         size: (data.len() * std::mem::size_of::<T>()).try_into().unwrap(),
-        mCallback: callback.or(Some(deallocate_rust_buffer)),
-        mUser: null_mut(),
-        mHandler: null_mut(),
+        mCallback: Some(buffer_descriptor_callback),
+        mUser: user as *mut _,
+        mHandler: ptr::null_mut(),
     };
     std::mem::forget(data);
     desc
@@ -260,28 +270,38 @@ fn make_pixel_buffer_descriptor<T: Sized>(
     data: Vec<T>,
     format: backend::PixelDataFormat,
     datatype: backend::PixelDataType,
-    callback: BufferDescriptor_Callback,
+    alignment: u8,
+    left: u32,
+    top: u32,
+    stride: u32,
+    callback: impl FnOnce(&mut Vec<u8>),
 ) -> backend::PixelBufferDescriptor {
     backend::PixelBufferDescriptor {
         _base: make_buffer_descriptor(data, callback),
-        left: 0,
-        top: 0,
+        left: left,
+        top: top,
         __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1 {
             __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
-                stride: 0,
-                format: format,
+                stride: stride,
+                format: format.into(),
             },
         },
-        _bitfield_1: backend::PixelBufferDescriptor::new_bitfield_1(datatype, 1),
+        _bitfield_1: backend::PixelBufferDescriptor::new_bitfield_1(datatype.into(), alignment),
         ..Default::default()
     }
 }
 
-pub unsafe extern "C" fn deallocate_rust_buffer(
+pub unsafe extern "C" fn buffer_descriptor_callback(
     ptr: *mut std::ffi::c_void,
     size: u64,
-    _user: *mut std::ffi::c_void,
+    user: *mut std::ffi::c_void,
 ) {
-    let size = size as usize;
-    std::mem::drop(Vec::from_raw_parts(ptr, size, size));
+    let mut buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
+
+    if !user.is_null() {
+        let user_fn: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::from_raw(user as *mut _);
+        user_fn(&mut buffer);
+    }
+
+    std::mem::drop(buffer);
 }

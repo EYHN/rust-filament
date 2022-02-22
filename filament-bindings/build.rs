@@ -3,8 +3,7 @@ extern crate bindgen;
 mod build_support;
 
 use std::{
-    env, fs,
-    io::{self, Write},
+    env, fs, io,
     path::{Path, PathBuf},
     process::Command,
     time::SystemTime,
@@ -387,8 +386,9 @@ fn cache(cache_tar_name: impl AsRef<str>, version: impl AsRef<str>) -> BuildMani
     if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {
         println!("cargo:rerun-if-changed={}", cache_dir);
         let package = Path::new(&cache_dir).join(cache_tar_name.as_ref());
-        fs::File::open(&package).expect(&format!("Can't open file: {}", package.display()));
-        unpack(&package);
+        if fs::File::open(&package).is_ok() {
+            return unpack(&package);
+        }
     }
 
     let download_url = format!(

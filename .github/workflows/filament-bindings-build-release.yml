@@ -73,7 +73,7 @@ jobs:
         env:
           FILAMENT_BUILD_CACHE_DIR: ${{ runner.temp }}/release
           FILAMENT_BUILD_OUT_DIR: ${{ runner.temp }}/out
-          FILAMENT_BUILD_DISABLE_CACHE: ON
+          FILAMENT_PREBUILT: OFF
         run: |
           cargo build -vv --release -p filament-bindings --features ${{ matrix.features }} --target ${{ matrix.target.triple }}
       - name: Upload release
