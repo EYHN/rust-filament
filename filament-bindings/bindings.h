@@ -68,3 +68,9 @@
 
 #include "filameshio/MeshReader.h"
 
+#include "gltfio/Animator.h"
+#include "gltfio/AssetLoader.h"
+#include "gltfio/FilamentAsset.h"
+#include "gltfio/FilamentInstance.h"
+#include "gltfio/MaterialProvider.h"
+#include "gltfio/ResourceLoader.h"

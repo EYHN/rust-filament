@@ -89,6 +89,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         "ibl",
         "utils",
         "filameshio",
+        "gltfio",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -109,6 +110,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
+        .allowlist_type("gltf.*")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")

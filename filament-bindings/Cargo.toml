@@ -25,5 +25,8 @@ regex = "1.5"
 num_cpus = "1.13"
 
 [features]
-default = ["prebuilt"]
+default = []
 prebuilt = []
+
+[dev-dependencies]
+winit = "0.26"
