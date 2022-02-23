@@ -33,7 +33,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         .arg(format!("-DCMAKE_BUILD_TYPE={}", "Release"))
         .arg(format!("-DFILAMENT_SKIP_SAMPLES={}", "ON"))
         .arg(format!("-DFILAMENT_SKIP_SDL2={}", "ON"))
-        .arg(format!("-USE_STATIC_LIBCXX={}", "OFF"))
+        .arg(format!("-DUSE_STATIC_LIBCXX={}", "OFF"))
         .arg(format!("-DFILAMENT_SUPPORTS_VULKAN={}", "ON"))
         .arg(format!(
             "-DCMAKE_INSTALL_PREFIX={}",
@@ -90,10 +90,24 @@ fn build_from_source(target: Target) -> BuildManifest {
         "utils",
         "filameshio",
         "gltfio",
+        "meshoptimizer"
     ]
     .into_iter()
     .map(|v| v.to_string())
     .collect();
+
+    // build c++ bindings library
+    let mut cc_build = cc::Build::new();
+    cc_build.file("bindings.cpp");
+    cc_build.include(&filament_include);
+    cc_build.cpp(true);
+    if !cfg!(target_os = "windows") {
+        cc_build.cpp_set_stdlib("c++");
+    }
+    cc_build.flag("-std=c++17");
+    cc_build.target(&target.to_string());
+    cc_build.out_dir(&out_dir);
+    cc_build.compile("bindings");
 
     println!("cargo:rerun-if-changed=bindings.cpp");
 
@@ -106,13 +120,15 @@ fn build_from_source(target: Target) -> BuildManifest {
         .size_t_is_usize(true)
         .header("bindings.cpp")
         .disable_header_comment()
-        .default_enum_style(bindgen::EnumVariation::Rust { non_exhaustive: false })
+        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: false })
         .enable_cxx_namespaces()
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
         .allowlist_type("gltf.*")
         .allowlist_function("helper_.*")
+        .opaque_type("std::basic_string")
+        .opaque_type("std::basic_string_value_type")
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -171,6 +187,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         ))
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
+        .clang_arg("-v")
         .generate()
         .expect("Unable to generate bindings");
 

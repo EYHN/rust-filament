@@ -367,6 +367,7 @@ name = "filament-bindings"
 version = "0.1.4"
 dependencies = [
  "bindgen",
+ "cc",
  "flate2",
  "num_cpus",
  "regex",

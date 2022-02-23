@@ -160,7 +160,7 @@ fn main() {
         let mut material_builder = Material_Builder::new();
         material_builder.package(
             MATERIAL_BYTES.as_ptr() as *const _,
-            MATERIAL_BYTES.len() as u64,
+            MATERIAL_BYTES.len(),
         );
         let material = &mut *material_builder.build(engine);
         let material_instance = &mut *material.getDefaultInstance();
@@ -293,7 +293,7 @@ fn make_pixel_buffer_descriptor<T: Sized>(
 
 pub unsafe extern "C" fn buffer_descriptor_callback(
     ptr: *mut std::ffi::c_void,
-    size: u64,
+    size: usize,
     user: *mut std::ffi::c_void,
 ) {
     let mut buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
