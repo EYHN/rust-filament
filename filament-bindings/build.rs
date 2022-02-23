@@ -21,8 +21,10 @@ fn build_from_source(target: Target) -> BuildManifest {
             .or(env::var("OUT_DIR"))
             .unwrap(),
     );
+    let library_out_dir = out_dir.join("lib");
     let filament_build_dir = out_dir.join("filament");
     let filament_install_dir = filament_build_dir.join("out");
+    fs::create_dir_all(&library_out_dir).unwrap();
 
     // configure filament
     fs::create_dir_all(&filament_build_dir).unwrap();
@@ -76,7 +78,7 @@ fn build_from_source(target: Target) -> BuildManifest {
     let filament_license = filament_install_dir.join("LICENSE");
     let filament_include = filament_install_dir.join("include");
 
-    let filament_link_libs = vec![
+    let mut filament_link_libs: Vec<String> = vec![
         "filament",
         "backend",
         "bluevk",
@@ -90,24 +92,42 @@ fn build_from_source(target: Target) -> BuildManifest {
         "utils",
         "filameshio",
         "gltfio",
-        "meshoptimizer"
+        "meshoptimizer",
     ]
     .into_iter()
     .map(|v| v.to_string())
     .collect();
+
+    for lib in filament_link_libs.iter() {
+        fs::copy(
+            filament_native_lib.join(static_lib_filename(lib)),
+            library_out_dir.join(static_lib_filename(lib)),
+        )
+        .unwrap();
+    }
 
     // build c++ bindings library
     let mut cc_build = cc::Build::new();
     cc_build.file("bindings.cpp");
     cc_build.include(&filament_include);
     cc_build.cpp(true);
-    if !cfg!(target_os = "windows") {
+    cc_build.target(&target.to_string());
+    cc_build.out_dir(&library_out_dir);
+    cc_build.cargo_metadata(false);
+    cc_build.warnings(false);
+
+    if cfg!(target_os = "linux") {
+        cc_build.compiler(PathBuf::from("clang++"));
+    }
+    if cfg!(target_os = "windows") {
+        cc_build.flag("/std:c++latest");
+    } else {
+        cc_build.flag("-std=c++17");
         cc_build.cpp_set_stdlib("c++");
     }
-    cc_build.flag("-std=c++17");
-    cc_build.target(&target.to_string());
-    cc_build.out_dir(&out_dir);
+
     cc_build.compile("bindings");
+    filament_link_libs.push("bindings".to_owned());
 
     println!("cargo:rerun-if-changed=bindings.cpp");
 
@@ -267,9 +287,9 @@ fn build_from_source(target: Target) -> BuildManifest {
     fs::write(&bindings_rs, bindings_code).expect("Couldn't write bindings!");
 
     BuildManifest {
-        filament_native_lib,
+        link_search_dir: library_out_dir,
         filament_license,
-        filament_link_libs,
+        link_libs: filament_link_libs,
         bindings_rs,
         target: target.to_string(),
     }
@@ -290,23 +310,21 @@ fn unpack(package: impl AsRef<Path>) -> BuildManifest {
             .unwrap();
 
     BuildManifest {
-        filament_native_lib: unpack_dir.join(manifest.filament_native_lib),
+        link_search_dir: unpack_dir.join(manifest.link_search_dir),
         filament_license: unpack_dir.join(manifest.filament_license),
-        filament_link_libs: manifest.filament_link_libs.clone(),
+        link_libs: manifest.link_libs.clone(),
         bindings_rs: unpack_dir.join(manifest.bindings_rs),
         target: manifest.target.clone(),
     }
 }
 
 fn install(manifest: &BuildManifest) {
-    println!("cargo:rerun-if-env-changed=FILAMENT_NATIVE_LIB_PATH");
     println!(
         "cargo:rustc-link-search=native={}",
-        env::var("FILAMENT_NATIVE_LIB_PATH")
-            .unwrap_or(manifest.filament_native_lib.display().to_string())
+        manifest.link_search_dir.display().to_string()
     );
 
-    for lib in &manifest.filament_link_libs {
+    for lib in &manifest.link_libs {
         println!("cargo:rustc-link-lib=static={}", lib);
     }
 
@@ -353,23 +371,23 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
         .unwrap();
 
     tar_builder
-        .append_dir("lib", &manifest.filament_native_lib)
+        .append_dir("lib", &manifest.link_search_dir)
         .unwrap();
 
-    for lib_name in &manifest.filament_link_libs {
+    for lib_name in &manifest.link_libs {
         let filename = static_lib_filename(&lib_name);
         tar_builder
             .append_file(
                 format!("lib/{}", filename),
-                &mut fs::File::open(&manifest.filament_native_lib.join(filename)).unwrap(),
+                &mut fs::File::open(&manifest.link_search_dir.join(filename)).unwrap(),
             )
             .unwrap();
     }
 
     let manifest_json = serde_json::to_string(&BuildManifest {
-        filament_native_lib: PathBuf::from("lib"),
+        link_search_dir: PathBuf::from("lib"),
         filament_license: PathBuf::from("LICENSE"),
-        filament_link_libs: manifest.filament_link_libs.clone(),
+        link_libs: manifest.link_libs.clone(),
         bindings_rs: PathBuf::from("bindings.rs"),
         target: manifest.target.clone(),
     })
@@ -395,9 +413,9 @@ fn package(manifest: &BuildManifest, output: impl AsRef<Path>) {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 struct BuildManifest {
-    pub filament_native_lib: PathBuf,
+    pub link_search_dir: PathBuf,
     pub filament_license: PathBuf,
-    pub filament_link_libs: Vec<String>,
+    pub link_libs: Vec<String>,
     pub bindings_rs: PathBuf,
     pub target: String,
 }

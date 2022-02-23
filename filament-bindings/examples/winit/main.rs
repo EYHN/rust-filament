@@ -2,9 +2,9 @@ use filament_bindings::root::{
     filament::{
         self,
         backend::{self, Backend, BufferDescriptor},
-        Camera_Projection, Color, Engine, IndexBuffer_Builder, IndexBuffer_IndexType,
-        LightManager_Builder, LightManager_Type, Material_Builder, RenderableManager_Builder,
-        Renderer_ClearOptions, RgbType, VertexAttribute, VertexBuffer_Builder, Viewport,
+        Engine, IndexBuffer_Builder, IndexBuffer_IndexType, LightManager_Builder,
+        LightManager_Type, Material_Builder, RenderableManager_Builder, Renderer_ClearOptions,
+        RgbType, VertexAttribute, VertexBuffer_Builder, Viewport,
     },
     filamesh::MeshReader,
     helper_color_toLinear_fast_sRGB, helper_material_instance_setParameter_float,
@@ -19,8 +19,6 @@ use winit::{
 use std::{
     ffi::CString,
     ptr::{self, null_mut},
-    thread::{self, Thread},
-    time::Duration,
 };
 
 #[cfg(target_os = "macos")]
@@ -46,6 +44,8 @@ fn init_window() -> (EventLoop<()>, Window, *mut std::ffi::c_void) {
 }
 
 const MATERIAL_BYTES: &'static [u8] = include_bytes!("bakedColor.filamat");
+const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat_ogl.filament");
+const MONKEY_DATA: &'static [u8] = include_bytes!("monkey.filamesh");
 
 fn main() {
     let (event_loop, window, surface) = init_window();
@@ -57,82 +57,127 @@ fn main() {
 
         let mut triangle = Entity::default();
         entity_manager.create(1, &mut triangle as *mut _);
+        {
+            scene.addEntity(triangle);
+            let triangle_position: Vec<f32> = vec![
+                1.0,
+                0.0,
+                f32::cos(std::f32::consts::PI * 2.0 / 3.0),
+                f32::sin(std::f32::consts::PI * 2.0 / 3.0),
+                f32::cos(std::f32::consts::PI * 4.0 / 3.0),
+                f32::sin(std::f32::consts::PI * 4.0 / 3.0),
+            ];
+            let triangle_color: Vec<u32> = vec![0xffff0000, 0xff00ff00, 0xff0000ff];
 
-        scene.addEntity(triangle);
-        let triangle_position: Vec<f32> = vec![
-            1.0,
-            0.0,
-            f32::cos(std::f32::consts::PI * 2.0 / 3.0),
-            f32::sin(std::f32::consts::PI * 2.0 / 3.0),
-            f32::cos(std::f32::consts::PI * 4.0 / 3.0),
-            f32::sin(std::f32::consts::PI * 4.0 / 3.0),
-        ];
-        let triangle_color: Vec<u32> = vec![0xffff0000, 0xff00ff00, 0xff0000ff];
+            let vertex_buffer = {
+                let mut vertex_buffer_builder = VertexBuffer_Builder::new();
+                vertex_buffer_builder.vertexCount(3);
+                vertex_buffer_builder.bufferCount(2);
+                vertex_buffer_builder.attribute(
+                    VertexAttribute::POSITION,
+                    0,
+                    backend::ElementType::FLOAT2,
+                    0,
+                    8,
+                );
+                vertex_buffer_builder.attribute(
+                    VertexAttribute::COLOR,
+                    1,
+                    backend::ElementType::UBYTE4,
+                    0,
+                    4,
+                );
+                vertex_buffer_builder.normalized(VertexAttribute::COLOR, true);
+                &mut *vertex_buffer_builder.build(engine)
+            };
+            let mut bd = make_buffer_descriptor(triangle_position, |_| {});
+            vertex_buffer.setBufferAt(engine, 0, &mut bd, 0);
+            let mut bd = make_buffer_descriptor(triangle_color, |_| {});
+            vertex_buffer.setBufferAt(engine, 1, &mut bd, 0);
 
-        let vertex_buffer = {
-            let mut vertex_buffer_builder = VertexBuffer_Builder::new();
-            vertex_buffer_builder.vertexCount(3);
-            vertex_buffer_builder.bufferCount(2);
-            vertex_buffer_builder.attribute(
-                VertexAttribute::POSITION,
+            let index_buffer = {
+                let mut index_buffer_builder = IndexBuffer_Builder::new();
+                index_buffer_builder.indexCount(3);
+                index_buffer_builder.bufferType(IndexBuffer_IndexType::USHORT);
+                &mut *index_buffer_builder.build(engine)
+            };
+            let mut bd = make_buffer_descriptor(vec![0u16, 1u16, 2u16], |_| {});
+            index_buffer.setBuffer(engine, &mut bd, 0);
+
+            let mut material_builder = Material_Builder::new();
+            material_builder.package(MATERIAL_BYTES.as_ptr() as *const _, MATERIAL_BYTES.len());
+            let material = &mut *material_builder.build(engine);
+            let material_instance = &mut *material.getDefaultInstance();
+
+            let mut renderable_manager_builder = RenderableManager_Builder::new(1);
+            renderable_manager_builder.boundingBox(&mut filament::Box {
+                center: [-1.0, -1.0, -1.0],
+                halfExtent: [1.0, 1.0, 1.0],
+            });
+            renderable_manager_builder.material(0, material_instance);
+            renderable_manager_builder.geometry2(
                 0,
-                backend::ElementType::FLOAT2,
-                0,
-                8,
+                backend::PrimitiveType::TRIANGLES,
+                vertex_buffer,
+                index_buffer,
             );
-            vertex_buffer_builder.attribute(
-                VertexAttribute::COLOR,
-                1,
-                backend::ElementType::FLOAT2,
-                0,
-                4,
+            renderable_manager_builder.build(engine, triangle);
+        }
+
+        // monkey
+        {
+            let mut material_builder = Material_Builder::new();
+            material_builder.package(
+                RESOURCES_AIDEFAULTMAT_DATA.as_ptr() as *const _,
+                RESOURCES_AIDEFAULTMAT_DATA.len(),
             );
-            &mut *vertex_buffer_builder.build(engine)
-        };
-        vertex_buffer.setBufferAt(
-            engine,
-            0,
-            &mut make_buffer_descriptor(triangle_position, |_| {}),
-            0,
-        );
+            let material = &*material_builder.build(engine);
+            let material_instance = &mut *material.createInstance(ptr::null());
+            let parameter_name = CString::new("baseColor").unwrap();
+            material_instance.setParameter1(
+                parameter_name.as_ptr(),
+                RgbType::LINEAR,
+                [0.8, 0.8, 0.8],
+            );
+            let parameter_name = CString::new("metallic").unwrap();
+            helper_material_instance_setParameter_float(
+                material_instance,
+                parameter_name.as_ptr(),
+                &1.0,
+            );
+            let parameter_name = CString::new("roughness").unwrap();
+            helper_material_instance_setParameter_float(
+                material_instance,
+                parameter_name.as_ptr(),
+                &0.4,
+            );
+            let parameter_name = CString::new("reflectance").unwrap();
+            helper_material_instance_setParameter_float(
+                material_instance,
+                parameter_name.as_ptr(),
+                &0.5,
+            );
 
-        vertex_buffer.setBufferAt(
-            engine,
-            1,
-            &mut make_buffer_descriptor(triangle_color, |_| {}),
-            0,
-        );
+            let mesh = MeshReader::loadMeshFromBuffer1(
+                engine,
+                MONKEY_DATA.as_ptr() as *const _,
+                None,
+                ptr::null_mut(),
+                material_instance,
+            );
+            scene.addEntity(mesh.renderable);
 
-        let index_buffer = {
-            let mut index_buffer_builder = IndexBuffer_Builder::new();
-            index_buffer_builder.indexCount(3);
-            index_buffer_builder.bufferType(IndexBuffer_IndexType::USHORT);
-            &mut *index_buffer_builder.build(engine)
-        };
-        index_buffer.setBuffer(
-            engine,
-            &mut make_buffer_descriptor(vec![0, 1, 2], |_| {}),
-            0,
-        );
-
-        let mut material_builder = Material_Builder::new();
-        material_builder.package(MATERIAL_BYTES.as_ptr() as *const _, MATERIAL_BYTES.len());
-        let material = &mut *material_builder.build(engine);
-        let material_instance = &mut *material.getDefaultInstance();
-
-        let mut renderable_manager_builder = RenderableManager_Builder::new(1);
-        renderable_manager_builder.boundingBox(&mut filament::Box {
-            center: [-1.0, -1.0, -1.0],
-            halfExtent: [1.0, 1.0, 1.0],
-        });
-        renderable_manager_builder.material(0, material_instance);
-        renderable_manager_builder.geometry2(
-            0,
-            backend::PrimitiveType::TRIANGLES,
-            vertex_buffer,
-            index_buffer,
-        );
-        renderable_manager_builder.build(engine, triangle);
+            let mut light = Entity::default();
+            entity_manager.create(1, &mut light as *mut _);
+            let mut light_builder = LightManager_Builder::new(LightManager_Type::SUN);
+            light_builder.color(&helper_color_toLinear_fast_sRGB(&[0.98, 0.92, 0.89]));
+            light_builder.intensity(110000.0);
+            light_builder.direction(&[0.7, -1.0, -0.8]);
+            light_builder.sunAngularRadius(1.9);
+            light_builder.castShadows(false);
+            light_builder.build(engine, light);
+            scene.addEntity(light);
+        }
 
         let swap_chain = &mut *engine.createSwapChain(surface, 0);
         let renderer = &mut *engine.createRenderer();
@@ -155,23 +200,16 @@ fn main() {
             _base: backend::Viewport {
                 left: 0,
                 bottom: 0,
-                width: 800,
-                height: 600,
+                width: window.inner_size().width,
+                height: window.inner_size().height,
             },
         };
 
-        let aspect = 800 as f64 / 600 as f64;
+        let aspect = window.inner_size().width as f64 / window.inner_size().height as f64;
 
         view.setViewport(&viewport);
-        camera.setProjection(
-            Camera_Projection::ORTHO,
-            -aspect,
-            aspect,
-            -1.0,
-            1.0,
-            0.0,
-            1.0,
-        );
+        camera.setLensProjection(28.0, aspect, 0.1, 100.0);
+        camera.lookAt(&[4.0, 0.0, 4.0], &[0.0, 0.0, 0.0], &[0.0, 1.0, 0.0]);
 
         let tcm = &mut *engine.getTransformManager();
         let inst = tcm.getInstance(triangle);
@@ -181,6 +219,10 @@ fn main() {
                 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0,
             ],
         );
+
+        // let mut b = view.getBloomOptions();
+        // b.enabled = true;
+        // view.setBloomOptions(b);
 
         let mut close_requested = false;
 
@@ -215,6 +257,21 @@ fn main() {
                     }
                 }
                 Event::RedrawRequested(_window_id) => {
+                    let viewport = Viewport {
+                        _base: backend::Viewport {
+                            left: 0,
+                            bottom: 0,
+                            width: window.inner_size().width,
+                            height: window.inner_size().height,
+                        },
+                    };
+
+                    let aspect =
+                        window.inner_size().width as f64 / window.inner_size().height as f64;
+
+                    view.setViewport(&viewport);
+                    camera.setLensProjection(28.0, aspect, 0.1, 100.0);
+
                     if renderer.beginFrame(swap_chain, 0) {
                         renderer.render(view);
                         renderer.endFrame();
@@ -225,63 +282,6 @@ fn main() {
         })
     }
 }
-
-// fn make_buffer_descriptor<T: Sized>(
-//     mut data: Vec<T>,
-//     callback: impl FnOnce(&mut Vec<u8>),
-// ) -> BufferDescriptor {
-//     let callback_box: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::new(Box::new(callback));
-//     let user = Box::into_raw(callback_box);
-//     let desc = BufferDescriptor {
-//         buffer: data.as_mut_ptr() as *mut _,
-//         size: (data.len() * std::mem::size_of::<T>()).try_into().unwrap(),
-//         mCallback: Some(buffer_descriptor_callback),
-//         mUser: user as *mut _,
-//         mHandler: ptr::null_mut(),
-//     };
-//     std::mem::forget(data);
-//     desc
-// }
-
-// fn make_pixel_buffer_descriptor<T: Sized>(
-//     data: Vec<T>,
-//     format: backend::PixelDataFormat,
-//     datatype: backend::PixelDataType,
-//     alignment: u8,
-//     left: u32,
-//     top: u32,
-//     stride: u32,
-//     callback: impl FnOnce(&mut Vec<u8>),
-// ) -> backend::PixelBufferDescriptor {
-//     backend::PixelBufferDescriptor {
-//         _base: make_buffer_descriptor(data, callback),
-//         left: left,
-//         top: top,
-//         __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1 {
-//             __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
-//                 stride: stride,
-//                 format: format.into(),
-//             },
-//         },
-//         _bitfield_1: backend::PixelBufferDescriptor::new_bitfield_1(datatype.into(), alignment),
-//         ..Default::default()
-//     }
-// }
-
-// pub unsafe extern "C" fn buffer_descriptor_callback(
-//     ptr: *mut std::ffi::c_void,
-//     size: usize,
-//     user: *mut std::ffi::c_void,
-// ) {
-//     let mut buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
-
-//     if !user.is_null() {
-//         let user_fn: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::from_raw(user as *mut _);
-//         user_fn(&mut buffer);
-//     }
-
-//     std::mem::drop(buffer);
-// }
 
 fn make_buffer_descriptor<T: Sized>(
     mut data: Vec<T>,
@@ -298,31 +298,6 @@ fn make_buffer_descriptor<T: Sized>(
     };
     std::mem::forget(data);
     desc
-}
-
-fn make_pixel_buffer_descriptor<T: Sized>(
-    data: Vec<T>,
-    format: backend::PixelDataFormat,
-    datatype: backend::PixelDataType,
-    alignment: u8,
-    left: u32,
-    top: u32,
-    stride: u32,
-    callback: impl FnOnce(&mut Vec<u8>),
-) -> backend::PixelBufferDescriptor {
-    backend::PixelBufferDescriptor {
-        _base: make_buffer_descriptor(data, callback),
-        left: left,
-        top: top,
-        __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1 {
-            __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
-                stride: stride,
-                format: format.into(),
-            },
-        },
-        _bitfield_1: backend::PixelBufferDescriptor::new_bitfield_1(datatype.into(), alignment),
-        ..Default::default()
-    }
 }
 
 pub unsafe extern "C" fn buffer_descriptor_callback(
