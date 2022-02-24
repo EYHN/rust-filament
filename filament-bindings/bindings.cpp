@@ -79,6 +79,74 @@ extern "C" void helper_material_instance_setParameter_float(filament::MaterialIn
     instance->setParameter(name, value);
 }
 
+extern "C" void helper_material_instance_setParameter_int32(filament::MaterialInstance * instance, const char *name, int32_t const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_uint32(filament::MaterialInstance * instance, const char *name, uint32_t const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_int2(filament::MaterialInstance * instance, const char *name, filament::math::int2 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_int3(filament::MaterialInstance * instance, const char *name, filament::math::int3 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_int4(filament::MaterialInstance * instance, const char *name, filament::math::int4 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_uint2(filament::MaterialInstance * instance, const char *name, filament::math::uint2 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_uint3(filament::MaterialInstance * instance, const char *name, filament::math::uint3 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_uint4(filament::MaterialInstance * instance, const char *name, filament::math::uint4 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_float2(filament::MaterialInstance * instance, const char *name, filament::math::float2 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_float3(filament::MaterialInstance * instance, const char *name, filament::math::float3 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_float4(filament::MaterialInstance * instance, const char *name, filament::math::float4 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_mat4f(filament::MaterialInstance * instance, const char *name, filament::math::mat4f const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_bool(filament::MaterialInstance * instance, const char *name, bool const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_bool2(filament::MaterialInstance * instance, const char *name, filament::math::bool2 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_bool3(filament::MaterialInstance * instance, const char *name, filament::math::bool3 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_bool4(filament::MaterialInstance * instance, const char *name, filament::math::bool4 const& value) {
+    instance->setParameter(name, value);
+}
+
+extern "C" void helper_material_instance_setParameter_mat3f(filament::MaterialInstance * instance, const char *name, filament::math::mat3f const& value) {
+    instance->setParameter(name, value);
+}
+
 extern "C" filament::math::float3 helper_color_toLinear_fast_sRGB(filament::math::float3 const& sRGBColor) {
     return filament::Color::toLinear<filament::ColorConversion::FAST>(sRGBColor);
 }

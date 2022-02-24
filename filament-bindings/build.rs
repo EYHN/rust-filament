@@ -140,8 +140,6 @@ fn build_from_source(target: Target) -> BuildManifest {
         .size_t_is_usize(true)
         .header("bindings.cpp")
         .disable_header_comment()
-        .default_enum_style(bindgen::EnumVariation::NewType { is_bitfield: false })
-        .enable_cxx_namespaces()
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
@@ -149,6 +147,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         .allowlist_function("helper_.*")
         .opaque_type("std::basic_string")
         .opaque_type("std::basic_string_value_type")
+        .raw_line(include_str!("src/fix.rs"))
         .blocklist_file(path_regex_escape(
             filament_include
                 .join("math")
@@ -212,76 +211,6 @@ fn build_from_source(target: Target) -> BuildManifest {
         .expect("Unable to generate bindings");
 
     let bindings_code = bindings.to_string();
-
-    let bindings_code = bindings_code
-        .replace(
-            "root::filament::math::double4",
-            "[::std::os::raw::c_double; 4]",
-        )
-        .replace(
-            "root::filament::math::float4",
-            "[::std::os::raw::c_float; 4]",
-        )
-        .replace(
-            "root::filament::math::short4",
-            "[::std::os::raw::c_short; 4]",
-        )
-        .replace(
-            "root::filament::math::double3",
-            "[::std::os::raw::c_double; 3]",
-        )
-        .replace(
-            "root::filament::math::float3",
-            "[::std::os::raw::c_float; 3]",
-        )
-        .replace(
-            "root::filament::math::short3",
-            "[::std::os::raw::c_short; 3]",
-        )
-        .replace(
-            "root::filament::math::double2",
-            "[::std::os::raw::c_double; 2]",
-        )
-        .replace(
-            "root::filament::math::float2",
-            "[::std::os::raw::c_float; 2]",
-        )
-        .replace(
-            "root::filament::math::short2",
-            "[::std::os::raw::c_short; 2]",
-        )
-        .replace(
-            "root::filament::math::mat4f",
-            "[::std::os::raw::c_float; 16]",
-        )
-        .replace(
-            "root::filament::math::mat4",
-            "[::std::os::raw::c_double; 16]",
-        )
-        .replace(
-            "root::filament::math::mat3f",
-            "[::std::os::raw::c_float; 9]",
-        )
-        .replace(
-            "root::filament::math::mat3",
-            "[::std::os::raw::c_double; 9]",
-        )
-        .replace(
-            "root::filament::math::mat2f",
-            "[::std::os::raw::c_float; 4]",
-        )
-        .replace(
-            "root::filament::math::mat2",
-            "[::std::os::raw::c_double; 4]",
-        )
-        .replace(
-            "root::filament::math::quatf",
-            "[::std::os::raw::c_float; 4]",
-        )
-        .replace(
-            "root::filament::math::quat",
-            "[::std::os::raw::c_double; 4]",
-        );
 
     let bindings_rs = out_dir.join("bindings.rs");
     fs::write(&bindings_rs, bindings_code).expect("Couldn't write bindings!");
