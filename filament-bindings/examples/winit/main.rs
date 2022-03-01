@@ -1,14 +1,11 @@
-use filament_bindings::root::{
+use filament_bindings::{
+    backend,
     filament::{
-        self,
-        backend::{self, Backend, BufferDescriptor},
-        Engine, IndexBuffer_Builder, IndexBuffer_IndexType, LightManager_Builder,
-        LightManager_Type, Material_Builder, RenderableManager_Builder, Renderer_ClearOptions,
-        RgbType, VertexAttribute, VertexBuffer_Builder, Viewport,
+        Bounds, Engine, IndexBufferBuilder, IndexType, MaterialBuilder, RenderableBuilder, RgbType,
+        VertexAttribute, VertexBufferBuilder, LightBuilder, LightType,
     },
     filamesh::MeshReader,
-    helper_color_toLinear_fast_sRGB, helper_material_instance_setParameter_float,
-    utils::Entity,
+    math::Float3,
 };
 use winit::{
     event::{Event, KeyboardInput, WindowEvent},
@@ -16,10 +13,7 @@ use winit::{
     window::{Window, WindowBuilder},
 };
 
-use std::{
-    ffi::CString,
-    ptr::{self, null_mut},
-};
+use std::ptr;
 
 #[cfg(target_os = "macos")]
 fn get_active_surface(window: &winit::window::Window) -> *mut std::ffi::c_void {
@@ -51,14 +45,13 @@ fn main() {
     let (event_loop, window, surface) = init_window();
 
     unsafe {
-        let engine = &mut *Engine::create(Backend::OPENGL, null_mut(), null_mut());
-        let scene = &mut *engine.createScene();
-        let entity_manager = &mut *engine.getEntityManager();
+        let engine = Engine::create(backend::Backend::OPENGL).unwrap();
+        let scene = engine.create_scene().unwrap();
+        let entity_manager = engine.get_entity_manager().unwrap();
 
-        let mut triangle = Entity::default();
-        entity_manager.create(1, &mut triangle as *mut _);
+        let mut triangle = entity_manager.create();
         {
-            scene.addEntity(triangle);
+            scene.add_entity(&triangle);
             let triangle_position: Vec<f32> = vec![
                 1.0,
                 0.0,
@@ -70,9 +63,9 @@ fn main() {
             let triangle_color: Vec<u32> = vec![0xffff0000, 0xff00ff00, 0xff0000ff];
 
             let vertex_buffer = {
-                let mut vertex_buffer_builder = VertexBuffer_Builder::new();
-                vertex_buffer_builder.vertexCount(3);
-                vertex_buffer_builder.bufferCount(2);
+                let mut vertex_buffer_builder = VertexBufferBuilder::new();
+                vertex_buffer_builder.vertex_count(3);
+                vertex_buffer_builder.buffer_count(2);
                 vertex_buffer_builder.attribute(
                     VertexAttribute::POSITION,
                     0,
@@ -88,88 +81,77 @@ fn main() {
                     4,
                 );
                 vertex_buffer_builder.normalized(VertexAttribute::COLOR, true);
-                &mut *vertex_buffer_builder.build(engine)
+                vertex_buffer_builder.build(&mut engine).unwrap()
             };
-            let mut bd = make_buffer_descriptor(triangle_position, |_| {});
-            vertex_buffer.setBufferAt(engine, 0, &mut bd, 0);
-            let mut bd = make_buffer_descriptor(triangle_color, |_| {});
-            vertex_buffer.setBufferAt(engine, 1, &mut bd, 0);
+            vertex_buffer.set_buffer_at(
+                &mut engine,
+                0,
+                backend::BufferDescriptor::new(triangle_position),
+                0,
+            );
+            vertex_buffer.set_buffer_at(
+                &mut engine,
+                1,
+                backend::BufferDescriptor::new(triangle_color),
+                0,
+            );
 
             let index_buffer = {
-                let mut index_buffer_builder = IndexBuffer_Builder::new();
-                index_buffer_builder.indexCount(3);
-                index_buffer_builder.bufferType(IndexBuffer_IndexType::USHORT);
-                &mut *index_buffer_builder.build(engine)
+                let mut index_buffer_builder = IndexBufferBuilder::new();
+                index_buffer_builder.index_count(3);
+                index_buffer_builder.buffer_type(IndexType::USHORT);
+                index_buffer_builder.build(&mut engine).unwrap()
             };
-            let mut bd = make_buffer_descriptor(vec![0u16, 1u16, 2u16], |_| {});
-            index_buffer.setBuffer(engine, &mut bd, 0);
+            index_buffer.set_buffer(
+                &mut engine,
+                backend::BufferDescriptor::new(vec![0u16, 1u16, 2u16]),
+                0,
+            );
 
-            let mut material_builder = Material_Builder::new();
-            material_builder.package(MATERIAL_BYTES.as_ptr() as *const _, MATERIAL_BYTES.len());
-            let material = &mut *material_builder.build(engine);
-            let material_instance = &mut *material.getDefaultInstance();
+            let mut material_builder = MaterialBuilder::new();
+            material_builder.package(MATERIAL_BYTES);
+            let material = material_builder.build(&mut engine).unwrap();
+            let material_instance = material.get_default_instance().unwrap();
 
-            let mut renderable_manager_builder = RenderableManager_Builder::new(1);
-            renderable_manager_builder.boundingBox(&mut filament::Box {
-                center: [-1.0, -1.0, -1.0],
-                halfExtent: [1.0, 1.0, 1.0],
+            let mut renderable_manager_builder = RenderableBuilder::new(1);
+            renderable_manager_builder.bounding_box(&mut Bounds {
+                center: Float3::new(-1.0, -1.0, -1.0),
+                half_extent: Float3::new(1.0, 1.0, 1.0),
             });
-            renderable_manager_builder.material(0, material_instance);
-            renderable_manager_builder.geometry2(
+            renderable_manager_builder.material(0, &mut material_instance);
+            renderable_manager_builder.geometry(
                 0,
                 backend::PrimitiveType::TRIANGLES,
-                vertex_buffer,
-                index_buffer,
+                &mut vertex_buffer,
+                &mut index_buffer,
             );
-            renderable_manager_builder.build(engine, triangle);
+            renderable_manager_builder.build(&mut engine, &triangle);
         }
 
         // monkey
         {
-            let mut material_builder = Material_Builder::new();
-            material_builder.package(
-                RESOURCES_AIDEFAULTMAT_DATA.as_ptr() as *const _,
-                RESOURCES_AIDEFAULTMAT_DATA.len(),
-            );
-            let material = &*material_builder.build(engine);
-            let material_instance = &mut *material.createInstance(ptr::null());
-            let parameter_name = CString::new("baseColor").unwrap();
-            material_instance.setParameter1(
-                parameter_name.as_ptr(),
+            let mut material_builder = MaterialBuilder::new();
+            material_builder.package(RESOURCES_AIDEFAULTMAT_DATA);
+            let material = material_builder.build(&mut engine).unwrap();
+            let material_instance = material.create_instance().unwrap();
+            material_instance.set_rgb_parameter(
+                "baseColor",
                 RgbType::LINEAR,
-                [0.8, 0.8, 0.8],
+                Float3::new(0.8, 0.8, 0.8),
             );
-            let parameter_name = CString::new("metallic").unwrap();
-            helper_material_instance_setParameter_float(
-                material_instance,
-                parameter_name.as_ptr(),
-                &1.0,
-            );
-            let parameter_name = CString::new("roughness").unwrap();
-            helper_material_instance_setParameter_float(
-                material_instance,
-                parameter_name.as_ptr(),
-                &0.4,
-            );
-            let parameter_name = CString::new("reflectance").unwrap();
-            helper_material_instance_setParameter_float(
-                material_instance,
-                parameter_name.as_ptr(),
-                &0.5,
-            );
+            material_instance.set_float_parameter("metallic", &1.0);
+            material_instance.set_float_parameter("roughness", &0.4);
+            material_instance.set_float_parameter("reflectance", &0.5);
 
-            let mesh = MeshReader::loadMeshFromBuffer1(
-                engine,
-                MONKEY_DATA.as_ptr() as *const _,
-                None,
-                ptr::null_mut(),
-                material_instance,
-            );
-            scene.addEntity(mesh.renderable);
+            let mesh = MeshReader::load_mesh_from_buffer_default_material(
+                &mut engine,
+                Vec::from(MONKEY_DATA),
+                &mut material_instance,
+            ).unwrap();
+            scene.add_entity(&mesh.renderable);
 
-            let mut light = Entity::default();
-            entity_manager.create(1, &mut light as *mut _);
-            let mut light_builder = LightManager_Builder::new(LightManager_Type::SUN);
+            let mut light = entity_manager.create();
+            let mut light_builder = LightBuilder::new(LightType::SUN);
             light_builder.color(&helper_color_toLinear_fast_sRGB(&[0.98, 0.92, 0.89]));
             light_builder.intensity(110000.0);
             light_builder.direction(&[0.7, -1.0, -0.8]);

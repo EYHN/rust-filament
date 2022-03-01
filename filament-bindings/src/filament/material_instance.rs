@@ -1,6 +1,6 @@
 use std::{ffi, ptr};
 
-use crate::{backend::CullingMode, bindgen};
+use crate::{backend::CullingMode, bindgen, math::Float3};
 
 use super::{Material, RgbType, RgbaType, Texture, TextureSampler, TransparencyMode};
 
@@ -188,14 +188,14 @@ impl MaterialInstance {
         &mut self,
         name: impl AsRef<str>,
         rgb_type: RgbType,
-        value: bindgen::filament_math_float3,
+        value: Float3,
     ) -> Result<&mut Self, ffi::NulError> {
         let c_name = ffi::CString::new(name.as_ref())?;
         bindgen::filament_MaterialInstance_setParameter1(
             self.native_mut(),
             c_name.as_ptr(),
             rgb_type.into(),
-            value,
+            value.native_owned(),
         );
         Ok(self)
     }

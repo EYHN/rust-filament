@@ -57,7 +57,7 @@ impl Engine {
     // TODO: create_platform
 
     #[inline]
-    pub unsafe fn getEngine(token: *mut core::ffi::c_void) -> Option<Engine> {
+    pub unsafe fn get_engine(token: *mut core::ffi::c_void) -> Option<Engine> {
         Self::try_from_native(bindgen::filament_Engine_getEngine(token))
     }
 
@@ -67,31 +67,31 @@ impl Engine {
     }
 
     #[inline]
-    pub unsafe fn getEntityManager(&mut self) -> Option<EntityManager> {
+    pub unsafe fn get_entity_manager(&mut self) -> Option<EntityManager> {
         EntityManager::try_from_native(bindgen::filament_Engine_getEntityManager(self.native_mut()))
     }
 
     #[inline]
-    pub unsafe fn getRenderableManager(&mut self) -> Option<RenderableManager> {
+    pub unsafe fn get_renderable_manager(&mut self) -> Option<RenderableManager> {
         RenderableManager::try_from_native(bindgen::filament_Engine_getRenderableManager(
             self.native_mut(),
         ))
     }
 
     #[inline]
-    pub unsafe fn getLightManager(&mut self) -> Option<LightManager> {
+    pub unsafe fn get_light_manager(&mut self) -> Option<LightManager> {
         LightManager::try_from_native(bindgen::filament_Engine_getLightManager(self.native_mut()))
     }
 
     #[inline]
-    pub unsafe fn getTransformManager(&mut self) -> Option<TransformManager> {
+    pub unsafe fn get_transform_manager(&mut self) -> Option<TransformManager> {
         TransformManager::try_from_native(bindgen::filament_Engine_getTransformManager(
             self.native_mut(),
         ))
     }
 
     #[inline]
-    pub unsafe fn enableAccurateTranslations(&mut self) {
+    pub unsafe fn enable_accurate_translations(&mut self) {
         bindgen::filament_Engine_enableAccurateTranslations(self.native_mut())
     }
 
@@ -124,22 +124,22 @@ impl Engine {
     }
 
     #[inline]
-    pub unsafe fn createRenderer(&mut self) -> Option<Renderer> {
+    pub unsafe fn create_renderer(&mut self) -> Option<Renderer> {
         Renderer::try_from_native(bindgen::filament_Engine_createRenderer(self.native_mut()))
     }
 
     #[inline]
-    pub unsafe fn createView(&mut self) -> Option<View> {
+    pub unsafe fn create_view(&mut self) -> Option<View> {
         View::try_from_native(bindgen::filament_Engine_createView(self.native_mut()))
     }
 
     #[inline]
-    pub unsafe fn createScene(&mut self) -> Option<Scene> {
+    pub unsafe fn create_scene(&mut self) -> Option<Scene> {
         Scene::try_from_native(bindgen::filament_Engine_createScene(self.native_mut()))
     }
 
     #[inline]
-    pub unsafe fn createCamera(&mut self, entity: &Entity) -> Option<Camera> {
+    pub unsafe fn create_camera(&mut self, entity: &Entity) -> Option<Camera> {
         Camera::try_from_native(bindgen::filament_Engine_createCamera(
             self.native_mut(),
             entity.native_owned(),
@@ -147,7 +147,7 @@ impl Engine {
     }
 
     #[inline]
-    pub unsafe fn getCameraComponent(&mut self, entity: &Entity) -> Option<Camera> {
+    pub unsafe fn get_camera_component(&mut self, entity: &Entity) -> Option<Camera> {
         Camera::try_from_native(bindgen::filament_Engine_getCameraComponent(
             self.native_mut(),
             entity.native_owned(),
@@ -155,12 +155,12 @@ impl Engine {
     }
 
     #[inline]
-    pub unsafe fn destroyCameraComponent(&mut self, entity: &Entity) {
+    pub unsafe fn destroy_camera_component(&mut self, entity: &Entity) {
         bindgen::filament_Engine_destroyCameraComponent(self.native_mut(), entity.native_owned())
     }
 
     #[inline]
-    pub unsafe fn createFence(&mut self) -> Option<Fence> {
+    pub unsafe fn create_fence(&mut self) -> Option<Fence> {
         Fence::try_from_native(bindgen::filament_Engine_createFence(self.native_mut()))
     }
 
@@ -244,7 +244,7 @@ impl Engine {
         bindgen::filament_Engine_destroy20(self.native_mut(), e.native_owned())
     }
     #[inline]
-    pub unsafe fn flushAndWait(&mut self) {
+    pub unsafe fn flush_and_wait(&mut self) {
         bindgen::filament_Engine_flushAndWait(self.native_mut())
     }
     #[inline]
@@ -252,23 +252,23 @@ impl Engine {
         bindgen::filament_Engine_flush(self.native_mut())
     }
     #[inline]
-    pub unsafe fn pumpMessageQueues(&mut self) {
+    pub unsafe fn pump_message_queues(&mut self) {
         bindgen::filament_Engine_pumpMessageQueues(self.native_mut())
     }
     #[inline]
-    pub unsafe fn getDefaultMaterial(&self) -> *const bindgen::filament_Material {
+    pub unsafe fn get_default_material(&self) -> *const bindgen::filament_Material {
         bindgen::filament_Engine_getDefaultMaterial(self.native())
     }
     #[inline]
-    pub unsafe fn getBackend(&self) -> bindgen::filament_Engine_Backend {
+    pub unsafe fn get_backend(&self) -> bindgen::filament_Engine_Backend {
         bindgen::filament_Engine_getBackend(self.native())
     }
     #[inline]
-    pub unsafe fn getPlatform(&self) -> *mut bindgen::filament_Engine_Platform {
+    pub unsafe fn get_platform(&self) -> *mut bindgen::filament_Engine_Platform {
         bindgen::filament_Engine_getPlatform(self.native())
     }
     #[inline]
-    pub unsafe fn streamAlloc(
+    pub unsafe fn stream_alloc(
         &mut self,
         size: usize,
         alignment: usize,

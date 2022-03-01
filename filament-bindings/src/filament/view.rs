@@ -2,7 +2,7 @@ use std::{ffi, ptr};
 
 use crate::bindgen;
 
-use super::{AntiAliasing, BlendMode, Camera, Engine, Scene, Viewport};
+use super::{AntiAliasing, BlendMode, Camera, Scene, Viewport};
 
 pub struct View {
     native: ptr::NonNull<bindgen::filament_View>,

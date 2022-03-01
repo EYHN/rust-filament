@@ -2,7 +2,7 @@ use std::ptr;
 
 use crate::{backend::PrimitiveType, bindgen, utils::Entity};
 
-use super::{Engine, IndexBuffer, MaterialInstance, VertexBuffer};
+use super::{Bounds, Engine, IndexBuffer, MaterialInstance, VertexBuffer};
 
 pub struct RenderableBuilder {
     native: bindgen::filament_RenderableManager_Builder,
@@ -24,7 +24,7 @@ impl RenderableBuilder {
     }
 
     #[inline]
-    pub fn native_mut(&mut self) -> &mut bindgen::filament_RenderableManager_Builder {
+    pub unsafe fn native_mut(&mut self) -> &mut bindgen::filament_RenderableManager_Builder {
         &mut self.native
     }
 
@@ -71,82 +71,77 @@ impl RenderableBuilder {
     }
 
     #[inline]
-    pub fn material(
+    pub unsafe fn material(
         &mut self,
         index: usize,
         material_instance: &mut MaterialInstance,
     ) -> &mut Self {
-        unsafe {
-            self.native.material(index, material_instance.native_mut());
-        };
+        self.native.material(index, material_instance.native_mut());
+
         self
     }
 
     #[inline]
-    pub fn bounding_box(&mut self, axis_aligned_bounding_box: &bindgen::filament_Box) -> &mut Self {
-        unsafe {
-            self.native.boundingBox(axis_aligned_bounding_box);
-        };
+    pub unsafe fn bounding_box(&mut self, axis_aligned_bounding_box: &Bounds) -> &mut Self {
+        self.native
+            .boundingBox(axis_aligned_bounding_box.native_ptr());
         self
     }
 
     #[inline]
-    pub fn layer_mask(&mut self, select: u8, values: u8) -> &mut Self {
-        unsafe {
-            self.native.layerMask(select, values);
-        };
+    pub unsafe fn layer_mask(&mut self, select: u8, values: u8) -> &mut Self {
+        self.native.layerMask(select, values);
         self
     }
 
     #[inline]
-    pub fn priority(&mut self, priority: u8) -> &mut Self {
-        unsafe {
-            self.native.priority(priority);
-        };
+    pub unsafe fn priority(&mut self, priority: u8) -> &mut Self {
+        self.native.priority(priority);
+
         self
     }
 
     #[inline]
-    pub fn culling(&mut self, enable: bool) -> &mut Self {
-        unsafe { self.native.culling(enable) };
+    pub unsafe fn culling(&mut self, enable: bool) -> &mut Self {
+        self.native.culling(enable);
         self
     }
 
     #[inline]
-    pub fn light_channel(&mut self, channel: u32, enable: bool) -> &mut Self {
-        unsafe { self.native.lightChannel(channel, enable) };
+    pub unsafe fn light_channel(&mut self, channel: u32, enable: bool) -> &mut Self {
+        self.native.lightChannel(channel, enable);
         self
     }
 
     #[inline]
-    pub fn cast_shadows(&mut self, enable: bool) -> &mut Self {
-        unsafe { self.native.castShadows(enable) };
+    pub unsafe fn cast_shadows(&mut self, enable: bool) -> &mut Self {
+        self.native.castShadows(enable);
         self
     }
 
     #[inline]
-    pub fn receive_shadows(&mut self, enable: bool) -> &mut Self {
-        unsafe { self.native.receiveShadows(enable) };
+    pub unsafe fn receive_shadows(&mut self, enable: bool) -> &mut Self {
+        self.native.receiveShadows(enable);
         self
     }
 
     #[inline]
-    pub fn screen_space_contact_shadows(&mut self, enable: bool) -> &mut Self {
-        unsafe { self.native.screenSpaceContactShadows(enable) };
+    pub unsafe fn screen_space_contact_shadows(&mut self, enable: bool) -> &mut Self {
+        self.native.screenSpaceContactShadows(enable);
         self
     }
 
     // TODO: skinning
 
     #[inline]
-    pub fn morphing(&mut self, target_count: usize) -> &mut Self {
-        unsafe { self.native.morphing(target_count) };
+    pub unsafe fn morphing(&mut self, target_count: usize) -> &mut Self {
+        self.native.morphing(target_count);
         self
     }
 
     #[inline]
-    pub fn blend_order(&mut self, primitive_index: usize, order: u16) -> &mut Self {
-        unsafe { self.native.blendOrder(primitive_index, order) };
+    pub unsafe fn blend_order(&mut self, primitive_index: usize, order: u16) -> &mut Self {
+        self.native.blendOrder(primitive_index, order);
         self
     }
 
@@ -177,17 +172,19 @@ pub struct RenderableManager {
 
 impl RenderableManager {
     #[inline]
-    pub fn native(&self) -> *const bindgen::filament_RenderableManager {
+    pub unsafe fn native(&self) -> *const bindgen::filament_RenderableManager {
         self.native.as_ptr()
     }
 
     #[inline]
-    pub fn native_mut(&mut self) -> *mut bindgen::filament_RenderableManager {
+    pub unsafe fn native_mut(&mut self) -> *mut bindgen::filament_RenderableManager {
         self.native.as_ptr()
     }
 
     #[inline]
-    pub fn try_from_native(native: *mut bindgen::filament_RenderableManager) -> Option<Self> {
+    pub unsafe fn try_from_native(
+        native: *mut bindgen::filament_RenderableManager,
+    ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
         Some(Self { native: ptr })
     }

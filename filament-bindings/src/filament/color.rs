@@ -1,6 +1,11 @@
+#![allow(non_camel_case_types)]
+
 use num_enum::{FromPrimitive, IntoPrimitive};
 
-use crate::bindgen;
+use crate::{
+    bindgen,
+    math::{Float3, Float4},
+};
 
 #[derive(IntoPrimitive, FromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(u8)]
@@ -21,3 +26,19 @@ pub enum RgbaType {
     #[num_enum(default)]
     UNKNOWN = u8::MAX,
 }
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+struct sRGBColor(Float3);
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+struct LinearColor(Float3);
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+struct LinearColorA(Float4);
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+struct sRGBColorA(Float4);

@@ -3,6 +3,7 @@ use std::hash;
 use crate::bindgen;
 
 #[derive(Debug, Default, Clone, Copy)]
+#[repr(transparent)]
 pub struct Entity {
     native: bindgen::utils_Entity,
 }
@@ -34,5 +35,14 @@ impl Entity {
     #[inline]
     pub(crate) fn native_owned(&self) -> bindgen::utils_Entity {
         self.native.clone()
+    }
+
+    #[inline]
+    pub(crate) fn try_from_native(native: bindgen::utils_Entity) -> Option<Entity> {
+        if native.mIdentity == 0 {
+            None
+        } else {
+            Some(Entity { native })
+        }
     }
 }

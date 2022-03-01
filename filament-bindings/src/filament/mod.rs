@@ -18,6 +18,7 @@ mod transform_manager;
 mod swap_chain;
 mod renderer;
 mod fence;
+mod bounds;
 
 pub use engine::*;
 pub use camera::*;
@@ -39,3 +40,4 @@ pub use transform_manager::*;
 pub use swap_chain::*;
 pub use renderer::*;
 pub use fence::*;
+pub use bounds::*;

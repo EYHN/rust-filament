@@ -13,3 +13,5 @@ mod bindgen {
 pub mod filament;
 pub mod backend;
 pub mod utils;
+pub mod math;
+pub mod filamesh;
