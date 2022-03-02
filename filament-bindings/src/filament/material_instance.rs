@@ -1,6 +1,6 @@
 use std::{ffi, ptr};
 
-use crate::{backend::CullingMode, bindgen, math::Float3};
+use crate::{backend::CullingMode, bindgen, math::{Float3, self, Float4}};
 
 use super::{Material, RgbType, RgbaType, Texture, TextureSampler, TransparencyMode};
 
@@ -14,6 +14,21 @@ macro_rules! impl_set_parameter_method {
         ) -> Result<&mut Self, ffi::NulError> {
             let c_name = ffi::CString::new(name.as_ref())?;
             bindgen::$helper(self.native_mut(), c_name.as_ptr(), value);
+            Ok(self)
+        }
+    };
+}
+
+macro_rules! impl_set_wrapped_parameter_method {
+    ($t:ident, $helper:ident, $value_type:ty) => {
+        #[inline]
+        pub unsafe fn $t(
+            &mut self,
+            name: impl AsRef<str>,
+            value: &$value_type,
+        ) -> Result<&mut Self, ffi::NulError> {
+            let c_name = ffi::CString::new(name.as_ref())?;
+            bindgen::$helper(self.native_mut(), c_name.as_ptr(), value.native_ptr());
             Ok(self)
         }
     };
@@ -89,80 +104,80 @@ impl MaterialInstance {
         helper_material_instance_setParameter_uint32,
         u32
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_int2_parameter,
         helper_material_instance_setParameter_int2,
-        bindgen::filament_math_int2
+        math::Int2
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_int3_parameter,
         helper_material_instance_setParameter_int3,
-        bindgen::filament_math_int3
+        math::Int3
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_int4_parameter,
         helper_material_instance_setParameter_int4,
-        bindgen::filament_math_int4
+        math::Int4
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_uint2_parameter,
         helper_material_instance_setParameter_uint2,
-        bindgen::filament_math_uint2
+        math::Uint2
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_uint3_parameter,
         helper_material_instance_setParameter_uint3,
-        bindgen::filament_math_uint3
+        math::Uint3
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_uint4_parameter,
         helper_material_instance_setParameter_uint4,
-        bindgen::filament_math_uint4
+        math::Uint4
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_float2_parameter,
         helper_material_instance_setParameter_float2,
-        bindgen::filament_math_float2
+        math::Float2
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_float3_parameter,
         helper_material_instance_setParameter_float3,
-        bindgen::filament_math_float3
+        math::Float3
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_float4_parameter,
         helper_material_instance_setParameter_float4,
-        bindgen::filament_math_float4
+        math::Float4
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_mat4f_parameter,
         helper_material_instance_setParameter_mat4f,
-        bindgen::filament_math_mat4f
+        math::Mat4f
     );
     impl_set_parameter_method!(
         set_bool_parameter,
         helper_material_instance_setParameter_bool,
         bool
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_bool2_parameter,
         helper_material_instance_setParameter_bool2,
-        bindgen::filament_math_bool2
+        math::Bool2
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_bool3_parameter,
         helper_material_instance_setParameter_bool3,
-        bindgen::filament_math_bool3
+        math::Bool3
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_bool4_parameter,
         helper_material_instance_setParameter_bool4,
-        bindgen::filament_math_bool4
+        math::Bool4
     );
-    impl_set_parameter_method!(
+    impl_set_wrapped_parameter_method!(
         set_mat3f_parameter,
         helper_material_instance_setParameter_mat3f,
-        bindgen::filament_math_mat3f
+        math::Mat3f
     );
 
     #[inline]
@@ -205,14 +220,14 @@ impl MaterialInstance {
         &mut self,
         name: impl AsRef<str>,
         rgb_type: RgbaType,
-        value: bindgen::filament_math_float4,
+        value: Float4,
     ) -> Result<&mut Self, ffi::NulError> {
         let c_name = ffi::CString::new(name.as_ref())?;
         bindgen::filament_MaterialInstance_setParameter2(
             self.native_mut(),
             c_name.as_ptr(),
             rgb_type.into(),
-            value,
+            value.native_owned(),
         );
         Ok(self)
     }

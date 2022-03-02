@@ -2,7 +2,10 @@ use std::ptr;
 
 use num_enum::IntoPrimitive;
 
-use crate::{bindgen, math::Float3};
+use crate::{
+    bindgen,
+    math::{Double2, Double4, Float3, Mat4, Mat4f},
+};
 
 #[derive(IntoPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(i32)]
@@ -118,60 +121,62 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn set_custom_projection(
-        &mut self,
-        projection: &bindgen::filament_math_mat4,
-        near: f64,
-        far: f64,
-    ) {
-        bindgen::filament_Camera_setCustomProjection(self.native_mut(), projection, near, far)
-    }
-
-    #[inline]
-    pub unsafe fn set_custom_projection_culling(
-        &mut self,
-        projection: &bindgen::filament_math_mat4,
-        projection_for_culling: &bindgen::filament_math_mat4,
-        near: f64,
-        far: f64,
-    ) {
-        bindgen::filament_Camera_setCustomProjection1(
+    pub unsafe fn set_custom_projection(&mut self, projection: &Mat4, near: f64, far: f64) {
+        bindgen::filament_Camera_setCustomProjection(
             self.native_mut(),
-            projection,
-            projection_for_culling,
+            projection.native_ptr(),
             near,
             far,
         )
     }
 
     #[inline]
-    pub unsafe fn set_scaling(&mut self, scaling: bindgen::filament_math_double2) {
-        bindgen::filament_Camera_setScaling(self.native_mut(), scaling)
+    pub unsafe fn set_custom_projection_culling(
+        &mut self,
+        projection: &Mat4,
+        projection_for_culling: &Mat4,
+        near: f64,
+        far: f64,
+    ) {
+        bindgen::filament_Camera_setCustomProjection1(
+            self.native_mut(),
+            projection.native_ptr(),
+            projection_for_culling.native_ptr(),
+            near,
+            far,
+        )
     }
 
     #[inline]
-    pub unsafe fn set_shift(&mut self, shift: bindgen::filament_math_double2) {
-        bindgen::filament_Camera_setShift(self.native_mut(), shift)
+    pub unsafe fn set_scaling(&mut self, scaling: Double2) {
+        bindgen::filament_Camera_setScaling(self.native_mut(), scaling.native_owned())
     }
 
     #[inline]
-    pub unsafe fn get_scaling(&self) -> bindgen::filament_math_double4 {
-        bindgen::filament_Camera_getScaling(self.native())
+    pub unsafe fn set_shift(&mut self, shift: Double2) {
+        bindgen::filament_Camera_setShift(self.native_mut(), shift.native_owned())
     }
 
     #[inline]
-    pub unsafe fn get_shift(&self) -> bindgen::filament_math_double2 {
-        bindgen::filament_Camera_getShift(self.native())
+    pub unsafe fn get_scaling(&self) -> Double4 {
+        Double4::from_native(bindgen::filament_Camera_getScaling(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_projection_matrix(&self) -> bindgen::filament_math_mat4 {
-        bindgen::filament_Camera_getProjectionMatrix(self.native())
+    pub unsafe fn get_shift(&self) -> Double2 {
+        Double2::from_native(bindgen::filament_Camera_getShift(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_culling_projection_matrix(&self) -> bindgen::filament_math_mat4 {
-        bindgen::filament_Camera_getCullingProjectionMatrix(self.native())
+    pub unsafe fn get_projection_matrix(&self) -> Mat4 {
+        Mat4::from_native(bindgen::filament_Camera_getProjectionMatrix(self.native()))
+    }
+
+    #[inline]
+    pub unsafe fn get_culling_projection_matrix(&self) -> Mat4 {
+        Mat4::from_native(bindgen::filament_Camera_getCullingProjectionMatrix(
+            self.native(),
+        ))
     }
 
     #[inline]
@@ -185,13 +190,13 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn set_model_matrix(&mut self, view: &bindgen::filament_math_mat4) {
-        bindgen::filament_Camera_setModelMatrix(self.native_mut(), view)
+    pub unsafe fn set_model_matrix(&mut self, view: &Mat4) {
+        bindgen::filament_Camera_setModelMatrix(self.native_mut(), view.native_ptr())
     }
 
     #[inline]
-    pub unsafe fn set_model_matrix_float(&mut self, view: &bindgen::filament_math_mat4f) {
-        bindgen::filament_Camera_setModelMatrix1(self.native_mut(), view)
+    pub unsafe fn set_model_matrix_float(&mut self, view: &Mat4f) {
+        bindgen::filament_Camera_setModelMatrix1(self.native_mut(), view.native_ptr())
     }
 
     #[inline]
@@ -210,13 +215,13 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn get_model_matrix(&self) -> bindgen::filament_math_mat4 {
-        bindgen::filament_Camera_getModelMatrix(self.native())
+    pub unsafe fn get_model_matrix(&self) -> Mat4 {
+        Mat4::from_native(bindgen::filament_Camera_getModelMatrix(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_view_matrix(&self) -> bindgen::filament_math_mat4 {
-        bindgen::filament_Camera_getViewMatrix(self.native())
+    pub unsafe fn get_view_matrix(&self) -> Mat4 {
+        Mat4::from_native(bindgen::filament_Camera_getViewMatrix(self.native()))
     }
 
     #[inline]
@@ -300,17 +305,13 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn inverse_projection(
-        p: &bindgen::filament_math_mat4,
-    ) -> bindgen::filament_math_mat4 {
-        bindgen::filament_Camera_inverseProjection(p)
+    pub unsafe fn inverse_projection(p: &Mat4) -> Mat4 {
+        Mat4::from_native(bindgen::filament_Camera_inverseProjection(p.native_ptr()))
     }
 
     #[inline]
-    pub unsafe fn inverse_projection_float(
-        p: &bindgen::filament_math_mat4f,
-    ) -> bindgen::filament_math_mat4f {
-        bindgen::filament_Camera_inverseProjection1(p)
+    pub unsafe fn inverse_projection_float(p: &Mat4f) -> Mat4f {
+        Mat4f::from_native(bindgen::filament_Camera_inverseProjection1(p.native_ptr()))
     }
 
     #[inline]

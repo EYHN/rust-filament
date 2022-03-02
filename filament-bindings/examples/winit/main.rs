@@ -1,7 +1,7 @@
 use filament_bindings::{
     backend,
     filament::{Engine, LightBuilder, LightType, LinearColor, MaterialBuilder, RgbType, Viewport},
-    filamesh::MeshReader,
+    filameshio::MeshReader,
 };
 
 use winit::{

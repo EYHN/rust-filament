@@ -14,4 +14,6 @@ pub mod filament;
 pub mod backend;
 pub mod utils;
 pub mod math;
-pub mod filamesh;
+pub mod filameshio;
+pub mod ibl;
+pub mod image;

@@ -1,11 +1,11 @@
 macro_rules! math_vec {
-  ($len:expr, $t:ident, $ctype:ident) => {
-      #[repr(transparent)]
-      #[derive(Copy, Clone, Debug, Default)]
-      pub struct $t {
-          pub inner: [::std::os::raw::$ctype; $len],
-      }
-  }
+    ($len:expr, $t:ident, $ctype:ident) => {
+        #[repr(transparent)]
+        #[derive(Copy, Clone, Debug, Default)]
+        pub struct $t {
+            pub inner: [::std::os::raw::$ctype; $len],
+        }
+    };
 }
 
 math_vec!(4, filament_math_bool4, c_char);
@@ -38,3 +38,10 @@ math_vec!(4, filament_math_mat2f, c_float);
 
 math_vec!(4, filament_math_quat, c_double);
 math_vec!(4, filament_math_quatf, c_float);
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+pub struct utils_Slice<T, SizeType> {
+    pub mBegin: *mut T,
+    pub mEndOffset: SizeType,
+}

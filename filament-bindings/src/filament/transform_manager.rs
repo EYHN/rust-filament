@@ -94,13 +94,13 @@ impl TransformManager {
         &mut self,
         entity: &Entity,
         parent: &TransformManagerInstance,
-        local_transform: *const bindgen::filament_math_mat4,
+        local_transform: &Mat4,
     ) {
         bindgen::filament_TransformManager_create1(
             self.native_mut(),
             entity.native_owned(),
             parent.native_owned(),
-            local_transform,
+            local_transform.native_ptr(),
         )
     }
 
@@ -192,34 +192,33 @@ impl TransformManager {
     pub unsafe fn get_transform(&self, ci: &TransformManagerInstance) -> Mat4f {
         Mat4f::from_native(
             bindgen::filament_TransformManager_getTransform(self.native(), ci.native_owned())
-                .read().clone(),
+                .read(),
         )
     }
 
     #[inline]
-    pub unsafe fn get_transform_accurate(
-        &self,
-        ci: &TransformManagerInstance,
-    ) -> bindgen::filament_math_mat4 {
-        bindgen::filament_TransformManager_getTransformAccurate(self.native(), ci.native_owned())
+    pub unsafe fn get_transform_accurate(&self, ci: &TransformManagerInstance) -> Mat4 {
+        Mat4::from_native(bindgen::filament_TransformManager_getTransformAccurate(
+            self.native(),
+            ci.native_owned(),
+        ))
     }
 
     #[inline]
     pub unsafe fn get_world_transform(&self, ci: &TransformManagerInstance) -> Mat4f {
         Mat4f::from_native(
             bindgen::filament_TransformManager_getWorldTransform(self.native(), ci.native_owned())
-                .read().clone(),
+                .read(),
         )
     }
 
     #[inline]
-    pub unsafe fn get_world_transform_accurate(
-        &self,
-        ci: &TransformManagerInstance,
-    ) -> bindgen::filament_math_mat4 {
-        bindgen::filament_TransformManager_getWorldTransformAccurate(
-            self.native(),
-            ci.native_owned(),
+    pub unsafe fn get_world_transform_accurate(&self, ci: &TransformManagerInstance) -> Mat4 {
+        Mat4::from_native(
+            bindgen::filament_TransformManager_getWorldTransformAccurate(
+                self.native(),
+                ci.native_owned(),
+            ),
         )
     }
 

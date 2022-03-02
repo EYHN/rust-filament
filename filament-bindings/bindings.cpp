@@ -75,6 +75,20 @@
 #include "gltfio/MaterialProvider.h"
 #include "gltfio/ResourceLoader.h"
 
+// #include "ibl/Cubemap.h"
+// #include "ibl/CubemapIBL.h"
+// #include "ibl/CubemapSH.h"
+// #include "ibl/CubemapUtils.h"
+// #include "ibl/Image.h"
+// #include "ibl/utilities.h"
+
+#include "image/ColorTransform.h"
+#include "image/ImageOps.h"
+#include "image/ImageSampler.h"
+#include "image/KtxBundle.h"
+#include "image/KtxUtility.h"
+#include "image/LinearImage.h"
+
 extern "C" void helper_material_instance_setParameter_float(filament::MaterialInstance * instance, const char *name, float const& value) {
     instance->setParameter(name, value);
 }
@@ -149,4 +163,8 @@ extern "C" void helper_material_instance_setParameter_mat3f(filament::MaterialIn
 
 extern "C" filament::math::float3 helper_color_toLinear_fast_sRGB(filament::math::float3 const& sRGBColor) {
     return filament::Color::toLinear<filament::ColorConversion::FAST>(sRGBColor);
+}
+
+extern "C" filament::Texture* helper_image_ktx_createTexture(filament::Engine* engine, const image::KtxBundle& bundle, bool srgb, image::ktx::Callback callback, void* userdata) {
+    return image::ktx::createTexture(engine, bundle, srgb, callback, userdata);
 }

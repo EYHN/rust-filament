@@ -15,6 +15,17 @@ use serde::{Deserialize, Serialize};
 
 fn build_from_source(target: Target) -> BuildManifest {
     let filament_source_dir = env::current_dir().unwrap().join("filament");
+    if filament_source_dir.exists() == false {
+        // source dir not exist, try to clone it
+        let mut git_clone = Command::new("git");
+        git_clone
+            .arg("clone")
+            .arg("https://github.com/google/filament.git")
+            .arg(&filament_source_dir)
+            .arg("--depth=1");
+        build_support::run_command(&mut git_clone, "git");
+    }
+
     println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_OUT_DIR");
     let out_dir = env::current_dir().unwrap().join(
         env::var("FILAMENT_BUILD_OUT_DIR")
@@ -93,6 +104,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         "filameshio",
         "gltfio",
         "meshoptimizer",
+        "image"
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -131,7 +143,7 @@ fn build_from_source(target: Target) -> BuildManifest {
 
     println!("cargo:rerun-if-changed=bindings.cpp");
 
-    let bindings = bindgen::Builder::default()
+    let mut bindgen = bindgen::Builder::default()
         .clang_arg("-x")
         .clang_arg("c++")
         .clang_arg("-std=c++17")
@@ -144,71 +156,36 @@ fn build_from_source(target: Target) -> BuildManifest {
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
         .allowlist_type("gltf.*")
+        .allowlist_type("image.*")
         .allowlist_function("helper_.*")
         .opaque_type("std::basic_string")
         .opaque_type("std::basic_string_value_type")
         .raw_line(include_str!("src/fix.rs"))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("vec2.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("vec3.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("vec4.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("quat.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("mat2.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("mat3.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("mat4.h")
-                .to_str()
-                .unwrap(),
-        ))
-        .blocklist_file(path_regex_escape(
-            filament_include
-                .join("math")
-                .join("mathfwd.h")
-                .to_str()
-                .unwrap(),
-        ))
+        .layout_tests(false)
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
-        .clang_arg("-v")
-        .generate()
-        .expect("Unable to generate bindings");
+        .clang_arg("-v");
+
+    let block_file = |bindgen: bindgen::Builder, lib, file| {
+        bindgen.blocklist_file(path_regex_escape(
+            filament_include.join(lib).join(file).to_str().unwrap(),
+        ))
+    };
+
+    bindgen = block_file(bindgen, "utils", "Slice.h");
+    bindgen = block_file(bindgen, "math", "vec2.h");
+    bindgen = block_file(bindgen, "math", "vec3.h");
+    bindgen = block_file(bindgen, "math", "vec4.h");
+    bindgen = block_file(bindgen, "math", "quat.h");
+    bindgen = block_file(bindgen, "math", "mat2.h");
+    bindgen = block_file(bindgen, "math", "mat3.h");
+    bindgen = block_file(bindgen, "math", "mat4.h");
+    bindgen = block_file(bindgen, "math", "mathfwd.h");
+    bindgen = block_file(bindgen, "math", "TMatHelpers.h");
+    bindgen = block_file(bindgen, "math", "TQuatHelpers.h");
+    bindgen = block_file(bindgen, "math", "TVecHelpers.h");
+
+    let bindings = bindgen.generate().expect("Unable to generate bindings");
 
     let bindings_code = bindings.to_string();
 

@@ -5,7 +5,7 @@ use std::ptr;
 
 use num_enum::{FromPrimitive, IntoPrimitive};
 
-use crate::{bindgen, utils::Entity, math::Float3};
+use crate::{bindgen, math::Float3, utils::Entity};
 
 use super::{Engine, LinearColor};
 
@@ -316,28 +316,32 @@ impl LightManager {
         bindgen::filament_LightManager_getLightChannel(self.native(), i.native_owned(), channel)
     }
     #[inline]
-    pub unsafe fn set_position(
-        &mut self,
-        i: &LightManagerInstance,
-        position: &bindgen::filament_math_float3,
-    ) {
-        bindgen::filament_LightManager_setPosition(self.native_mut(), i.native_owned(), position)
+    pub unsafe fn set_position(&mut self, i: &LightManagerInstance, position: &Float3) {
+        bindgen::filament_LightManager_setPosition(
+            self.native_mut(),
+            i.native_owned(),
+            position.native_ptr(),
+        )
     }
     #[inline]
-    pub unsafe fn get_position(&self, i: &LightManagerInstance) -> &bindgen::filament_math_float3 {
-        &*bindgen::filament_LightManager_getPosition(self.native(), i.native_owned())
+    pub unsafe fn get_position(&self, i: &LightManagerInstance) -> Float3 {
+        Float3::from_native(
+            bindgen::filament_LightManager_getPosition(self.native(), i.native_owned()).read(),
+        )
     }
     #[inline]
-    pub unsafe fn set_direction(
-        &mut self,
-        i: &LightManagerInstance,
-        direction: &bindgen::filament_math_float3,
-    ) {
-        bindgen::filament_LightManager_setDirection(self.native_mut(), i.native_owned(), direction)
+    pub unsafe fn set_direction(&mut self, i: &LightManagerInstance, direction: &Float3) {
+        bindgen::filament_LightManager_setDirection(
+            self.native_mut(),
+            i.native_owned(),
+            direction.native_ptr(),
+        )
     }
     #[inline]
-    pub unsafe fn get_direction(&self, i: &LightManagerInstance) -> &bindgen::filament_math_float3 {
-        &*bindgen::filament_LightManager_getDirection(self.native(), i.native_owned())
+    pub unsafe fn get_direction(&self, i: &LightManagerInstance) -> Float3 {
+        Float3::from_native(
+            bindgen::filament_LightManager_getDirection(self.native(), i.native_owned()).read(),
+        )
     }
     #[inline]
     pub unsafe fn set_color(
@@ -348,8 +352,10 @@ impl LightManager {
         bindgen::filament_LightManager_setColor(self.native_mut(), i.native_owned(), color)
     }
     #[inline]
-    pub unsafe fn get_color(&self, i: &LightManagerInstance) -> &bindgen::filament_math_float3 {
-        &*bindgen::filament_LightManager_getColor(self.native(), i.native_owned())
+    pub unsafe fn get_color(&self, i: &LightManagerInstance) -> Float3 {
+        Float3::from_native(
+            bindgen::filament_LightManager_getColor(self.native(), i.native_owned()).read(),
+        )
     }
     #[inline]
     pub unsafe fn set_intensity(&mut self, i: &LightManagerInstance, intensity: f32) {
