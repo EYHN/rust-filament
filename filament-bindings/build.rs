@@ -123,6 +123,7 @@ fn build_from_source(target: Target) -> BuildManifest {
     cc_build.file("bindings.cpp");
     cc_build.include(&filament_include);
     cc_build.cpp(true);
+    cc_build.static_crt(true);
     cc_build.target(&target.to_string());
     cc_build.out_dir(&library_out_dir);
     cc_build.cargo_metadata(false);

@@ -1,39 +1,55 @@
 #![allow(non_upper_case_globals)]
 
+use std::ptr;
+
 use crate::{bindgen, math::Float3};
 
 #[repr(C)]
 #[derive(Debug)]
 pub struct KtxBundle {
-    native: bindgen::image_KtxBundle,
+    pub(crate) native: ptr::NonNull<bindgen::image_KtxBundle>,
 }
 
 impl KtxBundle {
     #[inline]
-    pub unsafe fn native(&self) -> *const bindgen::image_KtxBundle {
-        &self.native
+    pub(crate) unsafe fn native(&self) -> *const bindgen::image_KtxBundle {
+        self.native.as_ptr()
     }
 
     #[inline]
-    pub unsafe fn new(num_mip_levels: u32, array_length: u32, is_cubemap: bool) -> Self {
-        Self {
-            native: bindgen::image_KtxBundle::new(num_mip_levels, array_length, is_cubemap),
-        }
+    pub(crate) unsafe fn native_mut(&mut self) -> *mut bindgen::image_KtxBundle {
+        self.native.as_ptr()
     }
 
     #[inline]
-    pub unsafe fn from(data: &[u8]) -> Self {
-        Self {
-            native: bindgen::image_KtxBundle::new1(data.as_ptr(), data.len() as u32),
-        }
+    pub(crate) unsafe fn try_from_native(native: *mut bindgen::image_KtxBundle) -> Option<Self> {
+        let ptr = ptr::NonNull::new(native)?;
+        Some(KtxBundle { native: ptr })
+    }
+
+    #[inline]
+    pub unsafe fn new(num_mip_levels: u32, array_length: u32, is_cubemap: bool) -> Option<Self> {
+        Self::try_from_native(bindgen::helper_image_ktx_bundle_create(
+            num_mip_levels,
+            array_length,
+            is_cubemap,
+        ))
+    }
+
+    #[inline]
+    pub unsafe fn from(data: &[u8]) -> Option<Self> {
+        Self::try_from_native(bindgen::helper_image_ktx_bundle_from(
+            data.as_ptr(),
+            data.len() as u32,
+        ))
     }
 
     #[inline]
     pub unsafe fn serialize(&self) -> Option<Vec<u8>> {
-        let serialized_length = bindgen::image_KtxBundle_getSerializedLength(&self.native);
+        let serialized_length = bindgen::image_KtxBundle_getSerializedLength(self.native());
         let mut destination = vec![0u8; serialized_length as usize];
         if bindgen::image_KtxBundle_serialize(
-            &self.native,
+            self.native(),
             destination.as_mut_ptr(),
             serialized_length,
         ) {
@@ -50,7 +66,7 @@ impl KtxBundle {
     //     key: *const ::std::os::raw::c_char,
     //     valueSize: *mut usize,
     // ) -> *const ::std::os::raw::c_char {
-    //     bindgen::image_KtxBundle_getMetadata(&self.native, key, valueSize)
+    //     bindgen::image_KtxBundle_getMetadata(self.native(), key, valueSize)
     // }
 
     // #[inline]
@@ -59,14 +75,16 @@ impl KtxBundle {
     //     key: *const ::std::os::raw::c_char,
     //     value: *const ::std::os::raw::c_char,
     // ) {
-    //     bindgen::image_KtxBundle_setMetadata(&mut self.native, key, value)
+    //     bindgen::image_KtxBundle_setMetadata(self.native_mut(), key, value)
     // }
 
     #[inline]
     pub unsafe fn get_spherical_harmonics(&mut self) -> Option<Float3> {
         let mut result = Float3::default();
-        if bindgen::image_KtxBundle_getSphericalHarmonics(&mut self.native, result.native_ptr_mut())
-        {
+        if bindgen::image_KtxBundle_getSphericalHarmonics(
+            self.native_mut(),
+            result.native_ptr_mut(),
+        ) {
             Some(result)
         } else {
             None
@@ -81,7 +99,7 @@ impl KtxBundle {
     //     data: *mut *mut u8,
     //     size: *mut u32,
     // ) -> bool {
-    //     bindgen::image_KtxBundle_getBlob(&self.native, index, data, size)
+    //     bindgen::image_KtxBundle_getBlob(self.native(), index, data, size)
     // }
 
     // #[inline]
@@ -91,12 +109,12 @@ impl KtxBundle {
     //     data: *const u8,
     //     size: u32,
     // ) -> bool {
-    //     bindgen::image_KtxBundle_setBlob(&mut self.native, index, data, size)
+    //     bindgen::image_KtxBundle_setBlob(self.native_mut(), index, data, size)
     // }
 
     #[inline]
     pub unsafe fn allocate_blob(&mut self, index: bindgen::image_KtxBlobIndex, size: u32) -> bool {
-        bindgen::image_KtxBundle_allocateBlob(&mut self.native, index, size)
+        bindgen::image_KtxBundle_allocateBlob(self.native_mut(), index, size)
     }
 
     pub const R8: u32 = bindgen::image_KtxBundle_R8;
@@ -219,6 +237,6 @@ impl KtxBundle {
 impl Drop for KtxBundle {
     #[inline]
     fn drop(&mut self) {
-        unsafe { self.native.destruct() }
+        unsafe { bindgen::helper_image_ktx_bundle_delete(self.native_mut()) }
     }
 }

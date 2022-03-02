@@ -8,63 +8,73 @@ use crate::{
 use super::Engine;
 
 pub struct TextureBuilder {
-    native: bindgen::filament_Texture_Builder,
+    native: ptr::NonNull<bindgen::filament_Texture_Builder>,
 }
 
 impl TextureBuilder {
     #[inline]
-    pub unsafe fn new() -> Self {
-        Self {
-            native: bindgen::filament_Texture_Builder::new(),
-        }
+    #[allow(dead_code)]
+    pub(crate) unsafe fn native(&self) -> *const bindgen::filament_Texture_Builder {
+        self.native.as_ptr()
     }
 
     #[inline]
-    pub unsafe fn from(r: &TextureBuilder) -> Self {
-        Self {
-            native: bindgen::filament_Texture_Builder::new1(&r.native),
-        }
+    pub(crate) unsafe fn native_mut(&mut self) -> *mut bindgen::filament_Texture_Builder {
+        self.native.as_ptr()
+    }
+
+    #[inline]
+    pub(crate) unsafe fn try_from_native(
+        native: *mut bindgen::filament_Texture_Builder,
+    ) -> Option<Self> {
+        let ptr = ptr::NonNull::new(native)?;
+        Some(TextureBuilder { native: ptr })
+    }
+
+    #[inline]
+    pub unsafe fn new() -> Option<Self> {
+        Self::try_from_native(bindgen::helper_filament_texture_builder_create())
     }
 
     #[inline]
     pub unsafe fn width(&mut self, width: u32) -> &mut Self {
-        self.native.width(width);
+        bindgen::filament_Texture_Builder_width(self.native_mut(), width);
         self
     }
 
     #[inline]
     pub unsafe fn height(&mut self, height: u32) -> &mut Self {
-        self.native.height(height);
+        bindgen::filament_Texture_Builder_height(self.native_mut(), height);
         self
     }
 
     #[inline]
     pub unsafe fn depth(&mut self, depth: u32) -> &mut Self {
-        self.native.depth(depth);
+        bindgen::filament_Texture_Builder_depth(self.native_mut(), depth);
         self
     }
 
     #[inline]
     pub unsafe fn levels(&mut self, levels: u8) -> &mut Self {
-        self.native.levels(levels);
+        bindgen::filament_Texture_Builder_levels(self.native_mut(), levels);
         self
     }
 
     #[inline]
     pub unsafe fn sampler(&mut self, target: SamplerType) -> &mut Self {
-        self.native.sampler(target.into());
+        bindgen::filament_Texture_Builder_sampler(self.native_mut(), target.into());
         self
     }
 
     #[inline]
     pub unsafe fn format(&mut self, format: TextureFormat) -> &mut Self {
-        self.native.format(format.into());
+        bindgen::filament_Texture_Builder_format(self.native_mut(), format.into());
         self
     }
 
     #[inline]
     pub unsafe fn usage(&mut self, usage: TextureUsage) -> &mut Self {
-        self.native.usage(usage.bits());
+        bindgen::filament_Texture_Builder_usage(self.native_mut(), usage.bits());
         self
     }
 
@@ -76,20 +86,29 @@ impl TextureBuilder {
         b: TextureSwizzle,
         a: TextureSwizzle,
     ) -> &mut Self {
-        self.native.swizzle(r.into(), g.into(), b.into(), a.into());
+        bindgen::filament_Texture_Builder_swizzle(
+            self.native_mut(),
+            r.into(),
+            g.into(),
+            b.into(),
+            a.into(),
+        );
         self
     }
 
     #[inline]
     pub unsafe fn build(&mut self, engine: &mut Engine) -> Option<Texture> {
-        Texture::try_from_native(self.native.build(engine.native_mut()))
+        Texture::try_from_native(bindgen::filament_Texture_Builder_build(
+            self.native_mut(),
+            engine.native_mut(),
+        ))
     }
 }
 
 impl Drop for TextureBuilder {
     #[inline]
     fn drop(&mut self) {
-        unsafe { self.native.destruct() }
+        unsafe { bindgen::helper_filament_texture_builder_delete(self.native_mut()) }
     }
 }
 

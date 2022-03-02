@@ -50,7 +50,7 @@ fn main() {
         let mut entity_manager = engine.get_entity_manager().unwrap();
 
         {
-            let mut material_builder = MaterialBuilder::new();
+            let mut material_builder = MaterialBuilder::new().unwrap();
             material_builder.package(RESOURCES_AIDEFAULTMAT_DATA);
             let material = material_builder.build(&mut engine).unwrap();
             let mut material_instance = material.create_instance().unwrap();
@@ -73,7 +73,7 @@ fn main() {
             scene.add_entity(&mesh.renderable);
 
             let light = entity_manager.create();
-            let mut light_builder = LightBuilder::new(LightType::SUN);
+            let mut light_builder = LightBuilder::new(LightType::SUN).unwrap();
             light_builder.color(&LinearColor([0.98, 0.92, 0.89].into()));
             light_builder.intensity(110000.0);
             light_builder.direction(&[0.7, -1.0, -0.8].into());

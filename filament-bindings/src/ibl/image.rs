@@ -20,13 +20,6 @@
 
 // impl Image {
 //     #[inline]
-//     pub unsafe fn new() -> Self {
-//         Self {
-//             native: bindgen::filament_ibl_Image::new(),
-//         }
-//     }
-
-//     #[inline]
 //     pub unsafe fn new_size(width: usize, height: usize) -> Self {
 //         Self {
 //             native: bindgen::filament_ibl_Image::new1(width, height, 0),

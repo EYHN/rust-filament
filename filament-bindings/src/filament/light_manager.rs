@@ -110,98 +110,117 @@ pub mod shadow_cascades {
 }
 
 pub struct LightBuilder {
-    native: bindgen::filament_LightManager_Builder,
+    native: ptr::NonNull<bindgen::filament_LightManager_Builder>,
 }
 
 impl LightBuilder {
     #[inline]
-    pub unsafe fn new(light_type: LightType) -> Self {
-        LightBuilder {
-            native: bindgen::filament_LightManager_Builder::new(light_type.into()),
-        }
+    #[allow(dead_code)]
+    pub(crate) unsafe fn native(&self) -> *const bindgen::filament_LightManager_Builder {
+        self.native.as_ptr()
+    }
+
+    #[inline]
+    pub(crate) unsafe fn native_mut(&mut self) -> *mut bindgen::filament_LightManager_Builder {
+        self.native.as_ptr()
+    }
+
+    #[inline]
+    pub(crate) unsafe fn try_from_native(
+        native: *mut bindgen::filament_LightManager_Builder,
+    ) -> Option<Self> {
+        let ptr = ptr::NonNull::new(native)?;
+        Some(LightBuilder { native: ptr })
+    }
+
+    #[inline]
+    pub unsafe fn new(light_type: LightType) -> Option<Self> {
+        Self::try_from_native(bindgen::helper_filament_light_manager_builder_create(
+            light_type.into(),
+        ))
     }
     #[inline]
     pub unsafe fn light_channel(&mut self, channel: u32, enable: bool) -> &mut Self {
-        bindgen::filament_LightManager_Builder_lightChannel(&mut self.native, channel, enable);
+        bindgen::filament_LightManager_Builder_lightChannel(self.native_mut(), channel, enable);
         self
     }
     #[inline]
     pub unsafe fn cast_shadows(&mut self, enable: bool) -> &mut Self {
-        bindgen::filament_LightManager_Builder_castShadows(&mut self.native, enable);
+        bindgen::filament_LightManager_Builder_castShadows(self.native_mut(), enable);
         self
     }
     #[inline]
     pub unsafe fn shadow_options(&mut self, options: &ShadowOption) -> &mut Self {
         bindgen::filament_LightManager_Builder_shadowOptions(
-            &mut self.native,
+            self.native_mut(),
             options as *const _ as *const _,
         );
         self
     }
     #[inline]
     pub unsafe fn cast_light(&mut self, enable: bool) -> &mut Self {
-        bindgen::filament_LightManager_Builder_castLight(&mut self.native, enable);
+        bindgen::filament_LightManager_Builder_castLight(self.native_mut(), enable);
         self
     }
     #[inline]
     pub unsafe fn position(&mut self, position: &Float3) -> &mut Self {
-        bindgen::filament_LightManager_Builder_position(&mut self.native, position.native_ptr());
+        bindgen::filament_LightManager_Builder_position(self.native_mut(), position.native_ptr());
         self
     }
     #[inline]
     pub unsafe fn direction(&mut self, direction: &Float3) -> &mut Self {
-        bindgen::filament_LightManager_Builder_direction(&mut self.native, direction.native_ptr());
+        bindgen::filament_LightManager_Builder_direction(self.native_mut(), direction.native_ptr());
         self
     }
     #[inline]
     pub unsafe fn color(&mut self, color: &LinearColor) -> &mut Self {
-        bindgen::filament_LightManager_Builder_color(&mut self.native, color.native_ptr());
+        bindgen::filament_LightManager_Builder_color(self.native_mut(), color.native_ptr());
         self
     }
     #[inline]
     pub unsafe fn intensity(&mut self, intensity: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_intensity(&mut self.native, intensity);
+        bindgen::filament_LightManager_Builder_intensity(self.native_mut(), intensity);
         self
     }
     #[inline]
     pub unsafe fn intensity_candela(&mut self, intensity: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_intensityCandela(&mut self.native, intensity);
+        bindgen::filament_LightManager_Builder_intensityCandela(self.native_mut(), intensity);
         self
     }
     #[inline]
     pub unsafe fn intensity_watts(&mut self, watts: f32, efficiency: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_intensity1(&mut self.native, watts, efficiency);
+        bindgen::filament_LightManager_Builder_intensity1(self.native_mut(), watts, efficiency);
         self
     }
     #[inline]
     pub unsafe fn falloff(&mut self, radius: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_falloff(&mut self.native, radius);
+        bindgen::filament_LightManager_Builder_falloff(self.native_mut(), radius);
         self
     }
     #[inline]
     pub unsafe fn spot_light_cone(&mut self, inner: f32, outer: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_spotLightCone(&mut self.native, inner, outer);
+        bindgen::filament_LightManager_Builder_spotLightCone(self.native_mut(), inner, outer);
         self
     }
     #[inline]
     pub unsafe fn sun_angular_radius(&mut self, angular_radius: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_sunAngularRadius(&mut self.native, angular_radius);
+        bindgen::filament_LightManager_Builder_sunAngularRadius(self.native_mut(), angular_radius);
         self
     }
     #[inline]
     pub unsafe fn sun_halo_size(&mut self, halo_size: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_sunHaloSize(&mut self.native, halo_size);
+        bindgen::filament_LightManager_Builder_sunHaloSize(self.native_mut(), halo_size);
         self
     }
     #[inline]
     pub unsafe fn sun_halo_falloff(&mut self, halo_falloff: f32) -> &mut Self {
-        bindgen::filament_LightManager_Builder_sunHaloFalloff(&mut self.native, halo_falloff);
+        bindgen::filament_LightManager_Builder_sunHaloFalloff(self.native_mut(), halo_falloff);
         self
     }
     #[inline]
     pub unsafe fn build(&mut self, engine: &mut Engine, entity: &Entity) -> Option<&mut Self> {
         if bindgen::filament_LightManager_Builder_build(
-            &mut self.native,
+            self.native_mut(),
             engine.native_mut(),
             entity.native_owned(),
         ) == bindgen::filament_LightManager_Builder_Result_Success
@@ -216,7 +235,7 @@ impl LightBuilder {
 impl Drop for LightBuilder {
     #[inline]
     fn drop(&mut self) {
-        unsafe { self.native.destruct() }
+        unsafe { bindgen::helper_filament_light_manager_builder_delete(self.native_mut()) }
     }
 }
 

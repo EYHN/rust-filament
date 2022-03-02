@@ -68,7 +68,7 @@ fn main() {
             let triangle_color: Vec<u32> = vec![0xffff0000, 0xff00ff00, 0xff0000ff];
 
             let mut vertex_buffer = {
-                let mut vertex_buffer_builder = VertexBufferBuilder::new();
+                let mut vertex_buffer_builder = VertexBufferBuilder::new().unwrap();
                 vertex_buffer_builder.vertex_count(3);
                 vertex_buffer_builder.buffer_count(2);
                 vertex_buffer_builder.attribute(
@@ -102,7 +102,7 @@ fn main() {
             );
 
             let mut index_buffer = {
-                let mut index_buffer_builder = IndexBufferBuilder::new();
+                let mut index_buffer_builder = IndexBufferBuilder::new().unwrap();
                 index_buffer_builder.index_count(3);
                 index_buffer_builder.buffer_type(IndexType::USHORT);
                 index_buffer_builder.build(&mut engine).unwrap()
@@ -113,12 +113,12 @@ fn main() {
                 0,
             );
 
-            let mut material_builder = MaterialBuilder::new();
+            let mut material_builder = MaterialBuilder::new().unwrap();
             material_builder.package(MATERIAL_BYTES);
             let mut material = material_builder.build(&mut engine).unwrap();
             let mut material_instance = material.get_default_instance().unwrap();
 
-            let mut renderable_manager_builder = RenderableBuilder::new(1);
+            let mut renderable_manager_builder = RenderableBuilder::new(1).unwrap();
             renderable_manager_builder.bounding_box(&mut Bounds {
                 center: [-1.0, -1.0, -1.0].into(),
                 half_extent: [1.0, 1.0, 1.0].into(),

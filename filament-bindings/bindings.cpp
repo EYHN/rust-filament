@@ -89,6 +89,66 @@
 #include "image/KtxUtility.h"
 #include "image/LinearImage.h"
 
+extern "C" filament::Material::Builder* helper_filament_material_builder_create() {
+    return new filament::Material::Builder();
+}
+
+extern "C" void helper_filament_material_builder_delete(filament::Material::Builder* self) {
+    delete self;
+}
+
+extern "C" filament::LightManager::Builder* helper_filament_light_manager_builder_create(filament::LightManager::Type type) {
+    return new filament::LightManager::Builder(type);
+}
+
+extern "C" void helper_filament_light_manager_builder_delete(filament::LightManager::Builder* self) {
+    delete self;
+}
+
+extern "C" image::KtxBundle* helper_image_ktx_bundle_create(uint32_t numMipLevels, uint32_t arrayLength, bool isCubemap) {
+    return new image::KtxBundle(numMipLevels, arrayLength, isCubemap);
+}
+
+extern "C" image::KtxBundle* helper_image_ktx_bundle_from(uint8_t const* bytes, uint32_t nbytes) {
+    return new image::KtxBundle(bytes, nbytes);
+}
+
+extern "C" void helper_image_ktx_bundle_delete(image::KtxBundle* self) {
+    delete self;
+}
+
+extern "C" filament::IndexBuffer::Builder* helper_filament_index_buffer_create() {
+    return new filament::IndexBuffer::Builder();
+}
+
+extern "C" void helper_filament_index_buffer_delete(filament::IndexBuffer::Builder* self) {
+    delete self;
+}
+
+extern "C" filament::VertexBuffer::Builder* helper_filament_vertex_buffer_create() {
+    return new filament::VertexBuffer::Builder();
+}
+
+extern "C" void helper_filament_vertex_buffer_delete(filament::VertexBuffer::Builder* self) {
+    delete self;
+}
+
+extern "C" filament::Texture::Builder* helper_filament_texture_builder_create() {
+    return new filament::Texture::Builder();
+}
+
+extern "C" void helper_filament_texture_builder_delete(filament::Texture::Builder* self) {
+    delete self;
+}
+
+extern "C" filament::RenderableManager::Builder* helper_filament_renderable_manager_builder_create(size_t count) {
+    return new filament::RenderableManager::Builder(count);
+}
+
+extern "C" void helper_filament_renderable_manager_builder_delete(filament::RenderableManager::Builder* self) {
+    delete self;
+}
+
 extern "C" void helper_material_instance_setParameter_float(filament::MaterialInstance * instance, const char *name, float const& value) {
     instance->setParameter(name, value);
 }

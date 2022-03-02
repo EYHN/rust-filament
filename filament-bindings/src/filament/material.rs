@@ -8,42 +8,57 @@ use super::{
 };
 
 pub struct MaterialBuilder {
-    native: bindgen::filament_Material_Builder,
+    native: ptr::NonNull<bindgen::filament_Material_Builder>,
 }
 
 impl MaterialBuilder {
     #[inline]
-    pub unsafe fn new() -> Self {
-        Self {
-            native: bindgen::filament_Material_Builder::new(),
-        }
+    #[allow(dead_code)]
+    pub(crate) unsafe fn native(&self) -> *const bindgen::filament_Material_Builder {
+        self.native.as_ptr()
     }
 
     #[inline]
-    pub unsafe fn from(r: &MaterialBuilder) -> Self {
-        Self {
-            native: bindgen::filament_Material_Builder::new1(&r.native),
-        }
+    pub(crate) unsafe fn native_mut(&mut self) -> *mut bindgen::filament_Material_Builder {
+        self.native.as_ptr()
+    }
+
+    #[inline]
+    pub(crate) unsafe fn try_from_native(
+        native: *mut bindgen::filament_Material_Builder,
+    ) -> Option<Self> {
+        let ptr = ptr::NonNull::new(native)?;
+        Some(MaterialBuilder { native: ptr })
+    }
+
+    #[inline]
+    pub unsafe fn new() -> Option<Self> {
+        Self::try_from_native(bindgen::helper_filament_material_builder_create())
     }
 
     #[inline]
     pub unsafe fn package<'a>(&mut self, payload: &'a [u8]) -> &mut Self {
-        self.native
-            .package(payload.as_ptr() as *const _, payload.len());
-
+        bindgen::filament_Material_Builder_package(
+            self.native_mut(),
+            payload.as_ptr() as *const _,
+            payload.len(),
+        );
         self
     }
 
     #[inline]
     pub unsafe fn build(&mut self, engine: &mut Engine) -> Option<Material> {
-        Material::try_from_native(self.native.build(engine.native_mut()))
+        Material::try_from_native(bindgen::filament_Material_Builder_build(
+            self.native_mut(),
+            engine.native_mut(),
+        ))
     }
 }
 
 impl Drop for MaterialBuilder {
     #[inline]
     fn drop(&mut self) {
-        unsafe { self.native.destruct() }
+        unsafe { bindgen::helper_filament_material_builder_delete(self.native_mut()) }
     }
 }
 

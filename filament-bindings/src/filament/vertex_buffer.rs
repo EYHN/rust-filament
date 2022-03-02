@@ -8,39 +8,49 @@ use crate::{
 use super::{Engine, VertexAttribute};
 
 pub struct VertexBufferBuilder {
-    native: bindgen::filament_VertexBuffer_Builder,
+    native: ptr::NonNull<bindgen::filament_VertexBuffer_Builder>,
 }
 
 impl VertexBufferBuilder {
     #[inline]
-    pub unsafe fn new() -> Self {
-        Self {
-            native: bindgen::filament_VertexBuffer_Builder::new(),
-        }
+    #[allow(dead_code)]
+    pub(crate) unsafe fn native(&self) -> *const bindgen::filament_VertexBuffer_Builder {
+        self.native.as_ptr()
     }
 
     #[inline]
-    pub unsafe fn from(r: &VertexBufferBuilder) -> Self {
-        Self {
-            native: bindgen::filament_VertexBuffer_Builder::new1(&r.native),
-        }
+    pub(crate) unsafe fn native_mut(&mut self) -> *mut bindgen::filament_VertexBuffer_Builder {
+        self.native.as_ptr()
+    }
+
+    #[inline]
+    pub(crate) unsafe fn try_from_native(
+        native: *mut bindgen::filament_VertexBuffer_Builder,
+    ) -> Option<Self> {
+        let ptr = ptr::NonNull::new(native)?;
+        Some(VertexBufferBuilder { native: ptr })
+    }
+
+    #[inline]
+    pub unsafe fn new() -> Option<Self> {
+        Self::try_from_native(bindgen::helper_filament_vertex_buffer_create())
     }
 
     #[inline]
     pub unsafe fn buffer_count(&mut self, buffer_count: u8) -> &mut Self {
-        self.native.bufferCount(buffer_count);
+        bindgen::filament_VertexBuffer_Builder_bufferCount(self.native_mut(), buffer_count);
         self
     }
 
     #[inline]
     pub unsafe fn vertex_count(&mut self, vertex_count: u32) -> &mut Self {
-        self.native.vertexCount(vertex_count);
+        bindgen::filament_VertexBuffer_Builder_vertexCount(self.native_mut(), vertex_count);
         self
     }
 
     #[inline]
     pub unsafe fn enable_buffer_objects(&mut self, enabled: bool) -> &mut Self {
-        self.native.enableBufferObjects(enabled);
+        bindgen::filament_VertexBuffer_Builder_enableBufferObjects(self.native_mut(), enabled);
         self
     }
 
@@ -53,7 +63,8 @@ impl VertexBufferBuilder {
         byte_offset: u32,
         byte_stride: u8,
     ) -> &mut Self {
-        self.native.attribute(
+        bindgen::filament_VertexBuffer_Builder_attribute(
+            self.native_mut(),
             attribute.into(),
             buffer_index,
             attribute_type.into(),
@@ -65,20 +76,27 @@ impl VertexBufferBuilder {
 
     #[inline]
     pub unsafe fn normalized(&mut self, attribute: VertexAttribute, normalize: bool) -> &mut Self {
-        self.native.normalized(attribute.into(), normalize);
+        bindgen::filament_VertexBuffer_Builder_normalized(
+            self.native_mut(),
+            attribute.into(),
+            normalize,
+        );
         self
     }
 
     #[inline]
     pub unsafe fn build(&mut self, engine: &mut Engine) -> Option<VertexBuffer> {
-        VertexBuffer::try_from_native(self.native.build(engine.native_mut()))
+        VertexBuffer::try_from_native(bindgen::filament_VertexBuffer_Builder_build(
+            self.native_mut(),
+            engine.native_mut(),
+        ))
     }
 }
 
 impl Drop for VertexBufferBuilder {
     #[inline]
     fn drop(&mut self) {
-        unsafe { self.native.destruct() }
+        unsafe { bindgen::helper_filament_vertex_buffer_delete(self.native_mut()) }
     }
 }
 
