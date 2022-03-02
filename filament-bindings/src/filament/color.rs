@@ -29,16 +29,52 @@ pub enum RgbaType {
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-struct sRGBColor(Float3);
+pub struct sRGBColor(pub Float3);
+
+impl sRGBColor {
+    #[allow(dead_code)]
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_float3 {
+        self.0.native_ptr()
+    }
+}
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-struct LinearColor(Float3);
+pub struct LinearColor(pub Float3);
+
+impl LinearColor {
+    #[allow(dead_code)]
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_float3 {
+        self.0.native_ptr()
+    }
+}
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-struct LinearColorA(Float4);
+pub struct LinearColorA(pub Float4);
+
+impl LinearColorA {
+    #[allow(dead_code)]
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_float4 {
+        self.0.native_ptr()
+    }
+}
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-struct sRGBColorA(Float4);
+pub struct sRGBColorA(pub Float4);
+
+impl sRGBColorA {
+    #[allow(dead_code)]
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_float4 {
+        self.0.native_ptr()
+    }
+}
+
+impl sRGBColor {
+    pub unsafe fn to_linear_fast(&self) -> LinearColor {
+        LinearColor(Float3::from_native(
+            bindgen::helper_color_toLinear_fast_sRGB(self.0.native_ptr()),
+        ))
+    }
+}

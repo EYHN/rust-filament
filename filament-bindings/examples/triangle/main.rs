@@ -1,86 +1,34 @@
-use filament_bindings::root::{
+use std::{fs::File, io::Write};
+
+use filament_bindings::{
+    backend::{self, Backend, PixelBufferDescriptor},
     filament::{
-        backend::{self, Backend, BufferDescriptor, SamplerParams},
-        Camera_Projection, Engine, IndexBuffer_Builder, IndexBuffer_IndexType, Material_Builder,
-        RenderableManager_Builder, Renderer_ClearOptions, TextureSampler, Texture_Builder,
-        VertexAttribute, VertexBuffer_Builder, Viewport,
+        Bounds, ClearOptions, Engine, IndexBufferBuilder, IndexType, MaterialBuilder, Projection,
+        RenderableBuilder, VertexAttribute, VertexBufferBuilder, Viewport,
     },
-    utils::Entity,
 };
 
-use std::{
-    ffi::CString,
-    fs::File,
-    io::Write,
-    ptr::{self, null_mut},
-};
-
-const MATERIAL_BYTES: &'static [u8] = include_bytes!("texture_unlit_ogl.filamat");
-
-#[repr(C)]
-#[derive(Clone, Default)]
-struct RgbColor {
-    pub r: u8,
-    pub g: u8,
-    pub b: u8,
-}
-
-#[repr(C)]
-struct Vertex {
-    pub position: [f32; 2],
-    pub uv: [f32; 2],
-}
-
-fn triangle_data() -> (Vec<Vertex>, Vec<u16>, Vec<RgbColor>) {
-    let mut texture_data = vec![RgbColor::default(); 256 * 256];
-    for y in 0..256 {
-        for x in 0..256 {
-            texture_data[y * 256 + x] = RgbColor {
-                r: x as u8,
-                g: y as u8,
-                b: 0,
-            };
-        }
-    }
-
-    (
-        vec![
-            Vertex {
-                position: [1.0, -1.0],
-                uv: [1.0, 0.0],
-            },
-            Vertex {
-                position: [0.0, 1.0],
-                uv: [0.0, 1.0],
-            },
-            Vertex {
-                position: [-1.0, -1.0],
-                uv: [0.0, 0.0],
-            },
-        ],
-        vec![0, 1, 2],
-        texture_data,
-    )
-}
+const MATERIAL_BYTES: &'static [u8] = include_bytes!("bakedColor.filamat");
 
 fn main() {
     unsafe {
-        let engine = &mut *Engine::create(Backend::OPENGL, null_mut(), null_mut());
-        let swap_chain = engine.createSwapChain1(800, 600, 0);
-        let renderer = &mut *engine.createRenderer();
-        let view = &mut *engine.createView();
-        let scene = &mut *engine.createScene();
+        let mut engine = Engine::create(Backend::OPENGL).unwrap();
+        let mut swap_chain = engine
+            .create_headless_swap_chain(800, 600, Default::default())
+            .unwrap();
+        let mut renderer = engine.create_renderer().unwrap();
+        let mut view = engine.create_view().unwrap();
+        let mut scene = engine.create_scene().unwrap();
 
-        let entity_manager = &mut *engine.getEntityManager();
-        let mut camera_entity = Entity::default();
-        entity_manager.create(1, &mut camera_entity as *mut _);
+        let mut entity_manager = engine.get_entity_manager().unwrap();
+        let camera_entity = entity_manager.create();
 
-        let camera = &mut *engine.createCamera(camera_entity);
+        let mut camera = engine.create_camera(&camera_entity).unwrap();
         let aspect = 800.0 / 600.0;
         let zoom = 1.0;
 
-        camera.setProjection(
-            Camera_Projection::ORTHO,
+        camera.set_projection(
+            Projection::ORTHO,
             -aspect * zoom,
             aspect * zoom,
             -zoom,
@@ -90,131 +38,125 @@ fn main() {
         );
 
         let viewport = Viewport {
-            _base: backend::Viewport {
-                left: 0,
-                bottom: 0,
-                width: 800,
-                height: 600,
-            },
+            left: 0,
+            bottom: 0,
+            width: 800,
+            height: 600,
         };
 
-        view.setPostProcessingEnabled(false);
-        view.setViewport(&viewport);
-        view.setScene(scene);
-        view.setCamera(camera);
+        view.set_post_processing_enabled(false);
+        view.set_viewport(&viewport);
+        view.set_scene(&mut scene);
+        view.set_camera(&mut camera);
 
-        let clear_options = Renderer_ClearOptions {
-            clearColor: [0.0, 0.0, 1.0, 1.0],
+        let clear_options = ClearOptions {
+            clear_color: [0.0, 0.0, 1.0, 1.0].into(),
             clear: true,
             discard: true,
         };
-        renderer.setClearOptions(&clear_options as *const _);
+        renderer.set_clear_options(&clear_options);
 
-        let (vertices, indices, texture_data) = triangle_data();
+        let triangle = {
+            let triangle_position: Vec<f32> = vec![
+                1.0,
+                0.0,
+                f32::cos(std::f32::consts::PI * 2.0 / 3.0),
+                f32::sin(std::f32::consts::PI * 2.0 / 3.0),
+                f32::cos(std::f32::consts::PI * 4.0 / 3.0),
+                f32::sin(std::f32::consts::PI * 4.0 / 3.0),
+            ];
+            let triangle_color: Vec<u32> = vec![0xffff0000, 0xff00ff00, 0xff0000ff];
 
-        let mut vertex_buffer_builder = VertexBuffer_Builder::new();
-        vertex_buffer_builder.vertexCount(3);
-        vertex_buffer_builder.bufferCount(1);
-        vertex_buffer_builder.attribute(
-            VertexAttribute::POSITION,
-            0,
-            backend::ElementType::FLOAT2,
-            0,
-            16,
-        );
-        vertex_buffer_builder.attribute(
-            VertexAttribute::UV0,
-            0,
-            backend::ElementType::FLOAT2,
-            8,
-            16,
-        );
-        let vertex_buffer = &mut *vertex_buffer_builder.build(engine);
-        let mut vertices_desc = make_buffer_descriptor(vertices, |_| {});
-        vertex_buffer.setBufferAt(engine, 0, &mut vertices_desc, 0);
+            let mut vertex_buffer = {
+                let mut vertex_buffer_builder = VertexBufferBuilder::new();
+                vertex_buffer_builder.vertex_count(3);
+                vertex_buffer_builder.buffer_count(2);
+                vertex_buffer_builder.attribute(
+                    VertexAttribute::POSITION,
+                    0,
+                    backend::ElementType::FLOAT2,
+                    0,
+                    8,
+                );
+                vertex_buffer_builder.attribute(
+                    VertexAttribute::COLOR,
+                    1,
+                    backend::ElementType::UBYTE4,
+                    0,
+                    4,
+                );
+                vertex_buffer_builder.normalized(VertexAttribute::COLOR, true);
+                vertex_buffer_builder.build(&mut engine).unwrap()
+            };
+            vertex_buffer.set_buffer_at(
+                &mut engine,
+                0,
+                backend::BufferDescriptor::new(triangle_position),
+                0,
+            );
+            vertex_buffer.set_buffer_at(
+                &mut engine,
+                1,
+                backend::BufferDescriptor::new(triangle_color),
+                0,
+            );
 
-        let mut index_buffer_builder = IndexBuffer_Builder::new();
-        index_buffer_builder.indexCount(3);
-        index_buffer_builder.bufferType(IndexBuffer_IndexType::USHORT);
-        let index_buffer = &mut *index_buffer_builder.build(engine);
-        let mut indices_desc = make_buffer_descriptor(indices, |_| {});
-        index_buffer.setBuffer(engine, &mut indices_desc, 0);
+            let mut index_buffer = {
+                let mut index_buffer_builder = IndexBufferBuilder::new();
+                index_buffer_builder.index_count(3);
+                index_buffer_builder.buffer_type(IndexType::USHORT);
+                index_buffer_builder.build(&mut engine).unwrap()
+            };
+            index_buffer.set_buffer(
+                &mut engine,
+                backend::BufferDescriptor::new(vec![0u16, 1u16, 2u16]),
+                0,
+            );
 
-        let mut texture_builder = Texture_Builder::new();
-        texture_builder.width(256);
-        texture_builder.height(256);
-        texture_builder.format(backend::TextureFormat::RGB8);
-        let texture = &mut *texture_builder.build(engine);
-        let mut texture_desc = make_pixel_buffer_descriptor(
-            texture_data,
-            backend::PixelDataFormat::RGB,
-            backend::PixelDataType::UBYTE,
-            1,
-            0,
-            0,
-            0,
-            |_| {},
-        );
-        texture.setImage(engine, 0, &mut texture_desc);
+            let mut material_builder = MaterialBuilder::new();
+            material_builder.package(MATERIAL_BYTES);
+            let mut material = material_builder.build(&mut engine).unwrap();
+            let mut material_instance = material.get_default_instance().unwrap();
 
-        let mut material_builder = Material_Builder::new();
-        material_builder.package(
-            MATERIAL_BYTES.as_ptr() as *const _,
-            MATERIAL_BYTES.len(),
-        );
-        let material = &mut *material_builder.build(engine);
-        let material_instance = &mut *material.getDefaultInstance();
-        let name = CString::new("texture").unwrap();
-        material_instance.setParameter(
-            name.as_ptr(),
-            texture,
-            &TextureSampler {
-                mSamplerParams: SamplerParams::default(),
-            },
-        );
+            let mut renderable_manager_builder = RenderableBuilder::new(1);
+            renderable_manager_builder.bounding_box(&mut Bounds {
+                center: [-1.0, -1.0, -1.0].into(),
+                half_extent: [1.0, 1.0, 1.0].into(),
+            });
+            renderable_manager_builder.material(0, &mut material_instance);
+            renderable_manager_builder.geometry(
+                0,
+                backend::PrimitiveType::TRIANGLES,
+                &mut vertex_buffer,
+                &mut index_buffer,
+            );
+            let triangle = entity_manager.create();
+            renderable_manager_builder.build(&mut engine, &triangle);
+            triangle
+        };
 
-        let mut renderable = Entity::default();
-        entity_manager.create(1, &mut renderable);
+        scene.add_entity(&triangle);
 
-        let mut renderable_manager_builder = RenderableManager_Builder::new(1);
-        renderable_manager_builder.culling(false);
-        renderable_manager_builder.castShadows(false);
-        renderable_manager_builder.receiveShadows(false);
-        renderable_manager_builder.material(0, material_instance);
-        renderable_manager_builder.geometry2(
-            0,
-            backend::PrimitiveType::TRIANGLES,
-            vertex_buffer,
-            index_buffer,
-        );
-        renderable_manager_builder.build(engine, renderable);
-
-        scene.addEntity(renderable);
-
-        renderer.beginFrame(swap_chain, 0);
+        renderer.begin_frame(&mut swap_chain);
 
         println!("start rendering");
 
-        renderer.render(view);
+        renderer.render(&mut view);
         const BYTE_COUNT: usize = 800 * 600 * 4;
         let buffer = vec![0u8; BYTE_COUNT];
-        let mut pixel = make_pixel_buffer_descriptor(
+        let pixel = PixelBufferDescriptor::new_callback(
             buffer,
             backend::PixelDataFormat::RGBA,
             backend::PixelDataType::UBYTE,
-            1,
-            0,
-            0,
-            0,
             pixelbuffer_read_callback,
         );
-        renderer.readPixels(0, 0, 800, 600, &mut pixel as *mut _);
+        renderer.read_pixels(0, 0, 800, 600, pixel);
 
-        renderer.endFrame();
+        renderer.end_frame();
 
-        engine.flushAndWait();
+        engine.flush_and_wait();
 
-        Engine::destroy1(engine);
+        Engine::destroy(engine);
     }
 }
 
@@ -247,61 +189,4 @@ unsafe fn convert_rgba_to_rgb(buffer: *mut u8, width: u32, height: u32) {
         read_ptr = read_ptr.offset(4);
         i += 1;
     }
-}
-
-fn make_buffer_descriptor<T: Sized>(
-    mut data: Vec<T>,
-    callback: impl FnOnce(&mut Vec<u8>),
-) -> BufferDescriptor {
-    let callback_box: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::new(Box::new(callback));
-    let user = Box::into_raw(callback_box);
-    let desc = BufferDescriptor {
-        buffer: data.as_mut_ptr() as *mut _,
-        size: (data.len() * std::mem::size_of::<T>()).try_into().unwrap(),
-        mCallback: Some(buffer_descriptor_callback),
-        mUser: user as *mut _,
-        mHandler: ptr::null_mut(),
-    };
-    std::mem::forget(data);
-    desc
-}
-
-fn make_pixel_buffer_descriptor<T: Sized>(
-    data: Vec<T>,
-    format: backend::PixelDataFormat,
-    datatype: backend::PixelDataType,
-    alignment: u8,
-    left: u32,
-    top: u32,
-    stride: u32,
-    callback: impl FnOnce(&mut Vec<u8>),
-) -> backend::PixelBufferDescriptor {
-    backend::PixelBufferDescriptor {
-        _base: make_buffer_descriptor(data, callback),
-        left: left,
-        top: top,
-        __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1 {
-            __bindgen_anon_1: backend::PixelBufferDescriptor__bindgen_ty_1__bindgen_ty_1 {
-                stride: stride,
-                format: format.into(),
-            },
-        },
-        _bitfield_1: backend::PixelBufferDescriptor::new_bitfield_1(datatype.into(), alignment),
-        ..Default::default()
-    }
-}
-
-pub unsafe extern "C" fn buffer_descriptor_callback(
-    ptr: *mut std::ffi::c_void,
-    size: usize,
-    user: *mut std::ffi::c_void,
-) {
-    let mut buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
-
-    if !user.is_null() {
-        let user_fn: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::from_raw(user as *mut _);
-        user_fn(&mut buffer);
-    }
-
-    std::mem::drop(buffer);
 }

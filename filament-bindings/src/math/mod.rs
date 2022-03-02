@@ -5,6 +5,7 @@ use crate::bindgen;
 pub struct Vec2<T>(pub T, pub T);
 
 impl<T> Vec2<T> {
+    const COMPONENTS: usize = 2;
     pub fn new(x: T, y: T) -> Self {
         Self(x, y)
     }
@@ -15,6 +16,7 @@ impl<T> Vec2<T> {
 pub struct Vec3<T>(pub T, pub T, pub T);
 
 impl<T> Vec3<T> {
+    const COMPONENTS: usize = 3;
     pub fn new(x: T, y: T, z: T) -> Self {
         Self(x, y, z)
     }
@@ -25,6 +27,7 @@ impl<T> Vec3<T> {
 pub struct Vec4<T>(pub T, pub T, pub T, pub T);
 
 impl<T> Vec4<T> {
+    const COMPONENTS: usize = 4;
     pub fn new(x: T, y: T, z: T, w: T) -> Self {
         Self(x, y, z, w)
     }
@@ -42,6 +45,16 @@ macro_rules! math_vec {
             #[allow(dead_code)]
             pub(crate) fn native_owned(self) -> bindgen::$na {
                 unsafe { core::mem::transmute(self) }
+            }
+
+            #[allow(dead_code)]
+            pub(crate) fn from_native(native: bindgen::$na) -> Self {
+                unsafe { core::mem::transmute(native) }
+            }
+        }
+        impl From<[$it; $vt::<$it>::COMPONENTS]> for $n {
+            fn from(arr: [$it; $vt::<$it>::COMPONENTS]) -> Self {
+                unsafe { core::mem::transmute(arr) }
             }
         }
     };
@@ -70,26 +83,44 @@ math_vec!(Vec4, bool, Bool4, filament_math_bool4);
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-pub struct Mat4f {
-    mat: [f32; 16],
-}
+pub struct Mat4f(pub [f32; 16]);
 
 #[repr(C)]
 #[derive(Clone, Debug)]
-pub struct Mat4 {
-    mat: [f64; 16],
-}
+pub struct Mat4(pub [f64; 16]);
 
 impl Mat4f {
     #[allow(dead_code)]
-    pub(crate) fn native(&self) -> *const bindgen::filament_math_mat4f {
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_mat4f {
         self as *const Self as *const _
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn from_native(native: bindgen::filament_math_mat4f) -> Self {
+        unsafe { core::mem::transmute(native) }
     }
 }
 
 impl Mat4 {
     #[allow(dead_code)]
-    pub(crate) fn native(&self) -> *const bindgen::filament_math_mat4 {
+    pub(crate) fn native_ptr(&self) -> *const bindgen::filament_math_mat4 {
         self as *const Self as *const _
+    }
+
+    #[allow(dead_code)]
+    pub(crate) fn from_native(native: bindgen::filament_math_mat4) -> Self {
+        unsafe { core::mem::transmute(native) }
+    }
+}
+
+impl From<[f64; 16]> for Mat4 {
+    fn from(mat: [f64; 16]) -> Self {
+        Self(mat)
+    }
+}
+
+impl From<[f32; 16]> for Mat4f {
+    fn from(mat: [f32; 16]) -> Self {
+        Self(mat)
     }
 }

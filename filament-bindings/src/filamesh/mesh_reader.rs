@@ -25,27 +25,17 @@ impl Mesh {
 impl MeshReader {
     pub unsafe fn load_mesh_from_buffer_default_material(
         engine: &mut Engine,
-        data: Vec<u8>,
+        data: &'static [u8],
         default_material: &mut MaterialInstance,
     ) -> Option<Mesh> {
         let native_mesh = bindgen::filamesh_MeshReader_loadMeshFromBuffer1(
             engine.native_mut(),
             data.as_ptr() as *const _,
-            Some(buffer_descriptor_callback),
-            core::ptr::null_mut(),
+            None,
+            std::ptr::null_mut(),
             default_material.native_mut(),
         );
-        core::mem::forget(data);
+        std::mem::forget(data);
         Mesh::try_from_native(native_mesh)
     }
-}
-
-unsafe extern "C" fn buffer_descriptor_callback(
-    ptr: *mut std::ffi::c_void,
-    size: usize,
-    _: *mut std::ffi::c_void,
-) {
-    let buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
-
-    std::mem::drop(buffer);
 }

@@ -1,6 +1,10 @@
 use std::ptr;
 
-use crate::{bindgen, utils::Entity};
+use crate::{
+    bindgen,
+    math::{Mat4, Mat4f},
+    utils::Entity,
+};
 
 pub struct TransformManager {
     native: ptr::NonNull<bindgen::filament_TransformManager>,
@@ -75,13 +79,13 @@ impl TransformManager {
         &mut self,
         entity: &Entity,
         parent: &TransformManagerInstance,
-        local_transform: *const bindgen::filament_math_mat4f,
+        local_transform: &Mat4f,
     ) {
         bindgen::filament_TransformManager_create(
             self.native_mut(),
             entity.native_owned(),
             parent.native_owned(),
-            local_transform,
+            local_transform.native_ptr(),
         )
     }
 
@@ -166,34 +170,30 @@ impl TransformManager {
     pub unsafe fn set_transform_float(
         &mut self,
         ci: &TransformManagerInstance,
-        local_transform: &bindgen::filament_math_mat4f,
+        local_transform: &Mat4f,
     ) {
         bindgen::filament_TransformManager_setTransform(
             self.native_mut(),
             ci.native_owned(),
-            local_transform,
+            local_transform.native_ptr(),
         )
     }
 
     #[inline]
-    pub unsafe fn set_transform(
-        &mut self,
-        ci: &TransformManagerInstance,
-        local_transform: &bindgen::filament_math_mat4,
-    ) {
+    pub unsafe fn set_transform(&mut self, ci: &TransformManagerInstance, local_transform: &Mat4) {
         bindgen::filament_TransformManager_setTransform1(
             self.native_mut(),
             ci.native_owned(),
-            local_transform,
+            local_transform.native_ptr(),
         )
     }
 
     #[inline]
-    pub unsafe fn get_transform(
-        &self,
-        ci: &TransformManagerInstance,
-    ) -> &bindgen::filament_math_mat4f {
-        &*bindgen::filament_TransformManager_getTransform(self.native(), ci.native_owned())
+    pub unsafe fn get_transform(&self, ci: &TransformManagerInstance) -> Mat4f {
+        Mat4f::from_native(
+            bindgen::filament_TransformManager_getTransform(self.native(), ci.native_owned())
+                .read().clone(),
+        )
     }
 
     #[inline]
@@ -205,11 +205,11 @@ impl TransformManager {
     }
 
     #[inline]
-    pub unsafe fn get_world_transform(
-        &self,
-        ci: &TransformManagerInstance,
-    ) -> &bindgen::filament_math_mat4f {
-        &*bindgen::filament_TransformManager_getWorldTransform(self.native(), ci.native_owned())
+    pub unsafe fn get_world_transform(&self, ci: &TransformManagerInstance) -> Mat4f {
+        Mat4f::from_native(
+            bindgen::filament_TransformManager_getWorldTransform(self.native(), ci.native_owned())
+                .read().clone(),
+        )
     }
 
     #[inline]

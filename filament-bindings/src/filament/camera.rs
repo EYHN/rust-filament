@@ -2,7 +2,7 @@ use std::ptr;
 
 use num_enum::IntoPrimitive;
 
-use crate::bindgen;
+use crate::{bindgen, math::Float3};
 
 #[derive(IntoPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(i32)]
@@ -195,22 +195,18 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn look_at_up(
-        &mut self,
-        eye: &bindgen::filament_math_float3,
-        center: &bindgen::filament_math_float3,
-        up: &bindgen::filament_math_float3,
-    ) {
-        bindgen::filament_Camera_lookAt(self.native_mut(), eye, center, up)
+    pub unsafe fn look_at_up(&mut self, eye: &Float3, center: &Float3, up: &Float3) {
+        bindgen::filament_Camera_lookAt(
+            self.native_mut(),
+            eye.native_ptr(),
+            center.native_ptr(),
+            up.native_ptr(),
+        )
     }
 
     #[inline]
-    pub unsafe fn look_at(
-        &mut self,
-        eye: &bindgen::filament_math_float3,
-        center: &bindgen::filament_math_float3,
-    ) {
-        bindgen::filament_Camera_lookAt1(self.native_mut(), eye, center)
+    pub unsafe fn look_at(&mut self, eye: &Float3, center: &Float3) {
+        bindgen::filament_Camera_lookAt1(self.native_mut(), eye.native_ptr(), center.native_ptr())
     }
 
     #[inline]
@@ -224,23 +220,23 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn get_position(&self) -> bindgen::filament_math_float3 {
-        bindgen::filament_Camera_getPosition(self.native())
+    pub unsafe fn get_position(&self) -> Float3 {
+        Float3::from_native(bindgen::filament_Camera_getPosition(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_left_vector(&self) -> bindgen::filament_math_float3 {
-        bindgen::filament_Camera_getLeftVector(self.native())
+    pub unsafe fn get_left_vector(&self) -> Float3 {
+        Float3::from_native(bindgen::filament_Camera_getLeftVector(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_up_vector(&self) -> bindgen::filament_math_float3 {
-        bindgen::filament_Camera_getUpVector(self.native())
+    pub unsafe fn get_up_vector(&self) -> Float3 {
+        Float3::from_native(bindgen::filament_Camera_getUpVector(self.native()))
     }
 
     #[inline]
-    pub unsafe fn get_forward_vector(&self) -> bindgen::filament_math_float3 {
-        bindgen::filament_Camera_getForwardVector(self.native())
+    pub unsafe fn get_forward_vector(&self) -> Float3 {
+        Float3::from_native(bindgen::filament_Camera_getForwardVector(self.native()))
     }
 
     #[inline]

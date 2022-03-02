@@ -2,7 +2,7 @@ use std::{mem, ptr};
 
 use bitflags::bitflags;
 
-use crate::bindgen;
+use crate::{bindgen, math::Float4, backend::PixelBufferDescriptor};
 
 use super::{Engine, SwapChain, View, Viewport};
 
@@ -26,7 +26,7 @@ pub struct FrameRateOptions {
 #[repr(C)]
 #[derive(Debug, Clone)]
 pub struct ClearOptions {
-    pub clear_color: bindgen::filament_math_float4,
+    pub clear_color: Float4,
     pub clear: bool,
     pub discard: bool,
 }
@@ -126,7 +126,24 @@ impl Renderer {
         )
     }
 
-    // TODO: read_pixels
+    #[inline]
+    pub unsafe fn read_pixels(
+        &mut self,
+        xoffset: u32,
+        yoffset: u32,
+        width: u32,
+        height: u32,
+        buffer: PixelBufferDescriptor<u8>,
+    ) {
+        bindgen::filament_Renderer_readPixels(
+            self.native_mut(),
+            xoffset,
+            yoffset,
+            width,
+            height,
+            &mut buffer.into_native(),
+        )
+    }
 
     #[inline]
     pub unsafe fn end_frame(&mut self) {

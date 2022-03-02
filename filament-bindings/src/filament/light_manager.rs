@@ -7,7 +7,7 @@ use num_enum::{FromPrimitive, IntoPrimitive};
 
 use crate::{bindgen, utils::Entity, math::Float3};
 
-use super::Engine;
+use super::{Engine, LinearColor};
 
 #[derive(IntoPrimitive, FromPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
 #[repr(u8)]
@@ -154,8 +154,8 @@ impl LightBuilder {
         self
     }
     #[inline]
-    pub unsafe fn color(&mut self, color: &bindgen::filament_LinearColor) -> &mut Self {
-        bindgen::filament_LightManager_Builder_color(&mut self.native, color);
+    pub unsafe fn color(&mut self, color: &LinearColor) -> &mut Self {
+        bindgen::filament_LightManager_Builder_color(&mut self.native, color.native_ptr());
         self
     }
     #[inline]
