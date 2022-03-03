@@ -2,7 +2,7 @@ use std::ptr;
 
 use crate::{bindgen, utils::Entity};
 
-use super::Engine;
+use super::{Engine, Skybox, IndirectLight};
 
 pub struct Scene {
     native: ptr::NonNull<bindgen::filament_Scene>,
@@ -33,6 +33,18 @@ impl Scene {
     #[inline]
     pub unsafe fn add_entity(&mut self, entity: &Entity) -> &mut Self {
         bindgen::filament_Scene_addEntity(self.native_mut(), entity.native_owned());
+        self
+    }
+
+    #[inline]
+    pub unsafe fn set_skybox(&mut self, skybox: &mut Skybox) -> &mut Self {
+        bindgen::filament_Scene_setSkybox(self.native_mut(), skybox.native_mut());
+        self
+    }
+
+    #[inline]
+    pub unsafe fn set_indirect_light(&mut self, ibl: &mut IndirectLight) -> &mut Self {
+        bindgen::filament_Scene_setIndirectLight(self.native_mut(), ibl.native_mut());
         self
     }
 }

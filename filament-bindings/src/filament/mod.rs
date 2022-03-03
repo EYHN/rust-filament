@@ -19,6 +19,8 @@ mod swap_chain;
 mod renderer;
 mod fence;
 mod bounds;
+mod skybox;
+mod indirect_light;
 
 pub use engine::*;
 pub use camera::*;
@@ -41,3 +43,5 @@ pub use swap_chain::*;
 pub use renderer::*;
 pub use fence::*;
 pub use bounds::*;
+pub use skybox::*;
+pub use indirect_light::*;

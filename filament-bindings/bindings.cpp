@@ -149,6 +149,22 @@ extern "C" void helper_filament_renderable_manager_builder_delete(filament::Rend
     delete self;
 }
 
+extern "C" filament::Skybox::Builder* helper_filament_skybox_builder_create() {
+    return new filament::Skybox::Builder();
+}
+
+extern "C" void helper_filament_skybox_builder_delete(filament::Skybox::Builder* self) {
+    delete self;
+}
+
+extern "C" filament::IndirectLight::Builder* helper_filament_indirect_light_builder_create() {
+    return new filament::IndirectLight::Builder();
+}
+
+extern "C" void helper_filament_indirect_light_builder_delete(filament::IndirectLight::Builder* self) {
+    delete self;
+}
+
 extern "C" void helper_material_instance_setParameter_float(filament::MaterialInstance * instance, const char *name, float const& value) {
     instance->setParameter(name, value);
 }

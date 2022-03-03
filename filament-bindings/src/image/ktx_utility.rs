@@ -7,7 +7,7 @@ pub mod ktx {
 
     pub unsafe fn create_texture(
         engine: &mut Engine,
-        mut ktx: KtxBundle,
+        ktx: KtxBundle,
         srgb: bool,
     ) -> Option<Texture> {
         let result = Texture::try_from_native(bindgen::helper_image_ktx_createTexture(
@@ -15,9 +15,8 @@ pub mod ktx {
             ktx.native(),
             srgb,
             Some(create_texture_callback),
-            &mut ktx as *mut KtxBundle as *mut std::ffi::c_void,
+            Box::into_raw(Box::new(ktx)) as *mut _,
         ));
-        std::mem::forget(ktx);
         result
     }
 

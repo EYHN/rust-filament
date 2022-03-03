@@ -35,7 +35,6 @@ impl MeshReader {
             std::ptr::null_mut(),
             default_material.native_mut(),
         );
-        println!("{:?}", native_mesh);
         std::mem::forget(data);
         Mesh::try_from_native(native_mesh)
     }

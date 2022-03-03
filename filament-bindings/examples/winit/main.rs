@@ -1,7 +1,15 @@
+use core::time;
+use std::thread;
+
 use filament_bindings::{
     backend,
-    filament::{Engine, LightBuilder, LightType, LinearColor, MaterialBuilder, RgbType, Viewport},
+    filament::{
+        Engine, IndirectLightBuilder, LightBuilder, LightType, LinearColor, MaterialBuilder,
+        RgbType, SkyboxBuilder, Viewport,
+    },
     filameshio::MeshReader,
+    image::{ktx, KtxBundle},
+    math::{Float3, Mat4f},
 };
 
 use winit::{
@@ -40,6 +48,8 @@ fn init_window() -> (EventLoop<()>, Window, *mut std::ffi::c_void) {
 
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat_ogl.filament");
 const MONKEY_DATA: &'static [u8] = include_bytes!("monkey.filamesh");
+const SKTBOX_TEXTURE_DATA: &'static [u8] = include_bytes!("lightroom_14b_skybox.ktx");
+const IDL_TEXTURE_DATA: &'static [u8] = include_bytes!("lightroom_14b_ibl.ktx");
 
 fn main() {
     let (event_loop, window, surface) = init_window();
@@ -49,7 +59,7 @@ fn main() {
         let mut scene = engine.create_scene().unwrap();
         let mut entity_manager = engine.get_entity_manager().unwrap();
 
-        {
+        let monkey = {
             let mut material_builder = MaterialBuilder::new().unwrap();
             material_builder.package(RESOURCES_AIDEFAULTMAT_DATA);
             let material = material_builder.build(&mut engine).unwrap();
@@ -71,7 +81,10 @@ fn main() {
             )
             .unwrap();
             scene.add_entity(&mesh.renderable);
+            mesh.renderable
+        };
 
+        let _light = {
             let light = entity_manager.create();
             let mut light_builder = LightBuilder::new(LightType::SUN).unwrap();
             light_builder.color(&LinearColor([0.98, 0.92, 0.89].into()));
@@ -81,7 +94,38 @@ fn main() {
             light_builder.cast_shadows(false);
             light_builder.build(&mut engine, &light);
             scene.add_entity(&light);
-        }
+            light
+        };
+
+        let mut skybox_texture = ktx::create_texture(
+            &mut engine,
+            KtxBundle::from(SKTBOX_TEXTURE_DATA).unwrap(),
+            false,
+        )
+        .unwrap();
+
+        let mut skybox = SkyboxBuilder::new()
+            .unwrap()
+            .environment(&mut skybox_texture)
+            .show_sun(true)
+            .build(&mut engine)
+            .unwrap();
+        scene.set_skybox(&mut skybox);
+
+        let ibl_texture = ktx::create_texture(
+            &mut engine,
+            KtxBundle::from(IDL_TEXTURE_DATA).unwrap(),
+            false,
+        )
+        .unwrap();
+
+        let mut ibl = IndirectLightBuilder::new()
+            .unwrap()
+            .reflections(&ibl_texture)
+            .intensity(30000.0)
+            .build(&mut engine)
+            .unwrap();
+        scene.set_indirect_light(&mut ibl);
 
         let mut swap_chain = engine
             .create_swap_chain(surface, Default::default())
@@ -158,10 +202,20 @@ fn main() {
                     view.set_viewport(&viewport);
                     camera.set_lens_projection(28.0, aspect, 0.1, 100.0);
 
+                    let mut tcm = engine.get_transform_manager().unwrap();
+                    let ti = tcm.get_instance(&monkey);
+                    let now = tcm.get_transform(&ti);
+                    tcm.set_transform(
+                        &ti,
+                        &(now * Mat4f::rotation(0.01, Float3::new(0.0, 1.0, 0.0))).into(),
+                    );
+
                     if renderer.begin_frame(&mut swap_chain) {
                         renderer.render(&view);
                         renderer.end_frame();
                     }
+
+                    thread::sleep(time::Duration::from_millis(16))
                 }
                 _ => {}
             }
