@@ -80,7 +80,10 @@ fn build_from_source(target: Target) -> BuildManifest {
         .args(["--build", "."])
         .args(["--target", "install"])
         .args(["--config", "Release"]);
-    filament_cmake_install.args(["--parallel", "3"]);
+    filament_cmake_install.args([
+        "--parallel",
+        &env::var("NUM_JOBS").unwrap_or(num_cpus::get().to_string()),
+    ]);
 
     run_command(&mut filament_cmake_install, "cmake");
 
@@ -104,7 +107,7 @@ fn build_from_source(target: Target) -> BuildManifest {
         "filameshio",
         "gltfio",
         "meshoptimizer",
-        "image"
+        "image",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -161,8 +164,9 @@ fn build_from_source(target: Target) -> BuildManifest {
         .allowlist_function("helper_.*")
         .opaque_type("std::basic_string")
         .opaque_type("std::basic_string_value_type")
+        .opaque_type("std::unique_ptr")
         .raw_line(include_str!("src/fix.rs"))
-        .layout_tests(false)
+        .layout_tests(true)
         .derive_default(true)
         .parse_callbacks(Box::new(bindgen::CargoCallbacks))
         .clang_arg("-v");
