@@ -203,7 +203,7 @@ fn main() {
                     camera.set_lens_projection(28.0, aspect, 0.1, 100.0);
 
                     let mut tcm = engine.get_transform_manager().unwrap();
-                    let ti = tcm.get_instance(&monkey);
+                    let ti = tcm.get_instance(&monkey).unwrap();
                     let now = tcm.get_transform(&ti);
                     tcm.set_transform(
                         &ti,

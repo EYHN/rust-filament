@@ -105,7 +105,6 @@ fn build_from_source(target: Target) -> BuildManifest {
         "ibl",
         "utils",
         "filameshio",
-        "gltfio",
         "meshoptimizer",
         "image",
     ]
@@ -254,6 +253,7 @@ fn install(manifest: &BuildManifest) {
         println!("cargo:rustc-link-lib={}", "gdi32");
         println!("cargo:rustc-link-lib={}", "user32");
         println!("cargo:rustc-link-lib={}", "opengl32");
+        println!("cargo:rustc-link-lib={}", "shlwapi");
     }
 
     // Write the bindings to the src/bindings.rs file.
