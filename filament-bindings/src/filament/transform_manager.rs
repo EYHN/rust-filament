@@ -58,9 +58,18 @@ impl TransformManager {
     }
 
     #[inline]
-    pub unsafe fn get_instance(&self, e: &Entity) -> TransformManagerInstance {
-        TransformManagerInstance {
-            native: bindgen::filament_TransformManager_getInstance(self.native(), e.native_owned()),
+    pub unsafe fn get_instance(&self, e: &Entity) -> Option<TransformManagerInstance> {
+        let mut uninit = TransformManagerInstance::default();
+        bindgen::helper_filament_transform_manager_get_instance(
+            self.native(),
+            e.native_ptr(),
+            uninit.native_ptr_mut(),
+        );
+
+        if uninit.native != 0 {
+            Some(uninit)
+        } else {
+            None
         }
     }
 
@@ -142,10 +151,17 @@ impl TransformManager {
 
     #[inline]
     pub unsafe fn get_parent(&self, i: &TransformManagerInstance) -> Option<Entity> {
-        Entity::try_from_native(bindgen::filament_TransformManager_getParent(
+        let mut result = Entity::dangling();
+        bindgen::helper_filament_transform_manager_get_parent(
             self.native(),
-            i.native_owned(),
-        ))
+            i.native_ptr(),
+            result.native_ptr_mut(),
+        );
+        if result.is_null() {
+            None
+        } else {
+            Some(result)
+        }
     }
 
     #[inline]

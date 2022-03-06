@@ -296,9 +296,18 @@ impl LightManager {
         bindgen::filament_LightManager_hasComponent(self.native(), e.native_owned())
     }
     #[inline]
-    pub unsafe fn get_instance(&self, e: &Entity) -> LightManagerInstance {
-        LightManagerInstance {
-            native: bindgen::filament_LightManager_getInstance(self.native(), e.native_owned()),
+    pub unsafe fn get_instance(&self, e: &Entity) -> Option<LightManagerInstance> {
+        let mut uninit = LightManagerInstance::default();
+        bindgen::helper_filament_light_manager_get_instance(
+            self.native(),
+            e.native_ptr(),
+            uninit.native_ptr_mut(),
+        );
+
+        if uninit.native != 0 {
+            Some(uninit)
+        } else {
+            None
         }
     }
     #[inline]

@@ -244,3 +244,19 @@ extern "C" filament::math::float3 helper_color_toLinear_fast_sRGB(filament::math
 extern "C" filament::Texture* helper_image_ktx_createTexture(filament::Engine* engine, const image::KtxBundle& bundle, bool srgb, image::ktx::Callback callback, void* userdata) {
     return image::ktx::createTexture(engine, bundle, srgb, callback, userdata);
 }
+
+extern "C" void helper_filament_transform_manager_get_instance(const filament::TransformManager& manager, const utils::Entity* e, filament::TransformManager::Instance* result) {
+    *result = manager.getInstance(*e);
+}
+
+extern "C" void helper_filament_transform_manager_get_parent(const filament::TransformManager& manager, const filament::TransformManager::Instance* i, utils::Entity* result) {
+    *result = manager.getParent(*i);
+}
+
+extern "C" void helper_filament_renderable_manager_get_instance(const filament::RenderableManager& manager, const utils::Entity* e, filament::RenderableManager::Instance* result) {
+    *result = manager.getInstance(*e);
+}
+
+extern "C" void helper_filament_light_manager_get_instance(const filament::LightManager& manager, const utils::Entity* e, filament::LightManager::Instance* result) {
+    *result = manager.getInstance(*e);
+}

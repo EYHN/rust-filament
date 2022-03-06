@@ -33,8 +33,13 @@ impl Entity {
     }
 
     #[inline]
+    pub fn is_null(&self) -> bool {
+        self.native.mIdentity == 0
+    }
+
+    #[inline]
     pub(crate) fn native_owned(&self) -> bindgen::utils_Entity {
-        self.native.clone()
+        self.native
     }
 
     #[inline]
