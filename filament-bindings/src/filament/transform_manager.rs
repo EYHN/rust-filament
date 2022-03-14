@@ -41,6 +41,11 @@ impl TransformManagerInstance {
     }
 
     #[inline]
+    pub fn dangling() -> TransformManagerInstance {
+        TransformManagerInstance { native: 0 }
+    }
+
+    #[inline]
     pub fn native_ptr_mut(&mut self) -> *mut bindgen::filament_TransformManager_Instance {
         &mut self.native
     }
@@ -84,41 +89,51 @@ impl TransformManager {
     }
 
     #[inline]
-    pub unsafe fn create_parent_transform_float(
+    pub unsafe fn create_with_parent_transform_float(
         &mut self,
         entity: &Entity,
-        parent: &TransformManagerInstance,
+        parent: Option<&TransformManagerInstance>,
         local_transform: &Mat4f,
     ) {
         bindgen::filament_TransformManager_create(
             self.native_mut(),
             entity.native_owned(),
-            parent.native_owned(),
+            parent
+                .unwrap_or(&TransformManagerInstance::dangling())
+                .native_owned(),
             local_transform.native_ptr(),
         )
     }
 
     #[inline]
-    pub unsafe fn create_parent_transform(
+    pub unsafe fn create_with_parent_transform(
         &mut self,
         entity: &Entity,
-        parent: &TransformManagerInstance,
+        parent: Option<&TransformManagerInstance>,
         local_transform: &Mat4,
     ) {
         bindgen::filament_TransformManager_create1(
             self.native_mut(),
             entity.native_owned(),
-            parent.native_owned(),
+            parent
+                .unwrap_or(&TransformManagerInstance::dangling())
+                .native_owned(),
             local_transform.native_ptr(),
         )
     }
 
     #[inline]
-    pub unsafe fn create_parent(&mut self, entity: &Entity, parent: &TransformManagerInstance) {
+    pub unsafe fn create_with_parent(
+        &mut self,
+        entity: &Entity,
+        parent: Option<&TransformManagerInstance>,
+    ) {
         bindgen::filament_TransformManager_create2(
             self.native_mut(),
             entity.native_owned(),
-            parent.native_owned(),
+            parent
+                .unwrap_or(&TransformManagerInstance::dangling())
+                .native_owned(),
         )
     }
 
@@ -140,12 +155,14 @@ impl TransformManager {
     pub unsafe fn set_parent(
         &mut self,
         i: &TransformManagerInstance,
-        new_parent: &TransformManagerInstance,
+        new_parent: Option<&TransformManagerInstance>,
     ) {
         bindgen::filament_TransformManager_setParent(
             self.native_mut(),
             i.native_owned(),
-            new_parent.native_owned(),
+            new_parent
+                .unwrap_or(&TransformManagerInstance::dangling())
+                .native_owned(),
         )
     }
 

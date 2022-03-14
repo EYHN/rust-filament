@@ -260,3 +260,11 @@ extern "C" void helper_filament_renderable_manager_get_instance(const filament::
 extern "C" void helper_filament_light_manager_get_instance(const filament::LightManager& manager, const utils::Entity* e, filament::LightManager::Instance* result) {
     *result = manager.getInstance(*e);
 }
+
+extern "C" void helper_filament_math_mat3f_pack_tangent_frame(const filament::math::mat3f& m, size_t storage_size, filament::math::quatf* result) {
+    *result = filament::math::details::TMat33<float>::packTangentFrame(m, storage_size);
+}
+
+extern "C" void helper_filament_math_mat3_pack_tangent_frame(const filament::math::mat3& m, size_t storage_size, filament::math::quat* result) {
+    *result = filament::math::details::TMat33<double>::packTangentFrame(m, storage_size);
+}

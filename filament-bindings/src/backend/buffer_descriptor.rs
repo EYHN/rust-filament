@@ -3,8 +3,9 @@ use std::ptr;
 use super::{PixelDataFormat, PixelDataType};
 
 pub struct BufferDescriptor<T> {
-    data: Vec<T>,
-    callback: Box<Box<dyn FnOnce(&mut Vec<u8>)>>,
+    data: *const T,
+    size_in_bytes: usize,
+    callback: Box<Box<dyn FnOnce()>>,
 }
 
 pub struct PixelBufferDescriptor<T> {
@@ -17,31 +18,40 @@ pub struct PixelBufferDescriptor<T> {
     stride: u32,
 }
 
-impl<T> BufferDescriptor<T> {
+impl<T: 'static> BufferDescriptor<T> {
     #[inline]
-    pub unsafe fn new(data: Vec<T>) -> Self {
+    pub unsafe fn new(mut data: Vec<T>) -> Self {
         BufferDescriptor {
-            data,
-            callback: Box::new(Box::new(|_| {})),
+            data: data.as_mut_ptr(),
+            size_in_bytes: data.len() * std::mem::size_of::<T>(),
+            callback: Box::new(Box::new(move || std::mem::drop(data))),
         }
     }
 
     #[inline]
-    pub unsafe fn new_callback(data: Vec<T>, callback: impl FnOnce(&mut Vec<u8>) + 'static) -> Self {
+    pub unsafe fn from_raw_ptr(data: *const T, size_in_bytes: usize) -> Self {
         BufferDescriptor {
             data,
-            callback: Box::new(Box::new(callback)),
+            size_in_bytes,
+            callback: Box::new(Box::new(|| {})),
         }
     }
 
     #[inline]
-    pub unsafe fn into_native(mut self) -> crate::bindgen::filament_backend_BufferDescriptor {
+    pub unsafe fn new_callback(mut data: Vec<T>, callback: impl FnOnce(Vec<T>) + 'static) -> Self {
+        BufferDescriptor {
+            data: data.as_mut_ptr(),
+            size_in_bytes: data.len() * std::mem::size_of::<T>(),
+            callback: Box::new(Box::new(move || callback(data))),
+        }
+    }
+
+    #[inline]
+    pub unsafe fn into_native(self) -> crate::bindgen::filament_backend_BufferDescriptor {
         let user = Box::into_raw(self.callback);
         let desc = crate::bindgen::filament_backend_BufferDescriptor {
-            buffer: self.data.as_mut_ptr() as *mut _,
-            size: (self.data.len() * std::mem::size_of::<T>())
-                .try_into()
-                .unwrap(),
+            buffer: self.data as *mut _,
+            size: self.size_in_bytes,
             mCallback: Some(buffer_descriptor_callback),
             mUser: user as *mut _,
             mHandler: ptr::null_mut(),
@@ -51,15 +61,11 @@ impl<T> BufferDescriptor<T> {
     }
 }
 
-impl<T> PixelBufferDescriptor<T> {
+impl<T: 'static> PixelBufferDescriptor<T> {
     #[inline]
-    pub unsafe fn new(
-        data: Vec<T>,
-        format: PixelDataFormat,
-        datatype: PixelDataType,
-    ) -> Self {
+    pub unsafe fn new(data: Vec<T>, format: PixelDataFormat, datatype: PixelDataType) -> Self {
         PixelBufferDescriptor {
-            buffer: BufferDescriptor::new(data),
+            buffer: BufferDescriptor::<T>::new(data),
             format,
             datatype,
             alignment: 1,
@@ -74,7 +80,7 @@ impl<T> PixelBufferDescriptor<T> {
         data: Vec<T>,
         format: PixelDataFormat,
         datatype: PixelDataType,
-        callback: impl FnOnce(&mut Vec<u8>) + 'static,
+        callback: impl FnOnce(Vec<T>) + 'static,
     ) -> Self {
         PixelBufferDescriptor {
             buffer: BufferDescriptor::new_callback(data, callback),
@@ -110,16 +116,12 @@ impl<T> PixelBufferDescriptor<T> {
 }
 
 unsafe extern "C" fn buffer_descriptor_callback(
-    ptr: *mut std::ffi::c_void,
-    size: usize,
+    _ptr: *mut std::ffi::c_void,
+    _size: usize,
     user: *mut std::ffi::c_void,
 ) {
-    let mut buffer: Vec<u8> = Vec::from_raw_parts(ptr as *mut _, size as usize, size as usize);
-
     if !user.is_null() {
-        let user_fn: Box<Box<dyn FnOnce(&mut Vec<u8>)>> = Box::from_raw(user as *mut _);
-        user_fn(&mut buffer);
+        let user_fn: Box<Box<dyn FnOnce()>> = Box::from_raw(user as *mut _);
+        user_fn();
     }
-
-    std::mem::drop(buffer);
 }

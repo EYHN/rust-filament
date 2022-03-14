@@ -29,12 +29,19 @@ jobs:
         target:
           - os: ubuntu-20.04
             triple: x86_64-unknown-linux-gnu
+            rustflags: ''
           - os: macos-11
             triple: x86_64-apple-darwin
+            rustflags: ''
           - os: macos-11
             triple: aarch64-apple-darwin
+            rustflags: ''
           - os: windows-2019
             triple: x86_64-pc-windows-msvc
+            rustflags: '-C target-feature=+crt-static'
+          - os: windows-2019
+            triple: x86_64-pc-windows-msvc
+            rustflags: '-C target-feature=-crt-static'
         features: ["default"]
     steps:
       - name: Checkout
@@ -74,6 +81,7 @@ jobs:
           FILAMENT_BUILD_CACHE_DIR: ${{ runner.temp }}/release
           FILAMENT_BUILD_OUT_DIR: ${{ runner.temp }}/out
           FILAMENT_PREBUILT: OFF
+          RUSTFLAGS: ${{ matrix.target.rustflags }}
         run: |
           cargo build -vv --release -p filament-bindings --features ${{ matrix.features }} --target ${{ matrix.target.triple }}
       - name: Upload release

@@ -126,7 +126,7 @@ impl VertexBuffer {
         bindgen::filament_VertexBuffer_getVertexCount(self.native())
     }
 
-    pub unsafe fn set_buffer_at<T>(
+    pub unsafe fn set_buffer_at<T: 'static>(
         &mut self,
         engine: &mut Engine,
         buffer_index: u8,

@@ -100,7 +100,7 @@ impl IndexBuffer {
     }
 
     #[inline]
-    pub unsafe fn set_buffer<T>(
+    pub unsafe fn set_buffer<T: 'static>(
         &mut self,
         engine: &mut Engine,
         buffer: BufferDescriptor<T>,

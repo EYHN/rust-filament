@@ -80,6 +80,28 @@ impl RenderableBuilder {
     }
 
     #[inline]
+    pub unsafe fn geometry_offset(
+        &mut self,
+        index: usize,
+        primitive_type: PrimitiveType,
+        vertices: &mut VertexBuffer,
+        indices: &mut IndexBuffer,
+        indices_offset: usize,
+        indices_const: usize,
+    ) -> &mut Self {
+        bindgen::filament_RenderableManager_Builder_geometry1(
+            self.native_mut(),
+            index,
+            primitive_type.into(),
+            vertices.native_mut(),
+            indices.native_mut(),
+            indices_offset,
+            indices_const,
+        );
+        self
+    }
+
+    #[inline]
     pub unsafe fn material(
         &mut self,
         index: usize,
