@@ -179,7 +179,7 @@ impl Texture {
     }
 
     #[inline]
-    pub unsafe fn set_image<T>(
+    pub unsafe fn set_image<T: 'static>(
         &mut self,
         engine: &mut Engine,
         level: usize,
@@ -195,7 +195,7 @@ impl Texture {
     }
 
     #[inline]
-    pub unsafe fn set_image_offset_size<T>(
+    pub unsafe fn set_image_offset_size<T: 'static>(
         &mut self,
         engine: &mut Engine,
         level: usize,
@@ -219,7 +219,7 @@ impl Texture {
     }
 
     #[inline]
-    pub unsafe fn set_image_offset_size_depth<T>(
+    pub unsafe fn set_image_offset_size_depth<T: 'static>(
         &mut self,
         engine: &mut Engine,
         level: usize,

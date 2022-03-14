@@ -28,7 +28,7 @@ pub enum RgbaType {
 }
 
 #[repr(C)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct sRGBColor(pub Float3);
 
 impl sRGBColor {

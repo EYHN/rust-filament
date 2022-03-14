@@ -13,7 +13,7 @@ use build_support::{download, path_regex_escape, run_command, static_lib_filenam
 use flate2::{read::GzDecoder, write::GzEncoder, Compression};
 use serde::{Deserialize, Serialize};
 
-fn build_from_source(target: Target) -> BuildManifest {
+fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
     let filament_source_dir = env::current_dir().unwrap().join("filament");
     if filament_source_dir.exists() == false {
         // source dir not exist, try to clone it
@@ -54,21 +54,42 @@ fn build_from_source(target: Target) -> BuildManifest {
         ))
         .arg(format!("-DDIST_DIR={}", &target.to_string()));
 
-    if cfg!(target_os = "linux") {
-        filament_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
-        filament_cmake.env(
-            "CXXFLAGS",
-            env::var("CXXFLAGS").unwrap_or("-stdlib=libc++".to_string()),
-        );
-        filament_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
-        filament_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
-    }
+    if cfg!(not(target_os = "windows")) {
+        // if not windows,  use ninja and clang
+        if crt_static {
+            panic!("Only windows support crt-static")
+        }
 
-    if !cfg!(target_os = "windows") {
         filament_cmake.env(
             "CMAKE_GENERATOR",
             env::var("CMAKE_GENERATOR").unwrap_or("Ninja".to_string()),
         );
+
+        if cfg!(target_os = "linux") {
+            filament_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
+            filament_cmake.env(
+                "CXXFLAGS",
+                env::var("CXXFLAGS").unwrap_or("-stdlib=libc++".to_string()),
+            );
+            filament_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
+            filament_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
+        }
+    } else {
+        // if windows
+        if target.abi == Some("gnu".to_owned()) {
+            panic!("MinGW is not supported");
+        }
+
+        filament_cmake.arg(format!(
+            "-DUSE_STATIC_CRT={}",
+            if crt_static { "ON" } else { "OFF" }
+        ));
+
+        match target.architecture.as_str() {
+            "x86_64" => filament_cmake.args(["-A", "x64"]),
+            "i686" => filament_cmake.args(["-A", "Win32"]),
+            _ => panic!("Unsupported architecture"),
+        };
     }
 
     run_command(&mut filament_cmake, "cmake");
@@ -125,7 +146,9 @@ fn build_from_source(target: Target) -> BuildManifest {
     cc_build.file("bindings.cpp");
     cc_build.include(&filament_include);
     cc_build.cpp(true);
-    cc_build.static_crt(true);
+    if crt_static {
+        cc_build.static_crt(true);
+    }
     cc_build.target(&target.to_string());
     cc_build.out_dir(&library_out_dir);
     cc_build.cargo_metadata(false);
@@ -353,10 +376,22 @@ fn cache(cache_tar_name: impl AsRef<str>, version: impl AsRef<str>) -> BuildMani
 }
 
 fn main() {
+    let linkage = env::var("CARGO_CFG_TARGET_FEATURE").unwrap_or(String::new());
+    let crt_static = linkage.contains("crt-static");
+
     let target = Target::target();
     let version = env::var("CARGO_PKG_VERSION").unwrap();
 
-    let cache_tar_name = format!("filament-{}-{}.tar.gz", version, target.to_string());
+    let mut feature_suffix = String::new();
+    if crt_static {
+        feature_suffix.push_str("-crtstatic");
+    }
+    let cache_tar_name = format!(
+        "filament-{}-{}{}.tar.gz",
+        version,
+        target.to_string(),
+        feature_suffix
+    );
 
     println!("cargo:rerun-if-env-changed=FILAMENT_PREBUILT");
     let use_cache = env::var("FILAMENT_PREBUILT").unwrap_or("ON".to_string()) != "OFF"
@@ -365,7 +400,7 @@ fn main() {
     let build_manifest = if use_cache {
         cache(&cache_tar_name, &version)
     } else {
-        let build_manifest = build_from_source(target);
+        let build_manifest = build_from_source(target, crt_static);
 
         println!("cargo:rerun-if-env-changed=FILAMENT_BUILD_CACHE_DIR");
         if let Ok(cache_dir) = env::var("FILAMENT_BUILD_CACHE_DIR") {

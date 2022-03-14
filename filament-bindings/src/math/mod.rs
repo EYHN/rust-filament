@@ -2,12 +2,13 @@ use crate::bindgen;
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
-pub struct Vec2<T> {
+pub struct Vec2<T: Copy> {
     pub vec: [T; 2],
 }
 
-impl<T> Vec2<T> {
+impl<T: Copy> Vec2<T> {
     const COMPONENTS: usize = 2;
+    #[inline]
     pub fn new(x: T, y: T) -> Self {
         Self { vec: [x, y] }
     }
@@ -15,32 +16,62 @@ impl<T> Vec2<T> {
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
-pub struct Vec3<T> {
+pub struct Vec3<T: Copy> {
     pub vec: [T; 3],
 }
 
-impl<T> Vec3<T> {
+impl<T: Copy> Vec3<T> {
     const COMPONENTS: usize = 3;
+    #[inline]
     pub fn new(x: T, y: T, z: T) -> Self {
         Self { vec: [x, y, z] }
+    }
+
+    #[inline]
+    pub fn xy(&self) -> Vec2<T> {
+        Vec2::new(self.vec[0], self.vec[1])
+    }
+}
+
+impl<T: Copy + std::ops::Mul<Output = T> + std::ops::Sub<Output = T>> Vec3<T> {
+    pub fn cross(&self, other: &Self) -> Self {
+        Self {
+            vec: [
+                self.vec[1] * other.vec[2] - self.vec[2] * other.vec[1],
+                self.vec[2] * other.vec[0] - self.vec[0] * other.vec[2],
+                self.vec[0] * other.vec[1] - self.vec[1] * other.vec[0],
+            ],
+        }
     }
 }
 
 #[repr(C)]
 #[derive(Copy, Clone, Debug, Default, PartialEq)]
-pub struct Vec4<T> {
+pub struct Vec4<T: Copy> {
     pub vec: [T; 4],
 }
 
-impl<T> Vec4<T> {
+impl<T: Copy> Vec4<T> {
     const COMPONENTS: usize = 4;
+    #[inline]
     pub fn new(x: T, y: T, z: T, w: T) -> Self {
         Self { vec: [x, y, z, w] }
+    }
+
+    #[inline]
+    pub fn xyz(&self) -> Vec3<T> {
+        Vec3::new(self.vec[0], self.vec[1], self.vec[2])
+    }
+}
+
+impl<T: Copy> From<Quaternion<T>> for Vec4<T> {
+    fn from(s: Quaternion<T>) -> Self {
+        Self { vec: s.vec }
     }
 }
 
 macro_rules! impl_named_vec {
-    ($vt:ident, $it:ident, $n:ident, $na:ident) => {
+    ($vt:ident, $it:ty, $n:ident, $na:ident) => {
         pub type $n = $vt<$it>;
         impl $n {
             #[allow(dead_code)]
@@ -100,7 +131,26 @@ macro_rules! impl_named_vec {
 }
 
 macro_rules! impl_named_vec_ops {
-    ($vt:ident, $it:ident, $n:ident) => {
+    ($vt:ident, $it:ty, $n:ident) => {
+        impl $n {
+            #[inline]
+            pub fn max(&self, v: $n) -> $n {
+                let mut r = $n::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r.vec[a] = <$it>::max(self.vec[a], v.vec[a])
+                }
+                r
+            }
+
+            #[inline]
+            pub fn min(&self, v: $n) -> $n {
+                let mut r = $n::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r.vec[a] = <$it>::min(self.vec[a], v.vec[a])
+                }
+                r
+            }
+        }
         impl std::ops::AddAssign<$n> for $n {
             #[inline]
             fn add_assign(&mut self, v: $n) {
@@ -236,14 +286,14 @@ macro_rules! impl_named_vec_ops {
 }
 
 macro_rules! impl_named_vec_float_ops {
-    ($vt:ident, $it:ident, $n:ident) => {
+    ($vt:ident, $it:ty, $n:ident) => {
         impl $n {
             #[inline]
             #[allow(dead_code)]
             pub fn dot(&self, rv: &Self) -> $it {
-                let mut r = $it::default();
+                let mut r = <$it>::default();
                 for a in 0..$vt::<$it>::COMPONENTS {
-                    r += self.vec[a] * rv.vec[a];
+                    r += self[a] * rv[a];
                 }
                 r
             }
@@ -277,6 +327,46 @@ macro_rules! impl_named_vec_float_ops {
             pub fn normalize(&self) -> Self {
                 self.clone() * (1 as $it / self.length())
             }
+
+            #[inline]
+            #[allow(dead_code)]
+            pub fn pack_unorm16(&self) -> $vt<u16> {
+                let mut r = $vt::<u16>::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r[a] = <$it>::round(<$it>::clamp(self[a], 0.0, 1.0) * 65535.0) as u16
+                }
+                r
+            }
+
+            #[inline]
+            #[allow(dead_code)]
+            pub fn pack_snorm16(&self) -> $vt<i16> {
+                let mut r = $vt::<i16>::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r[a] = <$it>::round(<$it>::clamp(self[a], -1.0, 1.0) * 32767.0) as i16
+                }
+                r
+            }
+
+            #[inline]
+            #[allow(dead_code)]
+            pub fn unpack_unorm16(v: &$vt<u16>) -> Self {
+                let mut r = Self::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r[a] = v[a] as $it / 65535.0
+                }
+                r
+            }
+
+            #[inline]
+            #[allow(dead_code)]
+            pub fn unpack_snorm16(v: &$vt<i16>) -> Self {
+                let mut r = Self::default();
+                for a in 0..$vt::<$it>::COMPONENTS {
+                    r[a] = <$it>::clamp(v[a] as $it / 32767.0, -1.0, 1.0)
+                }
+                r
+            }
         }
     };
 }
@@ -287,12 +377,16 @@ impl_named_vec_float_ops!(Vec2, f64, Double2);
 impl_named_vec!(Vec2, f32, Float2, filament_math_float2);
 impl_named_vec_ops!(Vec2, f32, Float2);
 impl_named_vec_float_ops!(Vec2, f32, Float2);
+impl_named_vec!(Vec2, half::f16, Half2, filament_math_half2);
+impl_named_vec_ops!(Vec2, half::f16, Half2);
 impl_named_vec!(Vec2, i32, Int2, filament_math_int2);
 impl_named_vec_ops!(Vec2, i32, Int2);
 impl_named_vec!(Vec2, u32, Uint2, filament_math_uint2);
 impl_named_vec_ops!(Vec2, u32, Uint2);
 impl_named_vec!(Vec2, i16, Short2, filament_math_short2);
 impl_named_vec_ops!(Vec2, i16, Short2);
+impl_named_vec!(Vec2, u16, Ushort2, filament_math_ushort2);
+impl_named_vec_ops!(Vec2, u16, Ushort2);
 impl_named_vec!(Vec2, bool, Bool2, filament_math_bool2);
 
 impl_named_vec!(Vec3, f64, Double3, filament_math_double3);
@@ -301,12 +395,16 @@ impl_named_vec_float_ops!(Vec3, f64, Double3);
 impl_named_vec!(Vec3, f32, Float3, filament_math_float3);
 impl_named_vec_ops!(Vec3, f32, Float3);
 impl_named_vec_float_ops!(Vec3, f32, Float3);
+impl_named_vec!(Vec3, half::f16, Half3, filament_math_half3);
+impl_named_vec_ops!(Vec3, half::f16, Half3);
 impl_named_vec!(Vec3, i32, Int3, filament_math_int3);
 impl_named_vec_ops!(Vec3, i32, Int3);
 impl_named_vec!(Vec3, u32, Uint3, filament_math_uint3);
 impl_named_vec_ops!(Vec3, u32, Uint3);
 impl_named_vec!(Vec3, i16, Short3, filament_math_short3);
 impl_named_vec_ops!(Vec3, i16, Short3);
+impl_named_vec!(Vec3, u16, Ushort3, filament_math_ushort3);
+impl_named_vec_ops!(Vec3, u16, Ushort3);
 impl_named_vec!(Vec3, bool, Bool3, filament_math_bool3);
 
 impl_named_vec!(Vec4, f64, Double4, filament_math_double4);
@@ -315,12 +413,16 @@ impl_named_vec_float_ops!(Vec4, f64, Double4);
 impl_named_vec!(Vec4, f32, Float4, filament_math_float4);
 impl_named_vec_ops!(Vec4, f32, Float4);
 impl_named_vec_float_ops!(Vec4, f32, Float4);
+impl_named_vec!(Vec4, half::f16, Half4, filament_math_half4);
+impl_named_vec_ops!(Vec4, half::f16, Half4);
 impl_named_vec!(Vec4, i32, Int4, filament_math_int4);
 impl_named_vec_ops!(Vec4, i32, Int4);
 impl_named_vec!(Vec4, u32, Uint4, filament_math_uint4);
 impl_named_vec_ops!(Vec4, u32, Uint4);
 impl_named_vec!(Vec4, i16, Short4, filament_math_short4);
 impl_named_vec_ops!(Vec4, i16, Short4);
+impl_named_vec!(Vec4, u16, Ushort4, filament_math_ushort4);
+impl_named_vec_ops!(Vec4, u16, Ushort4);
 impl_named_vec!(Vec4, bool, Bool4, filament_math_bool4);
 
 #[repr(C)]
@@ -413,6 +515,16 @@ impl Mat3 {
     const COMPONENTS: usize = 9;
     const ROWS: usize = 3;
     const COLUMNS: usize = 3;
+
+    pub unsafe fn pack_tangent_frame(&self) -> Quat {
+        let mut result = Quat::default();
+        bindgen::helper_filament_math_mat3_pack_tangent_frame(
+            self.native_ptr(),
+            core::mem::size_of::<i16>(),
+            result.native_ptr_mut(),
+        );
+        result
+    }
 }
 
 impl Default for Mat3 {
@@ -445,6 +557,16 @@ impl Mat3f {
     const COMPONENTS: usize = 9;
     const ROWS: usize = 3;
     const COLUMNS: usize = 3;
+
+    pub unsafe fn pack_tangent_frame(&self) -> Quatf {
+        let mut result = Quatf::default();
+        bindgen::helper_filament_math_mat3f_pack_tangent_frame(
+            self.native_ptr(),
+            core::mem::size_of::<i16>(),
+            result.native_ptr_mut(),
+        );
+        return result;
+    }
 }
 
 impl Default for Mat3f {
@@ -465,6 +587,22 @@ impl From<Mat3> for Mat3f {
             m.0[6] as f32,
             m.0[7] as f32,
             m.0[8] as f32,
+        ])
+    }
+}
+
+impl From<(Float3, Float3, Float3)> for Mat3f {
+    fn from(m: (Float3, Float3, Float3)) -> Self {
+        Self([
+            m.0[0] as f32,
+            m.0[1] as f32,
+            m.0[2] as f32,
+            m.1[0] as f32,
+            m.1[1] as f32,
+            m.1[2] as f32,
+            m.2[0] as f32,
+            m.2[1] as f32,
+            m.2[2] as f32,
         ])
     }
 }
@@ -631,6 +769,24 @@ impl_mat!(Mat4f, filament_math_mat4f, f32);
 impl_mat!(Mat4, filament_math_mat4, f64);
 impl_mat!(Mat3f, filament_math_mat3f, f32);
 impl_mat!(Mat3, filament_math_mat3, f64);
+
+#[repr(C)]
+#[derive(Copy, Clone, Debug, Default, PartialEq)]
+pub struct Quaternion<T: Copy> {
+    pub vec: [T; 4],
+}
+
+impl<T: Copy> Quaternion<T> {
+    const COMPONENTS: usize = 4;
+    #[inline]
+    pub fn new(x: T, y: T, z: T, w: T) -> Self {
+        Self { vec: [x, y, z, w] }
+    }
+}
+
+impl_named_vec!(Quaternion, f64, Quat, filament_math_quat);
+impl_named_vec!(Quaternion, f32, Quatf, filament_math_quatf);
+impl_named_vec!(Quaternion, half::f16, Quath, filament_math_quath);
 
 #[cfg(test)]
 mod tests {

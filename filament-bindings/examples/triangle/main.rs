@@ -160,7 +160,7 @@ fn main() {
     }
 }
 
-fn pixelbuffer_read_callback(buffer: &mut Vec<u8>) {
+fn pixelbuffer_read_callback(mut buffer: Vec<u8>) {
     unsafe {
         convert_rgba_to_rgb(buffer.as_mut_ptr(), 800, 600);
     }

@@ -364,15 +364,17 @@ dependencies = [
 
 [[package]]
 name = "filament-bindings"
-version = "0.1.5"
+version = "0.1.6"
 dependencies = [
  "bindgen",
  "bitflags",
  "cc",
  "flate2",
+ "half",
  "num_cpus",
  "num_enum",
  "regex",
+ "russimp-sys-static",
  "serde",
  "serde_json",
  "tar",
@@ -440,6 +442,12 @@ name = "glob"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9b919933a397b79c37e33b77bb2aa3dc8eb6e165ad809e58ff75bc7db2e34574"
+
+[[package]]
+name = "half"
+version = "1.8.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eabb4a44450da02c90444cf74558da904edde8fb4e9035a9a6a4e15445af0bd7"
 
 [[package]]
 name = "hermit-abi"
@@ -880,6 +888,21 @@ dependencies = [
  "untrusted",
  "web-sys",
  "winapi",
+]
+
+[[package]]
+name = "russimp-sys-static"
+version = "1.0.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c7e0fe08685c04e9f018361b76104c778581e2bcfa987b3eaddf49acb9425f6c"
+dependencies = [
+ "bindgen",
+ "flate2",
+ "num_cpus",
+ "serde",
+ "serde_json",
+ "tar",
+ "ureq",
 ]
 
 [[package]]

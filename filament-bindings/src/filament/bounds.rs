@@ -12,3 +12,29 @@ impl Bounds {
         self as *const Self as *const _
     }
 }
+
+#[repr(C)]
+#[derive(Clone, Debug)]
+pub struct Aabb {
+    pub min: Float3,
+    pub max: Float3,
+}
+
+impl Aabb {
+    pub fn center(&self) -> Float3 {
+        (self.max + self.min) * 0.5
+    }
+
+    pub fn extent(&self) -> Float3 {
+        (self.max - self.min) * 0.5
+    }
+}
+
+impl Default for Aabb {
+    fn default() -> Self {
+        Self {
+            min: f32::MAX.into(),
+            max: f32::MIN.into(),
+        }
+    }
+}
