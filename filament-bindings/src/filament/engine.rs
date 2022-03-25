@@ -7,8 +7,9 @@ use crate::{
 };
 
 use super::{
-    Camera, Fence, LightManager, RenderableManager, Renderer, Scene, SwapChain, SwapChainConfig,
-    TransformManager, VertexBuffer, View, IndexBuffer, Material, MaterialInstance, Texture,
+    Camera, Fence, IndexBuffer, IndirectLight, LightManager, Material, MaterialInstance,
+    RenderableManager, Renderer, Scene, Skybox, SwapChain, SwapChainConfig, Texture,
+    TransformManager, VertexBuffer, View,
 };
 
 #[repr(transparent)]
@@ -62,7 +63,7 @@ impl Engine {
     }
 
     #[inline]
-    pub unsafe fn destroy(mut engine: Engine) {
+    pub unsafe fn destroy(engine: &mut Engine) {
         bindgen::filament_Engine_destroy1(engine.native_mut())
     }
 
@@ -171,16 +172,16 @@ impl Engine {
     // }
 
     #[inline]
-    pub unsafe fn destroy_vertex_buffer(&mut self, mut p: VertexBuffer) -> bool {
+    pub unsafe fn destroy_vertex_buffer(&mut self, p: &mut VertexBuffer) -> bool {
         bindgen::filament_Engine_destroy3(self.native_mut(), p.native_mut())
     }
 
     #[inline]
-    pub unsafe fn destroy_fence(&mut self, mut p: Fence) -> bool {
+    pub unsafe fn destroy_fence(&mut self, p: &mut Fence) -> bool {
         bindgen::filament_Engine_destroy4(self.native_mut(), p.native_mut())
     }
     #[inline]
-    pub unsafe fn destroy_index_buffer(&mut self, mut p: IndexBuffer) -> bool {
+    pub unsafe fn destroy_index_buffer(&mut self, p: &mut IndexBuffer) -> bool {
         bindgen::filament_Engine_destroy5(self.native_mut(), p.native_mut())
     }
     // #[inline]
@@ -191,36 +192,36 @@ impl Engine {
     // pub unsafe fn destroy_morph_target_buffer(&mut self, p: MorphTargetBuffer) -> bool {
     //     bindgen::filament_Engine_destroy7(self.native_mut(), p.native_mut())
     // }
-    // #[inline]
-    // pub unsafe fn destroy_indirect_light(&mut self, p: IndirectLight) -> bool {
-    //     bindgen::filament_Engine_destroy8(self.native_mut(), p.native_mut())
-    // }
     #[inline]
-    pub unsafe fn destroy_material(&mut self, mut p: Material) -> bool {
+    pub unsafe fn destroy_indirect_light(&mut self, p: &mut IndirectLight) -> bool {
+        bindgen::filament_Engine_destroy8(self.native_mut(), p.native_mut())
+    }
+    #[inline]
+    pub unsafe fn destroy_material(&mut self, p: &mut Material) -> bool {
         bindgen::filament_Engine_destroy9(self.native_mut(), p.native_mut())
     }
     #[inline]
-    pub unsafe fn destroy_material_instance(&mut self, mut p: MaterialInstance) -> bool {
+    pub unsafe fn destroy_material_instance(&mut self, p: &mut MaterialInstance) -> bool {
         bindgen::filament_Engine_destroy10(self.native_mut(), p.native_mut())
     }
     #[inline]
-    pub unsafe fn destroy_renderer(&mut self, mut p: Renderer) -> bool {
+    pub unsafe fn destroy_renderer(&mut self, p: &mut Renderer) -> bool {
         bindgen::filament_Engine_destroy11(self.native_mut(), p.native_mut())
     }
     #[inline]
-    pub unsafe fn destroy_scene(&mut self, mut p: Scene) -> bool {
+    pub unsafe fn destroy_scene(&mut self, p: &mut Scene) -> bool {
         bindgen::filament_Engine_destroy12(self.native_mut(), p.native_mut())
     }
-    // #[inline]
-    // pub unsafe fn destroy_skybox(&mut self, p: Skybox) -> bool {
-    //     bindgen::filament_Engine_destroy13(self.native_mut(), p.native_mut())
-    // }
+    #[inline]
+    pub unsafe fn destroy_skybox(&mut self, p: &mut Skybox) -> bool {
+        bindgen::filament_Engine_destroy13(self.native_mut(), p.native_mut())
+    }
     // #[inline]
     // pub unsafe fn destroy_color_grading(&mut self, p: ColorGrading) -> bool {
     //     bindgen::filament_Engine_destroy14(self.native_mut(), p.native_mut())
     // }
     #[inline]
-    pub unsafe fn destroy_swap_chain(&mut self, mut p: SwapChain) -> bool {
+    pub unsafe fn destroy_swap_chain(&mut self, p: &mut SwapChain) -> bool {
         bindgen::filament_Engine_destroy15(self.native_mut(), p.native_mut())
     }
     // #[inline]
@@ -228,7 +229,7 @@ impl Engine {
     //     bindgen::filament_Engine_destroy16(self.native_mut(), p.native_mut())
     // }
     #[inline]
-    pub unsafe fn destroy_texture(&mut self, mut p: Texture) -> bool {
+    pub unsafe fn destroy_texture(&mut self, p: &mut Texture) -> bool {
         bindgen::filament_Engine_destroy17(self.native_mut(), p.native_mut())
     }
     // #[inline]
@@ -236,7 +237,7 @@ impl Engine {
     //     bindgen::filament_Engine_destroy18(self.native_mut(), p.native_mut())
     // }
     #[inline]
-    pub unsafe fn destroy_view(&mut self, mut p: View) -> bool {
+    pub unsafe fn destroy_view(&mut self, p: &mut View) -> bool {
         bindgen::filament_Engine_destroy19(self.native_mut(), p.native_mut())
     }
     #[inline]

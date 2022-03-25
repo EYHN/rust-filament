@@ -156,7 +156,7 @@ fn main() {
 
         engine.flush_and_wait();
 
-        Engine::destroy(engine);
+        Engine::destroy(&mut engine);
     }
 }
 

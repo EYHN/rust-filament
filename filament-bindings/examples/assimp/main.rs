@@ -2,11 +2,12 @@ use core::time;
 use std::thread;
 
 use filament_bindings::{
+    asset::Asset,
     assimp::AssimpAsset,
     backend,
-    filament::{Engine, IndirectLightBuilder, Viewport},
+    filament::{Engine, Fov, IndirectLightBuilder, Projection, Viewport},
     image::{ktx, KtxBundle},
-    math::{Float3, Mat3f}, asset::Asset,
+    math::{Float3, Mat3f},
 };
 
 use winit::{
@@ -57,7 +58,7 @@ fn main() {
         let mut scene = engine.create_scene().unwrap();
         let mut entity_manager = engine.get_entity_manager().unwrap();
 
-        let asset = AssimpAsset::from_memory(&mut engine, MODEL_DATA, MODEL_NAME);
+        let asset = AssimpAsset::from_memory(&mut engine, MODEL_DATA, MODEL_NAME).unwrap();
 
         for entity in asset.get_renderables() {
             scene.add_entity(entity);
@@ -89,6 +90,8 @@ fn main() {
         let camera_entity = entity_manager.create();
         let mut camera = engine.create_camera(&camera_entity).unwrap();
 
+        let aspect = window.inner_size().width as f64 / window.inner_size().height as f64;
+
         let mut view = engine.create_view().unwrap();
         view.set_camera(&mut camera);
         view.set_scene(&mut scene);
@@ -102,15 +105,40 @@ fn main() {
 
         view.set_viewport(&viewport);
 
-        let half_extent = asset.get_aabb().extent();
+        camera.set_exposure_physical(16.0, 1.0 / 125.0, 100.0);
 
-        camera.look_at_up(
-            &(asset.get_aabb().center()
-                + Float3::from(((half_extent[0] + half_extent[2]) / 2.0).max(half_extent[1]))
-                    * Float3::from([2.5, 1.7, 2.5])),
-            &asset.get_aabb().center(),
-            &[0.0, 1.0, 0.0].into(),
-        );
+        if let Some(camera_info) = asset.get_main_camera() {
+            if camera_info.horizontal_fov != 0.0 {
+                camera.set_projection_fov_direction(
+                    camera_info.horizontal_fov,
+                    aspect,
+                    0.1,
+                    f64::INFINITY,
+                    Fov::HORIZONTAL,
+                );
+            } else {
+                camera.set_projection(
+                    Projection::ORTHO,
+                    -camera_info.orthographic_width,
+                    camera_info.orthographic_width,
+                    -camera_info.orthographic_width / aspect,
+                    camera_info.orthographic_width / aspect,
+                    0.1,
+                    100000.0,
+                );
+            }
+            camera.look_at_up(&camera_info.position, &camera_info.look_at, &camera_info.up);
+        } else {
+            let half_extent = asset.get_aabb().extent();
+            camera.set_lens_projection(28.0, aspect, 0.1, f64::INFINITY);
+            camera.look_at_up(
+                &(asset.get_aabb().center()
+                    + Float3::from(((half_extent[0] + half_extent[2]) / 2.0).max(half_extent[1]))
+                        * Float3::from([2.5, 1.7, 2.5])),
+                &asset.get_aabb().center(),
+                &[0.0, 1.0, 0.0].into(),
+            );
+        }
 
         let mut close_requested = false;
 
@@ -145,20 +173,6 @@ fn main() {
                     }
                 }
                 Event::RedrawRequested(_window_id) => {
-                    let viewport = Viewport {
-                        left: 0,
-                        bottom: 0,
-                        width: window.inner_size().width,
-                        height: window.inner_size().height,
-                    };
-
-                    let aspect =
-                        window.inner_size().width as f64 / window.inner_size().height as f64;
-
-                    view.set_viewport(&viewport);
-                    camera.set_lens_projection(28.0, aspect, 0.1, 10000.0);
-                    camera.set_exposure_physical(16.0, 1.0 / 125.0, 100.0);
-
                     if renderer.begin_frame(&mut swap_chain) {
                         renderer.render(&view);
                         renderer.end_frame();
@@ -169,7 +183,5 @@ fn main() {
                 _ => {}
             }
         });
-
-        // russimp_sys::aiReleaseImport(&modelScene);
     }
 }

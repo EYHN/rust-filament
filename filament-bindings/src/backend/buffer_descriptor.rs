@@ -47,6 +47,19 @@ impl<T: 'static> BufferDescriptor<T> {
     }
 
     #[inline]
+    pub unsafe fn from_raw_ptr_callback(
+        data: *const T,
+        size_in_bytes: usize,
+        callback: impl FnOnce(*const T) + 'static,
+    ) -> Self {
+        BufferDescriptor {
+            data,
+            size_in_bytes,
+            callback: Box::new(Box::new(move || callback(data))),
+        }
+    }
+
+    #[inline]
     pub unsafe fn into_native(self) -> crate::bindgen::filament_backend_BufferDescriptor {
         let user = Box::into_raw(self.callback);
         let desc = crate::bindgen::filament_backend_BufferDescriptor {
@@ -84,6 +97,43 @@ impl<T: 'static> PixelBufferDescriptor<T> {
     ) -> Self {
         PixelBufferDescriptor {
             buffer: BufferDescriptor::new_callback(data, callback),
+            format,
+            datatype,
+            alignment: 1,
+            left: 0,
+            top: 0,
+            stride: 0,
+        }
+    }
+
+    #[inline]
+    pub unsafe fn from_raw_ptr(
+        data: *const T,
+        size_in_bytes: usize,
+        format: PixelDataFormat,
+        datatype: PixelDataType,
+    ) -> Self {
+        PixelBufferDescriptor {
+            buffer: BufferDescriptor::<T>::from_raw_ptr(data, size_in_bytes),
+            format,
+            datatype,
+            alignment: 1,
+            left: 0,
+            top: 0,
+            stride: 0,
+        }
+    }
+
+    #[inline]
+    pub unsafe fn from_raw_ptr_callback(
+        data: *const T,
+        size_in_bytes: usize,
+        format: PixelDataFormat,
+        datatype: PixelDataType,
+        callback: impl FnOnce(*const T) + 'static,
+    ) -> Self {
+        PixelBufferDescriptor {
+            buffer: BufferDescriptor::from_raw_ptr_callback(data, size_in_bytes, callback),
             format,
             datatype,
             alignment: 1,

@@ -2,7 +2,7 @@ use std::{ffi, ptr};
 
 use crate::bindgen;
 
-use super::{AntiAliasing, BlendMode, Camera, Scene, Viewport};
+use super::{AntiAliasing, BlendMode, Camera, Scene, TemporalAntiAliasingOptions, Viewport};
 
 pub struct View {
     native: ptr::NonNull<bindgen::filament_View>,
@@ -128,18 +128,26 @@ impl View {
     }
 
     #[inline]
-    pub fn set_temporal_anti_aliasing_options(
-        &mut self,
-        options: bindgen::filament_TemporalAntiAliasingOptions,
-    ) {
-        unsafe { bindgen::filament_View_setTemporalAntiAliasingOptions(self.native_mut(), options) }
+    pub fn set_temporal_anti_aliasing_options(&mut self, options: TemporalAntiAliasingOptions) {
+        unsafe {
+            bindgen::filament_View_setTemporalAntiAliasingOptions(
+                self.native_mut(),
+                std::mem::transmute(options),
+            )
+        }
     }
 
-    // TODO:
-    // #[inline]
-    // pub fn get_temporal_anti_aliasing_options(&self) -> Option<bindgen::filament_TemporalAntiAliasingOptions> {
-    //     unsafe { (*bindgen::filament_View_getTemporalAntiAliasingOptions(self.native())).clone() }
-    // }
+    #[inline]
+    pub fn get_temporal_anti_aliasing_options(&self) -> Option<TemporalAntiAliasingOptions> {
+        unsafe {
+            let options = bindgen::filament_View_getTemporalAntiAliasingOptions(self.native());
+            if options.is_null() {
+                None
+            } else {
+                std::mem::transmute(*options)
+            }
+        }
+    }
 
     #[inline]
     pub fn set_screen_space_reflections_options(

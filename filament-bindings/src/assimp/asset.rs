@@ -1,6 +1,8 @@
-use std::{ffi::CString, ptr};
+use core::fmt;
+use std::{error::Error, ffi::CString, path::Path, ptr};
 
 use crate::{
+    asset::CameraInfo,
     backend::{BufferDescriptor, ElementType, PrimitiveType},
     filament::{
         self, sRGBColor, Aabb, Bounds, Engine, IndexBuffer, IndexBufferBuilder, Material,
@@ -16,7 +18,7 @@ use crate::asset::Asset;
 
 use super::helper::{
     compute_aabb, compute_transformed_aabb, convert_uv, count_vertices, get_min_max_uv,
-    transmute_ai_vector_3d_arr,
+    transmute_ai_vector, transmute_ai_vector_3d_arr,
 };
 
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
@@ -30,6 +32,7 @@ pub struct AssimpAsset {
     index_buffer: IndexBuffer,
     aabb: Aabb,
     root_entity: utils::Entity,
+    main_camera: Option<CameraInfo>,
 }
 
 pub struct AssimpData<'a> {
@@ -44,6 +47,7 @@ pub struct AssimpData<'a> {
 }
 
 struct AssimpMesh {
+    node_name: Vec<i8>,
     parent_index: Option<usize>,
     indices_offset: usize,
     indices_count: usize,
@@ -65,9 +69,13 @@ struct AssimpMeshPart {
 }
 
 impl AssimpAsset {
-    pub fn from_memory(engine: &mut filament::Engine, buffer: &[u8], hint: &str) -> Self {
+    pub fn from_memory(
+        engine: &mut filament::Engine,
+        buffer: &[u8],
+        hint: &str,
+    ) -> Result<Self, E> {
         unsafe {
-            let c_hint = CString::new(hint).unwrap();
+            let c_hint = CString::new(hint).map_err(|_| E::InvalidString)?;
             let ai_scene = russimp_sys::aiImportFileFromMemory(
                 buffer.as_ptr() as *const _,
                 buffer.len() as _,
@@ -83,26 +91,76 @@ impl AssimpAsset {
                     | russimp_sys::aiPostProcessSteps_aiProcess_Triangulate) as u32,
                 c_hint.as_ptr(),
             );
+            if ai_scene.is_null() {
+                return Err(E::FailedLoadModel);
+            }
+
             let default_color_material = {
-                let mut material_builder = MaterialBuilder::new().unwrap();
+                let mut material_builder = MaterialBuilder::new().ok_or(E::InternalError)?;
                 material_builder.package(RESOURCES_AIDEFAULTMAT_DATA);
-                material_builder.build(engine).unwrap()
+                material_builder.build(engine).ok_or(E::InternalError)?
             };
             let default_transparent_color_material = {
-                let mut material_builder = MaterialBuilder::new().unwrap();
+                let mut material_builder = MaterialBuilder::new().ok_or(E::InternalError)?;
                 material_builder.package(RESOURCES_AIDEFAULTTRANS_DATA);
-                material_builder.build(engine).unwrap()
+                material_builder.build(engine).ok_or(E::InternalError)?
             };
             let asset = Self::new(
                 engine,
                 &ai_scene.read(),
                 default_color_material,
                 default_transparent_color_material,
-            );
+            )?;
 
             russimp_sys::aiReleaseImport(ai_scene);
 
-            asset
+            Ok(asset)
+        }
+    }
+    pub fn from_file(engine: &mut filament::Engine, filename: impl AsRef<Path>) -> Result<Self, E> {
+        unsafe {
+            let c_filename = filename
+                .as_ref()
+                .to_str()
+                .and_then(|f| CString::new(f).ok())
+                .ok_or(E::InvalidString)?;
+            let ai_scene = russimp_sys::aiImportFile(
+                c_filename.as_ptr(),
+                (russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals
+                    | russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace
+                    | russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords
+                    | russimp_sys::aiPostProcessSteps_aiProcess_FindInstances
+                    | russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes
+                    | russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices
+                    | russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality
+                    | russimp_sys::aiPostProcessSteps_aiProcess_SortByPType
+                    // | russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices
+                    | russimp_sys::aiPostProcessSteps_aiProcess_Triangulate) as u32,
+            );
+            if ai_scene.is_null() {
+                return Err(E::FailedLoadModel);
+            }
+
+            let default_color_material = {
+                let mut material_builder = MaterialBuilder::new().ok_or(E::InternalError)?;
+                material_builder.package(RESOURCES_AIDEFAULTMAT_DATA);
+                material_builder.build(engine).ok_or(E::InternalError)?
+            };
+            let default_transparent_color_material = {
+                let mut material_builder = MaterialBuilder::new().ok_or(E::InternalError)?;
+                material_builder.package(RESOURCES_AIDEFAULTTRANS_DATA);
+                material_builder.build(engine).ok_or(E::InternalError)?
+            };
+            let asset = Self::new(
+                engine,
+                &ai_scene.read(),
+                default_color_material,
+                default_transparent_color_material,
+            )?;
+
+            russimp_sys::aiReleaseImport(ai_scene);
+
+            Ok(asset)
         }
     }
     pub(crate) fn new(
@@ -110,7 +168,7 @@ impl AssimpAsset {
         scene: &aiScene,
         default_color_material: Material,
         default_transparent_color_material: Material,
-    ) -> Self {
+    ) -> Result<Self, E> {
         unsafe {
             let root_node = *scene.mRootNode;
             let (total_vertex_count, total_index_count) = count_vertices(&root_node, &scene);
@@ -181,7 +239,8 @@ impl AssimpAsset {
             }
 
             let mut vertex_buffer = {
-                let mut vertex_buffer_builder = VertexBufferBuilder::new().unwrap();
+                let mut vertex_buffer_builder =
+                    VertexBufferBuilder::new().ok_or(E::InternalError)?;
 
                 vertex_buffer_builder
                     .vertex_count(positions.len() as u32)
@@ -218,7 +277,9 @@ impl AssimpAsset {
                     );
                 }
 
-                vertex_buffer_builder.build(engine).unwrap()
+                vertex_buffer_builder
+                    .build(engine)
+                    .ok_or(E::InternalError)?
             };
 
             vertex_buffer
@@ -228,14 +289,14 @@ impl AssimpAsset {
                 .set_buffer_at(engine, 3, BufferDescriptor::new(tex_coords1), 0);
 
             let mut index_buffer = IndexBufferBuilder::new()
-                .unwrap()
+                .ok_or(E::InternalError)?
                 .index_count(indices.len() as u32)
                 .build(engine)
-                .unwrap();
+                .ok_or(E::InternalError)?;
 
             index_buffer.set_buffer(engine, BufferDescriptor::new(indices), 0);
 
-            let mut entity_manager = engine.get_entity_manager().unwrap();
+            let mut entity_manager = engine.get_entity_manager().ok_or(E::InternalError)?;
             let mut renderables = Vec::with_capacity(meshes.len());
             for _ in 0..meshes.len() {
                 renderables.push(entity_manager.create());
@@ -243,7 +304,7 @@ impl AssimpAsset {
 
             let root_entity = entity_manager.create();
 
-            let mut transform_manager = engine.get_transform_manager().unwrap();
+            let mut transform_manager = engine.get_transform_manager().ok_or(E::InternalError)?;
             transform_manager.create_with_parent_transform_float(
                 &root_entity,
                 None,
@@ -253,7 +314,8 @@ impl AssimpAsset {
             let mut material_instances: Vec<MaterialInstance> = Vec::with_capacity(meshes.len());
 
             for (mesh_index, mesh) in meshes.iter().enumerate() {
-                let mut builder = RenderableBuilder::new(mesh.parts.len()).unwrap();
+                let mut builder =
+                    RenderableBuilder::new(mesh.parts.len()).ok_or(E::InternalError)?;
                 builder
                     .bounding_box(&Bounds {
                         center: mesh.aabb.center(),
@@ -275,7 +337,7 @@ impl AssimpAsset {
                     if part.opacity < 1.0 {
                         color_material = default_transparent_color_material
                             .create_instance()
-                            .unwrap();
+                            .ok_or(E::InternalError)?;
                         color_material
                             .set_rgba_parameter(
                                 "baseColor",
@@ -287,26 +349,33 @@ impl AssimpAsset {
                                     part.opacity,
                                 ),
                             )
-                            .unwrap();
+                            .ok()
+                            .ok_or(E::InvalidString)?;
                     } else {
-                        color_material = default_color_material.create_instance().unwrap();
+                        color_material = default_color_material
+                            .create_instance()
+                            .ok_or(E::InternalError)?;
                         color_material
                             .set_rgb_parameter(
                                 "baseColor",
                                 filament::RgbType::sRGB,
                                 part.base_color.0,
                             )
-                            .unwrap();
+                            .ok()
+                            .ok_or(E::InvalidString)?;
                         color_material
                             .set_float_parameter("reflectance", &part.reflectance)
-                            .unwrap();
+                            .ok()
+                            .ok_or(E::InvalidString)?;
                     }
                     color_material
                         .set_float_parameter("metallic", &part.metallic)
-                        .unwrap();
+                        .ok()
+                        .ok_or(E::InvalidString)?;
                     color_material
                         .set_float_parameter("roughness", &part.roughness)
-                        .unwrap();
+                        .ok()
+                        .ok_or(E::InvalidString)?;
                     builder.material(part_index, &mut color_material);
 
                     material_instances.push(color_material);
@@ -319,9 +388,11 @@ impl AssimpAsset {
                 let parent_tansform_instance = if let Some(parent_index) = mesh.parent_index {
                     transform_manager
                         .get_instance(&renderables[parent_index])
-                        .unwrap()
+                        .ok_or(E::InternalError)?
                 } else {
-                    transform_manager.get_instance(&root_entity).unwrap()
+                    transform_manager
+                        .get_instance(&root_entity)
+                        .ok_or(E::InternalError)?
                 };
                 transform_manager.create_with_parent_transform_float(
                     &entity,
@@ -330,7 +401,30 @@ impl AssimpAsset {
                 );
             }
 
-            AssimpAsset {
+            let main_camera = if (*scene).mNumCameras > 0 {
+                let ai_camera = **(*scene).mCameras;
+                let camera_name = &ai_camera.mName.data[0..ai_camera.mName.length as usize];
+                if let Some(node) = meshes.iter().find(|m| m.node_name == camera_name) {
+                    Some(CameraInfo {
+                        aspect: ai_camera.mAspect as f64,
+                        horizontal_fov: (ai_camera.mHorizontalFOV / std::f32::consts::PI * 180.0)
+                            as f64,
+                        look_at: transmute_ai_vector(ai_camera.mLookAt),
+                        orthographic_width: ai_camera.mOrthographicWidth as f64,
+                        position: (node.acc_transform
+                            * Float4::from_vec3(transmute_ai_vector(ai_camera.mPosition), 1.0))
+                        .xyz(),
+                        up: transmute_ai_vector(ai_camera.mUp),
+                    })
+                } else {
+                    dbg!("Can't find camera node");
+                    None
+                }
+            } else {
+                None
+            };
+
+            Ok(AssimpAsset {
                 renderables,
                 materials: vec![default_color_material, default_transparent_color_material],
                 material_instances,
@@ -338,7 +432,8 @@ impl AssimpAsset {
                 index_buffer,
                 root_entity,
                 aabb,
-            }
+                main_camera,
+            })
         }
     }
 }
@@ -356,27 +451,31 @@ impl Asset for AssimpAsset {
         &self.aabb
     }
 
-    fn destory(self, engine: &mut Engine) {
-        unsafe {
-            engine.destroy_vertex_buffer(self.vertex_buffer);
-            engine.destroy_index_buffer(self.index_buffer);
+    fn get_main_camera(&self) -> Option<&CameraInfo> {
+        self.main_camera.as_ref()
+    }
 
-            for material_instance in self.material_instances {
+    fn destory(&mut self, engine: &mut Engine) {
+        unsafe {
+            engine.destroy_vertex_buffer(&mut self.vertex_buffer);
+            engine.destroy_index_buffer(&mut self.index_buffer);
+
+            for material_instance in self.material_instances.iter_mut() {
                 engine.destroy_material_instance(material_instance);
             }
 
-            for material in self.materials {
+            for material in self.materials.iter_mut() {
                 engine.destroy_material(material);
             }
 
             let mut entity_manager = engine.get_entity_manager().unwrap();
-            for renderable in self.renderables {
+            for renderable in self.renderables.iter_mut() {
                 engine.destroy_entity_components(&renderable);
                 entity_manager.destory(renderable);
             }
 
             engine.destroy_entity_components(&self.root_entity);
-            entity_manager.destory(self.root_entity);
+            entity_manager.destory(&mut self.root_entity);
         }
     }
 }
@@ -394,7 +493,9 @@ unsafe fn process_node(
             m44.d3, m44.a4, m44.b4, m44.c4, m44.d4,
         ])
     };
+    let node_name = node.mName.data[0..node.mName.length as usize].to_vec();
     let mut current_mesh = AssimpMesh {
+        node_name,
         transform: current_transform,
         parent_index,
         indices_offset: data.positions.len(),
@@ -605,3 +706,28 @@ unsafe fn process_node(
         }
     }
 }
+
+#[derive(Debug, Clone)]
+pub enum AssimpAssetError {
+    FailedLoadModel,
+    InvalidString,
+    InternalError,
+}
+
+impl Error for AssimpAssetError {
+    fn source(&self) -> Option<&(dyn Error + 'static)> {
+        None
+    }
+}
+
+impl fmt::Display for AssimpAssetError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            &Self::FailedLoadModel => write!(f, "Failed load model."),
+            &Self::InvalidString => write!(f, "Invalid string."),
+            &Self::InternalError => write!(f, "Internal error."),
+        }
+    }
+}
+
+type E = AssimpAssetError;

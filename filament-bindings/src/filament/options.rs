@@ -30,3 +30,29 @@ pub enum AntiAliasing {
     #[num_enum(default)]
     UNKNOWN = 255,
 }
+
+#[derive(Clone, PartialEq, Debug)]
+#[repr(C)]
+pub struct TemporalAntiAliasingOptions {
+    filter_width: f32,
+    feedback: f32,
+    enabled: bool,
+}
+
+impl Default for TemporalAntiAliasingOptions {
+    fn default() -> Self {
+        Self {
+            filter_width: 1.0,
+            feedback: 0.4,
+            enabled: false,
+        }
+    }
+}
+
+#[test]
+fn temporal_anti_aliasing_options_test() {
+    assert_eq!(
+        std::mem::size_of::<TemporalAntiAliasingOptions>(),
+        std::mem::size_of::<bindgen::filament_TemporalAntiAliasingOptions>(),
+    );
+}

@@ -59,6 +59,11 @@ impl<T: Copy> Vec4<T> {
     }
 
     #[inline]
+    pub fn from_vec3(vec3: Vec3<T>, w: T) -> Self {
+        Self { vec: [vec3.vec[0], vec3.vec[1], vec3.vec[2], w] }
+    }
+
+    #[inline]
     pub fn xyz(&self) -> Vec3<T> {
         Vec3::new(self.vec[0], self.vec[1], self.vec[2])
     }

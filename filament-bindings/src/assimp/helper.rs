@@ -1,4 +1,7 @@
-use crate::{math::{Float2, Float3, Half2, Short2, Ushort2, Half4, Mat4f, Float4}, filament::Aabb};
+use crate::{
+    filament::Aabb,
+    math::{Float2, Float3, Float4, Half2, Half4, Mat4f, Short2, Ushort2},
+};
 
 pub unsafe fn count_vertices(
     node: &russimp_sys::aiNode,
@@ -81,6 +84,10 @@ pub unsafe fn transmute_ai_vector_3d_arr(
     }
 }
 
+pub unsafe fn transmute_ai_vector(data: russimp_sys::aiVector3D) -> Float3 {
+    core::mem::transmute::<russimp_sys::aiVector3D, Float3>(data)
+}
+
 pub unsafe fn convert_uv(uv: &Float2, snorm_uvs: bool) -> Ushort2 {
     if snorm_uvs {
         let uvshort = uv.pack_snorm16();
@@ -101,24 +108,23 @@ pub unsafe fn compute_aabb(position: &[Half4], indices: &[u32]) -> Aabb {
         max = max.max(v);
     }
 
-    Aabb {
-        max,
-        min
-    }
+    Aabb { max, min }
 }
 
-pub unsafe fn compute_transformed_aabb(position: &[Half4], indices: &[u32], transform: Mat4f) -> Aabb {
+pub unsafe fn compute_transformed_aabb(
+    position: &[Half4],
+    indices: &[u32],
+    transform: Mat4f,
+) -> Aabb {
     let mut min = Float3::new(f32::MAX, f32::MAX, f32::MAX);
     let mut max = Float3::new(f32::MIN, f32::MIN, f32::MIN);
     for index in indices {
         let pos = position[*index as usize];
-        let v = (transform * Float4::new(pos[0].to_f32(), pos[1].to_f32(), pos[2].to_f32(), 1.0)).xyz();
+        let v =
+            (transform * Float4::new(pos[0].to_f32(), pos[1].to_f32(), pos[2].to_f32(), 1.0)).xyz();
         min = min.min(v);
         max = max.max(v);
     }
 
-    Aabb {
-        max,
-        min
-    }
+    Aabb { max, min }
 }

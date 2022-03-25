@@ -31,7 +31,7 @@ impl EntityManager {
         entity
     }
 
-    pub unsafe fn destory(&mut self, mut entity: Entity) {
+    pub unsafe fn destory(&mut self, entity: &mut Entity) {
         bindgen::utils_EntityManager_destroy(self.native_mut(), 0, entity.native_ptr_mut());
     }
 }
