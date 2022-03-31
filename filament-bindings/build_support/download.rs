@@ -7,10 +7,6 @@ pub fn download(name: impl AsRef<str>, url: impl AsRef<str>) -> io::Result<PathB
     fs::create_dir_all(&download_dir).unwrap();
     let output_path = download_dir.join(name.as_ref());
 
-    if fs::File::open(&output_path).is_ok() {
-        return Ok(output_path);
-    }
-
     match resp {
         Ok(resp) => {
             println!("ok");
