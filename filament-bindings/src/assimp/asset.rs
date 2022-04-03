@@ -17,8 +17,8 @@ use russimp_sys::aiScene;
 use crate::asset::Asset;
 
 use super::helper::{
-    compute_aabb, compute_transformed_aabb, convert_uv, count_vertices, get_min_max_uv,
-    transmute_ai_vector, transmute_ai_vector_3d_arr,
+    compute_aabb, convert_uv, count_vertices, get_min_max_uv, transmute_ai_vector,
+    transmute_ai_vector_3d_arr,
 };
 
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
@@ -680,17 +680,26 @@ unsafe fn process_node(
     }
 
     current_mesh.indices_count = total_indices;
-    current_mesh.aabb = compute_aabb(
-        data.positions.as_slice(),
-        &data.indices
-            [current_mesh.indices_offset..current_mesh.indices_offset + current_mesh.indices_count],
-    );
-    current_mesh.acc_aabb = compute_transformed_aabb(
-        data.positions.as_slice(),
-        &data.indices
-            [current_mesh.indices_offset..current_mesh.indices_offset + current_mesh.indices_count],
-        current_mesh.acc_transform,
-    );
+
+    if current_mesh.indices_count == 0 {
+        current_mesh.aabb = filament::Aabb {
+            min: Float3::new(f32::MAX, f32::MAX, f32::MAX),
+            max: Float3::new(f32::MIN, f32::MIN, f32::MIN),
+        };
+
+        current_mesh.acc_aabb = filament::Aabb {
+            min: Float3::new(f32::MAX, f32::MAX, f32::MAX),
+            max: Float3::new(f32::MIN, f32::MIN, f32::MIN),
+        };
+    } else {
+        current_mesh.aabb = compute_aabb(
+            data.positions.as_slice(),
+            &data.indices[current_mesh.indices_offset
+                ..current_mesh.indices_offset + current_mesh.indices_count],
+        );
+
+        current_mesh.acc_aabb = current_mesh.aabb.transform(current_mesh.acc_transform);
+    }
 
     data.meshes.push(current_mesh);
 

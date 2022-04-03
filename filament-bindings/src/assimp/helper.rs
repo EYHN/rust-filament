@@ -1,6 +1,6 @@
 use crate::{
     filament::Aabb,
-    math::{Float2, Float3, Float4, Half2, Half4, Mat4f, Short2, Ushort2},
+    math::{Float2, Float3, Half2, Half4, Short2, Ushort2},
 };
 
 pub unsafe fn count_vertices(
@@ -104,24 +104,6 @@ pub unsafe fn compute_aabb(position: &[Half4], indices: &[u32]) -> Aabb {
     for index in indices {
         let pos = position[*index as usize];
         let v = Float3::new(pos[0].to_f32(), pos[1].to_f32(), pos[2].to_f32());
-        min = min.min(v);
-        max = max.max(v);
-    }
-
-    Aabb { max, min }
-}
-
-pub unsafe fn compute_transformed_aabb(
-    position: &[Half4],
-    indices: &[u32],
-    transform: Mat4f,
-) -> Aabb {
-    let mut min = Float3::new(f32::MAX, f32::MAX, f32::MAX);
-    let mut max = Float3::new(f32::MIN, f32::MIN, f32::MIN);
-    for index in indices {
-        let pos = position[*index as usize];
-        let v =
-            (transform * Float4::new(pos[0].to_f32(), pos[1].to_f32(), pos[2].to_f32(), 1.0)).xyz();
         min = min.min(v);
         max = max.max(v);
     }

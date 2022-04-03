@@ -60,7 +60,9 @@ impl<T: Copy> Vec4<T> {
 
     #[inline]
     pub fn from_vec3(vec3: Vec3<T>, w: T) -> Self {
-        Self { vec: [vec3.vec[0], vec3.vec[1], vec3.vec[2], w] }
+        Self {
+            vec: [vec3.vec[0], vec3.vec[1], vec3.vec[2], w],
+        }
     }
 
     #[inline]
@@ -438,6 +440,14 @@ impl Mat4f {
     const COMPONENTS: usize = 16;
     const ROWS: usize = 4;
     const COLUMNS: usize = 4;
+
+    // Constructs a 3x3 matrix from the upper-left corner of this 4x4 matrix
+    pub fn upper_left(&self) -> Mat3f {
+        Mat3f([
+            self.0[0], self.0[1], self.0[2], self.0[4], self.0[5], self.0[6], self.0[8], self.0[9],
+            self.0[10],
+        ])
+    }
 }
 
 impl Default for Mat4f {
@@ -479,6 +489,14 @@ impl Mat4 {
     const COMPONENTS: usize = 16;
     const ROWS: usize = 4;
     const COLUMNS: usize = 4;
+
+    // Constructs a 3x3 matrix from the upper-left corner of this 4x4 matrix
+    pub fn upper_left(&self) -> Mat3 {
+        Mat3([
+            self.0[0], self.0[1], self.0[2], self.0[4], self.0[5], self.0[6], self.0[8], self.0[9],
+            self.0[10],
+        ])
+    }
 }
 
 impl Default for Mat4 {
