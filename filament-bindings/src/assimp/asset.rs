@@ -2,7 +2,6 @@ use core::fmt;
 use std::{error::Error, ffi::CString, path::Path, ptr};
 
 use crate::{
-    asset::CameraInfo,
     backend::{BufferDescriptor, ElementType, PrimitiveType},
     filament::{
         self, sRGBColor, Aabb, Bounds, Engine, IndexBuffer, IndexBufferBuilder, Material,
@@ -14,8 +13,6 @@ use crate::{
 };
 use russimp_sys::aiScene;
 
-use crate::asset::Asset;
-
 use super::helper::{
     compute_aabb, convert_uv, count_vertices, get_min_max_uv, transmute_ai_vector,
     transmute_ai_vector_3d_arr,
@@ -23,6 +20,15 @@ use super::helper::{
 
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
 const RESOURCES_AIDEFAULTTRANS_DATA: &'static [u8] = include_bytes!("aiDefaultTrans.filamat");
+
+pub struct CameraInfo {
+    pub position: Float3,
+    pub up: Float3,
+    pub look_at: Float3,
+    pub horizontal_fov: f64,
+    pub aspect: f64,
+    pub orthographic_width: f64,
+}
 
 pub struct AssimpAsset {
     renderables: Vec<utils::Entity>,
@@ -438,24 +444,24 @@ impl AssimpAsset {
     }
 }
 
-impl Asset for AssimpAsset {
-    fn get_renderables(&self) -> &[utils::Entity] {
+impl AssimpAsset {
+    pub fn get_renderables(&self) -> &[utils::Entity] {
         self.renderables.as_slice()
     }
 
-    fn get_root_entity(&self) -> &utils::Entity {
+    pub fn get_root_entity(&self) -> &utils::Entity {
         &self.root_entity
     }
 
-    fn get_aabb(&self) -> &filament::Aabb {
+    pub fn get_aabb(&self) -> &filament::Aabb {
         &self.aabb
     }
 
-    fn get_main_camera(&self) -> Option<&CameraInfo> {
+    pub fn get_main_camera(&self) -> Option<&CameraInfo> {
         self.main_camera.as_ref()
     }
 
-    fn destory(&mut self, engine: &mut Engine) {
+    pub fn destory(&mut self, engine: &mut Engine) {
         unsafe {
             engine.destroy_vertex_buffer(&mut self.vertex_buffer);
             engine.destroy_index_buffer(&mut self.index_buffer);

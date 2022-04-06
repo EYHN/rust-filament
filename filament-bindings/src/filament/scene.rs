@@ -37,6 +37,14 @@ impl Scene {
     }
 
     #[inline]
+    pub unsafe fn add_entities(&mut self, entities: &[Entity]) -> &mut Self {
+        for entity in entities {
+            self.add_entity(entity);
+        }
+        self
+    }
+
+    #[inline]
     pub unsafe fn set_skybox(&mut self, skybox: &mut Skybox) -> &mut Self {
         bindgen::filament_Scene_setSkybox(self.native_mut(), skybox.native_mut());
         self

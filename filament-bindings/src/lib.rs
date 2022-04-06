@@ -17,6 +17,6 @@ pub mod math;
 pub mod filameshio;
 pub mod ibl;
 pub mod image;
-pub mod asset;
+pub mod glftio;
 #[cfg(feature = "assimp")]
 pub mod assimp;

@@ -268,3 +268,47 @@ extern "C" void helper_filament_math_mat3f_pack_tangent_frame(const filament::ma
 extern "C" void helper_filament_math_mat3_pack_tangent_frame(const filament::math::mat3& m, size_t storage_size, filament::math::quat* result) {
     *result = filament::math::details::TMat33<double>::packTangentFrame(m, storage_size);
 }
+
+extern "C" gltfio::MaterialProvider* helper_gltfio_material_provider_create_material_generator(filament::Engine* engine, bool optimize_shaders) {
+    return gltfio::createMaterialGenerator(engine, optimize_shaders);
+}
+
+extern "C" gltfio::MaterialProvider* helper_gltfio_material_provider_create_ubershader_loader(filament::Engine* engine) {
+    return gltfio::createUbershaderLoader(engine);
+}
+
+extern "C" const filament::Material* const * helper_gltfio_material_provider_get_materials(const gltfio::MaterialProvider* provider) {
+    return provider->getMaterials();
+}
+
+extern "C" size_t helper_gltfio_material_provider_get_materials_count(const gltfio::MaterialProvider* provider) {
+    return provider->getMaterialsCount();
+}
+
+extern "C" void helper_gltfio_material_provider_destroy_materials(gltfio::MaterialProvider* provider) {
+    provider->destroyMaterials();
+}
+
+extern "C" bool helper_gltfio_material_provider_needs_dummy_data(const gltfio::MaterialProvider* provider, filament::VertexAttribute attrib) {
+    return provider->needsDummyData(attrib);
+}
+
+extern "C" void helper_gltfio_material_provider_delete(gltfio::MaterialProvider* provider) {
+    delete provider;
+}
+
+extern "C" gltfio::ResourceLoader* helper_gltfio_resource_loader_create(const gltfio::ResourceConfiguration& config) {
+    return new gltfio::ResourceLoader(config);
+}
+
+extern "C" void helper_gltfio_resource_loader_delete(gltfio::ResourceLoader* loader) {
+    delete loader;
+}
+
+extern "C" void helper_gltfio_filament_asset_get_root(const gltfio::FilamentAsset& asset, utils::Entity* result) {
+    *result = asset.getRoot();
+}
+
+extern "C" void helper_gltfio_filament_asset_get_bounding_box(const gltfio::FilamentAsset& asset, filament::Aabb* result) {
+    *result = asset.getBoundingBox();
+}

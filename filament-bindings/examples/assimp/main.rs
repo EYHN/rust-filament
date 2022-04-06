@@ -2,7 +2,6 @@ use core::time;
 use std::thread;
 
 use filament_bindings::{
-    asset::Asset,
     assimp::AssimpAsset,
     backend,
     filament::{Engine, Fov, IndirectLightBuilder, Projection, Viewport},

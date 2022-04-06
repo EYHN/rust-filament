@@ -128,6 +128,12 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         "filameshio",
         "meshoptimizer",
         "image",
+        "gltfio",
+        "gltfio_core",
+        "gltfio_resources",
+        "filamat",
+        "shaders",
+        "dracodec",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -181,7 +187,7 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
-        .allowlist_type("gltf.*")
+        .allowlist_type("gltfio.*")
         .allowlist_type("image.*")
         .allowlist_function("helper_.*")
         .opaque_type("std::basic_string")
