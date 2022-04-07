@@ -448,6 +448,34 @@ impl Mat4f {
             self.0[10],
         ])
     }
+
+    pub fn scaling(scale: Float3) -> Self {
+        Self([
+            scale[0], 0.0, 0.0, 0.0, 0.0, scale[1], 0.0, 0.0, 0.0, 0.0, scale[2], 0.0, 0.0, 0.0,
+            0.0, 1.0,
+        ])
+    }
+
+    pub fn translation(t: Float3) -> Self {
+        Self([
+            1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, t[0], t[1], t[2], 1.0,
+        ])
+    }
+
+    pub fn look_at(eye: &Float3, center: &Float3, up: &Float3) -> Self {
+        let z_axis = (*center - *eye).normalize();
+        let mut norm_up = up.normalize();
+        if z_axis.dot(&norm_up).abs() > 0.999 {
+            // Fix up vector if we're degenerate (looking straight up, basically)
+            norm_up = Float3::new(norm_up[2], norm_up[0], norm_up[1]);
+        }
+        let x_axis = z_axis.cross(&norm_up).normalize();
+        let y_axis = x_axis.cross(&z_axis);
+        Self([
+            x_axis[0], x_axis[1], x_axis[2], 0.0, y_axis[0], y_axis[1], y_axis[2], 0.0, -z_axis[0],
+            -z_axis[1], -z_axis[2], 0.0, eye[0], eye[1], eye[2], 1.0,
+        ])
+    }
 }
 
 impl Default for Mat4f {
@@ -495,6 +523,34 @@ impl Mat4 {
         Mat3([
             self.0[0], self.0[1], self.0[2], self.0[4], self.0[5], self.0[6], self.0[8], self.0[9],
             self.0[10],
+        ])
+    }
+
+    pub fn scaling(scale: Double3) -> Self {
+        Self([
+            scale[0], 0.0, 0.0, 0.0, 0.0, scale[1], 0.0, 0.0, 0.0, 0.0, scale[2], 0.0, 0.0, 0.0,
+            0.0, 1.0,
+        ])
+    }
+
+    pub fn translation(t: Double3) -> Self {
+        Self([
+            1.0, 0.0, 0.0, t[0], 0.0, 1.0, 0.0, t[1], 0.0, 0.0, 1.0, t[2], 0.0, 0.0, 0.0, 1.0,
+        ])
+    }
+
+    pub fn look_at(eye: &Double3, center: &Double3, up: &Double3) -> Self {
+        let z_axis = (*center - *eye).normalize();
+        let mut norm_up = up.normalize();
+        if z_axis.dot(&norm_up).abs() > 0.999 {
+            // Fix up vector if we're degenerate (looking straight up, basically)
+            norm_up = Double3::new(norm_up[2], norm_up[0], norm_up[1]);
+        }
+        let x_axis = z_axis.cross(&norm_up).normalize();
+        let y_axis = x_axis.cross(&z_axis);
+        Self([
+            x_axis[0], y_axis[0], -z_axis[0], eye[0], x_axis[1], y_axis[1], -z_axis[1], eye[1],
+            x_axis[2], y_axis[2], -z_axis[2], eye[2], 0.0, 0.0, 0.0, 1.0,
         ])
     }
 }

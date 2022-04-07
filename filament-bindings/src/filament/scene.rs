@@ -2,7 +2,7 @@ use std::ptr;
 
 use crate::{bindgen, utils::Entity};
 
-use super::{Engine, Skybox, IndirectLight};
+use super::{Engine, IndirectLight, Skybox};
 
 pub struct Scene {
     native: ptr::NonNull<bindgen::filament_Scene>,
@@ -40,6 +40,20 @@ impl Scene {
     pub unsafe fn add_entities(&mut self, entities: &[Entity]) -> &mut Self {
         for entity in entities {
             self.add_entity(entity);
+        }
+        self
+    }
+
+    #[inline]
+    pub unsafe fn remove_entity(&mut self, entity: &Entity) -> &mut Self {
+        bindgen::filament_Scene_remove(self.native_mut(), entity.native_owned());
+        self
+    }
+
+    #[inline]
+    pub unsafe fn remove_entities(&mut self, entities: &[Entity]) -> &mut Self {
+        for entity in entities {
+            self.remove_entity(entity);
         }
         self
     }

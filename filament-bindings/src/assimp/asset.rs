@@ -384,6 +384,9 @@ impl AssimpAsset {
                         .ok_or(E::InvalidString)?;
                     builder.material(part_index, &mut color_material);
 
+                    builder.cast_shadows(true);
+                    builder.receive_shadows(true);
+
                     material_instances.push(color_material);
                 }
                 let entity = renderables[mesh_index];

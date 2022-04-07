@@ -6,7 +6,7 @@ use filament_bindings::{
     backend,
     filament::{Engine, Fov, IndirectLightBuilder, Projection, Viewport},
     image::{ktx, KtxBundle},
-    math::{Float3, Mat3f},
+    math::{Float3, Mat3f, Mat4f},
 };
 
 use winit::{
@@ -56,6 +56,7 @@ fn main() {
         let mut engine = Engine::create(backend::Backend::OPENGL).unwrap();
         let mut scene = engine.create_scene().unwrap();
         let mut entity_manager = engine.get_entity_manager().unwrap();
+        let mut transform_manager = engine.get_transform_manager().unwrap();
 
         let asset = AssimpAsset::from_memory(&mut engine, MODEL_DATA, MODEL_NAME).unwrap();
 
@@ -64,6 +65,13 @@ fn main() {
         }
 
         scene.add_entity(asset.get_root_entity());
+
+        transform_manager.set_transform_float(
+            &transform_manager
+                .get_instance(asset.get_root_entity())
+                .unwrap(),
+            &Mat4f::scaling(Float3::new(0.5, 0.5, 0.5)),
+        );
 
         let ibl_texture = ktx::create_texture(
             &mut engine,

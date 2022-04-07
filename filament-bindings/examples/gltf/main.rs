@@ -40,7 +40,7 @@ fn init_window() -> (EventLoop<()>, Window, *mut std::ffi::c_void) {
     let event_loop = EventLoop::<()>::new();
     let window = WindowBuilder::new().build(&event_loop).unwrap();
     window.set_title("Basic example window");
-    window.set_inner_size(LogicalSize::new(1600.0, 1200.0));
+    window.set_inner_size(LogicalSize::new(400.0, 300.0));
 
     let surface = get_active_surface(&window);
 

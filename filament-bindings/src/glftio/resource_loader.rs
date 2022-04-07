@@ -48,12 +48,14 @@ impl ResourceLoader {
         let native_config = bindgen::gltfio_ResourceConfiguration {
             engine: config.engine.native_mut(),
             gltfPath: native_gltf_path
+                .as_ref()
                 .map(|s| s.as_ptr() as *mut _)
                 .unwrap_or(core::ptr::null_mut()),
             ignoreBindTransform: config.ignore_bind_transform,
             normalizeSkinningWeights: config.normalize_skinning_weights,
             recomputeBoundingBoxes: config.recompute_bounding_boxes,
         };
+
         ResourceLoader::try_from_native(bindgen::helper_gltfio_resource_loader_create(
             &native_config,
         ))

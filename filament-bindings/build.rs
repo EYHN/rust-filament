@@ -54,6 +54,13 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         ))
         .arg(format!("-DDIST_DIR={}", &target.to_string()));
 
+    let mut compiler_flags = String::new();
+    let c_flags = env::var("CFLAGS").unwrap_or_default();
+    let mut cxx_flags = env::var("CXXFLAGS").unwrap_or_default();
+    let asm_flags = env::var("ASMFLAGS").unwrap_or_default();
+
+    compiler_flags += " -DSTB_IMAGE_STATIC -DSTB_IMAGE_IMPLEMENTATION";
+
     if cfg!(not(target_os = "windows")) {
         // if not windows,  use ninja and clang
         if crt_static {
@@ -67,12 +74,9 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
 
         if cfg!(target_os = "linux") {
             filament_cmake.env("CC", env::var("CC").unwrap_or("clang".to_string()));
-            filament_cmake.env(
-                "CXXFLAGS",
-                env::var("CXXFLAGS").unwrap_or("-stdlib=libc++".to_string()),
-            );
             filament_cmake.env("CXX", env::var("CXX").unwrap_or("clang++".to_string()));
             filament_cmake.env("ASM", env::var("ASM").unwrap_or("clang".to_string()));
+            cxx_flags += " -stdlib=libc++";
         }
     } else {
         // if windows
@@ -91,6 +95,10 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
             _ => panic!("Unsupported architecture"),
         };
     }
+
+    filament_cmake.env("CFLAGS", format!("{} {}", compiler_flags, c_flags));
+    filament_cmake.env("CXXFLAGS", format!("{} {}", compiler_flags, cxx_flags));
+    filament_cmake.env("ASMFLAGS", format!("{} {}", compiler_flags, asm_flags));
 
     run_command(&mut filament_cmake, "cmake");
 
