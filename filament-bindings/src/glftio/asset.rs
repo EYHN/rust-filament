@@ -1,7 +1,7 @@
 use core::slice;
 use std::{ffi::CStr, ptr, str::Utf8Error};
 
-use crate::{bindgen, filament::Aabb, math::Float3, utils::Entity};
+use crate::{bindgen, filament::Aabb, utils::Entity};
 
 #[repr(transparent)]
 pub struct GltfAsset {
