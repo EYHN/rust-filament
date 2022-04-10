@@ -21,6 +21,17 @@ use super::helper::{
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
 const RESOURCES_AIDEFAULTTRANS_DATA: &'static [u8] = include_bytes!("aiDefaultTrans.filamat");
 
+const DEFAULT_FLAGS: i32 = russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals
+| russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace
+| russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords
+| russimp_sys::aiPostProcessSteps_aiProcess_FindInstances
+| russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes
+| russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices
+| russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality
+| russimp_sys::aiPostProcessSteps_aiProcess_SortByPType
+// | russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices
+| russimp_sys::aiPostProcessSteps_aiProcess_Triangulate;
+
 pub struct CameraInfo {
     pub position: Float3,
     pub up: Float3,
@@ -74,27 +85,61 @@ struct AssimpMeshPart {
     base_color: filament::sRGBColor,
 }
 
+pub mod post_process {
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace as CalcTangentSpace;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_Debone as Debone;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_DropNormals as DropNormals;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_EmbedTextures as EmbedTextures;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindDegenerates as FindDegenerates;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindInstances as FindInstances;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindInvalidData as FindInvalidData;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FixInfacingNormals as FixInfacingNormals;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FlipUVs as FlipUVs;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_FlipWindingOrder as FlipWindingOrder;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_ForceGenNormals as ForceGenNormals;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenBoundingBoxes as GenBoundingBoxes;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenNormals as GenNormals;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals as GenSmoothNormals;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords as GenUVCoords;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_GlobalScale as GlobalScale;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality as ImproveCacheLocality;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices as JoinIdenticalVertices;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_LimitBoneWeights as LimitBoneWeights;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_MakeLeftHanded as MakeLeftHanded;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_OptimizeGraph as OptimizeGraph;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes as OptimizeMeshes;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_PopulateArmatureData as PopulateArmatureData;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices as PreTransformVertices;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_RemoveComponent as RemoveComponent;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_RemoveRedundantMaterials as RemoveRedundantMaterials;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_SortByPType as SortByPType;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_SplitByBoneCount as SplitByBoneCount;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_SplitLargeMeshes as SplitLargeMeshes;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_TransformUVCoords as TransformUVCoords;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_Triangulate as Triangulate;
+    pub use russimp_sys::aiPostProcessSteps_aiProcess_ValidateDataStructure as ValidateDataStructure;
+}
+
 impl AssimpAsset {
     pub fn from_memory(
         engine: &mut filament::Engine,
         buffer: &[u8],
         hint: &str,
     ) -> Result<Self, E> {
+        Self::from_memory_with_flags(engine, buffer, hint, DEFAULT_FLAGS)
+    }
+    pub fn from_memory_with_flags(
+        engine: &mut filament::Engine,
+        buffer: &[u8],
+        hint: &str,
+        flags: i32,
+    ) -> Result<Self, E> {
         unsafe {
             let c_hint = CString::new(hint).map_err(|_| E::InvalidString)?;
             let ai_scene = russimp_sys::aiImportFileFromMemory(
                 buffer.as_ptr() as *const _,
                 buffer.len() as _,
-                (russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals
-                    | russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace
-                    | russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords
-                    | russimp_sys::aiPostProcessSteps_aiProcess_FindInstances
-                    | russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes
-                    | russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices
-                    | russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality
-                    | russimp_sys::aiPostProcessSteps_aiProcess_SortByPType
-                    // | russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices
-                    | russimp_sys::aiPostProcessSteps_aiProcess_Triangulate) as u32,
+                flags as u32,
                 c_hint.as_ptr(),
             );
             if ai_scene.is_null() {
@@ -123,26 +168,25 @@ impl AssimpAsset {
             Ok(asset)
         }
     }
-    pub fn from_file(engine: &mut filament::Engine, filename: impl AsRef<Path>) -> Result<Self, E> {
+    pub fn from_file(
+        engine: &mut filament::Engine,
+        filename: impl AsRef<Path>,
+    ) -> Result<Self, E> {
+        Self::from_file_with_flags(engine, filename, DEFAULT_FLAGS)
+    }
+
+    pub fn from_file_with_flags(
+        engine: &mut filament::Engine,
+        filename: impl AsRef<Path>,
+        flags: i32,
+    ) -> Result<Self, E> {
         unsafe {
             let c_filename = filename
                 .as_ref()
                 .to_str()
                 .and_then(|f| CString::new(f).ok())
                 .ok_or(E::InvalidString)?;
-            let ai_scene = russimp_sys::aiImportFile(
-                c_filename.as_ptr(),
-                (russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals
-                    | russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace
-                    | russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords
-                    | russimp_sys::aiPostProcessSteps_aiProcess_FindInstances
-                    | russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes
-                    | russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices
-                    | russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality
-                    | russimp_sys::aiPostProcessSteps_aiProcess_SortByPType
-                    // | russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices
-                    | russimp_sys::aiPostProcessSteps_aiProcess_Triangulate) as u32,
-            );
+            let ai_scene = russimp_sys::aiImportFile(c_filename.as_ptr(), flags as u32);
             if ai_scene.is_null() {
                 return Err(E::FailedLoadModel);
             }
