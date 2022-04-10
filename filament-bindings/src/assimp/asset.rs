@@ -21,16 +21,16 @@ use super::helper::{
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
 const RESOURCES_AIDEFAULTTRANS_DATA: &'static [u8] = include_bytes!("aiDefaultTrans.filamat");
 
-const DEFAULT_FLAGS: i32 = russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals
-| russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace
-| russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords
-| russimp_sys::aiPostProcessSteps_aiProcess_FindInstances
-| russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes
-| russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices
-| russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality
-| russimp_sys::aiPostProcessSteps_aiProcess_SortByPType
-// | russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices
-| russimp_sys::aiPostProcessSteps_aiProcess_Triangulate;
+const DEFAULT_FLAGS: u32 = (post_process::GEN_SMOOTH_NORMALS
+| post_process::CALC_TANGENT_SPACE
+| post_process::GEN_UV_COORDS
+| post_process::FIND_INSTANCES
+| post_process::OPTIMIZE_MESHES
+| post_process::JOIN_IDENTICAL_VERTICES
+| post_process::IMPROVE_CACHE_LOCALITY
+| post_process::SORT_BY_P_TYPE
+// | post_process::PRE_TRANSFORM_VERTICES
+| post_process::TRIANGULATE);
 
 pub struct CameraInfo {
     pub position: Float3,
@@ -86,38 +86,59 @@ struct AssimpMeshPart {
 }
 
 pub mod post_process {
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace as CalcTangentSpace;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_Debone as Debone;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_DropNormals as DropNormals;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_EmbedTextures as EmbedTextures;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindDegenerates as FindDegenerates;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindInstances as FindInstances;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FindInvalidData as FindInvalidData;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FixInfacingNormals as FixInfacingNormals;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FlipUVs as FlipUVs;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_FlipWindingOrder as FlipWindingOrder;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_ForceGenNormals as ForceGenNormals;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenBoundingBoxes as GenBoundingBoxes;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenNormals as GenNormals;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals as GenSmoothNormals;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords as GenUVCoords;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_GlobalScale as GlobalScale;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality as ImproveCacheLocality;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices as JoinIdenticalVertices;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_LimitBoneWeights as LimitBoneWeights;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_MakeLeftHanded as MakeLeftHanded;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_OptimizeGraph as OptimizeGraph;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes as OptimizeMeshes;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_PopulateArmatureData as PopulateArmatureData;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices as PreTransformVertices;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_RemoveComponent as RemoveComponent;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_RemoveRedundantMaterials as RemoveRedundantMaterials;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_SortByPType as SortByPType;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_SplitByBoneCount as SplitByBoneCount;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_SplitLargeMeshes as SplitLargeMeshes;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_TransformUVCoords as TransformUVCoords;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_Triangulate as Triangulate;
-    pub use russimp_sys::aiPostProcessSteps_aiProcess_ValidateDataStructure as ValidateDataStructure;
+    pub const CALC_TANGENT_SPACE: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_CalcTangentSpace as u32;
+    pub const DEBONE: u32 = russimp_sys::aiPostProcessSteps_aiProcess_Debone as u32;
+    pub const DROP_NORMALS: u32 = russimp_sys::aiPostProcessSteps_aiProcess_DropNormals as u32;
+    pub const EMBED_TEXTURES: u32 = russimp_sys::aiPostProcessSteps_aiProcess_EmbedTextures as u32;
+    pub const FIND_DEGENERATES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_FindDegenerates as u32;
+    pub const FIND_INSTANCES: u32 = russimp_sys::aiPostProcessSteps_aiProcess_FindInstances as u32;
+    pub const FIND_INVALID_DATA: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_FindInvalidData as u32;
+    pub const FIX_INFACING_NORMALS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_FixInfacingNormals as u32;
+    pub const FLIP_U_VS: u32 = russimp_sys::aiPostProcessSteps_aiProcess_FlipUVs as u32;
+    pub const FLIP_WINDING_ORDER: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_FlipWindingOrder as u32;
+    pub const FORCE_GEN_NORMALS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_ForceGenNormals as u32;
+    pub const GEN_BOUNDING_BOXES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_GenBoundingBoxes as u32;
+    pub const GEN_NORMALS: u32 = russimp_sys::aiPostProcessSteps_aiProcess_GenNormals as u32;
+    pub const GEN_SMOOTH_NORMALS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_GenSmoothNormals as u32;
+    pub const GEN_UV_COORDS: u32 = russimp_sys::aiPostProcessSteps_aiProcess_GenUVCoords as u32;
+    pub const GLOBAL_SCALE: u32 = russimp_sys::aiPostProcessSteps_aiProcess_GlobalScale as u32;
+    pub const IMPROVE_CACHE_LOCALITY: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_ImproveCacheLocality as u32;
+    pub const JOIN_IDENTICAL_VERTICES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_JoinIdenticalVertices as u32;
+    pub const LIMIT_BONE_WEIGHTS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_LimitBoneWeights as u32;
+    pub const MAKE_LEFT_HANDED: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_MakeLeftHanded as u32;
+    pub const OPTIMIZE_GRAPH: u32 = russimp_sys::aiPostProcessSteps_aiProcess_OptimizeGraph as u32;
+    pub const OPTIMIZE_MESHES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_OptimizeMeshes as u32;
+    pub const POPULATE_ARMATURE_DATA: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_PopulateArmatureData as u32;
+    pub const PRE_TRANSFORM_VERTICES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_PreTransformVertices as u32;
+    pub const REMOVE_COMPONENT: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_RemoveComponent as u32;
+    pub const REMOVE_REDUNDANT_MATERIALS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_RemoveRedundantMaterials as u32;
+    pub const SORT_BY_P_TYPE: u32 = russimp_sys::aiPostProcessSteps_aiProcess_SortByPType as u32;
+    pub const SPLIT_BY_BONE_COUNT: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_SplitByBoneCount as u32;
+    pub const SPLIT_LARGE_MESHES: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_SplitLargeMeshes as u32;
+    pub const TRANSFORM_UV_COORDS: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_TransformUVCoords as u32;
+    pub const TRIANGULATE: u32 = russimp_sys::aiPostProcessSteps_aiProcess_Triangulate as u32;
+    pub const VALIDATE_DATA_STRUCTURE: u32 =
+        russimp_sys::aiPostProcessSteps_aiProcess_ValidateDataStructure as u32;
 }
 
 impl AssimpAsset {
@@ -132,7 +153,7 @@ impl AssimpAsset {
         engine: &mut filament::Engine,
         buffer: &[u8],
         hint: &str,
-        flags: i32,
+        flags: u32,
     ) -> Result<Self, E> {
         unsafe {
             let c_hint = CString::new(hint).map_err(|_| E::InvalidString)?;
@@ -168,17 +189,14 @@ impl AssimpAsset {
             Ok(asset)
         }
     }
-    pub fn from_file(
-        engine: &mut filament::Engine,
-        filename: impl AsRef<Path>,
-    ) -> Result<Self, E> {
+    pub fn from_file(engine: &mut filament::Engine, filename: impl AsRef<Path>) -> Result<Self, E> {
         Self::from_file_with_flags(engine, filename, DEFAULT_FLAGS)
     }
 
     pub fn from_file_with_flags(
         engine: &mut filament::Engine,
         filename: impl AsRef<Path>,
-        flags: i32,
+        flags: u32,
     ) -> Result<Self, E> {
         unsafe {
             let c_filename = filename
