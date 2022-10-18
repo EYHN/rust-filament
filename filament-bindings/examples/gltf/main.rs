@@ -5,9 +5,11 @@ use filament_bindings::{
     backend,
     filament::{Engine, IndirectLightBuilder, Viewport},
     glftio::{
-        AssetConfiguration, AssetLoader, MaterialProvider, ResourceConfiguration, ResourceLoader,
+        create_stb_provider, AssetConfiguration, AssetLoader, MaterialProvider,
+        ResourceConfiguration, ResourceLoader,
     },
-    image::{ktx, KtxBundle},
+    image::Ktx1Bundle,
+    ktxreader::ktx1_reader,
     math::{Float3, Mat3f},
 };
 
@@ -67,24 +69,25 @@ fn main() {
         })
         .unwrap();
 
-        let mut asset = loader.create_asset_from_json(MODEL_DATA).unwrap();
-        ResourceLoader::create(ResourceConfiguration {
+        let mut asset = loader.create_asset(MODEL_DATA).unwrap();
+        let mut resource_loader = ResourceLoader::create(ResourceConfiguration {
             engine: &mut engine,
             gltf_path: None,
             normalize_skinning_weights: true,
-            recompute_bounding_boxes: false,
-            ignore_bind_transform: false,
         })
-        .unwrap()
-        .load_resources(&mut asset);
+        .unwrap();
+        let mut decoder = create_stb_provider(&mut engine).unwrap();
+        resource_loader.add_texture_provider("image/png", &mut decoder).unwrap();
+        resource_loader.add_texture_provider("image/jpeg", &mut decoder).unwrap();
+        resource_loader.load_resources(&mut asset);
 
         asset.release_source_data();
 
         scene.add_entities(asset.get_entities());
 
-        let ibl_texture = ktx::create_texture(
+        let ibl_texture = ktx1_reader::create_texture(
             &mut engine,
-            KtxBundle::from(IDL_TEXTURE_DATA).unwrap(),
+            Ktx1Bundle::from(IDL_TEXTURE_DATA).unwrap(),
             false,
         )
         .unwrap();
@@ -122,14 +125,15 @@ fn main() {
         view.set_viewport(&viewport);
 
         camera.set_exposure_physical(16.0, 1.0 / 125.0, 100.0);
-      
+
         let half_extent = dbg!(asset.get_bounding_box()).extent();
         camera.set_lens_projection(28.0, aspect, 0.1, f64::INFINITY);
         camera.look_at_up(
             &(asset.get_bounding_box().center()
                 + Float3::from(((half_extent[0] + half_extent[2]) / 2.0).max(half_extent[1]))
-                    * Float3::from([2.5, 1.7, 2.5])),
-            &asset.get_bounding_box().center(),
+                    * Float3::from([2.5, 1.7, 2.5]))
+            .into(),
+            &asset.get_bounding_box().center().into(),
             &[0.0, 1.0, 0.0].into(),
         );
 

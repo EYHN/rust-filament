@@ -1,16 +1,16 @@
-pub mod ktx {
+pub mod ktx1_reader {
     use crate::{
         bindgen,
         filament::{Engine, Texture},
-        image::KtxBundle,
+        image::Ktx1Bundle,
     };
 
     pub unsafe fn create_texture(
         engine: &mut Engine,
-        ktx: KtxBundle,
+        ktx: Ktx1Bundle,
         srgb: bool,
     ) -> Option<Texture> {
-        let result = Texture::try_from_native(bindgen::helper_image_ktx_createTexture(
+        let result = Texture::try_from_native(bindgen::helper_ktxreader_ktx1_reader_createTexture(
             engine.native_mut(),
             ktx.native(),
             srgb,
@@ -21,6 +21,7 @@ pub mod ktx {
     }
 
     unsafe extern "C" fn create_texture_callback(user: *mut std::ffi::c_void) {
-        std::ptr::drop_in_place(user as *mut KtxBundle);
+        std::ptr::drop_in_place(user as *mut Ktx1Bundle);
     }
 }
+

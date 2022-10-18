@@ -5,7 +5,8 @@ use filament_bindings::{
     assimp::AssimpAsset,
     backend,
     filament::{Engine, Fov, IndirectLightBuilder, Projection, Viewport},
-    image::{ktx, KtxBundle},
+    image::Ktx1Bundle,
+    ktxreader::ktx1_reader,
     math::{Float3, Mat3f, Mat4f},
 };
 
@@ -73,9 +74,9 @@ fn main() {
             &Mat4f::scaling(Float3::new(0.5, 0.5, 0.5)),
         );
 
-        let ibl_texture = ktx::create_texture(
+        let ibl_texture = ktx1_reader::create_texture(
             &mut engine,
-            KtxBundle::from(IDL_TEXTURE_DATA).unwrap(),
+            Ktx1Bundle::from(IDL_TEXTURE_DATA).unwrap(),
             false,
         )
         .unwrap();
@@ -134,15 +135,20 @@ fn main() {
                     100000.0,
                 );
             }
-            camera.look_at_up(&camera_info.position, &camera_info.look_at, &camera_info.up);
+            camera.look_at_up(
+                &camera_info.position.into(),
+                &camera_info.look_at.into(),
+                &camera_info.up.into(),
+            );
         } else {
             let half_extent = asset.get_aabb().extent();
             camera.set_lens_projection(28.0, aspect, 0.1, f64::INFINITY);
             camera.look_at_up(
                 &(asset.get_aabb().center()
                     + Float3::from(((half_extent[0] + half_extent[2]) / 2.0).max(half_extent[1]))
-                        * Float3::from([2.5, 1.7, 2.5])),
-                &asset.get_aabb().center(),
+                        * Float3::from([2.5, 1.7, 2.5]))
+                .into(),
+                &asset.get_aabb().center().into(),
                 &[0.0, 1.0, 0.0].into(),
             );
         }

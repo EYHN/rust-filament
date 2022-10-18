@@ -42,7 +42,6 @@
 #include "backend/PixelBufferDescriptor.h"
 #include "backend/Platform.h"
 #include "backend/PresentCallable.h"
-#include "backend/ShaderStageFlags.h"
 #include "backend/TargetBufferInfo.h"
 
 #include "utils/EntityManager.h"
@@ -74,20 +73,17 @@
 #include "gltfio/FilamentInstance.h"
 #include "gltfio/MaterialProvider.h"
 #include "gltfio/ResourceLoader.h"
-
-// #include "ibl/Cubemap.h"
-// #include "ibl/CubemapIBL.h"
-// #include "ibl/CubemapSH.h"
-// #include "ibl/CubemapUtils.h"
-// #include "ibl/Image.h"
-// #include "ibl/utilities.h"
+#include "gltfio/TextureProvider.h"
+#include "gltfio/materials/uberarchive.h"
 
 #include "image/ColorTransform.h"
 #include "image/ImageOps.h"
 #include "image/ImageSampler.h"
-#include "image/KtxBundle.h"
-#include "image/KtxUtility.h"
+#include "image/Ktx1Bundle.h"
 #include "image/LinearImage.h"
+
+#include "ktxreader/Ktx1Reader.h"
+#include "ktxreader/Ktx2Reader.h"
 
 extern "C" filament::Material::Builder* helper_filament_material_builder_create() {
     return new filament::Material::Builder();
@@ -105,15 +101,15 @@ extern "C" void helper_filament_light_manager_builder_delete(filament::LightMana
     delete self;
 }
 
-extern "C" image::KtxBundle* helper_image_ktx_bundle_create(uint32_t numMipLevels, uint32_t arrayLength, bool isCubemap) {
-    return new image::KtxBundle(numMipLevels, arrayLength, isCubemap);
+extern "C" image::Ktx1Bundle* helper_image_ktx1_bundle_create(uint32_t numMipLevels, uint32_t arrayLength, bool isCubemap) {
+    return new image::Ktx1Bundle(numMipLevels, arrayLength, isCubemap);
 }
 
-extern "C" image::KtxBundle* helper_image_ktx_bundle_from(uint8_t const* bytes, uint32_t nbytes) {
-    return new image::KtxBundle(bytes, nbytes);
+extern "C" image::Ktx1Bundle* helper_image_ktx1_bundle_from(uint8_t const* bytes, uint32_t nbytes) {
+    return new image::Ktx1Bundle(bytes, nbytes);
 }
 
-extern "C" void helper_image_ktx_bundle_delete(image::KtxBundle* self) {
+extern "C" void helper_image_ktx1_bundle_delete(image::Ktx1Bundle* self) {
     delete self;
 }
 
@@ -237,12 +233,12 @@ extern "C" void helper_material_instance_setParameter_mat3f(filament::MaterialIn
     instance->setParameter(name, value);
 }
 
-extern "C" filament::math::float3 helper_color_toLinear_fast_sRGB(filament::math::float3 const& sRGBColor) {
-    return filament::Color::toLinear<filament::ColorConversion::FAST>(sRGBColor);
+extern "C" void helper_color_toLinear_fast_sRGB(filament::math::float3 const& sRGBColor, filament::math::float3* result) {
+    *result = filament::Color::toLinear<filament::ColorConversion::FAST>(sRGBColor);
 }
 
-extern "C" filament::Texture* helper_image_ktx_createTexture(filament::Engine* engine, const image::KtxBundle& bundle, bool srgb, image::ktx::Callback callback, void* userdata) {
-    return image::ktx::createTexture(engine, bundle, srgb, callback, userdata);
+extern "C" filament::Texture* helper_ktxreader_ktx1_reader_createTexture(filament::Engine* engine, const image::Ktx1Bundle& bundle, bool srgb, ktxreader::Ktx1Reader::Callback callback, void* userdata) {
+    return ktxreader::Ktx1Reader::createTexture(engine, bundle, srgb, callback, userdata);
 }
 
 extern "C" void helper_filament_transform_manager_get_instance(const filament::TransformManager& manager, const utils::Entity* e, filament::TransformManager::Instance* result) {
@@ -269,46 +265,62 @@ extern "C" void helper_filament_math_mat3_pack_tangent_frame(const filament::mat
     *result = filament::math::details::TMat33<double>::packTangentFrame(m, storage_size);
 }
 
-extern "C" gltfio::MaterialProvider* helper_gltfio_material_provider_create_material_generator(filament::Engine* engine, bool optimize_shaders) {
-    return gltfio::createMaterialGenerator(engine, optimize_shaders);
+extern "C" filament::gltfio::MaterialProvider* helper_filament_gltfio_material_provider_create_jit_shader_generator(filament::Engine* engine, bool optimize_shaders) {
+    return filament::gltfio::createJitShaderProvider(engine, optimize_shaders);
 }
 
-extern "C" gltfio::MaterialProvider* helper_gltfio_material_provider_create_ubershader_loader(filament::Engine* engine) {
-    return gltfio::createUbershaderLoader(engine);
+extern "C" filament::gltfio::MaterialProvider* helper_filament_gltfio_material_provider_create_ubershader_loader(filament::Engine* engine) {
+    return filament::gltfio::createUbershaderProvider(engine, UBERARCHIVE_DEFAULT_DATA, UBERARCHIVE_DEFAULT_SIZE);
 }
 
-extern "C" const filament::Material* const * helper_gltfio_material_provider_get_materials(const gltfio::MaterialProvider* provider) {
+extern "C" const filament::Material* const * helper_filament_gltfio_material_provider_get_materials(const filament::gltfio::MaterialProvider* provider) {
     return provider->getMaterials();
 }
 
-extern "C" size_t helper_gltfio_material_provider_get_materials_count(const gltfio::MaterialProvider* provider) {
+extern "C" size_t helper_filament_gltfio_material_provider_get_materials_count(const filament::gltfio::MaterialProvider* provider) {
     return provider->getMaterialsCount();
 }
 
-extern "C" void helper_gltfio_material_provider_destroy_materials(gltfio::MaterialProvider* provider) {
+extern "C" void helper_filament_gltfio_material_provider_destroy_materials(filament::gltfio::MaterialProvider* provider) {
     provider->destroyMaterials();
 }
 
-extern "C" bool helper_gltfio_material_provider_needs_dummy_data(const gltfio::MaterialProvider* provider, filament::VertexAttribute attrib) {
+extern "C" bool helper_filament_gltfio_material_provider_needs_dummy_data(const filament::gltfio::MaterialProvider* provider, filament::VertexAttribute attrib) {
     return provider->needsDummyData(attrib);
 }
 
-extern "C" void helper_gltfio_material_provider_delete(gltfio::MaterialProvider* provider) {
+extern "C" void helper_filament_gltfio_material_provider_delete(filament::gltfio::MaterialProvider* provider) {
     delete provider;
 }
 
-extern "C" gltfio::ResourceLoader* helper_gltfio_resource_loader_create(const gltfio::ResourceConfiguration& config) {
-    return new gltfio::ResourceLoader(config);
+extern "C" filament::gltfio::ResourceLoader* helper_filament_gltfio_resource_loader_create(const filament::gltfio::ResourceConfiguration& config) {
+    return new filament::gltfio::ResourceLoader(config);
 }
 
-extern "C" void helper_gltfio_resource_loader_delete(gltfio::ResourceLoader* loader) {
+extern "C" void helper_filament_gltfio_resource_loader_delete(filament::gltfio::ResourceLoader* loader) {
     delete loader;
 }
 
-extern "C" void helper_gltfio_filament_asset_get_root(const gltfio::FilamentAsset& asset, utils::Entity* result) {
+extern "C" filament::gltfio::TextureProvider* helper_filament_gltfio_create_stb_provider(filament::Engine* engine) {
+    return filament::gltfio::createStbProvider(engine);
+}
+
+extern "C" filament::gltfio::TextureProvider* helper_filament_gltfio_create_ktx2_provider(filament::Engine* engine) {
+    return filament::gltfio::createKtx2Provider(engine);
+}
+
+extern "C" void helper_filament_gltfio_texture_provider_delete(filament::gltfio::TextureProvider* provider) {
+    delete provider;
+}
+
+extern "C" void helper_filament_gltfio_filament_asset_get_root(const filament::gltfio::FilamentAsset& asset, utils::Entity* result) {
     *result = asset.getRoot();
 }
 
-extern "C" void helper_gltfio_filament_asset_get_bounding_box(const gltfio::FilamentAsset& asset, filament::Aabb* result) {
+extern "C" void helper_filament_gltfio_filament_asset_get_bounding_box(const filament::gltfio::FilamentAsset& asset, filament::Aabb* result) {
     *result = asset.getBoundingBox();
+}
+
+extern "C" void helper_filament_gltfio_resource_loader_add_texture_provider(filament::gltfio::ResourceLoader* resourceLoader, const char* mimeType, filament::gltfio::TextureProvider* provider) {
+    resourceLoader->addTextureProvider(mimeType, provider);
 }

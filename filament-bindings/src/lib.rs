@@ -18,5 +18,6 @@ pub mod filameshio;
 pub mod ibl;
 pub mod image;
 pub mod glftio;
+pub mod ktxreader;
 #[cfg(feature = "assimp")]
 pub mod assimp;

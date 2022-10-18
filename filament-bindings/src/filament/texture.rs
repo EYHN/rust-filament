@@ -183,46 +183,6 @@ impl Texture {
         &mut self,
         engine: &mut Engine,
         level: usize,
-        buffer: PixelBufferDescriptor<T>,
-    ) -> &mut Self {
-        bindgen::filament_Texture_setImage(
-            self.native_mut(),
-            engine.native_mut(),
-            level,
-            &mut buffer.into_native(),
-        );
-        self
-    }
-
-    #[inline]
-    pub unsafe fn set_image_offset_size<T: 'static>(
-        &mut self,
-        engine: &mut Engine,
-        level: usize,
-        xoffset: u32,
-        yoffset: u32,
-        width: u32,
-        height: u32,
-        buffer: PixelBufferDescriptor<T>,
-    ) -> &mut Self {
-        bindgen::filament_Texture_setImage1(
-            self.native_mut(),
-            engine.native_mut(),
-            level,
-            xoffset,
-            yoffset,
-            width,
-            height,
-            &mut buffer.into_native(),
-        );
-        self
-    }
-
-    #[inline]
-    pub unsafe fn set_image_offset_size_depth<T: 'static>(
-        &mut self,
-        engine: &mut Engine,
-        level: usize,
         xoffset: u32,
         yoffset: u32,
         zoffset: u32,
@@ -231,7 +191,7 @@ impl Texture {
         depth: u32,
         buffer: PixelBufferDescriptor<T>,
     ) -> &mut Self {
-        bindgen::filament_Texture_setImage2(
+        bindgen::filament_Texture_setImage(
             self.native_mut(),
             engine.native_mut(),
             level,
@@ -245,8 +205,6 @@ impl Texture {
         );
         self
     }
-
-    // TODO: set image face offset
 
     #[inline]
     pub unsafe fn set_external_image(

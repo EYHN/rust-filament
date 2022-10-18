@@ -187,11 +187,13 @@ impl MaterialInstance {
         texture: &Texture,
         sampler: &TextureSampler,
     ) -> Result<&mut Self, ffi::NulError> {
-        let c_name = ffi::CString::new(name.as_ref())?;
+        let name = name.as_ref();
+        let c_name = ffi::CString::new(name)?;
 
         bindgen::filament_MaterialInstance_setParameter(
             self.native_mut(),
             c_name.as_ptr(),
+            name.len(),
             texture.native(),
             sampler.native(),
         );
@@ -205,10 +207,12 @@ impl MaterialInstance {
         rgb_type: RgbType,
         value: Float3,
     ) -> Result<&mut Self, ffi::NulError> {
-        let c_name = ffi::CString::new(name.as_ref())?;
+        let name = name.as_ref();
+        let c_name = ffi::CString::new(name)?;
         bindgen::filament_MaterialInstance_setParameter1(
             self.native_mut(),
             c_name.as_ptr(),
+            name.len(),
             rgb_type.into(),
             value.native_owned(),
         );
@@ -222,10 +226,12 @@ impl MaterialInstance {
         rgb_type: RgbaType,
         value: Float4,
     ) -> Result<&mut Self, ffi::NulError> {
-        let c_name = ffi::CString::new(name.as_ref())?;
+        let name = name.as_ref();
+        let c_name = ffi::CString::new(name)?;
         bindgen::filament_MaterialInstance_setParameter2(
             self.native_mut(),
             c_name.as_ptr(),
+            name.len(),
             rgb_type.into(),
             value.native_owned(),
         );

@@ -4,7 +4,7 @@ use num_enum::IntoPrimitive;
 
 use crate::{
     bindgen,
-    math::{Double2, Double4, Float3, Mat4, Mat4f},
+    math::{Double2, Double4, Double3, Float3, Mat4, Mat4f},
 };
 
 #[derive(IntoPrimitive, Clone, Copy, PartialEq, PartialOrd, Debug)]
@@ -180,12 +180,12 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn get_near(&self) -> f32 {
+    pub unsafe fn get_near(&self) -> f64 {
         bindgen::filament_Camera_getNear(self.native())
     }
 
     #[inline]
-    pub unsafe fn get_culling_far(&self) -> f32 {
+    pub unsafe fn get_culling_far(&self) -> f64 {
         bindgen::filament_Camera_getCullingFar(self.native())
     }
 
@@ -200,18 +200,13 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn look_at_up(&mut self, eye: &Float3, center: &Float3, up: &Float3) {
+    pub unsafe fn look_at_up(&mut self, eye: &Double3, center: &Double3, up: &Double3) {
         bindgen::filament_Camera_lookAt(
             self.native_mut(),
             eye.native_ptr(),
             center.native_ptr(),
             up.native_ptr(),
         )
-    }
-
-    #[inline]
-    pub unsafe fn look_at(&mut self, eye: &Float3, center: &Float3) {
-        bindgen::filament_Camera_lookAt1(self.native_mut(), eye.native_ptr(), center.native_ptr())
     }
 
     #[inline]
@@ -225,8 +220,8 @@ impl Camera {
     }
 
     #[inline]
-    pub unsafe fn get_position(&self) -> Float3 {
-        Float3::from_native(bindgen::filament_Camera_getPosition(self.native()))
+    pub unsafe fn get_position(&self) -> Double3 {
+        Double3::from_native(bindgen::filament_Camera_getPosition(self.native()))
     }
 
     #[inline]

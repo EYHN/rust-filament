@@ -73,8 +73,8 @@ impl sRGBColorA {
 
 impl sRGBColor {
     pub unsafe fn to_linear_fast(&self) -> LinearColor {
-        LinearColor(Float3::from_native(
-            bindgen::helper_color_toLinear_fast_sRGB(self.0.native_ptr()),
-        ))
+        let mut f3 = Float3::default();
+        bindgen::helper_color_toLinear_fast_sRGB(self.0.native_ptr(), f3.native_ptr_mut());
+        LinearColor(f3)
     }
 }
