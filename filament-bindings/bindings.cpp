@@ -1,3 +1,5 @@
+#include "string.h"
+
 #include "filament/Box.h"
 #include "filament/BufferObject.h"
 #include "filament/Camera.h"
