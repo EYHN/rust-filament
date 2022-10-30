@@ -145,7 +145,6 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         "shaders",
         "dracodec",
         "zstd",
-        "stb",
         "basis_transcoder",
     ]
     .into_iter()
