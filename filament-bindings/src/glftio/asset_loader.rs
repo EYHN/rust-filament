@@ -6,7 +6,7 @@ use crate::{
     utils::EntityManager,
 };
 
-use super::{GltfAsset, MaterialProvider};
+use super::{GltfAsset, MaterialProvider, TextureProvider};
 
 pub struct AssetConfiguration<'a> {
     pub engine: &'a mut Engine,
@@ -16,24 +16,24 @@ pub struct AssetConfiguration<'a> {
 }
 
 pub struct AssetLoader {
-    native: ptr::NonNull<bindgen::gltfio_AssetLoader>,
+    native: ptr::NonNull<bindgen::filament_gltfio_AssetLoader>,
     materials: MaterialProvider,
 }
 
 impl AssetLoader {
     #[inline]
-    pub fn native(&self) -> *const bindgen::gltfio_AssetLoader {
+    pub fn native(&self) -> *const bindgen::filament_gltfio_AssetLoader {
         self.native.as_ptr()
     }
 
     #[inline]
-    pub fn native_mut(&mut self) -> *mut bindgen::gltfio_AssetLoader {
+    pub fn native_mut(&mut self) -> *mut bindgen::filament_gltfio_AssetLoader {
         self.native.as_ptr()
     }
 
     #[inline]
     pub fn try_from_native(
-        native: *mut bindgen::gltfio_AssetLoader,
+        native: *mut bindgen::filament_gltfio_AssetLoader,
         materials: MaterialProvider,
     ) -> Option<Self> {
         let ptr = ptr::NonNull::new(native)?;
@@ -51,7 +51,7 @@ impl AssetLoader {
             None
         };
 
-        let native_config = bindgen::gltfio_AssetConfiguration {
+        let native_config = bindgen::filament_gltfio_AssetConfiguration {
             engine: config.engine.native_mut(),
             materials: config.materials.native_mut(),
             entities: config
@@ -64,23 +64,14 @@ impl AssetLoader {
                 .unwrap_or(core::ptr::null_mut()),
         };
         Self::try_from_native(
-            bindgen::gltfio_AssetLoader_create(&native_config),
+            bindgen::filament_gltfio_AssetLoader_create(&native_config),
             config.materials,
         )
     }
 
     #[inline]
-    pub unsafe fn create_asset_from_json(&mut self, bytes: &[u8]) -> Option<GltfAsset> {
-        GltfAsset::try_from_native(bindgen::gltfio_AssetLoader_createAssetFromJson(
-            self.native_mut(),
-            bytes.as_ptr(),
-            bytes.len() as u32,
-        ))
-    }
-
-    #[inline]
-    pub unsafe fn create_asset_from_binary(&mut self, bytes: &[u8]) -> Option<GltfAsset> {
-        GltfAsset::try_from_native(bindgen::gltfio_AssetLoader_createAssetFromBinary(
+    pub unsafe fn create_asset(&mut self, bytes: &[u8]) -> Option<GltfAsset> {
+        GltfAsset::try_from_native(bindgen::filament_gltfio_AssetLoader_createAsset(
             self.native_mut(),
             bytes.as_ptr(),
             bytes.len() as u32,
@@ -92,12 +83,12 @@ impl AssetLoader {
 
     #[inline]
     pub unsafe fn enable_diagnostics(&mut self, enable: bool) {
-        bindgen::gltfio_AssetLoader_enableDiagnostics(self.native_mut(), enable)
+        bindgen::filament_gltfio_AssetLoader_enableDiagnostics(self.native_mut(), enable)
     }
 
     #[inline]
-    pub unsafe fn destroy_asset(&mut self, asset: &GltfAsset) {
-        bindgen::gltfio_AssetLoader_destroyAsset(self.native_mut(), asset.native())
+    pub unsafe fn destroy_asset(&mut self, asset: GltfAsset) {
+        bindgen::filament_gltfio_AssetLoader_destroyAsset(self.native_mut(), asset.native())
     }
 
     #[inline]
@@ -125,6 +116,6 @@ impl AssetLoader {
 
 impl Drop for AssetLoader {
     fn drop(&mut self) {
-        unsafe { bindgen::gltfio_AssetLoader_destroy(&mut self.native_mut()) }
+        unsafe { bindgen::filament_gltfio_AssetLoader_destroy(&mut self.native_mut()) }
     }
 }

@@ -8,7 +8,8 @@ use filament_bindings::{
         RgbType, SkyboxBuilder, Viewport,
     },
     filameshio::MeshReader,
-    image::{ktx, KtxBundle},
+    image::Ktx1Bundle,
+    ktxreader::ktx1_reader,
     math::{Float3, Mat4f},
 };
 
@@ -97,9 +98,9 @@ fn main() {
             light
         };
 
-        let mut skybox_texture = ktx::create_texture(
+        let mut skybox_texture = ktx1_reader::create_texture(
             &mut engine,
-            KtxBundle::from(SKTBOX_TEXTURE_DATA).unwrap(),
+            Ktx1Bundle::from(SKTBOX_TEXTURE_DATA).unwrap(),
             false,
         )
         .unwrap();
@@ -112,9 +113,9 @@ fn main() {
             .unwrap();
         scene.set_skybox(&mut skybox);
 
-        let ibl_texture = ktx::create_texture(
+        let ibl_texture = ktx1_reader::create_texture(
             &mut engine,
-            KtxBundle::from(IDL_TEXTURE_DATA).unwrap(),
+            Ktx1Bundle::from(IDL_TEXTURE_DATA).unwrap(),
             false,
         )
         .unwrap();

@@ -40,6 +40,7 @@ impl Engine {
             backend.into(),
             ptr::null_mut(),
             ptr::null_mut(),
+            ptr::null_mut(),
         ))
     }
 
@@ -52,10 +53,12 @@ impl Engine {
             backend.into(),
             ptr::null_mut(),
             shared_gl_context,
+            ptr::null_mut(),
         ))
     }
 
     // TODO: create_platform
+    // TODO: create_config
 
     #[inline]
     pub unsafe fn get_engine(token: *mut core::ffi::c_void) -> Option<Engine> {

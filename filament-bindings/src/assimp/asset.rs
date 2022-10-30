@@ -21,7 +21,7 @@ use super::helper::{
 const RESOURCES_AIDEFAULTMAT_DATA: &'static [u8] = include_bytes!("aiDefaultMat.filamat");
 const RESOURCES_AIDEFAULTTRANS_DATA: &'static [u8] = include_bytes!("aiDefaultTrans.filamat");
 
-const DEFAULT_FLAGS: u32 = (post_process::GEN_SMOOTH_NORMALS
+const DEFAULT_FLAGS: u32 = post_process::GEN_SMOOTH_NORMALS
 | post_process::CALC_TANGENT_SPACE
 | post_process::GEN_UV_COORDS
 | post_process::FIND_INSTANCES
@@ -30,7 +30,7 @@ const DEFAULT_FLAGS: u32 = (post_process::GEN_SMOOTH_NORMALS
 | post_process::IMPROVE_CACHE_LOCALITY
 | post_process::SORT_BY_P_TYPE
 // | post_process::PRE_TRANSFORM_VERTICES
-| post_process::TRIANGULATE);
+| post_process::TRIANGULATE;
 
 pub struct CameraInfo {
     pub position: Float3,

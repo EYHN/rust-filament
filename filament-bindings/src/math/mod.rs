@@ -432,6 +432,24 @@ impl_named_vec!(Vec4, u16, Ushort4, filament_math_ushort4);
 impl_named_vec_ops!(Vec4, u16, Ushort4);
 impl_named_vec!(Vec4, bool, Bool4, filament_math_bool4);
 
+impl From<Float2> for Double2 {
+    fn from(v: Float2) -> Double2 {
+        Double2::new(v[0] as f64, v[1] as f64)
+    }
+}
+
+impl From<Float3> for Double3 {
+    fn from(v: Float3) -> Double3 {
+        Double3::new(v[0] as f64, v[1] as f64, v[2] as f64)
+    }
+}
+
+impl From<Float4> for Double4 {
+    fn from(v: Float4) -> Double4 {
+        Double4::new(v[0] as f64, v[1] as f64, v[2] as f64, v[3] as f64)
+    }
+}
+
 #[repr(C)]
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Mat4f(pub [f32; 16]);

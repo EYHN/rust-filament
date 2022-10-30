@@ -138,10 +138,14 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         "image",
         "gltfio",
         "gltfio_core",
-        "gltfio_resources",
+        "uberarchive",
+        "uberzlib",
+        "ktxreader",
         "filamat",
         "shaders",
         "dracodec",
+        "zstd",
+        "basis_transcoder",
     ]
     .into_iter()
     .map(|v| v.to_string())
@@ -152,7 +156,7 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
             filament_native_lib.join(static_lib_filename(lib)),
             library_out_dir.join(static_lib_filename(lib)),
         )
-        .unwrap();
+        .expect(&format!("Failed copy library {lib}"));
     }
 
     // build c++ bindings library
@@ -195,7 +199,7 @@ fn build_from_source(target: Target, crt_static: bool) -> BuildManifest {
         .allowlist_type("filament.*")
         .allowlist_type("utils.*")
         .allowlist_type("filamesh.*")
-        .allowlist_type("gltfio.*")
+        .allowlist_type("ktxreader.*")
         .allowlist_type("image.*")
         .allowlist_function("helper_.*")
         .opaque_type("std::basic_string")

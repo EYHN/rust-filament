@@ -8,7 +8,7 @@ use filament_bindings::{
     },
 };
 
-const MATERIAL_BYTES: &'static [u8] = include_bytes!("bakedColor.filamat");
+const MATERIAL_BYTES: &'static [u8] = include_bytes!("bakedColor_ogl.filamat");
 
 fn main() {
     unsafe {
